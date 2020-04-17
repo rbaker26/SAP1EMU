@@ -20,7 +20,7 @@ namespace SAP1EMU.Lib.Registers
 
             // May have to convert the controlWordMark to a list of int as indexs
 
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
 

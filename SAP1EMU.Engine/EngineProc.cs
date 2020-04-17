@@ -11,7 +11,7 @@ namespace SAP1EMU.Engine
     public class EngineProc
     {
         private RAMProgram program { get; set; }
-        void Init(RAMProgram program) 
+        public void Init(RAMProgram program) 
         {
             if(program == null)
             {

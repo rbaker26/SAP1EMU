@@ -1,7 +1,7 @@
 ﻿using System;
-
+using System.Collections.Generic;
 using SAP1EMU.Engine;
-
+using SAP1EMU.Lib;
 
 namespace SAP1EMU.CLI
 {
@@ -9,7 +9,10 @@ namespace SAP1EMU.CLI
     {
         static void Main(string[] args)
         {
+
             EngineProc e = new EngineProc();
+            RAMProgram rmp = new RAMProgram(new List<string>());
+            e.Init(rmp);
             e.Run();
         }
     }

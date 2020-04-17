@@ -29,7 +29,7 @@ namespace SAP1EMU.Lib
             PCReg = new PC();
             alu = new ALU();
             ram = new RAM();
-            seq = new SEQ();
+            seq = SEQ.Instance();
             this.areg = areg;
             this.breg = breg;
             this.ireg = ireg;
