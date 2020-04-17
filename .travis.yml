@@ -3,4 +3,5 @@ solution: SAP1EMU.sln
 mono: none
 dotnet: 2.1.4
 script:
-  - dotnet test SAP1EMU.Lib.Test.csproj
+  - dotnet build
+  - dotnet test
