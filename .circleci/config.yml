@@ -10,4 +10,5 @@
      steps:
        - checkout
        - run: dotnet build
-       - run: dotnet test SAP1EMU.Lib.Test.csproj
+       - run: dotnet test SAP1EMU.Lib.Test\SAP1EMU.Lib.Test.csproj
+       - run: dotnet test
