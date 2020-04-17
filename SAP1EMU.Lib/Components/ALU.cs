@@ -6,7 +6,7 @@ using SAP1EMU.Lib.Utilities;
 
 namespace SAP1EMU.Lib.Components
 {
-    public class ALU 
+    public class ALU : IObserver<TicTok>
     {
         //************************************************************************************************************************
         public static void Exec() 
@@ -45,7 +45,41 @@ namespace SAP1EMU.Lib.Components
         //************************************************************************************************************************
 
 
-        
+
+        #region IObserver Region
+        private IDisposable unsubscriber;
+        public virtual void Subscribe(IObservable<TicTok> clock)
+        {
+            if (clock != null)
+                unsubscriber = clock.Subscribe(this);
+        }
+
+
+        void IObserver<TicTok>.OnCompleted()
+        {
+            Console.WriteLine("The Location Tracker has completed transmitting data to {0}.", "AReg");
+            this.Unsubscribe();
+        }
+
+        void IObserver<TicTok>.OnError(Exception error)
+        {
+            Console.WriteLine("{0}: The TicTok cannot be determined.", "AReg");
+        }
+
+        void IObserver<TicTok>.OnNext(TicTok value)
+        {
+            // TODO - Check ControlWord
+            // Exec();
+            System.Console.WriteLine("ALU is registered!");
+        }
+
+        public virtual void Unsubscribe()
+        {
+            unsubscriber.Dispose();
+        }
+        #endregion
+
+
 
 
     }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using SAP1EMU.Lib.Components;
+
 
 namespace SAP1EMU.Lib.Registers
 {
@@ -9,8 +11,15 @@ namespace SAP1EMU.Lib.Registers
     {
         private string RegContent { get; set; }
 
-        private void Exec()
+        // LA_ EA
+        private readonly string controlWordMask = "000000110000";
+
+        private void Exec(TicTok value)
         {
+            string cw = SEQ.Instance().ControlWord;
+
+            // May have to convert the controlWordMark to a list of int as indexs
+
             throw new NotImplementedException();
         }
 
@@ -37,9 +46,8 @@ namespace SAP1EMU.Lib.Registers
 
         void IObserver<TicTok>.OnNext(TicTok value)
         {
-            // TODO - Check ControlWord
-            // Exec();
-            System.Console.WriteLine("AReg is registered!");
+            Exec(value);
+            //System.Console.WriteLine("AReg is registered!");
         }
 
         public virtual void Unsubscribe()

@@ -1,39 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using SAP1EMU.Lib.Components;
 
-namespace SAP1EMU.Lib.Components
+namespace SAP1EMU.Lib.Registers
 {
-    public class RAM : IObserver<TicTok>
+    public class PC : IObserver<TicTok>
     {
-        private List<string> RamContents = new List<string>();
-        public void LoadProgram(RAMProgram rp)
-        {
-            ClearRAM();
-            List<string> rpc = rp.RamContents;
+        private string RegContent { get; set; }
 
-            foreach (string s in rpc)
-            {
-                RamContents.Add(s);
-            }
+        public void Exec()
+        {
+            throw new NotImplementedException();
         }
 
 
-        public string GetWordAt(string addr)
-        {
-            int index = (int)(Convert.ToUInt32(addr, 2));
-            if(index < 0 || index > 15)
-            {
-                throw new ArgumentOutOfRangeException($"RAM Index Error - Addr with value {index} not inbetween 0-15");
-            }
-            return RamContents[index];
-        }
-
-        public void ClearRAM()
-        {
-            RamContents = null;
-            RamContents = new List<string>();
-        }
 
 
         #region IObserver Region
@@ -60,7 +41,7 @@ namespace SAP1EMU.Lib.Components
         {
             // TODO - Check ControlWord
             // Exec();
-            System.Console.WriteLine("RAM is registered!");
+            System.Console.WriteLine("PC is registered!");
         }
 
         public virtual void Unsubscribe()

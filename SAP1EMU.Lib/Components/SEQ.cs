@@ -4,19 +4,23 @@ using System.Text;
 
 namespace SAP1EMU.Lib.Components
 {
-    public class Controller //: IModule
+    public class SEQ
     {
         //************************************************************************************************************************
+        private static SEQ _instance; // Singleton Pattern
+            
         /// <summary>
         /// Hold all the control words
         /// </summary>
-        private static readonly Dictionary<int,string> ControlTable = new Dictionary<int, string>();
+        private readonly Dictionary<int,string> ControlTable = new Dictionary<int, string>();
+
 
 
         /// <summary>
         /// The control word storage location for all registers and components
+        /// <para> CP EP LM_ CE_ LI_ EI_ LA_ EA SU EU LB_ LO_</para>
         /// </summary>
-        public static string ControlWord { get; private set; }
+        public string ControlWord { get; private set; }
         //************************************************************************************************************************
 
 
@@ -26,7 +30,7 @@ namespace SAP1EMU.Lib.Components
         /// Insures the ControlTable is only filled once and 
         /// not access before it is filled.
         /// </summary>
-        private static bool Initialized = false;
+        private bool Initialized = false;
         //************************************************************************************************************************
 
 
@@ -37,7 +41,7 @@ namespace SAP1EMU.Lib.Components
         /// <param name="TState"></param>
         /// <param name="Instruction"></param>
         /// <returns></returns>
-        public static string UpdateControlWordReg(int TState, string Instruction)
+        public string UpdateControlWordReg(int TState, string Instruction)
         {
             // Check to make sure the hash table has been filled
             if(!Initialized)
@@ -63,7 +67,7 @@ namespace SAP1EMU.Lib.Components
         ///     Instead, the table is "addressed" by a hash of the TState and the Instruction
         /// </para>
         /// </summary>
-        private static void Init()
+        private void Init()
         {
             // Set ControlWord to NO OPP
             ControlWord = "00‬1111100011";
@@ -136,5 +140,55 @@ namespace SAP1EMU.Lib.Components
             return HashCode.Combine<int, string>(TState, Instruction);
         }
         //************************************************************************************************************************
+
+
+        // Singleton Pattern
+        private SEQ() { }
+        public static SEQ Instance()
+        {
+            // not thread safe
+            if (_instance == null)
+            {
+                _instance = new SEQ();
+            }
+            return _instance;
+        }
+
+
+
+        //#region IObserver Region
+        //private IDisposable unsubscriber;
+        //public virtual void Subscribe(IObservable<TicTok> clock)
+        //{
+        //    if (clock != null)
+        //        unsubscriber = clock.Subscribe(this);
+        //}
+
+
+        //void IObserver<TicTok>.OnCompleted()
+        //{
+        //    Console.WriteLine("The Location Tracker has completed transmitting data to {0}.", "AReg");
+        //    this.Unsubscribe();
+        //}
+
+        //void IObserver<TicTok>.OnError(Exception error)
+        //{
+        //    Console.WriteLine("{0}: The TicTok cannot be determined.", "AReg");
+        //}
+
+        //void IObserver<TicTok>.OnNext(TicTok value)
+        //{
+        //    // TODO - Check ControlWord
+        //    // Exec();
+        //    System.Console.WriteLine("SEQ is registered!");
+        //}
+
+        //public virtual void Unsubscribe()
+        //{
+        //    unsubscriber.Dispose();
+        //}
+        //#endregion
+
+
     }
 }
