@@ -1,5 +1,5 @@
 language: csharp
-solution: SAP1EMU.sln
+solution: SAP1EMU-no-gui.sln
 mono: none
 dotnet: 2.1.4
 script:
