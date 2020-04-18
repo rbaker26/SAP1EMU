@@ -202,7 +202,7 @@ namespace SAP1EMU.Lib.Test
         /// This will run the following program
         /// 
         /// 0x0 LDA 0xE
-        /// 0x1 ADD 0xA
+        /// 0x1 ADD 0xF
         /// 0x2 OUT 0xX
         /// 0x3 HLT 0xX
         /// 0x4 NOP 0xX
@@ -263,17 +263,17 @@ namespace SAP1EMU.Lib.Test
         /// This will run the following program
         /// 
         /// 0x0 LDA 0xE
-        /// 0x1 ADD 0xA
-        /// 0x2 ADD 0xA
-        /// 0x3 ADD 0xA
-        /// 0x4 ADD 0xA
-        /// 0x5 ADD 0xA
-        /// 0x6 ADD 0xA
-        /// 0x7 ADD 0xA
-        /// 0x8 ADD 0xA
-        /// 0x9 ADD 0xA
-        /// 0xA ADD 0xA
-        /// 0xB ADD 0xA
+        /// 0x1 ADD 0xF
+        /// 0x2 ADD 0xF
+        /// 0x3 ADD 0xF
+        /// 0x4 ADD 0xF
+        /// 0x5 ADD 0xF
+        /// 0x6 ADD 0xF
+        /// 0x7 ADD 0xF
+        /// 0x8 ADD 0xF
+        /// 0x9 ADD 0xF
+        /// 0xA ADD 0xF
+        /// 0xB ADD 0xF
         /// 0xC OUT 0xX
         /// 0xD HLT 0xX
         /// 0xE 0x0 0x1
@@ -303,6 +303,66 @@ namespace SAP1EMU.Lib.Test
                     "11110000",
                     "00000001",
                     "00000001",
+            };
+
+            EngineProc engine = new EngineProc();
+
+
+            engine.Init(new RAMProgram(program));
+            engine.Run();
+
+            string output = engine.GetOutput();
+
+            Assert.AreEqual(expectedResult, output);
+        }
+        // **************************************************************************
+
+
+        // Test_LDA_PROG_3 **********************************************************
+        /// <summary>
+        /// This will run the following program
+        /// 
+        /// 0x0 LDA 0xD
+        /// 0x1 ADD 0xE
+        /// 0x2 ADD 0xF
+        /// 0x3 OUT 0xX
+        /// 0x4 HLT 0xX
+        /// 0x5 NOP 0xX
+        /// 0x6 NOP 0xX
+        /// 0x7 NOP 0xX
+        /// 0x8 NOP 0xX
+        /// 0x9 NOP 0xX
+        /// 0xA NOP 0xX
+        /// 0xB NOP 0xX
+        /// 0xC NOP 0xX
+        /// 0xD 0x2 0x8
+        /// 0xE 0x0 0xF
+        /// 0xF 0x0 0xD
+        /// 
+        /// The expected result is OReg: 0100 0100
+        /// </summary>
+        [TestMethod]
+        public void Test_ADD_PROG_3()
+        {
+            string expectedResult = "01000100";
+            List<string> program = new List<string>()
+            {
+                    "00001101",
+                    "00011110",
+                    "00011111",
+                    "11100000",
+                    "11110000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00101000",
+                    "00001111",
+                    "00001101",
             };
 
             EngineProc engine = new EngineProc();
