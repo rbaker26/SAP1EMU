@@ -1,7 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <PackageProjectUrl>https://github.com/rbaker26/SAP1EMU/wiki</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/rbaker26/SAP1EMU/</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Authors>Bob Baker</Authors>
+    <SignAssembly>false</SignAssembly>
+    <Company />
   </PropertyGroup>
 
   <ItemGroup>

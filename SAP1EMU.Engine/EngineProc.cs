@@ -5,6 +5,7 @@ using SAP1EMU.Lib;
 
 using SAP1EMU.Lib.Registers;
 using SAP1EMU.Lib.Components;
+using System.IO;
 
 namespace SAP1EMU.Engine
 {
@@ -31,6 +32,7 @@ namespace SAP1EMU.Engine
 
         public void Run()
         {
+
             Clock clock = new Clock();
             TicTok tictok = new TicTok();
 

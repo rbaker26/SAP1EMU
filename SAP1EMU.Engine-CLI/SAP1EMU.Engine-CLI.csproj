@@ -1,9 +1,25 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>SAP1EMU.Engine_CLI</RootNamespace>
+    <Authors>Bob Baker</Authors>
+    <Company />
+    <RepositoryUrl>https://github.com/rbaker26/SAP1EMU/wiki</RepositoryUrl>
+    <RepositoryType>https://github.com/rbaker26/SAP1EMU/</RepositoryType>
+    <AssemblyName>SAP1Emu</AssemblyName>
+    <StartupObject>SAP1EMU.Engine_CLI.Program</StartupObject>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.7.82" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SAP1EMU.Engine\SAP1EMU.Engine.csproj" />
+    <ProjectReference Include="..\SAP1EMU.Lib\SAP1EMU.Lib.csproj" />
+  </ItemGroup>
 
 </Project>
