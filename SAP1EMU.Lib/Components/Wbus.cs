@@ -13,13 +13,14 @@ namespace SAP1EMU.Lib.Components
         public string Value { get; set; }
 
 
-        private Wbus() { }
+        private Wbus() { Value = "00000000"; }
 
-        public Wbus Instance()
+        public static Wbus Instance()
         {
             if(_instance == null)
             {
                 _instance = new Wbus();
+                
             }
             return _instance;
         }

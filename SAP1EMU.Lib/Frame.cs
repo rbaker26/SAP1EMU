@@ -21,24 +21,25 @@ namespace SAP1EMU.Lib
 
         public Frame(AReg areg, BReg breg, IReg ireg, MReg mreg, OReg oreg, PC pCReg, ALU alu, RAM ram, SEQ seq)
         {
-            areg = new AReg();
-            breg = new BReg();
-            ireg = new IReg();
-            mreg = new MReg();
-            oreg = new OReg();
-            PCReg = new PC();
-            alu = new ALU();
-            ram = new RAM();
-            seq = SEQ.Instance();
-            this.areg = areg;
-            this.breg = breg;
-            this.ireg = ireg;
-            this.mreg = mreg;
-            this.oreg = oreg;
-            PCReg = pCReg;
-            this.alu = alu;
-            this.ram = ram;
-            this.seq = seq;
+
+            //areg = new AReg();
+            //breg = new BReg();
+            //ireg = new IReg();
+            //mreg = new MReg(ref (RAM)null);
+            //oreg = new OReg();
+            //PCReg = new PC();
+            //alu = new ALU();
+            //ram = new RAM();
+            //seq = SEQ.Instance();
+            //this.areg = areg;
+            //this.breg = breg;
+            //this.ireg = ireg;
+            //this.mreg = mreg;
+            //this.oreg = oreg;
+            //PCReg = pCReg;
+            //this.alu = alu;
+            //this.ram = ram;
+            //this.seq = seq;
         }
 
     }

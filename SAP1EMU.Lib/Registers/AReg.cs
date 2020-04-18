@@ -13,14 +13,34 @@ namespace SAP1EMU.Lib.Registers
 
         // LA_ EA
         private readonly string controlWordMask = "000000110000";
-
-        private void Exec(TicTok value)
+        
+        private void Exec(TicTok tictok)
         {
             string cw = SEQ.Instance().ControlWord;
 
-            // May have to convert the controlWordMark to a list of int as indexs
+            //  TODO - Find a better way of using the mask to get the value
+            //          Currently is using hardcoded magic numbers
 
-            //throw new NotImplementedException();
+            // Active Hi, Push on Tic
+            if (cw[7] == '1' & tictok.ClockState == TicTok.State.Tic)
+            {
+                // Send A to the WBus
+                Wbus.Instance().Value = RegContent;
+
+                System.Console.Error.WriteLine($"A Out: {RegContent}");
+
+            }
+
+            // Active Low, Pull on Tok
+            if (cw[6] == '0' && tictok.ClockState == TicTok.State.Tok)
+            {
+                // Store Wbus val in A
+                RegContent = Wbus.Instance().Value;
+                System.Console.Error.WriteLine($"A In : {RegContent}");
+
+            }
+
+
         }
 
 
@@ -55,5 +75,13 @@ namespace SAP1EMU.Lib.Registers
             unsubscriber.Dispose();
         }
         #endregion
+
+
+
+
+        public override string ToString()
+        {
+            return this.RegContent;
+        }
     }
 }

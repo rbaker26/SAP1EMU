@@ -76,25 +76,25 @@ namespace SAP1EMU.Lib.Components
             #region Hash Table Regieon
             // LDA ***********************************************
             ControlTable.Add(HashKey(1, "0000"), "010111100011");
-            ControlTable.Add(HashKey(2, "0000"), "101111100011‬");
+            ControlTable.Add(HashKey(2, "0000"), "101111100011");
             ControlTable.Add(HashKey(3, "0000"), "001001100011");
-            ControlTable.Add(HashKey(4, "0000"), "000110100011‬");
+            ControlTable.Add(HashKey(4, "0000"), "000110100011");
             ControlTable.Add(HashKey(5, "0000"), "001011000011");
-            ControlTable.Add(HashKey(6, "0000"), "00‬1111100011");
+            ControlTable.Add(HashKey(6, "0000"), "001111100011");
             // ***************************************************
 
             // ADD ***********************************************
             ControlTable.Add(HashKey(1, "0001"), "010111100011");
-            ControlTable.Add(HashKey(2, "0001"), "101111100011‬");
+            ControlTable.Add(HashKey(2, "0001"), "101111100011");
             ControlTable.Add(HashKey(3, "0001"), "001001100011");
             ControlTable.Add(HashKey(4, "0001"), "000110100011");
             ControlTable.Add(HashKey(5, "0001"), "001011100001");
-            ControlTable.Add(HashKey(6, "0001"), "001111000111‬");
+            ControlTable.Add(HashKey(6, "0001"), "001111000111");
             // ***************************************************
 
             // SUB ***********************************************
             ControlTable.Add(HashKey(1, "0010"), "010111100011");
-            ControlTable.Add(HashKey(2, "0010"), "101111100011‬");
+            ControlTable.Add(HashKey(2, "0010"), "101111100011");
             ControlTable.Add(HashKey(3, "0010"), "001001100011");
             ControlTable.Add(HashKey(4, "0010"), "000110100011");
             ControlTable.Add(HashKey(5, "0010"), "001011100001");
@@ -103,7 +103,7 @@ namespace SAP1EMU.Lib.Components
 
             // JMP ***********************************************
             ControlTable.Add(HashKey(1, "0011"), "010111100011");
-            ControlTable.Add(HashKey(2, "0011"), "101111100011‬");
+            ControlTable.Add(HashKey(2, "0011"), "101111100011");
             ControlTable.Add(HashKey(3, "0011"), "001001100011");
             ControlTable.Add(HashKey(4, "0011"), "000000000000");
             ControlTable.Add(HashKey(5, "0011"), "000000000000");
@@ -112,20 +112,20 @@ namespace SAP1EMU.Lib.Components
 
             // OUT ***********************************************
             ControlTable.Add(HashKey(1, "1110"), "010111100011");
-            ControlTable.Add(HashKey(2, "1110"), "101111100011‬");
+            ControlTable.Add(HashKey(2, "1110"), "101111100011");
             ControlTable.Add(HashKey(3, "1110"), "001001100011");
-            ControlTable.Add(HashKey(4, "1110"), "001011110010");
-            ControlTable.Add(HashKey(5, "1110"), "00‬1111100011");
-            ControlTable.Add(HashKey(6, "1110"), "00‬1111100011");
+            ControlTable.Add(HashKey(4, "1110"), "001111110010");
+            ControlTable.Add(HashKey(5, "1110"), "001111100011");
+            ControlTable.Add(HashKey(6, "1110"), "001111100011");
             // ***************************************************
 
             // HLT ***********************************************
             ControlTable.Add(HashKey(1, "1111"), "010111100011");
-            ControlTable.Add(HashKey(2, "1111"), "101111100011‬");
+            ControlTable.Add(HashKey(2, "1111"), "101111100011");
             ControlTable.Add(HashKey(3, "1111"), "001001100011");
-            ControlTable.Add(HashKey(4, "1111"), "00‬1111100011");
-            ControlTable.Add(HashKey(5, "1111"), "00‬1111100011");
-            ControlTable.Add(HashKey(6, "1111"), "00‬1111100011");
+            ControlTable.Add(HashKey(4, "1111"), "001111100011");
+            ControlTable.Add(HashKey(5, "1111"), "001111100011");
+            ControlTable.Add(HashKey(6, "1111"), "001111100011");
             // ***************************************************
 
             #endregion

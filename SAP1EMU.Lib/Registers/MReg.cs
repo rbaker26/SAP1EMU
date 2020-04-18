@@ -8,11 +8,40 @@ namespace SAP1EMU.Lib.Registers
     public class MReg : IObserver<TicTok>
     {
         private string RegContent { get; set; }
-
-        private void Exec()
+        private readonly string controlWordMask = "001000000000"; // LM_
+        private readonly RAM ram;
+        public MReg(ref RAM ram)
         {
-            throw new NotImplementedException();
+            this.ram = ram;
         }
+
+        private void Exec(TicTok tictok)
+        {
+            string cw = SEQ.Instance().ControlWord;
+
+            //  TODO - Find a better way of using the mask to get the value
+            //          Currently is using hardcoded magic numbers
+
+            // Active Low, Pull on Tok
+            if (cw[2] == '0' && tictok.ClockState == TicTok.State.Tok)
+            {
+                Wbus bus = Wbus.Instance();
+                // Store Wbus val in A
+                RegContent = Wbus.Instance().Value.Substring(4,4);
+
+                // Send the MAR data to the RAM
+                ram.IncomingMARData(RegContent);
+                // TODO - likely bug here with this ram pointer bs.
+                // I didnt want to do this, but setting up the observer pattern twice in one object was not working well.
+
+            
+                System.Console.Error.WriteLine($"M In : {RegContent}");
+
+            }
+
+
+        }
+        
 
 
         #region IObserver Region
@@ -37,17 +66,18 @@ namespace SAP1EMU.Lib.Registers
 
         void IObserver<TicTok>.OnNext(TicTok value)
         {
-            // TODO - Check ControlWord
-            // Exec();
-            System.Console.WriteLine("MReg is registered!");
+            Exec(value);
         }
 
         public virtual void Unsubscribe()
         {
-            unsubscriber.Dispose();
+            unsubscriber.Dispose(); 
         }
         #endregion
 
 
+      
+
+       
     }
 }

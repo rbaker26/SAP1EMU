@@ -11,9 +11,9 @@ namespace SAP1EMU.Engine
     public class EngineProc
     {
         private RAMProgram program { get; set; }
-        public void Init(RAMProgram program) 
+        public void Init(RAMProgram program)
         {
-            if(program == null)
+            if (program == null)
             {
                 this.program = new RAMProgram(new List<string>());
             }
@@ -26,17 +26,43 @@ namespace SAP1EMU.Engine
             Clock clock = new Clock();
             TicTok tictok = new TicTok();
 
+            List<string> RamContents = new List<string>()
+            {
+                    "00001110",
+                    "00011111",
+                    "11100000",
+                    "11110000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000001",
+                    "00000001",
+            };
+
+            program = new RAMProgram(RamContents);
+
+
+            tictok.Init(); ;
+
             AReg areg = new AReg();
             BReg breg = new BReg();
             IReg ireg = new IReg();
-            MReg mreg = new MReg();
             OReg oreg = new OReg();
             PC pc = new PC();
-            ALU alu = new ALU();
             RAM ram = new RAM();
 
+            ALU alu = new ALU(ref areg, ref breg);
+            MReg mreg = new MReg(ref ram);
             SEQ seq = SEQ.Instance();
 
+            Wbus.Instance().Value = "00000000";
 
             areg.Subscribe(clock);
             breg.Subscribe(clock);
@@ -52,11 +78,18 @@ namespace SAP1EMU.Engine
 
             // Load the program into the RAM
             ram.LoadProgram(program);
-            
+
+
+
+
+
+            #region Program_Exec
             // Since T1-T3 for all of the Intruction is the same,
             // LDA or "0000" will be used as the intruction for all T1-T3's
+            clock.IsEnabled = true;
             while (clock.IsEnabled)
             {
+                System.Console.Error.WriteLine("T1:");
                 // T1 ************************************
                 seq.UpdateControlWordReg(1, "0000");
                 clock.SendTicTok(tictok);
@@ -66,9 +99,13 @@ namespace SAP1EMU.Engine
                 tictok.ToggleClockState();
                 clock.SendTicTok(tictok);
                 tictok.ToggleClockState();
+                System.Console.Error.WriteLine("\n");
+
                 // ***************************************
 
                 // T2 ************************************
+                System.Console.Error.WriteLine("T2:");
+
                 seq.UpdateControlWordReg(2, "0000");
                 clock.SendTicTok(tictok);
 
@@ -77,9 +114,13 @@ namespace SAP1EMU.Engine
                 tictok.ToggleClockState();
                 clock.SendTicTok(tictok);
                 tictok.ToggleClockState();
+                System.Console.Error.WriteLine("\n");
+
                 // ***************************************
 
                 // T3 ************************************
+                System.Console.Error.WriteLine("T3:");
+
                 seq.UpdateControlWordReg(3, "0000");
                 clock.SendTicTok(tictok);
 
@@ -88,39 +129,101 @@ namespace SAP1EMU.Engine
                 tictok.ToggleClockState();
                 clock.SendTicTok(tictok);
                 tictok.ToggleClockState();
+                System.Console.Error.WriteLine("\n");
+
                 // ***************************************
 
                 // T4 ************************************
+                System.Console.Error.WriteLine("T4:");
+                seq.UpdateControlWordReg(4, ireg.ToString());
+
+
+
                 clock.SendTicTok(tictok);
                 //CODE
                 tictok.ToggleClockState();
                 clock.SendTicTok(tictok);
                 //CODE
                 tictok.ToggleClockState();
+                System.Console.Error.WriteLine("\n");
+
                 // ***************************************
 
                 // T5 ************************************
+                System.Console.Error.WriteLine("T5:");
+
+                seq.UpdateControlWordReg(5, ireg.ToString());
+
+
                 clock.SendTicTok(tictok);
                 //CODE
                 tictok.ToggleClockState();
                 clock.SendTicTok(tictok);
                 //CODE
                 tictok.ToggleClockState();
+                System.Console.Error.WriteLine("\n");
+
                 // ***************************************
 
                 // T6 ************************************
+                System.Console.Error.WriteLine("T6:");
+
+                seq.UpdateControlWordReg(6, ireg.ToString());
+
                 clock.SendTicTok(tictok);
                 //CODE
                 tictok.ToggleClockState();
                 clock.SendTicTok(tictok);
                 //CODE
                 tictok.ToggleClockState();
+                System.Console.Error.WriteLine("\n");
                 // ***************************************
 
+
+                if (ireg.ToString() == "1111")
+                {
+                    clock.IsEnabled = false;
+                }
             }
+            #endregion
 
-            clock.SendTicTok(tictok);
 
+            System.Console.WriteLine("A      Register: " + areg.ToString());
+            System.Console.WriteLine("B      Register: " + breg.ToString());
+            System.Console.WriteLine("Output Register: " + oreg.ToString());
+
+
+            #region Test Code
+            //****************************************
+            //Wbus.Instance().Value = "10101010";
+            //
+            //System.Console.WriteLine(areg.ToString());
+            //
+            //seq.UpdateControlWordReg(1, "0000");
+            //clock.SendTicTok(tictok);
+            //System.Console.WriteLine(areg.ToString());
+            //
+            //seq.UpdateControlWordReg(2, "0000");
+            //clock.SendTicTok(tictok);
+            //System.Console.WriteLine(areg.ToString());
+            //
+            //seq.UpdateControlWordReg(3, "0000");
+            //clock.SendTicTok(tictok);
+            //System.Console.WriteLine(areg.ToString());
+            //
+            //seq.UpdateControlWordReg(4, "0000");
+            //clock.SendTicTok(tictok);
+            //System.Console.WriteLine(areg.ToString());
+            //
+            //seq.UpdateControlWordReg(5, "0000");
+            //clock.SendTicTok(tictok);
+            //System.Console.WriteLine(areg.ToString());
+            //
+            //seq.UpdateControlWordReg(6, "0000");
+            //clock.SendTicTok(tictok);
+            //System.Console.WriteLine(areg.ToString());
+            //****************************************
+            #endregion
         }
 
 

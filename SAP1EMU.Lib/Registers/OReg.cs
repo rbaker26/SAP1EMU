@@ -8,9 +8,23 @@ namespace SAP1EMU.Lib.Registers
     public class OReg : IObserver<TicTok>
     {
         private string RegContent { get; set; }
-        private  void Exec()
+        private readonly string controlWordMask = "000000000001"; // LO_
+        private void Exec(TicTok tictok)
         {
-            throw new NotImplementedException();
+            string cw = SEQ.Instance().ControlWord;
+
+            //  TODO - Find a better way of using the mask to get the value
+            //          Currently is using hardcoded magic numbers
+
+            // Active Low, Pull on Tok
+            if (cw[11] == '0' && tictok.ClockState == TicTok.State.Tok)
+            {
+                // Store Wbus val in A
+                RegContent = Wbus.Instance().Value;
+                System.Console.Error.WriteLine($"O In : {RegContent}");
+
+
+            }
         }
 
         #region IObserver Region
@@ -35,9 +49,7 @@ namespace SAP1EMU.Lib.Registers
 
         void IObserver<TicTok>.OnNext(TicTok value)
         {
-            // TODO - Check ControlWord
-            // Exec();
-            System.Console.WriteLine("OReg is registered!");
+            Exec(value);
         }
 
         public virtual void Unsubscribe()
@@ -46,5 +58,10 @@ namespace SAP1EMU.Lib.Registers
         }
         #endregion
 
+
+        public override string ToString()
+        {
+            return this.RegContent;
+        }
     }
 }
