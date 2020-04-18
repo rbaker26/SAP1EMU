@@ -10,6 +10,14 @@ namespace SAP1EMU.Engine
 {
     public class EngineProc
     {
+        string OutPutRegContents = ""; // todo add frame support
+
+        public string GetOutput()
+        {
+            return OutPutRegContents;
+        }
+
+
         private RAMProgram program { get; set; }
         public void Init(RAMProgram program)
         {
@@ -25,28 +33,6 @@ namespace SAP1EMU.Engine
         {
             Clock clock = new Clock();
             TicTok tictok = new TicTok();
-
-            List<string> RamContents = new List<string>()
-            {
-                    "00001110",
-                    "00011111",
-                    "11100000",
-                    "11110000",
-                    "00000000",
-                    "00000000",
-                    "00000000",
-                    "00000000",
-                    "00000000",
-                    "00000000",
-                    "00000000",
-                    "00000000",
-                    "00000000",
-                    "00000000",
-                    "00000001",
-                    "00000001",
-            };
-
-            program = new RAMProgram(RamContents);
 
 
             tictok.Init(); ;
@@ -185,6 +171,7 @@ namespace SAP1EMU.Engine
                     clock.IsEnabled = false;
                 }
             }
+            OutPutRegContents = oreg.ToString();
             #endregion
 
 
