@@ -1,13 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using SAP1EMU.Lib.Registers;
+using SAP1EMU.Lib.Utilities;
 
 namespace SAP1EMU.Lib.Components
 {
-    public static class RAM
+    public class RAM : IObserver<TicTok>
     {
-        private static List<string> RamContents = new List<string>();
-        public static void LoadProgram(RAMProgram rp)
+        private List<string> RamContents = new List<string>();
+
+        // CP EP LM_ CE_ LI_ EI_ LA_ EA SU EU LB_ LO_
+        private readonly string controlWordMask = "000100000000"; // CE_
+        private string MARContents { get; set; }
+
+
+        private void Exec(TicTok tictok)
+        {
+            string cw = SEQ.Instance().ControlWord;
+
+            //  TODO - Find a better way of using the mask to get the value
+            //          Currently is using hardcoded magic numbers
+
+            // Active Low, Push on Tic
+            if (cw[3] == '0' && tictok.ClockState == TicTok.State.Tic)
+            {
+                string content = GetWordAt(MARContents);
+                Wbus.Instance().Value = content;
+                System.Console.Error.WriteLine($"R Out: {content}");
+
+
+            }
+
+
+        }
+
+
+
+        public void LoadProgram(RAMProgram rp)
         {
             ClearRAM();
             List<string> rpc = rp.RamContents;
@@ -19,7 +49,7 @@ namespace SAP1EMU.Lib.Components
         }
 
 
-        public static string GetWordAt(string addr)
+        public string GetWordAt(string addr)
         {
             int index = (int)(Convert.ToUInt32(addr, 2));
             if(index < 0 || index > 15)
@@ -29,10 +59,47 @@ namespace SAP1EMU.Lib.Components
             return RamContents[index];
         }
 
-        public static void ClearRAM()
+        public void ClearRAM()
         {
             RamContents = null;
             RamContents = new List<string>();
         }
+
+        public void IncomingMARData(string mar_data)
+        {
+            MARContents = mar_data;
+        }
+
+        #region IObserver<TicTok> Region
+        private IDisposable unsubscriber;
+        public virtual void Subscribe(IObservable<TicTok> clock)
+        {
+            if (clock != null)
+                unsubscriber = clock.Subscribe(this);
+        }
+
+
+        void IObserver<TicTok>.OnCompleted()
+        {
+            Console.WriteLine("The Location Tracker has completed transmitting data to {0}.", "AReg");
+            this.Unsubscribe();
+        }
+
+        void IObserver<TicTok>.OnError(Exception error)
+        {
+            Console.WriteLine("{0}: The TicTok cannot be determined.", "AReg");
+        }
+
+        void IObserver<TicTok>.OnNext(TicTok value)
+        {
+            Exec(value);
+        }
+
+        public virtual void Unsubscribe()
+        {
+            unsubscriber.Dispose();
+        }
+        #endregion
+
     }
 }

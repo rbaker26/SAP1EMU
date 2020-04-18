@@ -4,9 +4,25 @@ using System.Text;
 
 namespace SAP1EMU.Lib.Components
 {
-    static class Wbus
+    public class Wbus
     {
+        private static Wbus _instance; // Singleton Pattern
+
+
         // Value on the bus
-        static string Value { get; set; }
+        public string Value { get; set; }
+
+
+        private Wbus() { Value = "00000000"; }
+
+        public static Wbus Instance()
+        {
+            if(_instance == null)
+            {
+                _instance = new Wbus();
+                
+            }
+            return _instance;
+        }
     }
 }

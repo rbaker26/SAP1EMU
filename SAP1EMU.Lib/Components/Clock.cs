@@ -6,7 +6,7 @@ namespace SAP1EMU.Lib.Components
 {
     public class Clock : IObservable<TicTok>
     {
-        static bool IsEnabled { get; set; }
+        public bool IsEnabled { get; set; }
 
         private List<IObserver<TicTok>> observers;
 

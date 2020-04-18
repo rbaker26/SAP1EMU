@@ -2,46 +2,45 @@
 using System.Collections.Generic;
 using System.Text;
 using SAP1EMU.Lib.Components;
+using SAP1EMU.Lib.Utilities;
 
 namespace SAP1EMU.Lib.Registers
 {
-    public class MReg : IObserver<TicTok>
+    public class PC : IObserver<TicTok>
     {
-        private string RegContent { get; set; }
-        private readonly string controlWordMask = "001000000000"; // LM_
-        private readonly RAM ram;
-        public MReg(ref RAM ram)
-        {
-            this.ram = ram;
-        }
+        // CP EP LM_ CE_ LI_ EI_ LA_ EA SU EU LB_ LO_
 
-        private void Exec(TicTok tictok)
+        private string RegContent { get; set; }
+        private readonly string controlWordMask = "110000000000"; // CP EP
+        public PC()
+        {
+            RegContent = "00000000";
+        }
+        public void Exec(TicTok tictok)
         {
             string cw = SEQ.Instance().ControlWord;
 
-            //  TODO - Find a better way of using the mask to get the value
-            //          Currently is using hardcoded magic numbers
-
-            // Active Low, Pull on Tok
-            if (cw[2] == '0' && tictok.ClockState == TicTok.State.Tok)
+            // Active Hi, Count on Tic
+            if (cw[0] == '1' && tictok.ClockState == TicTok.State.Tic)
             {
-                Wbus bus = Wbus.Instance();
-                // Store Wbus val in A
-                RegContent = Wbus.Instance().Value.Substring(4,4);
-
-                // Send the MAR data to the RAM
-                ram.IncomingMARData(RegContent);
-                // TODO - likely bug here with this ram pointer bs.
-                // I didnt want to do this, but setting up the observer pattern twice in one object was not working well.
-
-            
-                System.Console.Error.WriteLine($"M In : {RegContent}");
-
+                int count = BinConverter.Bin8ToInt(RegContent);
+                count++;
+                RegContent = BinConverter.IntToBin8(count);
             }
 
 
+            // Active Hi, Push on Tic
+            if (cw[1] == '1' & tictok.ClockState == TicTok.State.Tic)
+            {
+                // Send A to the WBus
+                Wbus.Instance().Value = RegContent;
+                System.Console.Error.WriteLine($"PCOut: {RegContent}");
+
+            }
+
         }
-        
+
+
 
 
         #region IObserver Region
@@ -71,13 +70,9 @@ namespace SAP1EMU.Lib.Registers
 
         public virtual void Unsubscribe()
         {
-            unsubscriber.Dispose(); 
+            unsubscriber.Dispose();
         }
         #endregion
 
-
-      
-
-       
     }
 }

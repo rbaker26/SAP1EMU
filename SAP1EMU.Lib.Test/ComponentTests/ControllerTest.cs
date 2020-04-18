@@ -22,7 +22,7 @@ namespace SAP1EMU.Lib.Test.ComponentTests
                 {
                     string temp = INSTRUCTIONS[instruction];
                     // T States start at 1, not 0
-                    Assert.AreNotEqual<string>(Controller.UpdateControlWordReg(tstate+1, temp), "", "Control Table not properly initialized");
+                    Assert.AreNotEqual<string>(SEQ.Instance().UpdateControlWordReg(tstate+1, temp), "", "Control Table not properly initialized");
                 }
 
             }

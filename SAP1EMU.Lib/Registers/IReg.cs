@@ -7,13 +7,47 @@ namespace SAP1EMU.Lib.Registers
 {
     public class IReg : IObserver<TicTok>
     {
-        private string RegContent { get; set; }
-        private void Exec()
+
+        private string RegContent { get; set; } = "00000000";
+
+        private readonly string controlWordMask = "000011000000"; // LI_ EI_
+
+        private void Exec(TicTok tictok)
         {
-            throw new NotImplementedException();
+            string cw = SEQ.Instance().ControlWord;
+
+            //  TODO - Find a better way of using the mask to get the value
+            //          Currently is using hardcoded magic numbers
+
+            // Active Low, Push on Tic
+            if (cw[5] == '0' & tictok.ClockState == TicTok.State.Tic)
+            {
+                // Send A to the WBus
+                Wbus.Instance().Value = RegContent;
+                System.Console.Error.WriteLine($"I Out: {RegContent}");
+
+
+            }
+
+            // Active Low, Pull on Tok
+            if (cw[4] == '0' && tictok.ClockState == TicTok.State.Tok)
+            {
+                // Store Wbus val in A
+                // Only upper 4 bits
+                //string temp = Wbus.Instance().Value.Substring(0, 4);
+                //RegContent = temp + "0000"; // Zero out the lowwer 4 bits
+                RegContent = Wbus.Instance().Value;
+
+                System.Console.Error.WriteLine($"I In : {RegContent}");
+
+            }
         }
 
-
+        public override string ToString()
+        {
+            // TODO - I dont know this this is the best place to put this substring command. 
+            return RegContent.Substring(0,4);
+        }
         #region IObserver Region
         private IDisposable unsubscriber;
         public virtual void Subscribe(IObservable<TicTok> clock)
@@ -36,9 +70,7 @@ namespace SAP1EMU.Lib.Registers
 
         void IObserver<TicTok>.OnNext(TicTok value)
         {
-            // TODO - Check ControlWord
-            // Exec();
-            System.Console.WriteLine("IReg is registered!");
+            Exec(value);
         }
 
         public virtual void Unsubscribe()
@@ -47,6 +79,10 @@ namespace SAP1EMU.Lib.Registers
         }
         #endregion
 
-
     }
+
+
+
+
+
 }

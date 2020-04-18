@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using SAP1EMU.Lib.Components;
+
 
 namespace SAP1EMU.Lib.Registers
 {
@@ -9,9 +11,36 @@ namespace SAP1EMU.Lib.Registers
     {
         private string RegContent { get; set; }
 
-        private void Exec()
+        // LA_ EA
+        private readonly string controlWordMask = "000000110000";
+        
+        private void Exec(TicTok tictok)
         {
-            throw new NotImplementedException();
+            string cw = SEQ.Instance().ControlWord;
+
+            //  TODO - Find a better way of using the mask to get the value
+            //          Currently is using hardcoded magic numbers
+
+            // Active Hi, Push on Tic
+            if (cw[7] == '1' & tictok.ClockState == TicTok.State.Tic)
+            {
+                // Send A to the WBus
+                Wbus.Instance().Value = RegContent;
+
+                System.Console.Error.WriteLine($"A Out: {RegContent}");
+
+            }
+
+            // Active Low, Pull on Tok
+            if (cw[6] == '0' && tictok.ClockState == TicTok.State.Tok)
+            {
+                // Store Wbus val in A
+                RegContent = Wbus.Instance().Value;
+                System.Console.Error.WriteLine($"A In : {RegContent}");
+
+            }
+
+
         }
 
 
@@ -37,9 +66,8 @@ namespace SAP1EMU.Lib.Registers
 
         void IObserver<TicTok>.OnNext(TicTok value)
         {
-            // TODO - Check ControlWord
-            // Exec();
-            System.Console.WriteLine("AReg is registered!");
+            Exec(value);
+            //System.Console.WriteLine("AReg is registered!");
         }
 
         public virtual void Unsubscribe()
@@ -47,5 +75,13 @@ namespace SAP1EMU.Lib.Registers
             unsubscriber.Dispose();
         }
         #endregion
+
+
+
+
+        public override string ToString()
+        {
+            return this.RegContent;
+        }
     }
 }
