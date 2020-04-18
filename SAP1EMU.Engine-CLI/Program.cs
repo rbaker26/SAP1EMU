@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-
+using System.Text;
 using CommandLine;
 
 using SAP1EMU.Engine;
@@ -21,18 +21,18 @@ namespace SAP1EMU.Engine_CLI
             [Option('V', "very-verbose", Required = false, HelpText = "Set output to very verbose.\n(includes debug statements from the engine and the input file in output)")]
             public bool VeryVerbose { get; set; }
 
-            [Option('o', "output-file", Required = false, HelpText = "Place the output into <file>.", Default ="a.out")]
+            [Option('o', "output-file", Required = false, HelpText = "Place the output into <file>.", Default = "a.out")]
             public string OutputFile { get; set; }
 
 
-            
+
 
 
 
             // -f and -F are mutually exclusive. And error will appeear if the user tries to use both.
             [Option('f', "fframe", SetName = "fframe", Required = false, HelpText = "Include final frame in the output file.")]
             public bool fframe { get; set; }
-            [Option('F', "Fframe", SetName = "Fframe",  Required = false, HelpText = "Include all frames in the output file.")]
+            [Option('F', "Fframe", SetName = "Fframe", Required = false, HelpText = "Include all frames in the output file.")]
             public bool Fframe { get; set; }
 
 
@@ -111,8 +111,8 @@ namespace SAP1EMU.Engine_CLI
 
 
 
-                           
-                           if(fileType == FileType.S)
+
+                           if (fileType == FileType.S)
                            {
                                // TODO -- convert List to bin
                                Console.Error.WriteLine($"SAP1EMU: error: Feature not implamented");
@@ -122,12 +122,38 @@ namespace SAP1EMU.Engine_CLI
                            RAMProgram rmp = new RAMProgram(source_file_contents);
                            EngineProc engine = new EngineProc();
 
+
+
+                           StringBuilder sb_out = new StringBuilder();
+                           TextWriter writer_out = new StringWriter(sb_out);
+                           Console.SetOut(writer_out);
+
+
+                           StringBuilder sb_error = new StringBuilder();
+                           TextWriter writer_error = new StringWriter(sb_error);
+                           Console.SetError(writer_error);
+
+
                            engine.Init(rmp);
                            engine.Run();
                            string engine_output = engine.GetOutput();
 
-                           File.WriteAllText(o.OutputFile, engine_output);
+                           var standardOutput = new StreamWriter(Console.OpenStandardOutput());
+                           standardOutput.AutoFlush = true;
+                           Console.SetOut(standardOutput);
+
+                           var standardError = new StreamWriter(Console.OpenStandardError());
+                           standardError.AutoFlush = true;
+                           Console.SetError(standardError);
+
+
+
+                           string stdout = sb_out.ToString();
+                           string stderror = sb_error.ToString();
+
                            
+                           File.WriteAllText(o.OutputFile, engine_output);
+
                        }
 
 
