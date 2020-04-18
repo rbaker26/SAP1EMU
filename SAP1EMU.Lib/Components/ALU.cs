@@ -75,7 +75,6 @@ namespace SAP1EMU.Lib.Components
             else
             {
                 result = ia - ib;
-
             }
 
             string val = BinConverter.IntToBin8(result);

@@ -194,10 +194,10 @@ namespace SAP1EMU.Lib.Test
         #endregion
         // **************************************************************************
 
-        // ADD Test 1-# *************************************************************
-        #region ADD Test 1-#
+        // ADD Test 1-3 *************************************************************
+        #region ADD Test 1-3
 
-        // Test_LDA_PROG_1 **********************************************************
+        // Test_ADD_PROG_1 **********************************************************
         /// <summary>
         /// This will run the following program
         /// 
@@ -258,7 +258,7 @@ namespace SAP1EMU.Lib.Test
 
 
 
-        // Test_LDA_PROG_2 **********************************************************
+        // Test_ADD_PROG_2 **********************************************************
         /// <summary>
         /// This will run the following program
         /// 
@@ -318,7 +318,7 @@ namespace SAP1EMU.Lib.Test
         // **************************************************************************
 
 
-        // Test_LDA_PROG_3 **********************************************************
+        // Test_ADD_PROG_3 **********************************************************
         /// <summary>
         /// This will run the following program
         /// 
@@ -379,6 +379,568 @@ namespace SAP1EMU.Lib.Test
 
         #endregion
         // **************************************************************************
+
+
+        // SUB Test 1-3 *************************************************************
+        #region SUB Test 1-3
+
+        // Test_SUB_PROG_1 **********************************************************
+        /// <summary>
+        /// This will run the following program
+        /// 
+        /// 0x0 LDA 0xF
+        /// 0x1 SUB 0xE
+        /// 0x2 OUT 0xX
+        /// 0x3 HLT 0xX
+        /// 0x4 NOP 0xX
+        /// 0x5 NOP 0xX
+        /// 0x6 NOP 0xX
+        /// 0x7 NOP 0xX
+        /// 0x8 NOP 0xX
+        /// 0x9 NOP 0xX
+        /// 0xA NOP 0xX
+        /// 0xB NOP 0xX
+        /// 0xC NOP 0xX
+        /// 0xD NOP 0xX
+        /// 0xE 0x0 0x0
+        /// 0xF 0x0 0x1
+        /// 
+        /// The expected result is OReg: 0000 0000
+        /// </summary>
+        [TestMethod]
+        public void Test_SUB_PROG_1()
+        {
+            string expectedResult = "00000001";
+            List<string> program = new List<string>()
+            {
+                    "00001111",
+                    "00101110",
+                    "11100000",
+                    "11110000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000001",
+            };
+
+            EngineProc engine = new EngineProc();
+
+
+            engine.Init(new RAMProgram(program));
+            engine.Run();
+
+            string output = engine.GetOutput();
+
+            Assert.AreEqual(expectedResult, output);
+        }
+        // **************************************************************************
+
+
+
+        // Test_SUB_PROG_2 **********************************************************
+        /// <summary>
+        /// This will run the following program
+        /// 
+        /// 0x0 LDA 0xF
+        /// 0x1 SUB 0xE
+        /// 0x2 OUT 0xX
+        /// 0x3 HLT 0xX
+        /// 0x4 NOP 0xX
+        /// 0x5 NOP 0xX
+        /// 0x6 NOP 0xX
+        /// 0x7 NOP 0xX
+        /// 0x8 NOP 0xX
+        /// 0x9 NOP 0xX
+        /// 0xA NOP 0xX
+        /// 0xB NOP 0xX
+        /// 0xC NOP 0xX
+        /// 0xD NOP 0xX
+        /// 0xE 0x0 0x1
+        /// 0xF 0x0 0x1
+        /// 
+        /// The expected result is OReg: 0000 0000
+        /// </summary>
+        [TestMethod]
+        public void Test_SUB_PROG_2()
+        {
+            string expectedResult = "00000000";
+            List<string> program = new List<string>()
+            {
+                    "00001111",
+                    "00101110",
+                    "11100000",
+                    "11110000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000001",
+                    "00000001",
+            };
+
+            EngineProc engine = new EngineProc();
+
+
+            engine.Init(new RAMProgram(program));
+            engine.Run();
+
+            string output = engine.GetOutput();
+
+            Assert.AreEqual(expectedResult, output);
+        }
+        // **************************************************************************
+
+
+        // Test_SUB_PROG_3 **********************************************************
+        /// <summary>
+        /// This will run the following program
+        /// 
+        /// 0x0 LDA 0xF
+        /// 0x1 SUB 0xE
+        /// 0x2 OUT 0xX
+        /// 0x3 HLT 0xX
+        /// 0x4 NOP 0xX
+        /// 0x5 NOP 0xX
+        /// 0x6 NOP 0xX
+        /// 0x7 NOP 0xX
+        /// 0x8 NOP 0xX
+        /// 0x9 NOP 0xX
+        /// 0xA NOP 0xX
+        /// 0xB NOP 0xX
+        /// 0xC NOP 0xX
+        /// 0xD NOP 0xX
+        /// 0xE 0x9 0x0
+        /// 0xF 0xF 0x0
+        /// 
+        /// The expected result is OReg: 0110 0000
+        /// </summary>
+        [TestMethod]
+        public void Test_SUB_PROG_3()
+        {
+            string expectedResult = "01100000";
+            List<string> program = new List<string>()
+            {
+                    "00001111",
+                    "00101110",
+                    "11100000",
+                    "11110000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "10010000",
+                    "11110000",
+            };
+
+            EngineProc engine = new EngineProc();
+
+
+            engine.Init(new RAMProgram(program));
+            engine.Run();
+
+            string output = engine.GetOutput();
+
+            Assert.AreEqual(expectedResult, output);
+        }
+        // **************************************************************************
+
+
+        #endregion
+        // **************************************************************************
+
+
+        // Overflow Tests 1-3 *******************************************************
+        #region Overflow Tests 1-3
+        // Test_Overflow_PROG_1 **********************************************************
+        /// <summary>
+        /// This will run the following program
+        /// 
+        /// 0x0 LDA 0xF
+        /// 0x1 ADD 0xE
+        /// 0x2 OUT 0xX
+        /// 0x3 HLT 0xX
+        /// 0x4 NOP 0xX
+        /// 0x5 NOP 0xX
+        /// 0x6 NOP 0xX
+        /// 0x7 NOP 0xX
+        /// 0x8 NOP 0xX
+        /// 0x9 NOP 0xX
+        /// 0xA NOP 0xX
+        /// 0xB NOP 0xX
+        /// 0xC NOP 0xX
+        /// 0xD NOP 0xX
+        /// 0xE 0x0 0x1
+        /// 0xF 0xF 0xF
+        /// 
+        /// The expected result is OReg: 0000 0000
+        /// </summary>
+        [TestMethod]
+        public void Test_OVERFLOW_PROG_1()
+        {
+            string expectedResult = "00000000";
+            List<string> program = new List<string>()
+            {
+                    "00001111",
+                    "00011110",
+                    "11100000",
+                    "11110000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000001",
+                    "11111111",
+            };
+
+            EngineProc engine = new EngineProc();
+
+
+            engine.Init(new RAMProgram(program));
+            engine.Run();
+
+            string output = engine.GetOutput();
+
+            Assert.AreEqual(expectedResult, output);
+        }
+        // **************************************************************************
+
+
+        // Test_Overflow_PROG_2 **********************************************************
+        /// <summary>
+        /// This will run the following program
+        /// 
+        /// 0x0 LDA 0xF
+        /// 0x1 ADD 0xE
+        /// 0x2 OUT 0xX
+        /// 0x3 HLT 0xX
+        /// 0x4 NOP 0xX
+        /// 0x5 NOP 0xX
+        /// 0x6 NOP 0xX
+        /// 0x7 NOP 0xX
+        /// 0x8 NOP 0xX
+        /// 0x9 NOP 0xX
+        /// 0xA NOP 0xX
+        /// 0xB NOP 0xX
+        /// 0xC NOP 0xX
+        /// 0xD NOP 0xX
+        /// 0xE 0x0 0x2
+        /// 0xF 0xF 0xF
+        /// 
+        /// The expected result is OReg: 0000 0001
+        /// </summary>
+        [TestMethod]
+        public void Test_OVERFLOW_PROG_2()
+        {
+            string expectedResult = "00000001";
+            List<string> program = new List<string>()
+            {
+                    "00001111",
+                    "00011110",
+                    "11100000",
+                    "11110000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000010",
+                    "11111111",
+            };
+
+            EngineProc engine = new EngineProc();
+
+
+            engine.Init(new RAMProgram(program));
+            engine.Run();
+
+            string output = engine.GetOutput();
+
+            Assert.AreEqual(expectedResult, output);
+        }
+        // **************************************************************************
+
+
+
+        // Test_Overflow_PROG_3 **********************************************************
+        /// <summary>
+        /// This will run the following program
+        /// 
+        /// 0x0 LDA 0xF
+        /// 0x1 ADD 0xE
+        /// 0x2 OUT 0xX
+        /// 0x3 HLT 0xX
+        /// 0x4 NOP 0xX
+        /// 0x5 NOP 0xX
+        /// 0x6 NOP 0xX
+        /// 0x7 NOP 0xX
+        /// 0x8 NOP 0xX
+        /// 0x9 NOP 0xX
+        /// 0xA NOP 0xX
+        /// 0xB NOP 0xX
+        /// 0xC NOP 0xX
+        /// 0xD NOP 0xX
+        /// 0xE 0xF 0xF
+        /// 0xF 0xF 0xF
+        /// 
+        /// The expected result is OReg: 1111 1110
+        /// </summary>
+        [TestMethod]
+        public void Test_OVERFLOW_PROG_3()
+        {
+            string expectedResult = "11111110";
+            List<string> program = new List<string>()
+            {
+                    "00001111",
+                    "00011110",
+                    "11100000",
+                    "11110000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "11111111",
+                    "11111111",
+            };
+
+            EngineProc engine = new EngineProc();
+
+
+            engine.Init(new RAMProgram(program));
+            engine.Run();
+
+            string output = engine.GetOutput();
+
+            Assert.AreEqual(expectedResult, output);
+        }
+        // **************************************************************************
+
+
+        #endregion
+        // **************************************************************************
+
+
+        // Underflow Tests 1-3 ******************************************************
+        #region Underflow Test 1-3
+
+        // Test_Underflow_PROG_1 **********************************************************
+        /// <summary>
+        /// This will run the following program
+        /// 
+        /// 0x0 LDA 0xF
+        /// 0x1 SUB 0xE
+        /// 0x2 OUT 0xX
+        /// 0x3 HLT 0xX
+        /// 0x4 NOP 0xX
+        /// 0x5 NOP 0xX
+        /// 0x6 NOP 0xX
+        /// 0x7 NOP 0xX
+        /// 0x8 NOP 0xX
+        /// 0x9 NOP 0xX
+        /// 0xA NOP 0xX
+        /// 0xB NOP 0xX
+        /// 0xC NOP 0xX
+        /// 0xD NOP 0xX
+        /// 0xE 0x0 0x1
+        /// 0xF 0x0 0x0
+        /// 
+        /// The expected result is OReg: 1111 1111
+        /// </summary>
+        [TestMethod]
+        public void Test_UNDERFLOW_PROG_1()
+        {
+            string expectedResult = "11111111";
+            List<string> program = new List<string>()
+            {
+                    "00001111",
+                    "00101110",
+                    "11100000",
+                    "11110000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000001",
+                    "00000000",
+            };
+
+            EngineProc engine = new EngineProc();
+
+
+            engine.Init(new RAMProgram(program));
+            engine.Run();
+
+            string output = engine.GetOutput();
+
+            Assert.AreEqual(expectedResult, output);
+        }
+        // **************************************************************************
+
+
+        // Test_Underflow_PROG_2 **********************************************************
+        /// <summary>
+        /// This will run the following program
+        /// 
+        /// 0x0 LDA 0xF
+        /// 0x1 SUB 0xE
+        /// 0x2 OUT 0xX
+        /// 0x3 HLT 0xX
+        /// 0x4 NOP 0xX
+        /// 0x5 NOP 0xX
+        /// 0x6 NOP 0xX
+        /// 0x7 NOP 0xX
+        /// 0x8 NOP 0xX
+        /// 0x9 NOP 0xX
+        /// 0xA NOP 0xX
+        /// 0xB NOP 0xX
+        /// 0xC NOP 0xX
+        /// 0xD NOP 0xX
+        /// 0xE 0x0 0x2
+        /// 0xF 0x0 0x0
+        /// 
+        /// The expected result is OReg: 1111 1110
+        /// </summary>
+        [TestMethod]
+        public void Test_UNDERFLOW_PROG_2()
+        {
+            string expectedResult = "11111110";
+            List<string> program = new List<string>()
+            {
+                    "00001111",
+                    "00101110",
+                    "11100000",
+                    "11110000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000010",
+                    "00000000",
+            };
+
+            EngineProc engine = new EngineProc();
+
+
+            engine.Init(new RAMProgram(program));
+            engine.Run();
+
+            string output = engine.GetOutput();
+
+            Assert.AreEqual(expectedResult, output);
+        }
+        // **************************************************************************
+
+
+        // Test_Underflow_PROG_3 **********************************************************
+        /// <summary>
+        /// This will run the following program
+        /// 
+        /// 0x0 LDA 0xF
+        /// 0x1 SUB 0xE
+        /// 0x2 OUT 0xX
+        /// 0x3 HLT 0xX
+        /// 0x4 NOP 0xX
+        /// 0x5 NOP 0xX
+        /// 0x6 NOP 0xX
+        /// 0x7 NOP 0xX
+        /// 0x8 NOP 0xX
+        /// 0x9 NOP 0xX
+        /// 0xA NOP 0xX
+        /// 0xB NOP 0xX
+        /// 0xC NOP 0xX
+        /// 0xD NOP 0xX
+        /// 0xE 0xF 0xF
+        /// 0xF 0x0 0x0
+        /// 
+        /// The expected result is OReg: 0000 0001
+        /// </summary>
+        [TestMethod]
+        public void Test_UNDERFLOW_PROG_3()
+        {
+            string expectedResult = "00000001";
+            List<string> program = new List<string>()
+            {
+                    "00001111",
+                    "00101110",
+                    "11100000",
+                    "11110000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "11111111",
+                    "00000000",
+            };
+
+            EngineProc engine = new EngineProc();
+
+
+            engine.Init(new RAMProgram(program));
+            engine.Run();
+
+            string output = engine.GetOutput();
+
+            Assert.AreEqual(expectedResult, output);
+        }
+        // **************************************************************************
+
+        #endregion
+        // **************************************************************************
+
 
     }
 }
