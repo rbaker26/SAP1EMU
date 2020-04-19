@@ -54,7 +54,7 @@ namespace SAP1EMU.Lib.Utilities
             string val = Convert.ToString(i, 2);
             if (val.Length <= 4)
             {
-                val = val.PadLeft(8, '0');
+                val = val.PadLeft(4, '0');
             }
             else
             {

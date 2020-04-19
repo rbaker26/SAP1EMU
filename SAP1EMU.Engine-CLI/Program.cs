@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using CommandLine;
-
+using SAP1EMU.Assembler;
 using SAP1EMU.Engine;
 using SAP1EMU.Lib;
 
@@ -111,15 +111,20 @@ namespace SAP1EMU.Engine_CLI
 
 
 
+                           List<string> compiled_binary;
 
                            if (fileType == FileType.S)
                            {
-                               // TODO -- convert List to bin
-                               Console.Error.WriteLine($"SAP1EMU: error: Feature not implamented");
-                               Console.Error.WriteLine("emulation terminated.");
-                               System.Environment.Exit(1);
+                               compiled_binary = Assemble.ParseFileContents(source_file_contents);
+;
                            }
-                           RAMProgram rmp = new RAMProgram(source_file_contents);
+                           else
+                           {
+                               compiled_binary = source_file_contents;
+                           }
+
+
+                           RAMProgram rmp = new RAMProgram(compiled_binary);
                            EngineProc engine = new EngineProc();
 
 

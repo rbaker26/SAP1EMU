@@ -21,6 +21,10 @@ namespace SAP1EMU.Lib.Components
         /// <para> CP EP LM_ CE_ LI_ EI_ LA_ EA SU EU LB_ LO_</para>
         /// </summary>
         public string ControlWord { get; private set; }
+
+
+        public readonly Dictionary<string, string> SupportedCommandsBinTable = new Dictionary<string, string>();
+
         //************************************************************************************************************************
 
 
@@ -150,6 +154,15 @@ namespace SAP1EMU.Lib.Components
             if (_instance == null)
             {
                 _instance = new SEQ();
+            }
+            if (_instance.SupportedCommandsBinTable.Count == 0)
+            {
+                _instance.SupportedCommandsBinTable.Add("LDA", "0000");
+                _instance.SupportedCommandsBinTable.Add("ADD", "0001");
+                _instance.SupportedCommandsBinTable.Add("SUB", "0010");
+                _instance.SupportedCommandsBinTable.Add("OUT", "1110");
+                _instance.SupportedCommandsBinTable.Add("HLT", "1111");
+                _instance.SupportedCommandsBinTable.Add("NOP", "0000");
             }
             return _instance;
         }
