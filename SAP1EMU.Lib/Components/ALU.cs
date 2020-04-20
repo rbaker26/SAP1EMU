@@ -11,6 +11,7 @@ namespace SAP1EMU.Lib.Components
         // <para> CP EP LM_ CE_ LI_ EI_ LA_ EA SU EU LB_ LO_</para>
 
         private readonly string controlWordMask = "000000001100"; // SU EU
+        private string RegContent { get; set; }
 
         private AReg areg { get; set; }
         private BReg breg { get; set; }
@@ -44,6 +45,10 @@ namespace SAP1EMU.Lib.Components
                 temp = Compute(areg.ToString(), breg.ToString(), true);
 
             }
+
+            // For Frame ToString support 
+            RegContent = temp;
+
 
             // Active Hi, Push on Tic
             if (cw[9] == '1' & tictok.ClockState == TicTok.State.Tic)
@@ -117,7 +122,10 @@ namespace SAP1EMU.Lib.Components
         #endregion
 
 
-
+        public override string ToString()
+        {
+            return this.RegContent;
+        }
 
     }
 }

@@ -12,6 +12,25 @@ namespace SAP1EMU.Engine
     public class EngineProc
     {
         string OutPutRegContents = ""; // todo add frame support
+        private List<Frame> _FrameStack = new List<Frame>();
+
+        public List<Frame> FrameStack()
+        {
+            return _FrameStack;
+        }
+
+
+        public Frame FinalFrame()
+        {
+            if(_FrameStack.Count != 0)
+            {
+                return _FrameStack[_FrameStack.Count - 1];
+            }
+            else
+            {
+                return null;
+            }
+        }
 
         public string GetOutput()
         {
@@ -70,6 +89,7 @@ namespace SAP1EMU.Engine
 
 
 
+            Frame tempFrame;
 
             #region Program_Exec
             // Since T1-T3 for all of the Intruction is the same,
@@ -89,6 +109,8 @@ namespace SAP1EMU.Engine
                 tictok.ToggleClockState();
                 System.Console.Error.WriteLine("\n");
 
+                tempFrame = new Frame(ireg.ToString(), 1, areg, breg, ireg, mreg, oreg, pc, alu, ram, seq, Wbus.Instance().ToString());
+                _FrameStack.Add(tempFrame);
                 // ***************************************
 
                 // T2 ************************************
@@ -104,6 +126,8 @@ namespace SAP1EMU.Engine
                 tictok.ToggleClockState();
                 System.Console.Error.WriteLine("\n");
 
+                tempFrame = new Frame(ireg.ToString(), 2, areg, breg, ireg, mreg, oreg, pc, alu, ram, seq, Wbus.Instance().ToString());
+                _FrameStack.Add(tempFrame);
                 // ***************************************
 
                 // T3 ************************************
@@ -119,6 +143,8 @@ namespace SAP1EMU.Engine
                 tictok.ToggleClockState();
                 System.Console.Error.WriteLine("\n");
 
+                tempFrame = new Frame(ireg.ToString(), 3, areg, breg, ireg, mreg, oreg, pc, alu, ram, seq, Wbus.Instance().ToString());
+                _FrameStack.Add(tempFrame);
                 // ***************************************
 
                 // T4 ************************************
@@ -135,6 +161,8 @@ namespace SAP1EMU.Engine
                 tictok.ToggleClockState();
                 System.Console.Error.WriteLine("\n");
 
+                tempFrame = new Frame(ireg.ToString(), 4, areg, breg, ireg, mreg, oreg, pc, alu, ram, seq, Wbus.Instance().ToString());
+                _FrameStack.Add(tempFrame);
                 // ***************************************
 
                 // T5 ************************************
@@ -151,6 +179,8 @@ namespace SAP1EMU.Engine
                 tictok.ToggleClockState();
                 System.Console.Error.WriteLine("\n");
 
+                tempFrame = new Frame(ireg.ToString(), 5, areg, breg, ireg, mreg, oreg, pc, alu, ram, seq, Wbus.Instance().ToString());
+                _FrameStack.Add(tempFrame);
                 // ***************************************
 
                 // T6 ************************************
@@ -165,6 +195,9 @@ namespace SAP1EMU.Engine
                 //CODE
                 tictok.ToggleClockState();
                 System.Console.Error.WriteLine("\n");
+
+                tempFrame = new Frame(ireg.ToString(), 6, areg, breg, ireg, mreg, oreg, pc, alu, ram, seq, Wbus.Instance().ToString());
+                _FrameStack.Add(tempFrame);
                 // ***************************************
 
 

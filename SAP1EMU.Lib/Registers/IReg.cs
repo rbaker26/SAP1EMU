@@ -43,9 +43,14 @@ namespace SAP1EMU.Lib.Registers
             }
         }
 
+        /// <summary>
+        /// For the real ToString, use the ToString_Fram_use() method
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
-            // TODO - I dont know this this is the best place to put this substring command. 
+            //  I dont know this this is the best place to put this substring command, but it is needed
+            // Currently, 
             return RegContent.Substring(0,4);
         }
         #region IObserver Region
@@ -79,6 +84,11 @@ namespace SAP1EMU.Lib.Registers
         }
         #endregion
 
+
+        public  string ToString_Frame_Use()
+        {
+            return this.RegContent;
+        }
     }
 
 

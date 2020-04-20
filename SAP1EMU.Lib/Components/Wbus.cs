@@ -24,5 +24,10 @@ namespace SAP1EMU.Lib.Components
             }
             return _instance;
         }
+
+        public override string ToString()
+        {
+            return Value;
+        }
     }
 }
