@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading;
 using CommandLine;
 using SAP1EMU.Assembler;
 using SAP1EMU.Engine;
 using SAP1EMU.Lib;
+using SAP1EMU.Lib.Utilities;
 
 namespace SAP1EMU.Engine_CLI
 {
@@ -13,28 +15,36 @@ namespace SAP1EMU.Engine_CLI
     {
         public class Options
         {
+            // File Mappings ******************************
             [Option('s', "source-file", Required = true, HelpText = "\n<FileName>.s Input file containing assembly code.\n<FileName>.b Input file containing compilied binary.")]
             public string SourceFile { get; set; }
 
+            [Option('o', "output-file", Required = false, HelpText = "Place the output into <file>.", Default = "a.out")]
+            public string OutputFile { get; set; }
+            // ********************************************
+
+
+
+            // Verbosity **********************************
             [Option('v', "verbose", Required = false, HelpText = "Set output to verbose.\n(inlcudes debug statements from the engine)")]
             public bool Verbose { get; set; }
             [Option('V', "very-verbose", Required = false, HelpText = "Set output to very verbose.\n(includes debug statements from the engine and the input file in output)")]
             public bool VeryVerbose { get; set; }
-
-            [Option('o', "output-file", Required = false, HelpText = "Place the output into <file>.", Default = "a.out")]
-            public string OutputFile { get; set; }
+            // ********************************************
 
 
-
-
-
-
+            // Frame Support ******************************
             // -f and -F are mutually exclusive. And error will appeear if the user tries to use both.
             [Option('f', "fframe", SetName = "fframe", Required = false, HelpText = "Include final frame in the output file.")]
             public bool fframe { get; set; }
             [Option('F', "Fframe", SetName = "Fframe", Required = false, HelpText = "Include all frames in the output file.")]
             public bool Fframe { get; set; }
+            // ********************************************
 
+            // Debug Setting ******************************
+            [Option('d', "debug", Required = false, HelpText = "Turns on Debug Mode")]
+            public bool Debug { get; set; }
+            // ********************************************
 
 
 
@@ -47,7 +57,7 @@ namespace SAP1EMU.Engine_CLI
         static void Main(string[] args)
         {
             _ = Parser.Default.ParseArguments<Options>(args)
-                   .WithParsed<Options>(o =>
+                   .WithParsed(o =>
                    {
                        List<string> source_file_contents = new List<string>(); ;
                        FileType fileType = FileType.B;
@@ -116,7 +126,6 @@ namespace SAP1EMU.Engine_CLI
                            if (fileType == FileType.S)
                            {
                                compiled_binary = Assemble.ParseFileContents(source_file_contents);
-;
                            }
                            else
                            {
@@ -144,19 +153,21 @@ namespace SAP1EMU.Engine_CLI
 
 
 
-                           string engine_output = "************************************************************\n" 
-                                                + "Final Output Register Value: " + engine.GetOutput() 
+                           string engine_output = "************************************************************\n"
+                                                + "Final Output Register Value: " + engine.GetOutput()
                                                 + "\n************************************************************\n\n";
                            if (o.fframe)
                            {
                                engine_output += "\n" + engine.FinalFrame();
                            }
+
+                           List<Frame> FrameStack = engine.FrameStack();
+
                            if (o.Fframe)
                            {
                                StringBuilder sb = new StringBuilder();
                                StringWriter fw = new StringWriter(sb);
 
-                               List<Frame> FrameStack = engine.FrameStack();
                                foreach (Frame frame in FrameStack)
                                {
                                    fw.WriteLine(frame.ToString());
@@ -179,15 +190,222 @@ namespace SAP1EMU.Engine_CLI
                            string stdout = sb_out.ToString();
                            string stderror = sb_error.ToString();
 
-                           
-                           
+
+
                            File.WriteAllText(o.OutputFile, engine_output);
 
-                          
+
+
+
+
+                           // Start the Single Stepping Debug Session if Debug Flag is set
+
+                           Debug_Proc(o, source_file_contents, FrameStack, rmp.RamContents);
+                           Console.Out.WriteLine("Debug Session Complete");
                        }
 
 
                    });
         }
+
+        private static void Debug_Proc(Options o, List<string> source_file_contents, List<Frame> FrameStack, List<string> RamContentsList)
+        {
+            if (o.Debug)
+            {
+                Console.Clear();
+                Console.Out.WriteLine(Banner);
+
+                Console.Out.WriteLine("Assembly Program:\n");
+
+
+                int source_file_contents_line_count = source_file_contents.Count;
+
+                int line_mult = 1;
+                int executable_line_count = 1;
+                for (int i = 1; i < source_file_contents_line_count+1; i++)
+                {
+
+                    Console.Out.WriteLine($"{((i * line_mult) != 0 ? i.ToString()+")" : "  ")} {source_file_contents[i-1]}");
+
+                    if (IsAfterHLT(source_file_contents[i-1].Substring(0, 3)))
+                    {
+                        line_mult = 0;
+                    }
+                    else
+                    {
+                        executable_line_count += 1 * line_mult;
+                    }
+                } 
+
+                Console.Out.WriteLine("\n\nDo you want to set a break point: (y/n) ");
+                Console.Out.WriteLine("If no, debug will single-step though the program starting at line 1");
+
+
+                Console.Out.Write(">>> ");
+                string break_point_answer = Console.ReadLine();
+
+                int break_point = 0; 
+                int t_break_point = 0;
+
+                if (break_point_answer != null & break_point_answer.Length > 0)
+                {
+                    char answer_char = break_point_answer.ToUpper()[0];
+                    if (answer_char == 'Y')
+                    {
+                        Console.Out.WriteLine($"Enter breakpoint number: (1-{executable_line_count})");
+                        Console.Out.Write(">>> ");
+                        Int32.TryParse(Console.ReadLine(), out break_point);
+
+
+                        if (break_point > executable_line_count || break_point <=0)
+                        {
+                            Console.Error.WriteLine($"SAP1EMU: fatal error: debug: break point must be in range (1-{executable_line_count})");
+                            Console.Error.WriteLine("debug terminated.");
+                            System.Environment.Exit(1);
+                        }
+
+                        Console.Out.WriteLine("\n\nDo you want to set a TState break point: (y/n) ");
+                        Console.Out.WriteLine("If no, debug will single-step though the program starting at T=0");
+                        Console.Out.Write(">>> ");
+                        break_point_answer = Console.ReadLine();
+
+                        answer_char = break_point_answer.ToUpper()[0];
+                        if (answer_char == 'Y')
+                        {
+                            Console.Out.WriteLine("Enter TState breakpoint number: (1-6)");
+                            Console.Out.Write(">>> ");
+                            Int32.TryParse(Console.ReadLine(), out t_break_point);
+                            if(t_break_point > 6 || t_break_point <=0)
+                            {
+                                Console.Error.WriteLine("SAP1EMU: fatal error: debug: TState break point must be in range (1-6)");
+                                Console.Error.WriteLine("debug terminated.");
+                                System.Environment.Exit(1);
+                            }
+                        }
+                        else if (answer_char == 'N')
+                        {
+                            t_break_point = 0;
+                        }
+                        else
+                        {
+                            Console.Error.WriteLine($"SAP1EMU: fatal error: debug: Invalid charecter");
+                            Console.Error.WriteLine("debug terminated.");
+                            System.Environment.Exit(1);
+                        }
+
+                    }
+                    else if (answer_char == 'N')
+                    {
+                        break_point = 0;
+                        t_break_point = 0;
+                    }
+                    else
+                    {
+                        Console.Error.WriteLine($"SAP1EMU: fatal error: debug: Invalid charecter");
+                        Console.Error.WriteLine("debug terminated.");
+                        System.Environment.Exit(1);
+                    }
+
+
+
+                    // After this point, break_point and t_break_point should have their correct values
+
+                    for (int i =0; i < FrameStack.Count; i++)
+                    {
+                        Console.Clear();
+                        Console.Out.WriteLine("SAP1EMU: DEBUG MODE");
+
+
+                        Console.Out.WriteLine("|-----------------------------|");
+                        Console.Out.WriteLine("| Assembly Program:           |");
+                        Console.Out.WriteLine("|-----------------------------|");
+
+                        line_mult = 1;
+                        for (int asm_print_index = 1; asm_print_index < source_file_contents_line_count+1; asm_print_index++)
+                        {
+
+                            Console.Out.WriteLine($"| {((asm_print_index * line_mult) != 0 ? asm_print_index.ToString() + ")" : "  ")} {source_file_contents[asm_print_index-1]}".PadRight(30, ' ') + "|");
+
+                            if (IsAfterHLT(source_file_contents[asm_print_index-1].Substring(0, 3)))
+                            {
+                                line_mult = 0;
+                            }
+                        }
+                        Console.Out.WriteLine("|-----------------------------|\n");
+
+
+                        PrintRAM(FrameStack[i].RAM);
+
+                        Console.WriteLine(FrameStack[i]);
+
+
+                        int skip_point;
+                        if(t_break_point == 1)
+                        {
+                            skip_point = ((break_point-1) * 6);
+                        }
+                        else
+                        {
+                            skip_point = ((break_point-1) * 6) + t_break_point - 1;
+                        }
+                        if(i< skip_point)
+                        {
+                            Thread.Sleep(100);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Press Enter to step through the program:");
+                            Console.Write("Type \"quit\" to exit:\n:");
+                            if(Console.ReadLine().ToUpper().Contains("QUIT"))
+                            {
+                                System.Environment.Exit(1);
+                            }
+
+                        }
+                        
+                    }
+
+                }
+
+            }
+        }
+
+
+        private static void PrintRAM(List<string> RAMContents)
+        {
+            Console.Out.WriteLine( "|--------------------------------------------|");
+            Console.Out.WriteLine( "| RAM Hex Dump:                              |");
+            Console.Out.WriteLine( "|--------------|--------------|--------------|");
+            Console.Out.WriteLine($"| Address      | Value        | Text         |");
+            Console.Out.WriteLine($"|--------------|--------------|--------------|");
+            for(int i = 0; i < 15; i++)
+            {
+                string hex_upper =  String.Format("{0:X1}", Convert.ToUInt16(RAMContents[i].Substring(0, 4), 2));
+                string hex_lower =  String.Format("{0:X1}", Convert.ToUInt16(RAMContents[i].Substring(4, 4), 2));
+
+                Console.Out.WriteLine($"| 0x{String.Format("{0:X1}",i)}".PadRight(15, ' ') + 
+                    $"| 0x{hex_upper} 0x{hex_lower}      | "
+                    + RAMContents[i].PadRight(10, ' ') + "   |");
+            }
+            Console.Out.WriteLine($"|--------------|--------------|--------------|");
+
+
+
+        }
+        private static bool IsAfterHLT(string s)
+        {
+            return (s.ToUpper() == "HLT");
+        }
+        private static readonly string Banner =
+            "*********************************************************\n"+
+            "*  ____    _    ____  _ _____                           *\n" +
+            "* / ___|  / \\  |  _ \\/ | ____|_ __ ___  _   _           *\n" +
+            "* \\___ \\ / _ \\ | |_) | |  _| | '_ ` _ \\| | | |          *\n" +
+            "*  ___) / ___ \\|  __/| | |___| | | | | | |_| |          *\n" +
+            "* |____/_/   \\_\\_|   |_|_____|_| |_| |_|\\__,_|          *\n"+
+            "*                                                       *\n"+
+            "*********************************************************\n" +
+            "* CC Bob Baker - 2020                                   *\n" +
+            "*********************************************************\n";
     }
 }

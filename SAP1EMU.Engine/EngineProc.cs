@@ -86,7 +86,7 @@ namespace SAP1EMU.Engine
             // Load the program into the RAM
             ram.LoadProgram(program);
 
-
+            
 
 
             Frame tempFrame;
