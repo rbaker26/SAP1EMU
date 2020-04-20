@@ -101,5 +101,9 @@ namespace SAP1EMU.Lib.Components
         }
         #endregion
 
+        // For Frame Support
+        public List<string> RAMDump() { return RamContents; }
+
+
     }
 }

@@ -141,7 +141,30 @@ namespace SAP1EMU.Engine_CLI
 
                            engine.Init(rmp);
                            engine.Run();
-                           string engine_output = engine.GetOutput();
+
+
+
+                           string engine_output = "************************************************************\n" 
+                                                + "Final Output Register Value: " + engine.GetOutput() 
+                                                + "\n************************************************************\n\n";
+                           if (o.fframe)
+                           {
+                               engine_output += "\n" + engine.FinalFrame();
+                           }
+                           if (o.Fframe)
+                           {
+                               StringBuilder sb = new StringBuilder();
+                               StringWriter fw = new StringWriter(sb);
+
+                               List<Frame> FrameStack = engine.FrameStack();
+                               foreach (Frame frame in FrameStack)
+                               {
+                                   fw.WriteLine(frame.ToString());
+                               }
+                               fw.Flush();
+
+                               engine_output += "\n" + sb.ToString();
+                           }
 
                            var standardOutput = new StreamWriter(Console.OpenStandardOutput());
                            standardOutput.AutoFlush = true;
@@ -157,8 +180,10 @@ namespace SAP1EMU.Engine_CLI
                            string stderror = sb_error.ToString();
 
                            
+                           
                            File.WriteAllText(o.OutputFile, engine_output);
 
+                          
                        }
 
 

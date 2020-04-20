@@ -76,8 +76,11 @@ namespace SAP1EMU.Lib.Registers
         #endregion
 
 
-      
 
-       
+        public override string ToString()
+        {
+            return RegContent;
+        }
+
     }
 }
