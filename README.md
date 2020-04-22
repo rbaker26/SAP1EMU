@@ -1,7 +1,7 @@
 # SAP1EMU
 [![Build Status](https://travis-ci.org/rbaker26/SAP1EMU.svg?branch=master)](https://travis-ci.org/rbaker26/SAP1EMU)
 
-An Emulator for the SAP1 Computer   
+An Emulator for the SAP1 Computer, based off of the SAP1 from _Digital Computer Electronics_ by Malvino and Brown.
 
 
 This readme.md will address programming topics.
