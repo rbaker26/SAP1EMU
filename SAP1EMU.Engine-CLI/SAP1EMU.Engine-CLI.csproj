@@ -22,5 +22,5 @@
     <ProjectReference Include="..\SAP1EMU.Engine\SAP1EMU.Engine.csproj" />
     <ProjectReference Include="..\SAP1EMU.Lib\SAP1EMU.Lib.csproj" />
   </ItemGroup>
-
+  
 </Project>
