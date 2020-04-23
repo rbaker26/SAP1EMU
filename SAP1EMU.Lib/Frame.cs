@@ -91,8 +91,8 @@ namespace SAP1EMU.Lib
             tw.WriteLine($"* Instruction: {InstuctionDecode(IReg,TState)}     TState: {TState}                           *");
             tw.WriteLine( "************************************************************");
             tw.WriteLine($"* PC:         {PC}          A Register:      {AReg}".PadRight(59) + "*");
-            tw.WriteLine($"* MAR:        {MReg}              ALU:             {ALU}".PadRight(59) + "*");
-            tw.WriteLine($"* I Register: {IReg}              B Register:      {BReg}".PadRight(59) + "*");
+            tw.WriteLine($"* MAR:        {MReg}              B Register:      {BReg}".PadRight(59) + "*");
+            tw.WriteLine($"* I Register: {IReg}              ALU:             {ALU}".PadRight(59) + "*");
             tw.WriteLine($"* Sequencer:  {SEQ}      Output Register: {OReg}".PadRight(59) + "*");
             tw.WriteLine($"************************************************************");
             tw.WriteLine($"* Output Unsigned: {unsigned_ouput}".PadRight(59) + "*");
