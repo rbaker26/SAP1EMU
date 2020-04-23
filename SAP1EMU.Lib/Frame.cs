@@ -32,7 +32,7 @@ namespace SAP1EMU.Lib
             this.IReg = ireg.ToString();  // The realy ToString() is in use with a substring in it.  This is needed for proper operation
             this.MReg = mreg.ToString(); 
             this.OReg = oreg.ToString();
-            this.PC   = pc.ToString();
+            this.PC = pc.ToString().Substring(4, 4);
             this.ALU = alu.ToString();
             this.RAM = ram.RAMDump();
             this.SEQ = seq.ToString();
@@ -90,7 +90,7 @@ namespace SAP1EMU.Lib
             tw.WriteLine($"************************************************************");//60
             tw.WriteLine($"* Instruction: {InstuctionDecode(IReg,TState)}     TState: {TState}                           *");
             tw.WriteLine( "************************************************************");
-            tw.WriteLine($"* PC:         {PC}          A Register:      {AReg}".PadRight(59) + "*");
+            tw.WriteLine($"* PC:         {PC}              A Register:      {AReg}".PadRight(59) + "*");
             tw.WriteLine($"* MAR:        {MReg}              B Register:      {BReg}".PadRight(59) + "*");
             tw.WriteLine($"* I Register: {IReg}              ALU:             {ALU}".PadRight(59) + "*");
             tw.WriteLine($"* Sequencer:  {SEQ}      Output Register: {OReg}".PadRight(59) + "*");
