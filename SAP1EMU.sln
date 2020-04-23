@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAP1EMU.Engine-CLI", "SAP1E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAP1EMU.Sandbox", "SAP1EMU.Sandbox\SAP1EMU.Sandbox.csproj", "{7EFCC568-5814-4C2A-AC93-972E5835729D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAP1EMU.Assembler", "SAP1EMU.Assembler\SAP1EMU.Assembler.csproj", "{46053099-4CB0-487B-8BF9-121FF7874329}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAP1EMU.Assembler", "SAP1EMU.Assembler\SAP1EMU.Assembler.csproj", "{46053099-4CB0-487B-8BF9-121FF7874329}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F62A82B5-7BC1-430B-8E3B-A76E27724A49}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

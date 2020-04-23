@@ -77,7 +77,7 @@ namespace SAP1EMU.Engine
             mreg.Subscribe(clock);
             oreg.Subscribe(clock);
             pc.Subscribe(clock);
-            alu.Subscribe(clock);
+            alu.Subscribe(clock); // ALU must come after A and B
             ram.Subscribe(clock);
 
 
