@@ -8,10 +8,10 @@ assignees: ''
 ---
 
 **Where was the bug located**
- - Assembler CLI
- - Emulator CLI
- - Emulator GUI
- - API  / Library
+ - [x] Assembler CLI
+ - [ ] Emulator CLI
+ - [ ] Emulator GUI
+ - [ ] API  / Library
 
 **Describe the bug**
 A clear and concise description of what the bug is.
