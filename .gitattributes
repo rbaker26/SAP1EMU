@@ -1,1 +1,1 @@
-*.b linguist-detectable
+*.b -linguist-detectable
