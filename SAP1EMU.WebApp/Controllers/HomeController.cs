@@ -22,6 +22,19 @@ namespace SAP1EMU.WebApp.Controllers
         {
             return View();
         }
+        public IActionResult About()
+        {
+            return View();
+
+        }
+        public IActionResult Emulator()
+        {
+            return View();
+        }
+        public IActionResult Assembler()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {
