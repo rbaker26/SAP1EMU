@@ -1,5 +1,5 @@
 # The reason this is here is because GitHub thinks that the binary test files for the emulator are
 #  written in BrainFuck and will display BrainFuck on the Repo's main page.
-# To avoid the work "Fuck" on my main repo page, I had to put this here.
+# To avoid the word "Fuck" on my main repo page, I had to put this here.
 # Thanks GitHub
 *.b -linguist-detectable
