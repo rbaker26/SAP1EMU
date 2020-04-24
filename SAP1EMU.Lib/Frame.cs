@@ -21,6 +21,7 @@ namespace SAP1EMU.Lib
         public string ALU { get; private set; } = "????";
         public string SEQ { get; private set; } = "????";
         public string WBus { get; private set; } = "????";
+        public string RAM_Reg { get; private set; } = "?????";
 
         public List<string> RAM { get; private set; } // The reason this is here is that the RAM might change if a STA simular command is issued.
         public Frame(string instruction, int TState, AReg areg, BReg breg, IReg ireg, MReg mreg, OReg oreg, PC pc, ALU alu, RAM ram, SEQ seq, string wbus_string)
@@ -37,7 +38,7 @@ namespace SAP1EMU.Lib
             this.RAM = ram.RAMDump();
             this.SEQ = seq.ToString();
             this.WBus = wbus_string; // I didnt want to mess with the Singleton in the frame, so the value will just be passed as a string
-
+            this.RAM_Reg = ram.ToString();
 
             if (instruction.Length == 0)
             {
@@ -92,8 +93,9 @@ namespace SAP1EMU.Lib
             tw.WriteLine( "************************************************************");
             tw.WriteLine($"* PC:         {PC}              A Register:      {AReg}".PadRight(59) + "*");
             tw.WriteLine($"* MAR:        {MReg}              B Register:      {BReg}".PadRight(59) + "*");
-            tw.WriteLine($"* I Register: {IReg}              ALU:             {ALU}".PadRight(59) + "*");
-            tw.WriteLine($"* Sequencer:  {SEQ}      Output Register: {OReg}".PadRight(59) + "*");
+            tw.WriteLine($"* RAM:        {RAM_Reg}          ALU:             {ALU}".PadRight(59) + "*");
+            tw.WriteLine($"* I Register: {IReg}              Output Register: {OReg}".PadRight(59) + "*");
+            tw.WriteLine($"* Sequencer:  {SEQ}      ".PadRight(59) + "*");
             tw.WriteLine($"************************************************************");
             tw.WriteLine($"* Output Unsigned: {unsigned_ouput}".PadRight(59) + "*");
             tw.WriteLine($"* Output Signed:   {signed_output}".PadRight(59) + "*");

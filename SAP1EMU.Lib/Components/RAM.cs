@@ -13,7 +13,7 @@ namespace SAP1EMU.Lib.Components
         // CP EP LM_ CE_ LI_ EI_ LA_ EA SU EU LB_ LO_
         private readonly string controlWordMask = "000100000000"; // CE_
         private string MARContents { get; set; }
-
+        private string RAM_Register_Content { get; set; } // For ToString()
 
         private void Exec(TicTok tictok)
         {
@@ -68,6 +68,7 @@ namespace SAP1EMU.Lib.Components
         public void IncomingMARData(string mar_data)
         {
             MARContents = mar_data;
+            RAM_Register_Content = GetWordAt(MARContents); // For tostring()
         }
 
         #region IObserver<TicTok> Region
@@ -104,6 +105,9 @@ namespace SAP1EMU.Lib.Components
         // For Frame Support
         public List<string> RAMDump() { return RamContents; }
 
-
+        public override string ToString()
+        {
+            return RAM_Register_Content;
+        }
     }
 }
