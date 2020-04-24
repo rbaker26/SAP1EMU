@@ -7,6 +7,12 @@ assignees: ''
 
 ---
 
+**What part of the projec is your feature request for?**
+ - [x] Assembler CLI
+ - [ ] Emulator CLI
+ - [ ] Emulator GUI
+ - [ ] API  / Library
+
 **Is your feature request related to a problem? Please describe.**
 A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
 
