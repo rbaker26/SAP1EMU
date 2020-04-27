@@ -3,3 +3,5 @@
 # To avoid the word "Fuck" on my main repo page, I had to put this here.
 # Thanks GitHub
 *.b -linguist-detectable
+
+*.s -linguist-detectable # this is to make github not count the Assembly test files as a part of the code
