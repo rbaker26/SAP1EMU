@@ -3,13 +3,6 @@
 <link href="/js/CodeMirror/lib/codemirror.css" rel="stylesheet" type="text/css" />
 <link href="/js/CodeMirror/theme/default.css" rel="stylesheet" type="text/css" />
 
-<style>
-    .CodeMirror {
-        border: 1px solid #334;
-        width: 800px;
-    }
-</style>
-
 @{
     ViewData["Title"] = "Assembler";
 }
@@ -21,13 +14,16 @@
         <h3>Assembly</h3>
 
         <button class="button">Load Assembly</button>
+        <br />
 
         @*@using (Html.BeginForm())
         {
-        @Html.TextArea("sampleCode", (string)ViewBag.sampleCode, new { rows = "20", cols = "80" })
-        <input type="submit" />
+            @Html.TextArea("sampleCode", (string)ViewBag.sampleCode, new { rows = "20", cols = "80" })
+            <input type="submit" />
         }*@
-        <textarea id="code" name="code"></textarea>
+        <textarea class="codebox" id="code" name="code" rows="20"></textarea>
+        <br />
+        <br />
     </div>
     <div class="column2">
         <h3>Binary</h3>

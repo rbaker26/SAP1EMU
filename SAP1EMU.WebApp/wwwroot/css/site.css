@@ -78,7 +78,7 @@ body {
     float: left;
     width: 32%;
     border: 1px solid #a39898;
-    padding: 5px;
+    padding: 8px;
     margin: 5px;
 }
 .column2 {
@@ -86,7 +86,7 @@ body {
     width: 49%;
 
     border: 1px solid #a39898;
-    padding: 5px;
+    padding: 8px;
     margin: 5px;
 }
 
@@ -94,7 +94,6 @@ body {
 .row:after {
     margin: auto;
     width: 100%;
-
     content: "";
     display: table;
     clear: both;
