@@ -1,7 +1,53 @@
-﻿
+﻿<script src="/js/CodeMirror/lib/codemirror.js"></script>
+<script src="/js/CodeMirror/mode/gas/gas_sap1.js" type="text/javascript"></script>
+<link href="/js/CodeMirror/lib/codemirror.css" rel="stylesheet" type="text/css" />
+<link href="/js/CodeMirror/theme/default.css" rel="stylesheet" type="text/css" />
+
+<style>
+    .CodeMirror {
+        border: 1px solid #334;
+        width: 800px;
+    }
+</style>
+
 @{
     ViewData["Title"] = "Assembler";
 }
 
 <h1>Assembler</h1>
 
+<div class="row">
+    <div class="column2">
+        <h3>Assembly</h3>
+
+        <button class="button">Load Assembly</button>
+
+        @*@using (Html.BeginForm())
+        {
+        @Html.TextArea("sampleCode", (string)ViewBag.sampleCode, new { rows = "20", cols = "80" })
+        <input type="submit" />
+        }*@
+        <textarea id="code" name="code">
+            int i = 0; 
+            foreach(string s in List\<string\>)
+            {
+            }
+            var c = 15;
+            for
+            foreach
+        </textarea>
+    </div>
+    <div class="column2">
+        <h3>Binary</h3>
+        <button class="button">Save Binary</button>
+
+    </div>
+</div>
+
+<script>
+  var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+    lineNumbers: true,
+    matchBrackets: true,
+    mode: {name: "gas_sap1", architecture: "x86"},
+  });
+</script> 

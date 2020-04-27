@@ -69,3 +69,48 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+
+
+
+/* For Columns in Pages*/
+.column3 {
+    float: left;
+    width: 32%;
+    border: 1px solid #a39898;
+    padding: 5px;
+    margin: 5px;
+}
+.column2 {
+    float: left;
+    width: 49%;
+
+    border: 1px solid #a39898;
+    padding: 5px;
+    margin: 5px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    margin: auto;
+    width: 100%;
+
+    content: "";
+    display: table;
+    clear: both;
+    align-content: center;
+    align-items: center;
+}
+
+
+
+.button {
+    background-color: #A39898; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 28px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
