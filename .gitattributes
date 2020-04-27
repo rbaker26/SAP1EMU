@@ -4,4 +4,6 @@
 # Thanks GitHub
 *.b -linguist-detectable
 
-*.s -linguist-detectable # this is to make github not count the Assembly test files as a part of the code
+
+# this is to make github not count the Assembly test files as a part of the code
+*.s -linguist-detectable 
