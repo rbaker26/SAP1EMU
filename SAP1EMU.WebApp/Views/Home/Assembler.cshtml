@@ -16,12 +16,11 @@
         <button class="button">Load Assembly</button>
         <br />
 
-        @*@using (Html.BeginForm())
+        @using (Html.BeginForm())
         {
-            @Html.TextArea("sampleCode", (string)ViewBag.sampleCode, new { rows = "20", cols = "80" })
-            <input type="submit" />
-        }*@
-        <textarea class="codebox" id="code" name="code" rows="20"></textarea>
+            @Html.TextArea("asm_code", null, new { rows = "20", cols = "80", @class="codebox", id="code" })
+            <input type="submit" value="Assemble"/>
+        }
         <br />
         <br />
     </div>
