@@ -90,6 +90,14 @@ body {
     margin: 5px;
 }
 
+.column1 {
+    float: left;
+    width: 99%;
+    border: 1px solid #a39898;
+    padding: 8px;
+    margin: 5px;
+}
+
 /* Clear floats after the columns */
 .row:after {
     margin: auto;
@@ -112,4 +120,8 @@ body {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+}
+
+.assembler-out{
+    
 }

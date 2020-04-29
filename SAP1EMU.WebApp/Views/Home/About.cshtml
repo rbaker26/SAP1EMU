@@ -1,7 +1,61 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "About";
 }
 
 <h1>About</h1>
+<br />
+<h2>About the Project</h2>
+<p>
+    The SAP1Emu Project is an open-source suite of tools designed for students and educators teaching introductory courses in Computer Architecture or Digital Electronics.
+    It emulates the SAP1 computer from <i>Digital Computer Electronics by Malvino and Brown</i>.
+    <br />
+    This Project is designed to assist in the building and programing of a SAP1 Computer.
+    Ben Eater has a great series of videos detailing building the SAP1 computer in a breadboard setup.
+    This project compliments Ben Eater's videos by allowing the student access to step-by-step debugging of an emulated SAP1 Computer.
+    <br />
+    Students can compare the output of their SAP1 to the output of the SAP1Emu Emulator.
+    This can be done on a step-by-step basis by setting breakpoints and single-stepping the Emulator through their program.
+    <br />
+    This Project is free and open-souce.
+    <br />
+    For more info, please see the license on the Project's Github page.
+    <br />
+    Please also visit <a class="text-dark" id="open-ben-eater"><u>Ben Eater's Website</u></a> to learn more about his project.
+</p>
+
+<br />
+<h2>About the Author</h2>
+<h4>Who am I?</h4>
+<p>
+    My name is Bob Baker and, at the time of writing, I am a Computer Science Student at Saddleback College in Orange County, California.
+    <br />
+    The majority of my programming focus is on C++ and C# with an emphasis on ASP.NET Core.
+    I have worked with other languages like Java, SQL, and Python, but mostly for academic projects.
+
+    Checkout my <a class="text-dark" id="open-github-profile"><u>Github Profile</u></a> for more about me or for my contact info.
+</p>
+
+<h4>Why this project?</h4>
+<p>
+    At Saddleback College, I worked as a Teachers Assistant in the Intro to Computer Architecture and Machine Language Lab
+    where I assisted students in the building and debugging of SAP1 Computers.
+    I found that, while there are a few software solutions to assist students; most were "half-baked", were no longer supported, or did not follow
+    the specification outline by Malvino.
+    <br />
+    For these reasons, I decided to create the SAP1Emu Project.
+</p>
+
+<script>
+        (function () {
+            const { ipcRenderer } = require("electron");
+
+            document.getElementById("open-github-profile").addEventListener("click", () => {
+                ipcRenderer.send("open-github-profile");
+            });
+            document.getElementById("open-ben-eater").addEventListener("click", () => {
+                ipcRenderer.send("open-ben-eater");
+            });
+
+        }());
+</script>
 

@@ -42,6 +42,14 @@ namespace SAP1EMU.WebApp.Controllers
         }
         public IActionResult About()
         {
+            Electron.IpcMain.On("open-github-profile", async (args) =>
+            {
+                await Electron.Shell.OpenExternalAsync("https://github.com/rbaker26/");
+            });
+            Electron.IpcMain.On("open-ben-eater", async (args) =>
+            {
+                await Electron.Shell.OpenExternalAsync("https://eater.net/");
+            });
             return View();
 
         }
@@ -58,6 +66,7 @@ namespace SAP1EMU.WebApp.Controllers
         {
             return View();
         }
+
 
         public async Task<IActionResult> Wiki()
         {
