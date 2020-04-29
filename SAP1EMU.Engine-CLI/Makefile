@@ -69,17 +69,17 @@ zip:
 
 tar:
 	# OSX x64
-	tar ${tar_FLAGS}  ${ZIP_DEST}/${OSX_RT}.tar ${PUB_DEST}/${OSX_RT}
-	tar ${tar_FLAGS}  ${ZIP_DEST}/${OSX_RT}-self-contained.tar ${PUB_DEST}/${OSX_RT}-self-contained
+	tar ${tar_FLAGS}  ${ZIP_DEST}/${OSX_RT}.tar -C ${PUB_DEST} ${OSX_RT}
+	tar ${tar_FLAGS}  ${ZIP_DEST}/${OSX_RT}-self-contained.tar -C ${PUB_DEST} ${OSX_RT}-self-contained
 
 	# Linux x64
-	tar ${tar_FLAGS}  ${ZIP_DEST}/${LINUX_RT}.tar ${PUB_DEST}/${LINUX_RT}
-	tar ${tar_FLAGS}  ${ZIP_DEST}/${LINUX_RT}-self-contained.tar ${PUB_DEST}/${LINUX_RT}-self-contained
+	tar ${tar_FLAGS}  ${ZIP_DEST}/${LINUX_RT}.tar -C ${PUB_DEST} ${LINUX_RT}
+	tar ${tar_FLAGS}  ${ZIP_DEST}/${LINUX_RT}-self-contained.tar -C ${PUB_DEST} ${LINUX_RT}-self-contained
 
 	# Linux ARM
-	tar ${tar_FLAGS}  ${ZIP_DEST}/${LINUX_ARM}.tar ${PUB_DEST}/${LINUX_ARM}
-	tar ${tar_FLAGS}  ${ZIP_DEST}/${LINUX_ARM}-self-contained.tar ${PUB_DEST}/${LINUX_ARM}-self-contained
+	tar ${tar_FLAGS}  ${ZIP_DEST}/${LINUX_ARM}.tar -C ${PUB_DEST} ${LINUX_ARM}
+	tar ${tar_FLAGS}  ${ZIP_DEST}/${LINUX_ARM}-self-contained.tar -C ${PUB_DEST} ${LINUX_ARM}-self-contained
 
 	# Linux MUS -x64
-	tar ${tar_FLAGS}  ${ZIP_DEST}/${LINUX_MUSL}.tar ${PUB_DEST}/${LINUX_MUSL}
-	tar ${tar_FLAGS}  ${ZIP_DEST}/${LINUX_MUSL}-self-contained.tar ${PUB_DEST}/${LINUX_MUSL}-self-contained
+	tar ${tar_FLAGS}  ${ZIP_DEST}/${LINUX_MUSL}.tar -C ${PUB_DEST} ${LINUX_MUSL}
+	tar ${tar_FLAGS}  ${ZIP_DEST}/${LINUX_MUSL}-self-contained.tar -C ${PUB_DEST} ${LINUX_MUSL}-self-contained
