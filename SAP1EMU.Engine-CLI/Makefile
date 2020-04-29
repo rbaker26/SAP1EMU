@@ -6,11 +6,11 @@ CC = dotnet publish
 CC_FLAGS = -c Release --framework netcoreapp3.1
 CC_SELF =  --self-contained true
 CC_NOSF = --self-contained false
-PROJ = SAP1EMU.Engine-CLI/SAP1EMU.Engine-CLI.csproj
+PROJ = SAP1EMU.Engine-CLI.csproj
 
 
-PUB_DEST = SAP1EMU.Engine-CLI/bin/Release/netcoreapp3.1/publish
-ZIP_DEST = SAP1EMU.Engine-CLI/bin/Release/netcoreapp3.1/publish/output
+PUB_DEST = ./bin/Release/netcoreapp3.1/publish
+ZIP_DEST = ./bin/Release/netcoreapp3.1/publish/output
 
 tar_FLAGS = -cvf
 zip_FLAGS = -r 
@@ -50,7 +50,7 @@ publish:
 	${CC} ${PROJ} ${CC_FLAGS} ${CC_NOSF} --runtime ${LINUX_ARM} -o ${PUB_DEST}/${LINUX_ARM} 
 	${CC} ${PROJ} ${CC_FLAGS} ${CC_SELF} --runtime ${LINUX_ARM} -o ${PUB_DEST}/${LINUX_ARM}-self-contained --no-build
 
-	# Linux MUS -x64
+	# Linux MUSL -x64
 	${CC} ${PROJ} ${CC_FLAGS} ${CC_NOSF} --runtime ${LINUX_MUSL} -o ${PUB_DEST}/${LINUX_MUSL} 
 	${CC} ${PROJ} ${CC_FLAGS} ${CC_SELF} --runtime ${LINUX_MUSL} -o ${PUB_DEST}/${LINUX_MUSL}-self-contained --no-build
 
