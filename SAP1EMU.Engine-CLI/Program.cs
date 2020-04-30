@@ -382,7 +382,6 @@ namespace SAP1EMU.Engine_CLI
 
         private static void PrintRAM(List<string> RAMContents)
         {
-            Console.WriteLine("Count: " + RAMContents.Count);
             Console.Out.WriteLine( "|--------------------------------------------|");
             Console.Out.WriteLine( "| RAM Hex Dump:                              |");
             Console.Out.WriteLine( "|--------------|--------------|--------------|");
