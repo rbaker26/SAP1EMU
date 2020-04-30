@@ -6,11 +6,12 @@ CC = dotnet publish
 CC_FLAGS = -c Release --framework netcoreapp3.1
 CC_SELF =  --self-contained true
 CC_NOSF = --self-contained false
-PROJ = SAP1EMU.Engine-CLI/SAP1EMU.Engine-CLI.csproj
+PROJ = SAP1EMU.Engine-CLI.csproj
+PROJ_NAME = SAP1Emu-CLI
 
 
-PUB_DEST = SAP1EMU.Engine-CLI/bin/Release/netcoreapp3.1/publish
-ZIP_DEST = SAP1EMU.Engine-CLI/bin/Release/netcoreapp3.1/publish/output
+PUB_DEST =  ./bin/Release/netcoreapp3.1/publish
+ZIP_DEST = ./bin/Release/netcoreapp3.1/publish/output
 
 tar_FLAGS = -cvf
 zip_FLAGS = -r 
@@ -50,36 +51,36 @@ publish:
 	${CC} ${PROJ} ${CC_FLAGS} ${CC_NOSF} --runtime ${LINUX_ARM} -o ${PUB_DEST}/${LINUX_ARM} 
 	${CC} ${PROJ} ${CC_FLAGS} ${CC_SELF} --runtime ${LINUX_ARM} -o ${PUB_DEST}/${LINUX_ARM}-self-contained --no-build
 
-	# Linux MUS -x64
+	# Linux MUSL -x64
 	${CC} ${PROJ} ${CC_FLAGS} ${CC_NOSF} --runtime ${LINUX_MUSL} -o ${PUB_DEST}/${LINUX_MUSL} 
 	${CC} ${PROJ} ${CC_FLAGS} ${CC_SELF} --runtime ${LINUX_MUSL} -o ${PUB_DEST}/${LINUX_MUSL}-self-contained --no-build
 
 
 output_dir:
 	if [ ! -d "${ZIP_DEST}" ]; then mkdir ${ZIP_DEST}; fi; 
-
+	
 zip:
 	# Windows x64
-	zip ${zip_FLAGS} ${ZIP_DEST}/${WIN_RT}.zip ${PUB_DEST}/${WIN_RT}
-	zip ${zip_FLAGS} ${ZIP_DEST}/${WIN_RT}-self-contained.zip ${PUB_DEST}/${WIN_RT}-self-contained
+	zip ${zip_FLAGS} ${ZIP_DEST}/${PROJ_NAME}-${WIN_RT}.zip ${PUB_DEST}/${WIN_RT} -j
+	zip ${zip_FLAGS} ${ZIP_DEST}/${PROJ_NAME}-${WIN_RT}-self-contained.zip ${PUB_DEST}/${WIN_RT}-self-contained -j
 
 	# Windows ARM
-	zip ${zip_FLAGS} ${ZIP_DEST}/${WIN_ARM_RT}.zip ${PUB_DEST}/${WIN_ARM_RT}
-	zip ${zip_FLAGS} ${ZIP_DEST}/${WIN_ARM_RT}-self-contained.zip ${PUB_DEST}/${WIN_ARM_RT}-self-contained
+	zip ${zip_FLAGS} ${ZIP_DEST}/${PROJ_NAME}-${WIN_ARM_RT}.zip ${PUB_DEST}/${WIN_ARM_RT} -j
+	zip ${zip_FLAGS} ${ZIP_DEST}/${PROJ_NAME}-${WIN_ARM_RT}-self-contained.zip ${PUB_DEST}/${WIN_ARM_RT}-self-contained -j
 
 tar:
 	# OSX x64
-	tar ${tar_FLAGS}  ${ZIP_DEST}/${OSX_RT}.tar ${PUB_DEST}/${OSX_RT}
-	tar ${tar_FLAGS}  ${ZIP_DEST}/${OSX_RT}-self-contained.tar ${PUB_DEST}/${OSX_RT}-self-contained
+	tar ${tar_FLAGS}  ${ZIP_DEST}/${PROJ_NAME}-${OSX_RT}.tar -C ${PUB_DEST} ${OSX_RT}
+	tar ${tar_FLAGS}  ${ZIP_DEST}/${PROJ_NAME}-${OSX_RT}-self-contained.tar -C ${PUB_DEST} ${OSX_RT}-self-contained 
 
 	# Linux x64
-	tar ${tar_FLAGS}  ${ZIP_DEST}/${LINUX_RT}.tar ${PUB_DEST}/${LINUX_RT}
-	tar ${tar_FLAGS}  ${ZIP_DEST}/${LINUX_RT}-self-contained.tar ${PUB_DEST}/${LINUX_RT}-self-contained
+	tar ${tar_FLAGS}  ${ZIP_DEST}/${PROJ_NAME}-${LINUX_RT}.tar -C ${PUB_DEST} ${LINUX_RT}
+	tar ${tar_FLAGS}  ${ZIP_DEST}/${PROJ_NAME}-${LINUX_RT}-self-contained.tar -C ${PUB_DEST} ${LINUX_RT}-self-contained
 
 	# Linux ARM
-	tar ${tar_FLAGS}  ${ZIP_DEST}/${LINUX_ARM}.tar ${PUB_DEST}/${LINUX_ARM}
-	tar ${tar_FLAGS}  ${ZIP_DEST}/${LINUX_ARM}-self-contained.tar ${PUB_DEST}/${LINUX_ARM}-self-contained
+	tar ${tar_FLAGS}  ${ZIP_DEST}/${PROJ_NAME}-${LINUX_ARM}.tar -C ${PUB_DEST} ${LINUX_ARM}
+	tar ${tar_FLAGS}  ${ZIP_DEST}/${PROJ_NAME}-${LINUX_ARM}-self-contained.tar -C ${PUB_DEST} ${LINUX_ARM}-self-contained
 
 	# Linux MUS -x64
-	tar ${tar_FLAGS}  ${ZIP_DEST}/${LINUX_MUSL}.tar ${PUB_DEST}/${LINUX_MUSL}
-	tar ${tar_FLAGS}  ${ZIP_DEST}/${LINUX_MUSL}-self-contained.tar ${PUB_DEST}/${LINUX_MUSL}-self-contained
+	tar ${tar_FLAGS}  ${ZIP_DEST}/${PROJ_NAME}-${LINUX_MUSL}.tar -C ${PUB_DEST} ${LINUX_MUSL}
+	tar ${tar_FLAGS}  ${ZIP_DEST}/${PROJ_NAME}-${LINUX_MUSL}-self-contained.tar -C ${PUB_DEST} ${LINUX_MUSL}-self-contained
