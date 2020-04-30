@@ -35,6 +35,7 @@ namespace SAP1EMU.Lib.Components
             {
                 string word = Wbus.Instance().Value;
                 SetWordAt(MARContents, word);
+                RAM_Register_Content = word;
                 System.Console.Error.WriteLine($"R In: {word}");
             }
 

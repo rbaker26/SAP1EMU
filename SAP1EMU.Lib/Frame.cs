@@ -57,7 +57,7 @@ namespace SAP1EMU.Lib
 
         private string InstuctionDecode(string BinInstruction, int TState)
         {
-            List<string> KnownInstructions = new List<string> { "LDA", "ADD", "SUB", "STA", "", "", "", "", "", "", "", "", "", "", "OUT", "HLT" };
+            List<string> KnownInstructions = new List<string> { "LDA", "ADD", "SUB", "STA", "JMP", "", "", "", "", "", "", "", "", "", "OUT", "HLT" };
             string temp = KnownInstructions[BinConverter.Bin4ToInt(BinInstruction)];
 
             if(TState < 4)

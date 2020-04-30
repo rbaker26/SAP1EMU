@@ -21,7 +21,7 @@ namespace SAP1EMU.Lib.Registers
             // Active Low, Pull on Tok
             if (cw[10] == '0' && tictok.ClockState == TicTok.State.Tok)
             {
-                // Store Wbus val in A
+                // Store Wbus val in B
                 RegContent = Wbus.Instance().Value;
                 System.Console.Error.WriteLine($"B IN : {RegContent}");
 
