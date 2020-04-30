@@ -18,7 +18,9 @@ namespace SAP1EMU.Lib.Components
 
         /// <summary>
         /// The control word storage location for all registers and components
-        /// <para> CP EP LM_ CE_ LI_ EI_ LA_ EA SU EU LB_ LO_</para>
+        /// <para> 
+        /// CP EP LM_ CE_ LI_ EI_ LA_ EA SU EU LB_ LO_ |  LR_                 
+        /// </para>
         /// </summary>
         public string ControlWord { get; private set; }
 
@@ -77,59 +79,115 @@ namespace SAP1EMU.Lib.Components
             ControlWord = "00‬1111100011";
 
 
-            #region Hash Table Regieon
+            #region Hash Table Region
             // LDA ***********************************************
-            ControlTable.Add(HashKey(1, "0000"), "010111100011");
-            ControlTable.Add(HashKey(2, "0000"), "101111100011");
-            ControlTable.Add(HashKey(3, "0000"), "001001100011");
-            ControlTable.Add(HashKey(4, "0000"), "000110100011");
-            ControlTable.Add(HashKey(5, "0000"), "001011000011");
-            ControlTable.Add(HashKey(6, "0000"), "001111100011");
+            ControlTable.Add(HashKey(1, "0000"), "0101111000111");
+            ControlTable.Add(HashKey(2, "0000"), "1011111000111");
+            ControlTable.Add(HashKey(3, "0000"), "0010011000111");
+            ControlTable.Add(HashKey(4, "0000"), "0001101000111");
+            ControlTable.Add(HashKey(5, "0000"), "0010110000111");
+            ControlTable.Add(HashKey(6, "0000"), "0011111000111");
             // ***************************************************
 
             // ADD ***********************************************
-            ControlTable.Add(HashKey(1, "0001"), "010111100011");
-            ControlTable.Add(HashKey(2, "0001"), "101111100011");
-            ControlTable.Add(HashKey(3, "0001"), "001001100011");
-            ControlTable.Add(HashKey(4, "0001"), "000110100011");
-            ControlTable.Add(HashKey(5, "0001"), "001011100001");
-            ControlTable.Add(HashKey(6, "0001"), "001111000111");
+            ControlTable.Add(HashKey(1, "0001"), "0101111000111");
+            ControlTable.Add(HashKey(2, "0001"), "1011111000111");
+            ControlTable.Add(HashKey(3, "0001"), "0010011000111");
+            ControlTable.Add(HashKey(4, "0001"), "0001101000111");
+            ControlTable.Add(HashKey(5, "0001"), "0010111000011");
+            ControlTable.Add(HashKey(6, "0001"), "0011110001111");
             // ***************************************************
 
             // SUB ***********************************************
-            ControlTable.Add(HashKey(1, "0010"), "010111100011");
-            ControlTable.Add(HashKey(2, "0010"), "101111100011");
-            ControlTable.Add(HashKey(3, "0010"), "001001100011");
-            ControlTable.Add(HashKey(4, "0010"), "000110100011");
-            ControlTable.Add(HashKey(5, "0010"), "001011100001");
-            ControlTable.Add(HashKey(6, "0010"), "001111001111");
+            ControlTable.Add(HashKey(1, "0010"), "0101111000111");
+            ControlTable.Add(HashKey(2, "0010"), "1011111000111");
+            ControlTable.Add(HashKey(3, "0010"), "0010011000111");
+            ControlTable.Add(HashKey(4, "0010"), "0001101000111");
+            ControlTable.Add(HashKey(5, "0010"), "0010111000011");
+            ControlTable.Add(HashKey(6, "0010"), "0011110011111");
             // ***************************************************
 
-            // JMP ***********************************************
-            ControlTable.Add(HashKey(1, "0011"), "010111100011");
-            ControlTable.Add(HashKey(2, "0011"), "101111100011");
-            ControlTable.Add(HashKey(3, "0011"), "001001100011");
-            ControlTable.Add(HashKey(4, "0011"), "000000000000");
-            ControlTable.Add(HashKey(5, "0011"), "000000000000");
-            ControlTable.Add(HashKey(6, "0011"), "000000000000");
+            // TODO - Microcode for T4-T6 for STA, STB, JMP, JEQ, JNQ, JLT, JGT have not been implamented
+            // CP EP LM_ CE_ LI_ EI_ LA_ EA SU EU LB_ LO_ |  LR_
+            // STA ***********************************************
+            ControlTable.Add(HashKey(1, "0011"), "0101111000111");
+            ControlTable.Add(HashKey(2, "0011"), "1011111000111");
+            ControlTable.Add(HashKey(3, "0011"), "0010011000111");
+            ControlTable.Add(HashKey(4, "0011"), "0001101000111"); // IE, LM
+            ControlTable.Add(HashKey(5, "0011"), "0011111100110"); // EA, LR_
+            ControlTable.Add(HashKey(6, "0011"), "0011111000111");
             // ***************************************************
+
+            // STB ***********************************************
+            ControlTable.Add(HashKey(1, "0100"), "0101111000111");
+            ControlTable.Add(HashKey(2, "0100"), "1011111000111");
+            ControlTable.Add(HashKey(3, "0100"), "0010011000111");
+            ControlTable.Add(HashKey(4, "0100"), "001111100011");
+            ControlTable.Add(HashKey(5, "0100"), "001111100011");
+            ControlTable.Add(HashKey(6, "0100"), "001111100011");
+            // ***************************************************
+
+            //// JMP ***********************************************
+            //ControlTable.Add(HashKey(1, "0101"), "010111100011");
+            //ControlTable.Add(HashKey(2, "0101"), "101111100011");
+            //ControlTable.Add(HashKey(3, "0101"), "001001100011");
+            //ControlTable.Add(HashKey(4, "0101"), "001111100011");
+            //ControlTable.Add(HashKey(5, "0101"), "001111100011");
+            //ControlTable.Add(HashKey(6, "0101"), "001111100011");
+            //// ***************************************************
+
+            //// JEQ ***********************************************
+            //ControlTable.Add(HashKey(1, "0110"), "010111100011");
+            //ControlTable.Add(HashKey(2, "0110"), "101111100011");
+            //ControlTable.Add(HashKey(3, "0110"), "001001100011");
+            //ControlTable.Add(HashKey(4, "0110"), "001111100011");
+            //ControlTable.Add(HashKey(5, "0110"), "001111100011");
+            //ControlTable.Add(HashKey(6, "0110"), "001111100011");
+            //// ***************************************************
+
+            //// JNQ ***********************************************
+            //ControlTable.Add(HashKey(1, "0111"), "010111100011");
+            //ControlTable.Add(HashKey(2, "0111"), "101111100011");
+            //ControlTable.Add(HashKey(3, "0111"), "001001100011");
+            //ControlTable.Add(HashKey(4, "0111"), "001111100011");
+            //ControlTable.Add(HashKey(5, "0111"), "001111100011");
+            //ControlTable.Add(HashKey(6, "0111"), "001111100011");
+            //// ***************************************************
+
+            //// JLT ***********************************************
+            //ControlTable.Add(HashKey(1, "1000"), "010111100011");
+            //ControlTable.Add(HashKey(2, "1000"), "101111100011");
+            //ControlTable.Add(HashKey(3, "1000"), "001001100011");
+            //ControlTable.Add(HashKey(4, "1000"), "001111100011");
+            //ControlTable.Add(HashKey(5, "1000"), "001111100011");
+            //ControlTable.Add(HashKey(6, "1000"), "001111100011");
+            //// ***************************************************
+
+            //// JGT ***********************************************
+            //ControlTable.Add(HashKey(1, "1001"), "010111100011");
+            //ControlTable.Add(HashKey(2, "1001"), "101111100011");
+            //ControlTable.Add(HashKey(3, "1001"), "001001100011");
+            //ControlTable.Add(HashKey(4, "1001"), "001111100011");
+            //ControlTable.Add(HashKey(5, "1001"), "001111100011");
+            //ControlTable.Add(HashKey(6, "1001"), "001111100011");
+            //// ***************************************************
 
             // OUT ***********************************************
-            ControlTable.Add(HashKey(1, "1110"), "010111100011");
-            ControlTable.Add(HashKey(2, "1110"), "101111100011");
-            ControlTable.Add(HashKey(3, "1110"), "001001100011");
-            ControlTable.Add(HashKey(4, "1110"), "001111110010");
-            ControlTable.Add(HashKey(5, "1110"), "001111100011");
-            ControlTable.Add(HashKey(6, "1110"), "001111100011");
+            ControlTable.Add(HashKey(1, "1110"), "0101111000111");
+            ControlTable.Add(HashKey(2, "1110"), "1011111000111");
+            ControlTable.Add(HashKey(3, "1110"), "0010011000111");
+            ControlTable.Add(HashKey(4, "1110"), "0011111100101");
+            ControlTable.Add(HashKey(5, "1110"), "0011111000111");
+            ControlTable.Add(HashKey(6, "1110"), "0011111000111");
             // ***************************************************
 
             // HLT ***********************************************
-            ControlTable.Add(HashKey(1, "1111"), "010111100011");
-            ControlTable.Add(HashKey(2, "1111"), "101111100011");
-            ControlTable.Add(HashKey(3, "1111"), "001001100011");
-            ControlTable.Add(HashKey(4, "1111"), "001111100011");
-            ControlTable.Add(HashKey(5, "1111"), "001111100011");
-            ControlTable.Add(HashKey(6, "1111"), "001111100011");
+            ControlTable.Add(HashKey(1, "1111"), "0101111000111");
+            ControlTable.Add(HashKey(2, "1111"), "1011111000111");
+            ControlTable.Add(HashKey(3, "1111"), "0010011000111");
+            ControlTable.Add(HashKey(4, "1111"), "0011111000111");
+            ControlTable.Add(HashKey(5, "1111"), "0011111000111");
+            ControlTable.Add(HashKey(6, "1111"), "0011111000111");
             // ***************************************************
 
             #endregion
@@ -160,6 +218,7 @@ namespace SAP1EMU.Lib.Components
                 _instance.SupportedCommandsBinTable.Add("LDA", "0000");
                 _instance.SupportedCommandsBinTable.Add("ADD", "0001");
                 _instance.SupportedCommandsBinTable.Add("SUB", "0010");
+                _instance.SupportedCommandsBinTable.Add("STA", "0011");
                 _instance.SupportedCommandsBinTable.Add("OUT", "1110");
                 _instance.SupportedCommandsBinTable.Add("HLT", "1111");
                 _instance.SupportedCommandsBinTable.Add("NOP", "0000");

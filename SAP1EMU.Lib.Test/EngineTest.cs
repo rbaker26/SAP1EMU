@@ -941,6 +941,43 @@ namespace SAP1EMU.Lib.Test
         #endregion
         // **************************************************************************
 
+        // STA Tests 1-3 ************************************************************
+
+        [TestMethod]
+        public void Test_STA_PROG_1()
+        {
+            string expectedResult = "11111111";
+            List<string> program = new List<string>()
+            {
+                    "00001111",
+                    "00111110",
+                    "00001100",
+                    "00001110",
+                    "11100000",
+                    "11110000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "11111111",
+            };
+
+            EngineProc engine = new EngineProc();
+
+
+            engine.Init(new RAMProgram(program));
+            engine.Run();
+
+            string output = engine.GetOutput();
+
+            Assert.AreEqual(expectedResult, output);
+        }
+        // **************************************************************************
 
     }
 }  

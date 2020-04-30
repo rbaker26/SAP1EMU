@@ -28,8 +28,14 @@ namespace SAP1EMU.Lib.Components
                 string content = GetWordAt(MARContents);
                 Wbus.Instance().Value = content;
                 System.Console.Error.WriteLine($"R Out: {content}");
+            }
 
-
+            // LR_, Active Low, Pull on Tok
+            if(cw[12] == '0' && tictok.ClockState == TicTok.State.Tok)
+            {
+                string word = Wbus.Instance().Value;
+                SetWordAt(MARContents, word);
+                System.Console.Error.WriteLine($"R In: {word}");
             }
 
 
@@ -57,6 +63,15 @@ namespace SAP1EMU.Lib.Components
                 throw new ArgumentOutOfRangeException($"RAM Index Error - Addr with value {index} not inbetween 0-15");
             }
             return RamContents[index];
+        }
+        public void SetWordAt(string addr, string word)
+        {
+            int index = (int)(Convert.ToUInt32(addr, 2));
+            if (index < 0 || index > 15)
+            {
+                throw new ArgumentOutOfRangeException($"RAM Index Error - Addr with value {index} not inbetween 0-15");
+            }
+            RamContents[index] = word;
         }
 
         public void ClearRAM()

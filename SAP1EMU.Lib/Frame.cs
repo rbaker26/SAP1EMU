@@ -24,8 +24,10 @@ namespace SAP1EMU.Lib
         public string RAM_Reg { get; private set; } = "?????";
 
         public List<string> RAM { get; private set; } // The reason this is here is that the RAM might change if a STA simular command is issued.
-        public Frame(string instruction, int TState, AReg areg, BReg breg, IReg ireg, MReg mreg, OReg oreg, PC pc, ALU alu, RAM ram, SEQ seq, string wbus_string)
+        public Frame(string instruction, int TState, AReg areg, BReg breg, IReg ireg, MReg mreg, OReg oreg, PC pc, ALU alu, List<string> ramContents, RAM ram, SEQ seq, string wbus_string)
         {
+            this.RAM = new List<string>();
+
             this.TState = TState;
 
             this.AReg = areg.ToString();
@@ -35,7 +37,13 @@ namespace SAP1EMU.Lib
             this.OReg = oreg.ToString();
             this.PC = pc.ToString().Substring(4, 4);
             this.ALU = alu.ToString();
-            this.RAM = ram.RAMDump();
+
+            foreach(string s in ramContents)
+            {
+                RAM.Add(s);
+            }
+
+
             this.SEQ = seq.ToString();
             this.WBus = wbus_string; // I didnt want to mess with the Singleton in the frame, so the value will just be passed as a string
             this.RAM_Reg = ram.ToString();
@@ -49,7 +57,7 @@ namespace SAP1EMU.Lib
 
         private string InstuctionDecode(string BinInstruction, int TState)
         {
-            List<string> KnownInstructions = new List<string> { "LDA", "ADD", "SUB", "", "", "", "", "", "", "", "", "", "", "", "OUT", "HLT" };
+            List<string> KnownInstructions = new List<string> { "LDA", "ADD", "SUB", "STA", "", "", "", "", "", "", "", "", "", "", "OUT", "HLT" };
             string temp = KnownInstructions[BinConverter.Bin4ToInt(BinInstruction)];
 
             if(TState < 4)
