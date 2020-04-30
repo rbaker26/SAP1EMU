@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using ElectronNET.API;
+using ElectronNET.API.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SAP1EMU.WebApp.Models;
@@ -20,10 +22,34 @@ namespace SAP1EMU.WebApp.Controllers
 
         public IActionResult Index()
         {
+
+            if (HybridSupport.IsElectronActive)
+            {
+                Electron.IpcMain.On("open-file-manager", async (args) =>
+                {
+                    string path = await Electron.App.GetPathAsync(PathName.home);
+                    await Electron.Shell.ShowItemInFolderAsync(path);
+
+                });
+
+                Electron.IpcMain.On("open-wiki", async (args) =>
+                {
+                    await Electron.Shell.OpenExternalAsync("https://github.com/rbaker26/SAP1EMU/wiki");
+                });
+            }
+
             return View();
         }
         public IActionResult About()
         {
+            Electron.IpcMain.On("open-github-profile", async (args) =>
+            {
+                await Electron.Shell.OpenExternalAsync("https://github.com/rbaker26/");
+            });
+            Electron.IpcMain.On("open-ben-eater", async (args) =>
+            {
+                await Electron.Shell.OpenExternalAsync("https://eater.net/");
+            });
             return View();
 
         }
@@ -39,6 +65,14 @@ namespace SAP1EMU.WebApp.Controllers
         public IActionResult Privacy()
         {
             return View();
+        }
+
+
+        public async Task<IActionResult> Wiki()
+        {
+            _ = await Electron.Shell.OpenExternalAsync("https://github.com/ElectronNET");
+            return View("Index");
+
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -199,9 +199,18 @@ namespace SAP1EMU.Engine_CLI
 
 
                            // Start the Single Stepping Debug Session if Debug Flag is set
-
+                           
                            Debug_Proc(o, source_file_contents, FrameStack, rmp.RamContents);
                            Console.Out.WriteLine("Debug Session Complete");
+
+                           //foreach(Frame f in FrameStack)
+                           //{
+                           //    foreach(string s in f.RAM)
+                           //    {
+                           //        Console.Out.WriteLine(s);
+                           //    }
+                           //    Console.Out.WriteLine("\n");
+                           //}
                        }
 
 
@@ -378,7 +387,7 @@ namespace SAP1EMU.Engine_CLI
             Console.Out.WriteLine( "|--------------|--------------|--------------|");
             Console.Out.WriteLine($"| Address      | Value        | Text         |");
             Console.Out.WriteLine($"|--------------|--------------|--------------|");
-            for(int i = 0; i < 15; i++)
+            for(int i = 0; i < 16; i++)
             {
                 string hex_upper =  String.Format("{0:X1}", Convert.ToUInt16(RAMContents[i].Substring(0, 4), 2));
                 string hex_lower =  String.Format("{0:X1}", Convert.ToUInt16(RAMContents[i].Substring(4, 4), 2));

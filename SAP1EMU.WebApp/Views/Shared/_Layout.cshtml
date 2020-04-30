@@ -30,6 +30,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Assembler">Assembler</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" id="open-wiki">Wiki</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -50,5 +53,23 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
+
+
+    <script>
+        (function () {
+            const { ipcRenderer } = require("electron");
+
+            //document.getElementById("open-file-manager").addEventListener("click", () => {
+            //    ipcRenderer.send("open-file-manager");
+            //});
+
+            
+
+            document.getElementById("open-wiki").addEventListener("click", () => {
+                ipcRenderer.send("open-wiki");
+            });
+
+        }());
+    </script>
 </body>
 </html>

@@ -2,9 +2,14 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="ElectronNET.API" Version="7.30.2" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
+    <PackageReference Include="jQuery" Version="3.5.0.1" />
+    <PackageReference Include="Microsoft.jQuery.Unobtrusive.Ajax" Version="3.2.6" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.2" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="ElectronNET.CLI" Version="0.0.9" />
@@ -16,5 +21,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\img\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SAP1EMU.Assembler\SAP1EMU.Assembler.csproj" />
+    <ProjectReference Include="..\SAP1EMU.Engine\SAP1EMU.Engine.csproj" />
+    <ProjectReference Include="..\SAP1EMU.Lib\SAP1EMU.Lib.csproj" />
   </ItemGroup>
 </Project>
