@@ -1016,7 +1016,42 @@ namespace SAP1EMU.Lib.Test
         }
         // **************************************************************************
 
+        // JEQ Tests 1 **************************************************************
+        [TestMethod]
+        public void Test_JEQ_PROG_1()
+        {
+            string expectedResult = "00000000";
+            List<string> program = new List<string>()
+            {
+                    "00001111",
+                    "01010000",  // JEQ - shouldn't jump, if it does, it will infinite loop
+                    "00001101",
+                    "01010101",  // JEQ should jump
+                    "00001110",  // should never be hit, A=RAM[14]
+                    "11100000",
+                    "11110000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "10101010",
+                    "11111111",
+            };
 
+            EngineProc engine = new EngineProc();
+
+
+            engine.Init(new RAMProgram(program));
+            engine.Run();
+
+            string output = engine.GetOutput();
+
+            Assert.AreEqual(expectedResult, output);
+        }
+        // **************************************************************************
 
     }
 }  

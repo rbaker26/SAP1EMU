@@ -129,14 +129,14 @@ namespace SAP1EMU.Lib.Components
             ControlTable.Add(HashKey(6, "0100"), "00111110001111");
             //// ***************************************************
 
-            //// JEQ ***********************************************
-            //ControlTable.Add(HashKey(1, "0101"), "0101111000111");
-            //ControlTable.Add(HashKey(2, "0101"), "1011111000111");
-            //ControlTable.Add(HashKey(3, "0101"), "0010011000111");
-            //ControlTable.Add(HashKey(4, "0101"), "0011111000111");
-            //ControlTable.Add(HashKey(5, "0101"), "0011111000111");
-            //ControlTable.Add(HashKey(6, "0101"), "0011111000111");
-            //// ***************************************************
+            // JEQ ***********************************************
+            ControlTable.Add(HashKey(1, "0101"), "01011110001111");
+            ControlTable.Add(HashKey(2, "0101"), "10111110001111");
+            ControlTable.Add(HashKey(3, "0101"), "00100110001111");
+            ControlTable.Add(HashKey(4, "0101"), "00111010001100");
+            ControlTable.Add(HashKey(5, "0101"), "00111110001111");
+            ControlTable.Add(HashKey(6, "0101"), "00111110001111");
+            // ***************************************************
 
             //// JNQ ***********************************************
             //ControlTable.Add(HashKey(1, "0110"), "0101111000111");
@@ -213,6 +213,7 @@ namespace SAP1EMU.Lib.Components
                 _instance.SupportedCommandsBinTable.Add("SUB", "0010");
                 _instance.SupportedCommandsBinTable.Add("STA", "0011");
                 _instance.SupportedCommandsBinTable.Add("JMP", "0100");
+                _instance.SupportedCommandsBinTable.Add("JEQ", "0101");
                 _instance.SupportedCommandsBinTable.Add("OUT", "1110");
                 _instance.SupportedCommandsBinTable.Add("HLT", "1111");
                 _instance.SupportedCommandsBinTable.Add("NOP", "0000");

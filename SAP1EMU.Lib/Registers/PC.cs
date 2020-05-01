@@ -9,12 +9,15 @@ namespace SAP1EMU.Lib.Registers
     public class PC : IObserver<TicTok>
     {
         // CP EP LM_ CE_ LI_ EI_ LA_ EA SU EU LB_ LO_
-
+        IReg ireg;
+        AReg areg;
         private string RegContent { get; set; }
         private readonly string controlWordMask = "110000000000"; // CP EP
-        public PC()
+        public PC(ref IReg ireg, ref AReg areg)
         {
             RegContent = "00000000";
+            this.ireg = ireg;
+            this.areg = areg;
         }
         public void Exec(TicTok tictok)
         {
@@ -42,12 +45,27 @@ namespace SAP1EMU.Lib.Registers
             if (cw[13] == '0' & tictok.ClockState == TicTok.State.Tok)
             {
                 string count = Wbus.Instance().Value;
-                if(count.Length >= 8)
+                if (count.Length >= 8)
                 {
                     count = "0000" + count.Substring(4, 4);
                 }
 
-                this.RegContent = count;
+
+                // JMP
+                if (ireg.ToString().Substring(0,4) == "0100")
+                {
+                    this.RegContent = count;
+
+                }
+                // JEQ
+                else if(ireg.ToString().Substring(0, 4) == "0101")
+                {
+                    if(areg.ToString()=="00000000")
+                    {
+                        this.RegContent = count;
+                    }
+                }
+                
                 // Check Flags
                 // Check intruction
                 
