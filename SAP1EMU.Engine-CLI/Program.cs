@@ -69,7 +69,7 @@ namespace SAP1EMU.Engine_CLI
                            {
                                Console.Error.WriteLine($"SAP1EMU: error: {o.SourceFile}: No such file");
                                Console.Error.WriteLine($"SAP1EMU: fatal error: no input file");
-                               Console.Error.WriteLine("emulation terminated.");
+                               Console.Error.WriteLine("emulation terminated");
                                System.Environment.Exit(1);
 
                            }
@@ -104,14 +104,14 @@ namespace SAP1EMU.Engine_CLI
                                {
                                    Console.Error.WriteLine($"SAP1EMU: error: {o.SourceFile}: File is empty");
                                    Console.Error.WriteLine($"SAP1EMU: fatal error: no valid input file");
-                                   Console.Error.WriteLine("emulation terminated.");
+                                   Console.Error.WriteLine("emulation terminated");
                                    System.Environment.Exit(1);
                                }
                                if (loc > 16)
                                {
                                    Console.Error.WriteLine($"SAP1EMU: error: {o.SourceFile}: invalid file: Contains more than 16 lines of code.");
                                    Console.Error.WriteLine($"SAP1EMU: fatal error: no valid input file");
-                                   Console.Error.WriteLine("emulation terminated.");
+                                   Console.Error.WriteLine("emulation terminated");
                                    System.Environment.Exit(1);
                                }
 
@@ -149,7 +149,23 @@ namespace SAP1EMU.Engine_CLI
 
 
                            engine.Init(rmp);
-                           engine.Run();
+                           try
+                           {
+                               engine.Run();
+
+                           }
+                           catch(EngineRuntimeException ere)
+                           {
+                               Console.SetOut(new StreamWriter(Console.OpenStandardOutput()));
+                               Console.SetError(new StreamWriter(Console.OpenStandardError()));
+
+                               Console.Error.WriteLine($"SAP1EMU: fatal error: " + ere.Message);
+                               Console.Error.WriteLine("emulation terminated");
+
+                               Console.Error.Flush();
+
+                               System.Environment.Exit(1);
+                           }
 
 
 
