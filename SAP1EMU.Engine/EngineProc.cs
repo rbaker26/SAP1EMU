@@ -95,6 +95,11 @@ namespace SAP1EMU.Engine
             // Since T1-T3 for all of the Intruction is the same,
             // LDA or "0000" will be used as the intruction for all T1-T3's
             clock.IsEnabled = true;
+
+            // These vars will make sure that the engine will not hang if there is an infinite loop
+            int max_loop_count = 500;
+            int loop_counter = 0;
+
             while (clock.IsEnabled)
             {
                 System.Console.Error.WriteLine("T1:");
@@ -209,6 +214,17 @@ namespace SAP1EMU.Engine
                 if (ireg.ToString() == "1111")
                 {
                     clock.IsEnabled = false;
+                }
+
+
+                // Infinite Loop Check
+                if (loop_counter >= max_loop_count)
+                {
+                    throw new EngineRuntimeException("Engine Error: Infinite Loop Detected");
+                }
+                else
+                {
+                    loop_counter++;
                 }
             }
             OutPutRegContents = oreg.ToString();
