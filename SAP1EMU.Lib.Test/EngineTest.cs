@@ -1053,5 +1053,54 @@ namespace SAP1EMU.Lib.Test
         }
         // **************************************************************************
 
+
+        // Infinite Loop Detection Test *********************************************
+        [TestMethod]
+        public void Infinite_Loop_Test()
+        {
+            string expectedResult = "00000000";
+            List<string> program = new List<string>()
+            {
+                    "00001111",
+                    "01000000",  // JEQ - shouldn't jump, if it does, it will infinite loop
+                    "11100000",
+                    "11110000",  // JEQ should jump
+                    "00000000",  // should never be hit, A=RAM[14]
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "11111111",
+            };
+
+            EngineProc engine = new EngineProc();
+
+            bool caught = false;
+            engine.Init(new RAMProgram(program));
+            try
+            {
+                engine.Run();
+            }
+            catch(EngineRuntimeException ere)
+            {
+                caught = true;
+            }
+
+            if(!caught)
+            {
+                Assert.Fail();
+            }
+
+            
+        }
+        // **************************************************************************
+
+
     }
 }  
