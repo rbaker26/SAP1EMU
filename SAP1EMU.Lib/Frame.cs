@@ -15,6 +15,7 @@ namespace SAP1EMU.Lib
         public string AReg { get; private set; } = "????";
         public string BReg { get; private set; } = "????";
         public string IReg { get; private set; } = "????";
+        public string IRegShort { get; private set; } = "????";
         public string MReg { get; private set; } = "????";
         public string OReg { get; private set; } = "????";
         public string PC { get; private set; } = "????";
@@ -31,8 +32,9 @@ namespace SAP1EMU.Lib
             this.TState = TState;
 
             this.AReg = areg.ToString();
-            this.BReg = breg.ToString(); 
-            this.IReg = ireg.ToString();  // The realy ToString() is in use with a substring in it.  This is needed for proper operation
+            this.BReg = breg.ToString();
+            this.IRegShort = ireg.ToString();
+            this.IReg = ireg.ToString_Frame_Use();  // The real ToString() is in use with a substring in it.  This is needed for proper operation
             this.MReg = mreg.ToString(); 
             this.OReg = oreg.ToString();
             this.PC = pc.ToString().Substring(4, 4);
@@ -97,12 +99,12 @@ namespace SAP1EMU.Lib
             }
 
             tw.WriteLine($"************************************************************");//60
-            tw.WriteLine($"* Instruction: {InstuctionDecode(IReg,TState)}     TState: {TState}                           *");
+            tw.WriteLine($"* Instruction: {InstuctionDecode(IRegShort, TState)}     TState: {TState}                           *");
             tw.WriteLine( "************************************************************");
             tw.WriteLine($"* PC:         {PC}              A Register:      {AReg}".PadRight(59) + "*");
             tw.WriteLine($"* MAR:        {MReg}              B Register:      {BReg}".PadRight(59) + "*");
             tw.WriteLine($"* RAM:        {RAM_Reg}          ALU:             {ALU}".PadRight(59) + "*");
-            tw.WriteLine($"* I Register: {IReg}              Output Register: {OReg}".PadRight(59) + "*");
+            tw.WriteLine($"* I Register: {IReg}          Output Register: {OReg}".PadRight(59) + "*");
             tw.WriteLine($"* Sequencer:  {SEQ}      ".PadRight(59) + "*");
             tw.WriteLine($"************************************************************");
             tw.WriteLine($"* Output Unsigned: {unsigned_ouput}".PadRight(59) + "*");
