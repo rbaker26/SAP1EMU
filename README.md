@@ -5,4 +5,4 @@ An Emulator for the SAP1 Computer, based off of the SAP1 from _Digital Computer 
 
 
 This readme.md will address topics regarding the SAP1Emu Library, Engine and API.
-For tutorials, file specifications, nstruction sets and other educational information, vist the SAP1Emu Project's [Wiki Page](https://github.com/rbaker26/SAP1EMU/wiki).
+For tutorials, file specifications, instruction sets and other educational information, vist the SAP1Emu Project's [Wiki Page](https://github.com/rbaker26/SAP1EMU/wiki).
