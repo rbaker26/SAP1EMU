@@ -65,21 +65,29 @@ namespace SAP1EMU.Lib.Registers
                         this.RegContent = count;
                     }
                 }
-                
+                // JIC
+                else if (ireg.ToString().Substring(0, 4) == "1001")
+                {
+                    if(Flags.Instance().Overflow == 1)
+                    {
+                        this.RegContent = count;
+                    }
+                }
+
                 // Check Flags
                 // Check intruction
-                
-                
-
-            // I might change LP_ to CJ for check_jump
-            // than i could pass an Ireg* to the PC to it can tell what the instruction is
-            // it would be like a mini-jmp register in the PC
 
 
 
-                //// Send A to the WBus
-                //Wbus.Instance().Value = RegContent;
-                //System.Console.Error.WriteLine($"PCOut: {RegContent}");
+                    // I might change LP_ to CJ for check_jump
+                    // than i could pass an Ireg* to the PC to it can tell what the instruction is
+                    // it would be like a mini-jmp register in the PC
+
+
+
+                    //// Send A to the WBus
+                    //Wbus.Instance().Value = RegContent;
+                    //System.Console.Error.WriteLine($"PCOut: {RegContent}");
 
             }
 
