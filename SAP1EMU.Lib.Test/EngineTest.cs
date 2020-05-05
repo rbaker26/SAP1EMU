@@ -1096,7 +1096,6 @@ namespace SAP1EMU.Lib.Test
         [TestMethod]
         public void Infinite_Loop_Test()
         {
-            string expectedResult = "00000000";
             List<string> program = new List<string>()
             {
                     "00001111",
@@ -1125,7 +1124,7 @@ namespace SAP1EMU.Lib.Test
             {
                 engine.Run();
             }
-            catch(EngineRuntimeException ere)
+            catch(EngineRuntimeException)
             {
                 caught = true;
             }
