@@ -38,12 +38,10 @@ namespace SAP1EMU.Lib.Components
             if (cw[8] == '1' && tictok.ClockState == TicTok.State.Tic)
             {
                 temp = Compute(areg.ToString(), breg.ToString(), false);
-
             }
             else // ADD
             {
                 temp = Compute(areg.ToString(), breg.ToString(), true);
-
             }
 
             // For Frame ToString support 
@@ -53,7 +51,6 @@ namespace SAP1EMU.Lib.Components
             // Active Hi, Push on Tic
             if (cw[9] == '1' & tictok.ClockState == TicTok.State.Tic)
             {
-
                 Wbus.Instance().Value = temp;
             }
 
@@ -67,6 +64,10 @@ namespace SAP1EMU.Lib.Components
         //************************************************************************************************************************
         public static string Compute(string AReg, string BReg, bool Add = true)
         {
+            
+            const int MAX_RESEULT = 255;
+            const int  MIN_RESULT = 0;
+
             int ia = BinConverter.Bin8ToInt(AReg);
             int ib = BinConverter.Bin8ToInt(BReg);
 
@@ -76,10 +77,26 @@ namespace SAP1EMU.Lib.Components
             if (Add)
             {
                 result = ia + ib;
+
+                // Set Flags
+                if(result > MAX_RESEULT)
+                {
+                    Flags.Instance().Overflow = 1;
+                }
+           
             }
-            else
+            else // SUB
             {
+                Flags.Instance().Clear();
+
                 result = ia - ib;
+
+                // Set Flags
+                if (result < MIN_RESULT)
+                {                 
+                    Flags.Instance().Underflow = 1;
+                }
+               
             }
 
             string val = BinConverter.IntToBin8(result);

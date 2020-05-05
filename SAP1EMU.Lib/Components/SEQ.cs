@@ -165,6 +165,15 @@ namespace SAP1EMU.Lib.Components
             //ControlTable.Add(HashKey(6, "1000"), "0011111000111");
             //// ***************************************************
 
+            // JIC ***********************************************
+            ControlTable.Add(HashKey(1, "1001"), "01011110001111");
+            ControlTable.Add(HashKey(2, "1001"), "10111110001111");
+            ControlTable.Add(HashKey(3, "1001"), "00100110001111");
+            ControlTable.Add(HashKey(4, "1001"), "00111010001100");
+            ControlTable.Add(HashKey(5, "1001"), "00111110001111");
+            ControlTable.Add(HashKey(6, "1001"), "00111110001111");
+            // ***************************************************
+
             // OUT ***********************************************
             ControlTable.Add(HashKey(1, "1110"), "01011110001111");
             ControlTable.Add(HashKey(2, "1110"), "10111110001111");

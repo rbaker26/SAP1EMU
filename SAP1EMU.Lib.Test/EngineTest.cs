@@ -1053,6 +1053,44 @@ namespace SAP1EMU.Lib.Test
         }
         // **************************************************************************
 
+        // JIC Test 1 ***************************************************************
+        [TestMethod]
+        public void Test_JIC_PROG_1()
+        {
+            string expectedResult = "00000000";
+            List<string> program = new List<string>()
+            {
+                    "00001111", // LDA F
+                    "00011110", // ADD E
+                    "10010100", // JIC 4
+                    "00001101", // LDA D (should miss)
+                    "11100000",  
+                    "11110000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "00000000",
+                    "10101010",
+                    "00000001",
+                    "11111111",
+            };
+
+            EngineProc engine = new EngineProc();
+
+
+            engine.Init(new RAMProgram(program));
+            engine.Run();
+
+            string output = engine.GetOutput();
+
+            Assert.AreEqual(expectedResult, output);
+        }
+        // **************************************************************************
+
+
 
         // Infinite Loop Detection Test *********************************************
         [TestMethod]
@@ -1097,9 +1135,10 @@ namespace SAP1EMU.Lib.Test
                 Assert.Fail();
             }
 
-            
+
         }
         // **************************************************************************
+
 
 
     }

@@ -70,6 +70,7 @@ namespace SAP1EMU.Engine
             SEQ seq = SEQ.Instance();
 
             Wbus.Instance().Value = "00000000";
+            Flags.Instance().Clear();
 
             areg.Subscribe(clock);
             breg.Subscribe(clock);
@@ -100,118 +101,26 @@ namespace SAP1EMU.Engine
             int max_loop_count = 500;
             int loop_counter = 0;
 
-            while (clock.IsEnabled)
+            int TState = 1;
+            while(clock.IsEnabled)
             {
-                System.Console.Error.WriteLine("T1:");
-                // T1 ************************************
-                seq.UpdateControlWordReg(1, "0000");
+                if(TState <= 3)
+                {
+                    seq.UpdateControlWordReg(TState, "0000");
+                }
+                else
+                {
+                    seq.UpdateControlWordReg(TState, ireg.ToString());
+                }
+
                 clock.SendTicTok(tictok);
-
-
-                //CODE 
                 tictok.ToggleClockState();
                 clock.SendTicTok(tictok);
                 tictok.ToggleClockState();
-                System.Console.Error.WriteLine("\n");
-
-                tempFrame = null;
-                tempFrame = new Frame(ireg.ToString(), 1, areg, breg, ireg, mreg, oreg, pc, alu, ram.RAMDump(), ram, seq, Wbus.Instance().ToString());
+                tempFrame = new Frame(ireg.ToString(), TState, areg, breg, ireg, mreg, oreg, pc, alu, ram.RAMDump(), ram, seq, Wbus.Instance().ToString());
                 _FrameStack.Add(tempFrame);
-                // ***************************************
 
-                // T2 ************************************
-                System.Console.Error.WriteLine("T2:");
-
-                seq.UpdateControlWordReg(2, "0000");
-                clock.SendTicTok(tictok);
-
-
-                //CODE 
-                tictok.ToggleClockState();
-                clock.SendTicTok(tictok);
-                tictok.ToggleClockState();
-                System.Console.Error.WriteLine("\n");
-
-                tempFrame = null;
-                tempFrame = new Frame(ireg.ToString(), 2, areg, breg, ireg, mreg, oreg, pc, alu, ram.RAMDump(), ram, seq, Wbus.Instance().ToString());
-                _FrameStack.Add(tempFrame);
-                // ***************************************
-
-                // T3 ************************************
-                System.Console.Error.WriteLine("T3:");
-
-                seq.UpdateControlWordReg(3, "0000");
-                clock.SendTicTok(tictok);
-
-
-                //CODE 
-                tictok.ToggleClockState();
-                clock.SendTicTok(tictok);
-                tictok.ToggleClockState();
-                System.Console.Error.WriteLine("\n");
-
-                tempFrame = null;
-                tempFrame = new Frame(ireg.ToString(), 3, areg, breg, ireg, mreg, oreg, pc, alu, ram.RAMDump(), ram, seq, Wbus.Instance().ToString());
-                _FrameStack.Add(tempFrame);
-                // ***************************************
-
-                // T4 ************************************
-                System.Console.Error.WriteLine("T4:");
-                seq.UpdateControlWordReg(4, ireg.ToString());
-
-
-
-                clock.SendTicTok(tictok);
-                //CODE
-                tictok.ToggleClockState();
-                clock.SendTicTok(tictok);
-                //CODE
-                tictok.ToggleClockState();
-                System.Console.Error.WriteLine("\n");
-
-                tempFrame = null;
-                tempFrame = new Frame(ireg.ToString(), 4, areg, breg, ireg, mreg, oreg, pc, alu, ram.RAMDump(), ram, seq, Wbus.Instance().ToString());
-                _FrameStack.Add(tempFrame);
-                // ***************************************
-
-                // T5 ************************************
-                System.Console.Error.WriteLine("T5:");
-
-                seq.UpdateControlWordReg(5, ireg.ToString());
-
-
-                clock.SendTicTok(tictok);
-                //CODE
-                tictok.ToggleClockState();
-                clock.SendTicTok(tictok);
-                //CODE
-                tictok.ToggleClockState();
-                System.Console.Error.WriteLine("\n");
-
-                tempFrame = null;
-                tempFrame = new Frame(ireg.ToString(), 5, areg, breg, ireg, mreg, oreg, pc, alu, ram.RAMDump(), ram, seq, Wbus.Instance().ToString());
-                _FrameStack.Add(tempFrame);
-                // ***************************************
-
-                // T6 ************************************
-                System.Console.Error.WriteLine("T6:");
-
-                seq.UpdateControlWordReg(6, ireg.ToString());
-
-                clock.SendTicTok(tictok);
-                //CODE
-                tictok.ToggleClockState();
-                clock.SendTicTok(tictok);
-                //CODE
-                tictok.ToggleClockState();
-                System.Console.Error.WriteLine("\n");
-
-                tempFrame = new Frame(ireg.ToString(), 6, areg, breg, ireg, mreg, oreg, pc, alu, ram.RAMDump(), ram, seq, Wbus.Instance().ToString());
-                _FrameStack.Add(tempFrame);
-                // ***************************************
-
-
-                if (ireg.ToString() == "1111")
+                if (ireg.ToString() == "1111" && TState == 6)
                 {
                     clock.IsEnabled = false;
                 }
@@ -226,15 +135,19 @@ namespace SAP1EMU.Engine
                 {
                     loop_counter++;
                 }
+
+                if(TState < 6)
+                {
+                    TState++;
+                }
+                else
+                {
+                    TState = 1;
+                }
             }
+
             OutPutRegContents = oreg.ToString();
             #endregion
-
-
-            System.Console.WriteLine("A      Register: " + areg.ToString());
-            System.Console.WriteLine("B      Register: " + breg.ToString());
-            System.Console.WriteLine("Output Register: " + oreg.ToString());
-
 
             #region Test Code
             //****************************************
