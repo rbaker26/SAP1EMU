@@ -148,38 +148,6 @@ namespace SAP1EMU.Engine
 
             OutPutRegContents = oreg.ToString();
             #endregion
-
-            #region Test Code
-            //****************************************
-            //Wbus.Instance().Value = "10101010";
-            //
-            //System.Console.WriteLine(areg.ToString());
-            //
-            //seq.UpdateControlWordReg(1, "0000");
-            //clock.SendTicTok(tictok);
-            //System.Console.WriteLine(areg.ToString());
-            //
-            //seq.UpdateControlWordReg(2, "0000");
-            //clock.SendTicTok(tictok);
-            //System.Console.WriteLine(areg.ToString());
-            //
-            //seq.UpdateControlWordReg(3, "0000");
-            //clock.SendTicTok(tictok);
-            //System.Console.WriteLine(areg.ToString());
-            //
-            //seq.UpdateControlWordReg(4, "0000");
-            //clock.SendTicTok(tictok);
-            //System.Console.WriteLine(areg.ToString());
-            //
-            //seq.UpdateControlWordReg(5, "0000");
-            //clock.SendTicTok(tictok);
-            //System.Console.WriteLine(areg.ToString());
-            //
-            //seq.UpdateControlWordReg(6, "0000");
-            //clock.SendTicTok(tictok);
-            //System.Console.WriteLine(areg.ToString());
-            //****************************************
-            #endregion
         }
 
 
