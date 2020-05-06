@@ -11,7 +11,7 @@ namespace SAP1EMU.Engine
 {
     public class EngineProc
     {
-        string OutPutRegContents = ""; // todo add frame support
+        string OutPutRegContents = "";
         private List<Frame> _FrameStack = new List<Frame>();
 
         public List<Frame> FrameStack()
