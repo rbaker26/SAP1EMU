@@ -19,7 +19,7 @@ namespace SAP1EMU.Engine_CLI
             [Option('s', "source-file", Required = true, HelpText = "\n<FileName>.s Input file containing assembly code.\n<FileName>.b Input file containing compilied binary.")]
             public string SourceFile { get; set; }
 
-            [Option('o', "output-file", Required = false, HelpText = "Place the output into <file>.", Default = "a.out")]
+            [Option('o', "output-file", Required = false, HelpText = "Place the output into <file>.", Default = "a.txt")]
             public string OutputFile { get; set; }
             // ********************************************
 
