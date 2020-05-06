@@ -98,7 +98,7 @@ namespace SAP1EMU.Engine
             clock.IsEnabled = true;
 
             // These vars will make sure that the engine will not hang if there is an infinite loop
-            int max_loop_count = 500;
+            int max_loop_count = 5000;
             int loop_counter = 0;
 
             int TState = 1;
