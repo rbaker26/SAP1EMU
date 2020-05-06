@@ -7,6 +7,7 @@ script:
   - dotnet test SAP1EMU-no-gui.sln
   
 after_success:
+  - dotnet tool install minicover
   - minicover instrument
   - minicover reset
   - dotnet test --no-build
