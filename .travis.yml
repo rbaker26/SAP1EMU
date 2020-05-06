@@ -3,8 +3,15 @@ solution: SAP1EMU-no-gui.sln
 mono: none
 dotnet: 3.1
 script:
+  - dotnet tool install --global minicover
   - dotnet build SAP1EMU-no-gui.sln
   - dotnet test SAP1EMU-no-gui.sln
   
 after_success:
+  - minicover instrument
+  - minicover reset
+  - dotnet test --no-build
+  - minicover uninstrument
+  - minicover coverallsreport --threshold 90
+  - minicover report --threshold 90
   - bash <(curl -s https://codecov.io/bash)
