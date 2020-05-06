@@ -8,17 +8,14 @@ namespace SAP1EMU.Lib.Components
 {
     public class ALU : IObserver<TicTok>
     {
-        // <para> CP EP LM_ CE_ LI_ EI_ LA_ EA SU EU LB_ LO_</para>
-
-        private readonly string controlWordMask = "000000001100"; // SU EU
         private string RegContent { get; set; }
 
-        private AReg areg { get; set; }
-        private BReg breg { get; set; }
+        private AReg Areg { get; set; }
+        private BReg Breg { get; set; }
         public ALU(ref AReg areg, ref BReg breg)
         {
-            this.areg = areg;
-            this.breg = breg;
+            this.Areg = areg;
+            this.Breg = breg;
         }
         //************************************************************************************************************************
         private void Exec(TicTok tictok) 
@@ -37,11 +34,11 @@ namespace SAP1EMU.Lib.Components
             // Active Hi, SUB on Tic
             if (cw[8] == '1' && tictok.ClockState == TicTok.State.Tic)
             {
-                temp = Compute(areg.ToString(), breg.ToString(), false);
+                temp = Compute(Areg.ToString(), Breg.ToString(), false);
             }
             else // ADD
             {
-                temp = Compute(areg.ToString(), breg.ToString(), true);
+                temp = Compute(Areg.ToString(), Breg.ToString(), true);
             }
 
             // For Frame ToString support 
@@ -118,13 +115,12 @@ namespace SAP1EMU.Lib.Components
 
         void IObserver<TicTok>.OnCompleted()
         {
-            Console.WriteLine("The Location Tracker has completed transmitting data to {0}.", "AReg");
             this.Unsubscribe();
         }
 
         void IObserver<TicTok>.OnError(Exception error)
         {
-            Console.WriteLine("{0}: The TicTok cannot be determined.", "AReg");
+            throw error;
         }
 
         void IObserver<TicTok>.OnNext(TicTok value)

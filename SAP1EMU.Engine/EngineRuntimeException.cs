@@ -13,5 +13,9 @@ namespace SAP1EMU.Engine
         public EngineRuntimeException(string message, Exception innerException) : base(message, innerException)
         {
         }
+
+        private EngineRuntimeException()
+        {
+        }
     }
 }

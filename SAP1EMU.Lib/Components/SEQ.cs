@@ -223,6 +223,7 @@ namespace SAP1EMU.Lib.Components
                 _instance.SupportedCommandsBinTable.Add("STA", "0011");
                 _instance.SupportedCommandsBinTable.Add("JMP", "0100");
                 _instance.SupportedCommandsBinTable.Add("JEQ", "0101");
+                _instance.SupportedCommandsBinTable.Add("JIC", "1001");
                 _instance.SupportedCommandsBinTable.Add("OUT", "1110");
                 _instance.SupportedCommandsBinTable.Add("HLT", "1111");
                 _instance.SupportedCommandsBinTable.Add("NOP", "0000");

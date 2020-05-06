@@ -10,8 +10,6 @@ namespace SAP1EMU.Lib.Components
     {
         private List<string> RamContents = new List<string>();
 
-        // CP EP LM_ CE_ LI_ EI_ LA_ EA SU EU LB_ LO_
-        private readonly string controlWordMask = "000100000000"; // CE_
         private string MARContents { get; set; }
         private string RAM_Register_Content { get; set; } // For ToString()
 
@@ -27,7 +25,6 @@ namespace SAP1EMU.Lib.Components
             {
                 string content = GetWordAt(MARContents);
                 Wbus.Instance().Value = content;
-                System.Console.Error.WriteLine($"R Out: {content}");
             }
 
             // LR_, Active Low, Pull on Tok
@@ -36,10 +33,7 @@ namespace SAP1EMU.Lib.Components
                 string word = Wbus.Instance().Value;
                 SetWordAt(MARContents, word);
                 RAM_Register_Content = word;
-                System.Console.Error.WriteLine($"R In: {word}");
             }
-
-
         }
 
 
@@ -98,13 +92,12 @@ namespace SAP1EMU.Lib.Components
 
         void IObserver<TicTok>.OnCompleted()
         {
-            Console.WriteLine("The Location Tracker has completed transmitting data to {0}.", "AReg");
             this.Unsubscribe();
         }
 
         void IObserver<TicTok>.OnError(Exception error)
         {
-            Console.WriteLine("{0}: The TicTok cannot be determined.", "AReg");
+            throw error;
         }
 
         void IObserver<TicTok>.OnNext(TicTok value)

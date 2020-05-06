@@ -36,7 +36,9 @@ namespace SAP1EMU.Engine_CLI
             // Frame Support ******************************
             // -f and -F are mutually exclusive. And error will appeear if the user tries to use both.
             [Option('f', "fframe", SetName = "fframe", Required = false, HelpText = "Include final frame in the output file.")]
+#pragma warning disable IDE1006 // Naming Styles
             public bool fframe { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
             [Option('F', "Fframe", SetName = "Fframe", Required = false, HelpText = "Include all frames in the output file.")]
             public bool Fframe { get; set; }
             // ********************************************
@@ -62,8 +64,7 @@ namespace SAP1EMU.Engine_CLI
                        List<string> source_file_contents = new List<string>(); ;
                        FileType fileType = FileType.B;
 
-
-                       if (o.SourceFile != null || o.SourceFile != "")
+                       if(!string.IsNullOrEmpty(o.SourceFile))
                        {
                            if (!File.Exists(o.SourceFile))
                            {
@@ -193,12 +194,16 @@ namespace SAP1EMU.Engine_CLI
                                engine_output += "\n" + sb.ToString();
                            }
 
-                           var standardOutput = new StreamWriter(Console.OpenStandardOutput());
-                           standardOutput.AutoFlush = true;
+                           var standardOutput = new StreamWriter(Console.OpenStandardOutput())
+                           {
+                               AutoFlush = true
+                           };
                            Console.SetOut(standardOutput);
 
-                           var standardError = new StreamWriter(Console.OpenStandardError());
-                           standardError.AutoFlush = true;
+                           var standardError = new StreamWriter(Console.OpenStandardError())
+                           {
+                               AutoFlush = true
+                           };
                            Console.SetError(standardError);
 
 
@@ -216,7 +221,7 @@ namespace SAP1EMU.Engine_CLI
 
                            // Start the Single Stepping Debug Session if Debug Flag is set
                            
-                           Debug_Proc(o, source_file_contents, FrameStack, rmp.RamContents);
+                           Debug_Proc(o, source_file_contents, FrameStack);
                            Console.Out.WriteLine("Debug Session Complete");
 
                            //foreach(Frame f in FrameStack)
@@ -233,7 +238,7 @@ namespace SAP1EMU.Engine_CLI
                    });
         }
 
-        private static void Debug_Proc(Options o, List<string> source_file_contents, List<Frame> FrameStack, List<string> RamContentsList)
+        private static void Debug_Proc(Options o, List<string> source_file_contents, List<Frame> FrameStack)
         {
             if (o.Debug)
             {
@@ -421,14 +426,14 @@ namespace SAP1EMU.Engine_CLI
         {
             return (s.ToUpper() == "HLT");
         }
-        private static readonly string Banner =
-            "*********************************************************\n"+
+        private const string Banner =
+            "*********************************************************\n" +
             "*  ____    _    ____  _ _____                           *\n" +
             "* / ___|  / \\  |  _ \\/ | ____|_ __ ___  _   _           *\n" +
             "* \\___ \\ / _ \\ | |_) | |  _| | '_ ` _ \\| | | |          *\n" +
             "*  ___) / ___ \\|  __/| | |___| | | | | | |_| |          *\n" +
-            "* |____/_/   \\_\\_|   |_|_____|_| |_| |_|\\__,_|          *\n"+
-            "*                                                       *\n"+
+            "* |____/_/   \\_\\_|   |_|_____|_| |_| |_|\\__,_|          *\n" +
+            "*                                                       *\n" +
             "*********************************************************\n" +
             "* CC Bob Baker - 2020                                   *\n" +
             "*********************************************************\n";

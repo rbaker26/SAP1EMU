@@ -66,7 +66,7 @@ namespace SAP1EMU.Lib
             {
                 return "???";
             }
-            if (temp != "")
+            if (!string.IsNullOrEmpty(temp))
             {
                 return temp;
             }

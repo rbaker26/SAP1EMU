@@ -8,7 +8,7 @@ using SAP1EMU.Lib.Utilities;
 
 namespace SAP1EMU.Assembler
 {
-    public class Assemble
+    public static class Assemble
     {
 
         public static List<string> ParseFileContents(List<string> unchecked_assembly)

@@ -12,7 +12,7 @@ namespace SAP1EMU.Engine
     public class EngineProc
     {
         string OutPutRegContents = "";
-        private List<Frame> _FrameStack = new List<Frame>();
+        private readonly List<Frame> _FrameStack = new List<Frame>();
 
         public List<Frame> FrameStack()
         {
@@ -38,14 +38,14 @@ namespace SAP1EMU.Engine
         }
 
 
-        private RAMProgram program { get; set; }
+        private RAMProgram Program { get; set; }
         public void Init(RAMProgram program)
         {
             if (program == null)
             {
-                this.program = new RAMProgram(new List<string>());
+                this.Program = new RAMProgram(new List<string>());
             }
-            this.program = program;
+            this.Program = program;
         }
 
 
@@ -85,7 +85,7 @@ namespace SAP1EMU.Engine
 
 
             // Load the program into the RAM
-            ram.LoadProgram(program);
+            ram.LoadProgram(Program);
 
             
 

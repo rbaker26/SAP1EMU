@@ -14,5 +14,8 @@ namespace SAP1EMU.Assembler
         {
         }
 
+        private ParseException()
+        {
+        }
     }
 }

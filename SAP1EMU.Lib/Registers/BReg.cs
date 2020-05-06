@@ -9,8 +9,6 @@ namespace SAP1EMU.Lib.Registers
     {
         private string RegContent { get; set; }
 
-        
-        private readonly string controlWordMask = "000000000010"; // LB_
         private void Exec(TicTok tictok)
         {
             string cw = SEQ.Instance().ControlWord;
@@ -23,9 +21,6 @@ namespace SAP1EMU.Lib.Registers
             {
                 // Store Wbus val in B
                 RegContent = Wbus.Instance().Value;
-                System.Console.Error.WriteLine($"B IN : {RegContent}");
-
-
             }
         }
 
@@ -41,13 +36,12 @@ namespace SAP1EMU.Lib.Registers
 
         void IObserver<TicTok>.OnCompleted()
         {
-            Console.WriteLine("The Location Tracker has completed transmitting data to {0}.", "AReg");
             this.Unsubscribe();
         }
 
         void IObserver<TicTok>.OnError(Exception error)
         {
-            Console.WriteLine("{0}: The TicTok cannot be determined.", "AReg");
+            throw error;
         }
 
         void IObserver<TicTok>.OnNext(TicTok value)

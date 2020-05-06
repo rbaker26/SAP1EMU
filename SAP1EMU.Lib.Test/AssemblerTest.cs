@@ -362,7 +362,7 @@ namespace SAP1EMU.Lib.Test
                 _ = Assemble.ParseFileContents(asm);
                 Assert.Fail();
             }
-            catch (ParseException pe)
+            catch (ParseException)
             {
                 Assert.IsTrue(true);
             }
@@ -383,7 +383,7 @@ namespace SAP1EMU.Lib.Test
                 _ = Assemble.ParseFileContents(asm);
                 Assert.Fail();
             }
-            catch (ParseException pe)
+            catch (ParseException)
             {
                 Assert.IsTrue(true);
             }
@@ -409,7 +409,7 @@ namespace SAP1EMU.Lib.Test
                 _ = Assemble.ParseFileContents(asm);
                 Assert.Fail();
             }
-            catch (ParseException pe)
+            catch (ParseException)
             {
                 Assert.IsTrue(true);
             }

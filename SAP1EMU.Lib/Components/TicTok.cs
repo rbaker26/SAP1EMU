@@ -4,6 +4,10 @@ using System.Text;
 
 namespace SAP1EMU.Lib.Components
 {
+    /// <summary>
+    /// This will prevent "RaceCases" on the board.
+    /// All push functions will happen on Tic and all pull functions will happen on Tok
+    /// </summary>
     public struct TicTok
     {
         public enum State
@@ -12,12 +16,7 @@ namespace SAP1EMU.Lib.Components
             Tok
         };
 
-        // 
-
-
-        // TODO - This will prevent racecases when one reg is pushing to wbus and another is pulling
-        // All pushing to Wbus will happen on Tic
-        // All pulling from Wbus will happen on Toc
+        
         public State ClockState { get; private set; }
 
         public void ToggleClockState() 
@@ -29,12 +28,35 @@ namespace SAP1EMU.Lib.Components
             else
             {
                 ClockState = State.Tic;
-
             }
         }
         public void Init()
         {
             ClockState = State.Tic;
         }
+
+
+
+        #region Equals Override Sutff
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj) && this.ClockState == ((TicTok)obj).ClockState;
+        }
+
+        public override int GetHashCode()
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool operator ==(TicTok left, TicTok right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(TicTok left, TicTok right)
+        {
+            return !(left == right);
+        }
+        #endregion
     }
 }

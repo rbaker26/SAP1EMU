@@ -28,7 +28,7 @@ namespace SAP1EMU.Lib
             {
                 this.RamContents.Add(s);
             }
-            for (int i = count; count < 15; count++)
+            for (int i = count; i < 15; i++)
             {
                 this.RamContents.Add("00000000");
             }

@@ -8,11 +8,10 @@ namespace SAP1EMU.Lib.Registers
 {
     public class PC : IObserver<TicTok>
     {
-        // CP EP LM_ CE_ LI_ EI_ LA_ EA SU EU LB_ LO_
-        IReg ireg;
-        AReg areg;
+        readonly IReg ireg;
+        readonly AReg areg;
         private string RegContent { get; set; }
-        private readonly string controlWordMask = "110000000000"; // CP EP
+
         public PC(ref IReg ireg, ref AReg areg)
         {
             RegContent = "00000000";
@@ -35,8 +34,6 @@ namespace SAP1EMU.Lib.Registers
             {
                 // Send A to the WBus
                 Wbus.Instance().Value = RegContent;
-                System.Console.Error.WriteLine($"PCOut: {RegContent}");
-
             }
 
 
@@ -74,20 +71,9 @@ namespace SAP1EMU.Lib.Registers
                     }
                 }
 
-                // Check Flags
-                // Check intruction
-
-
-
-                    // I might change LP_ to CJ for check_jump
-                    // than i could pass an Ireg* to the PC to it can tell what the instruction is
-                    // it would be like a mini-jmp register in the PC
-
-
-
-                    //// Send A to the WBus
-                    //Wbus.Instance().Value = RegContent;
-                    //System.Console.Error.WriteLine($"PCOut: {RegContent}");
+                // I might change LP_ to CJ for check_jump
+                // than i could pass an Ireg* to the PC to it can tell what the instruction is
+                // it would be like a mini-jmp register in the PC
 
             }
 
@@ -107,13 +93,12 @@ namespace SAP1EMU.Lib.Registers
 
         void IObserver<TicTok>.OnCompleted()
         {
-            Console.WriteLine("The Location Tracker has completed transmitting data to {0}.", "AReg");
             this.Unsubscribe();
         }
 
         void IObserver<TicTok>.OnError(Exception error)
         {
-            Console.WriteLine("{0}: The TicTok cannot be determined.", "AReg");
+            throw error;
         }
 
         void IObserver<TicTok>.OnNext(TicTok value)
