@@ -41,6 +41,9 @@ namespace SAP1EMU.Engine_CLI
 #pragma warning restore IDE1006 // Naming Styles
             [Option('F', "Fframe", SetName = "Fframe", Required = false, HelpText = "Include all frames in the output file.")]
             public bool Fframe { get; set; }
+
+            [Option('O', "FOframe", SetName = "FOframe", Required = false, HelpText = "Include Snapshots of the Output Register in the output file.")]
+            public bool FOframe { get; set; }
             // ********************************************
 
             // Debug Setting ******************************
@@ -193,6 +196,23 @@ namespace SAP1EMU.Engine_CLI
 
                                engine_output += "\n" + sb.ToString();
                            }
+                           if(o.FOframe)
+                           {
+                               StringBuilder sb = new StringBuilder();
+                               StringWriter fw = new StringWriter(sb);
+
+                               foreach (Frame frame in FrameStack)
+                               {
+                                   if(frame.TState == 6)
+                                   {
+                                       fw.WriteLine(frame.OutputRegister());
+                                   }
+                               }
+                               fw.Flush();
+
+                               engine_output += "\n" + sb.ToString();
+                           }
+
 
                            var standardOutput = new StreamWriter(Console.OpenStandardOutput())
                            {

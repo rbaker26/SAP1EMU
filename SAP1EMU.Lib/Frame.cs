@@ -76,6 +76,36 @@ namespace SAP1EMU.Lib
             }
         }
 
+        public string OutputRegister()
+        {
+            StringBuilder sb = new StringBuilder();
+            StringWriter tw = new StringWriter(sb);
+
+            int unsigned_ouput = BinConverter.Bin8ToInt(OReg);
+
+            int signed_output = 0;
+            if (OReg != null)
+            {
+                if (OReg[0] == '1')
+                {
+                    signed_output = -1 * (255 - unsigned_ouput + 1);
+                }
+                else
+                {
+                    signed_output = unsigned_ouput;
+                }
+            }
+            if(string.IsNullOrEmpty(OReg))
+            {
+                OReg = "00000000";
+            }
+            tw.WriteLine($"************************************************************");//60
+            tw.WriteLine($"* Output: {OReg}".PadRight(59) + "*");
+            tw.WriteLine("************************************************************");
+
+            tw.Flush();
+            return sb.ToString();
+        }
 
         public override string ToString()
         {
