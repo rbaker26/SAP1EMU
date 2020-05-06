@@ -5,13 +5,16 @@ dotnet: 3.1
 script:
   - dotnet build SAP1EMU-no-gui.sln
   - dotnet test SAP1EMU-no-gui.sln
-  
 after_success:
-  - dotnet tool install minicover
-  - minicover instrument
-  - minicover reset
-  - dotnet test --no-build
-  - minicover uninstrument
-  - minicover coverallsreport --threshold 90
-  - minicover report --threshold 90
-  - bash <(curl -s https://codecov.io/bash)
+  - dotnet tool install -g coveralls.net --version 1.0.0
+  - csmacnz.Coveralls --help
+  
+# after_success:
+#   - dotnet tool install minicover
+#   - minicover instrument
+#   - minicover reset
+#   - dotnet test --no-build
+#   - minicover uninstrument
+#   - minicover coverallsreport --threshold 90
+#   - minicover report --threshold 90
+#   - bash <(curl -s https://codecov.io/bash)
