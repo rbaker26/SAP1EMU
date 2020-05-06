@@ -42,8 +42,10 @@ namespace SAP1EMU.Engine_CLI
             [Option('F', "Fframe", SetName = "Fframe", Required = false, HelpText = "Include all frames in the output file.")]
             public bool Fframe { get; set; }
 
-            [Option('O', "FOframe", SetName = "FOframe", Required = false, HelpText = "Include Snapshots of the Output Register in the output file.")]
-            public bool FOframe { get; set; }
+            // TODO - Figure out why default isnt working here
+            // Default should be "std"
+            [Option('O', "FOframe", SetName = "FOframe", Required = false, HelpText = "Include Snapshots of the Output Register in the output file.\nParameters:\n  std\t\tOutputs with formatting\n  no-format\tOutputs wil no formatting")]
+            public string FOframe { get; set; }
             // ********************************************
 
             // Debug Setting ******************************
@@ -67,7 +69,7 @@ namespace SAP1EMU.Engine_CLI
                        List<string> source_file_contents = new List<string>(); ;
                        FileType fileType = FileType.B;
 
-                       if(!string.IsNullOrEmpty(o.SourceFile))
+                       if (!string.IsNullOrEmpty(o.SourceFile))
                        {
                            if (!File.Exists(o.SourceFile))
                            {
@@ -122,6 +124,16 @@ namespace SAP1EMU.Engine_CLI
 
 
                            }
+                           if(!string.IsNullOrEmpty(o.FOframe))
+                           {
+                               if (o.FOframe.ToLower() != "no-format" && o.FOframe.ToLower() != "std")
+                               {
+                                   Console.Error.WriteLine($"SAP1EMU: warning: {o.SourceFile}: invalid format argument {o.FOframe}: Defaulting to \"std\".");
+                                   o.FOframe = "std";
+                               }
+                           }
+                           
+                          
 
 
 
@@ -142,14 +154,14 @@ namespace SAP1EMU.Engine_CLI
 
 
 
-                           StringBuilder sb_out = new StringBuilder();
-                           TextWriter writer_out = new StringWriter(sb_out);
-                           Console.SetOut(writer_out);
+                           //StringBuilder sb_out = new StringBuilder();
+                           //TextWriter writer_out = new StringWriter(sb_out);
+                           //Console.SetOut(writer_out);
 
 
-                           StringBuilder sb_error = new StringBuilder();
-                           TextWriter writer_error = new StringWriter(sb_error);
-                           Console.SetError(writer_error);
+                           //StringBuilder sb_error = new StringBuilder();
+                           //TextWriter writer_error = new StringWriter(sb_error);
+                           //Console.SetError(writer_error);
 
 
                            engine.Init(rmp);
@@ -158,7 +170,7 @@ namespace SAP1EMU.Engine_CLI
                                engine.Run();
 
                            }
-                           catch(EngineRuntimeException ere)
+                           catch (EngineRuntimeException ere)
                            {
                                Console.SetOut(new StreamWriter(Console.OpenStandardOutput()));
                                Console.SetError(new StreamWriter(Console.OpenStandardError()));
@@ -176,14 +188,14 @@ namespace SAP1EMU.Engine_CLI
                            string engine_output = "************************************************************\n"
                                                 + "Final Output Register Value: " + engine.GetOutput()
                                                 + "\n************************************************************\n\n";
+
+                           List<Frame> FrameStack = engine.FrameStack();
+
                            if (o.fframe)
                            {
                                engine_output += "\n" + engine.FinalFrame();
                            }
-
-                           List<Frame> FrameStack = engine.FrameStack();
-
-                           if (o.Fframe)
+                           else if (o.Fframe)
                            {
                                StringBuilder sb = new StringBuilder();
                                StringWriter fw = new StringWriter(sb);
@@ -196,21 +208,36 @@ namespace SAP1EMU.Engine_CLI
 
                                engine_output += "\n" + sb.ToString();
                            }
-                           if(o.FOframe)
+                           else if(o.FOframe != null)
                            {
+                               engine_output =null; // Clear the output
+
                                StringBuilder sb = new StringBuilder();
                                StringWriter fw = new StringWriter(sb);
 
                                foreach (Frame frame in FrameStack)
                                {
-                                   if(frame.TState == 6)
+                                   if (frame.TState == 6)
                                    {
-                                       fw.WriteLine(frame.OutputRegister());
+                                       if (o.FOframe.ToLower() == "std")
+                                       {
+                                           fw.WriteLine(frame.OutputRegister());
+                                       }
+                                       else if(o.FOframe.ToLower() == "no-format")
+                                       {
+                                           string temp = frame.OReg;
+                                           if(string.IsNullOrEmpty(temp))
+                                           {
+                                               temp = "00000000";
+                                           }
+                                           fw.WriteLine(temp);
+                                       }
+                                       
                                    }
                                }
                                fw.Flush();
 
-                               engine_output += "\n" + sb.ToString();
+                               engine_output += sb.ToString();
                            }
 
 
@@ -228,8 +255,8 @@ namespace SAP1EMU.Engine_CLI
 
 
 
-                           string stdout = sb_out.ToString();
-                           string stderror = sb_error.ToString();
+                           //string stdout = sb_out.ToString();
+                           //string stderror = sb_error.ToString();
 
 
 
@@ -240,7 +267,7 @@ namespace SAP1EMU.Engine_CLI
 
 
                            // Start the Single Stepping Debug Session if Debug Flag is set
-                           
+
                            Debug_Proc(o, source_file_contents, FrameStack);
                            Console.Out.WriteLine("Debug Session Complete");
 
@@ -272,12 +299,12 @@ namespace SAP1EMU.Engine_CLI
 
                 int line_mult = 1;
                 int executable_line_count = 1;
-                for (int i = 1; i < source_file_contents_line_count+1; i++)
+                for (int i = 1; i < source_file_contents_line_count + 1; i++)
                 {
 
-                    Console.Out.WriteLine($"{((i * line_mult) != 0 ? i.ToString()+")" : "  ")} {source_file_contents[i-1]}");
+                    Console.Out.WriteLine($"{((i * line_mult) != 0 ? i.ToString() + ")" : "  ")} {source_file_contents[i - 1]}");
 
-                    if (IsAfterHLT(source_file_contents[i-1].Substring(0, 3)))
+                    if (IsAfterHLT(source_file_contents[i - 1].Substring(0, 3)))
                     {
                         line_mult = 0;
                     }
@@ -285,7 +312,7 @@ namespace SAP1EMU.Engine_CLI
                     {
                         executable_line_count += 1 * line_mult;
                     }
-                } 
+                }
 
                 Console.Out.WriteLine("\n\nDo you want to set a break point: (y/n) ");
                 Console.Out.WriteLine("If no, debug will single-step though the program starting at line 1");
@@ -294,7 +321,7 @@ namespace SAP1EMU.Engine_CLI
                 Console.Out.Write(">>> ");
                 string break_point_answer = Console.ReadLine();
 
-                int break_point = 0; 
+                int break_point = 0;
                 int t_break_point = 0;
 
                 if (break_point_answer != null & break_point_answer.Length > 0)
@@ -307,7 +334,7 @@ namespace SAP1EMU.Engine_CLI
                         Int32.TryParse(Console.ReadLine(), out break_point);
 
 
-                        if (break_point > executable_line_count || break_point <=0)
+                        if (break_point > executable_line_count || break_point <= 0)
                         {
                             Console.Error.WriteLine($"SAP1EMU: fatal error: debug: break point must be in range (1-{executable_line_count})");
                             Console.Error.WriteLine("debug terminated.");
@@ -325,7 +352,7 @@ namespace SAP1EMU.Engine_CLI
                             Console.Out.WriteLine("Enter TState breakpoint number: (1-6)");
                             Console.Out.Write(">>> ");
                             Int32.TryParse(Console.ReadLine(), out t_break_point);
-                            if(t_break_point > 6 || t_break_point <=0)
+                            if (t_break_point > 6 || t_break_point <= 0)
                             {
                                 Console.Error.WriteLine("SAP1EMU: fatal error: debug: TState break point must be in range (1-6)");
                                 Console.Error.WriteLine("debug terminated.");
@@ -360,7 +387,7 @@ namespace SAP1EMU.Engine_CLI
 
                     // After this point, break_point and t_break_point should have their correct values
 
-                    for (int i =0; i < FrameStack.Count; i++)
+                    for (int i = 0; i < FrameStack.Count; i++)
                     {
                         Console.Clear();
                         Console.Out.WriteLine("SAP1EMU: DEBUG MODE");
@@ -371,12 +398,12 @@ namespace SAP1EMU.Engine_CLI
                         Console.Out.WriteLine("|-----------------------------|");
 
                         line_mult = 1;
-                        for (int asm_print_index = 1; asm_print_index < source_file_contents_line_count+1; asm_print_index++)
+                        for (int asm_print_index = 1; asm_print_index < source_file_contents_line_count + 1; asm_print_index++)
                         {
 
-                            Console.Out.WriteLine($"| {((asm_print_index * line_mult) != 0 ? asm_print_index.ToString() + ")" : "  ")} {source_file_contents[asm_print_index-1]}".PadRight(30, ' ') + "|");
+                            Console.Out.WriteLine($"| {((asm_print_index * line_mult) != 0 ? asm_print_index.ToString() + ")" : "  ")} {source_file_contents[asm_print_index - 1]}".PadRight(30, ' ') + "|");
 
-                            if (IsAfterHLT(source_file_contents[asm_print_index-1].Substring(0, 3)))
+                            if (IsAfterHLT(source_file_contents[asm_print_index - 1].Substring(0, 3)))
                             {
                                 line_mult = 0;
                             }
@@ -390,15 +417,15 @@ namespace SAP1EMU.Engine_CLI
 
 
                         int skip_point;
-                        if(t_break_point == 1)
+                        if (t_break_point == 1)
                         {
-                            skip_point = ((break_point-1) * 6);
+                            skip_point = ((break_point - 1) * 6);
                         }
                         else
                         {
-                            skip_point = ((break_point-1) * 6) + t_break_point - 1;
+                            skip_point = ((break_point - 1) * 6) + t_break_point - 1;
                         }
-                        if(i< skip_point)
+                        if (i < skip_point)
                         {
                             Thread.Sleep(100);
                         }
@@ -406,13 +433,13 @@ namespace SAP1EMU.Engine_CLI
                         {
                             Console.WriteLine("Press Enter to step through the program:");
                             Console.Write("Type \"quit\" to exit:\n:");
-                            if(Console.ReadLine().ToUpper().Contains("QUIT"))
+                            if (Console.ReadLine().ToUpper().Contains("QUIT"))
                             {
                                 System.Environment.Exit(1);
                             }
 
                         }
-                        
+
                     }
 
                 }
@@ -423,17 +450,17 @@ namespace SAP1EMU.Engine_CLI
 
         private static void PrintRAM(List<string> RAMContents)
         {
-            Console.Out.WriteLine( "|--------------------------------------------|");
-            Console.Out.WriteLine( "| RAM Hex Dump:                              |");
-            Console.Out.WriteLine( "|--------------|--------------|--------------|");
+            Console.Out.WriteLine("|--------------------------------------------|");
+            Console.Out.WriteLine("| RAM Hex Dump:                              |");
+            Console.Out.WriteLine("|--------------|--------------|--------------|");
             Console.Out.WriteLine($"| Address      | Value        | Text         |");
             Console.Out.WriteLine($"|--------------|--------------|--------------|");
-            for(int i = 0; i < 16; i++)
+            for (int i = 0; i < 16; i++)
             {
-                string hex_upper =  String.Format("{0:X1}", Convert.ToUInt16(RAMContents[i].Substring(0, 4), 2));
-                string hex_lower =  String.Format("{0:X1}", Convert.ToUInt16(RAMContents[i].Substring(4, 4), 2));
+                string hex_upper = String.Format("{0:X1}", Convert.ToUInt16(RAMContents[i].Substring(0, 4), 2));
+                string hex_lower = String.Format("{0:X1}", Convert.ToUInt16(RAMContents[i].Substring(4, 4), 2));
 
-                Console.Out.WriteLine($"| 0x{String.Format("{0:X1}",i)}".PadRight(15, ' ') + 
+                Console.Out.WriteLine($"| 0x{String.Format("{0:X1}", i)}".PadRight(15, ' ') +
                     $"| 0x{hex_upper} 0x{hex_lower}      | "
                     + RAMContents[i].PadRight(10, ' ') + "   |");
             }
