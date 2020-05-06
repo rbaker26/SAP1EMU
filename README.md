@@ -3,6 +3,7 @@
 ![GitHub language count](https://img.shields.io/github/languages/count/rbaker26/SAP1EMU) 
 ![GitHub top language](https://img.shields.io/github/languages/top/rbaker26/SAP1EMU)
 ![GitHub](https://img.shields.io/github/license/rbaker26/SAP1EMU)
+![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/rbaker26/SAP1EMU)
 
 An Emulator for the SAP1 Computer, based off of the SAP1 from _Digital Computer Electronics_ by Malvino and Brown.
 
