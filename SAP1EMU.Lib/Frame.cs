@@ -39,6 +39,7 @@ namespace SAP1EMU.Lib
             this.OReg = oreg.ToString();
             this.PC = pc.ToString().Substring(4, 4);
             this.ALU = alu.ToString();
+            this.WBus = wbus_string;
 
             foreach(string s in ramContents)
             {
