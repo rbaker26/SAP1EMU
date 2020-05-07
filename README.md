@@ -1,6 +1,7 @@
 # SAP1EMU
-[![Build Status](https://travis-ci.org/rbaker26/SAP1EMU.svg?branch=master)](https://travis-ci.org/rbaker26/SAP1EMU) ![GitHub All Releases](https://img.shields.io/github/downloads/rbaker26/SAP1EMU/total?color=blue) 
+[![Build Status](https://travis-ci.org/rbaker26/SAP1EMU.svg?branch=master)](https://travis-ci.org/rbaker26/SAP1EMU) 
 [![codecov](https://codecov.io/gh/rbaker26/SAP1EMU/branch/master/graph/badge.svg)](https://codecov.io/gh/rbaker26/SAP1EMU)
+![GitHub All Releases](https://img.shields.io/github/downloads/rbaker26/SAP1EMU/total?color=blue) 
 ![GitHub language count](https://img.shields.io/github/languages/count/rbaker26/SAP1EMU) 
 ![GitHub top language](https://img.shields.io/github/languages/top/rbaker26/SAP1EMU)
 ![GitHub](https://img.shields.io/github/license/rbaker26/SAP1EMU)
