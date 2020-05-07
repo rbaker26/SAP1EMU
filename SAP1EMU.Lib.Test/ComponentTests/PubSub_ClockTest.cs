@@ -142,14 +142,9 @@ namespace SAP1EMU.Lib.Test.ComponentTests
                 tictok.ToggleClockState();
             }
 
-            areg.Unsubscribe();
-            breg.Unsubscribe();
-            ireg.Unsubscribe();
-            mreg.Unsubscribe();
-            oreg.Unsubscribe();
-            pc.Unsubscribe();
-            alu.Unsubscribe(); // ALU must come after A and B
-            ram.Unsubscribe();
+            // UnSub all
+            clock.EndTransmission();
+
 
             for (int i = 0; i < 500; i++)
             {
@@ -158,7 +153,6 @@ namespace SAP1EMU.Lib.Test.ComponentTests
                 clock.SendTicTok(tictok);
                 tictok.ToggleClockState();
             }
-            clock.EndTransmission();
 
         }
 
