@@ -1,4 +1,5 @@
 # SAP1EMU
+<div style="text-align:center">
 [![Build Status](https://travis-ci.org/rbaker26/SAP1EMU.svg?branch=master)](https://travis-ci.org/rbaker26/SAP1EMU) 
 [![codecov](https://codecov.io/gh/rbaker26/SAP1EMU/branch/master/graph/badge.svg)](https://codecov.io/gh/rbaker26/SAP1EMU)
 ![GitHub All Releases](https://img.shields.io/github/downloads/rbaker26/SAP1EMU/total?color=blue) 
@@ -6,7 +7,7 @@
 ![GitHub top language](https://img.shields.io/github/languages/top/rbaker26/SAP1EMU)
 ![GitHub](https://img.shields.io/github/license/rbaker26/SAP1EMU)
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/rbaker26/SAP1EMU)
-
+</div>
 An Emulator for the SAP1 Computer, based off of the SAP1 from _Digital Computer Electronics_ by Malvino and Brown.
 
 
