@@ -6,10 +6,11 @@ script:
   - dotnet build SAP1EMU-no-gui.sln
   - dotnet test SAP1EMU-no-gui.sln
 after_success:
-  - dotnet tool install -g coveralls.net --version 1.0.0
-  - csmacnz.Coveralls --help
-  
-# after_success:
+  - cd SAP1EMU.Lib.Test/
+  - dotnet add package coverlet.collector
+  - dotnet test --collect:"XPlat Code Coverage"
+  - bash <(curl -s https://codecov.io/bash)
+
 #   - dotnet tool install minicover
 #   - minicover instrument
 #   - minicover reset
