@@ -30,7 +30,15 @@ namespace SAP1EMU.WebApp.Controllers
         [HttpPost]
         public ActionResult Post([FromBody] List<string> codeList)
         {
-            return Ok(SAP1EMU.Assembler.Assemble.ParseFileContents(codeList));
+            try
+            {
+                return Ok(SAP1EMU.Assembler.Assemble.ParseFileContents(codeList));
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message + " " + e.InnerException.Message);
+            }
         }
 
         //// PUT: api/Assembler/5

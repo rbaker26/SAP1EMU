@@ -15,20 +15,20 @@ namespace SAP1EMU.WebApp.Controllers
     {
         List<string> Code = new List<string>();
 
-        [HttpPost]
-        [ActionName("AssembleCode")]
-        public ActionResult<string> PostAssembleCode(CodeAreaModel codeAreaModel)
-        {
-            try
-            {
-                List<string> binary = Assemble.ParseFileContents(new List<string>(codeAreaModel.CodeList.Split("\n")));
-                return new ActionResult<string>(binary.ToString());
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.ToString());
-            }
-        }
+        //[HttpPost]
+        //[ActionName("AssembleCode")]
+        //public ActionResult<string> PostAssembleCode(CodeAreaModel codeAreaModel)
+        //{
+        //    try
+        //    {
+        //        List<string> binary = Assemble.ParseFileContents(new List<string>(codeAreaModel.CodeList.Split("\n")));
+        //        return new ActionResult<string>(binary.ToString());
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return BadRequest(e.ToString());
+        //    }
+        //}
         
 
 
