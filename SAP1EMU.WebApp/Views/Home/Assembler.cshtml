@@ -3,7 +3,8 @@
 <link href="/js/CodeMirror/lib/codemirror.css" rel="stylesheet" type="text/css" />
 <link href="/js/CodeMirror/theme/default.css" rel="stylesheet" type="text/css" />
 
-<script src="Scripts/jquery-1.10.2.min.js"></script> 
+<script src="/lib/jquery/dist/jquery.js" type="text/javascript"></script>
+
 @* Need to get jQuery lib into the project staticly, no web ref *@
 @{
     ViewData["Title"] = "Assembler";
@@ -60,6 +61,7 @@
         mode: {name: "gas_sap1", architecture: "x86"},
         readOnly: true,
       });
+
 </script>
 
 @*<script type="text/javascript">
@@ -77,28 +79,35 @@
         });
     </script>*@
 <script>
-    function AssembleCode(btnClicked)
+function AssembleCode(btnClicked)
 {
-       var $form = $(btnClicked).parents('form');
+    var asm_code = asm_editor.getValue().split('\n');
+    var asm_json = JSON.stringify(asm_code);
+    console.log(asm_code);
+    console.log(asm_json);
 
-        $.ajax({
-            type: "POST",
-            url: $form.attr('AssembleCode'),
-            data: $form.serialize(),
-            error: function(xhr, status, error) {
-                console.log(error);
+    $.ajax({   
+        url: "../api/Assembler",   
+        type: "POST",    
+        contentType: 'application/json; charset=UTF-8',   
+        data: asm_json,
+        success: function(data) {
 
-                  //do something about the error
-             },
-            success: function(response) {
-                 //do something with response
-                console.log(response);
-                LoadBooks();
+            console.log(data.toString());
+            console.log(data.toString().replace(/,/g ,'\n'));
+            
+            
 
-            }
-        });
 
-  return false;// if it's a link to prevent post
+            bin_editor.setValue(data.toString().replace(/,/g ,'\n'));
+            return data;
+        },
+        error: function() {
+            alert('Error occured');
+        }
+    });
+
+    return false;// if it's a link to prevent post
 
 }
 </script>

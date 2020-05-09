@@ -4,46 +4,36 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SAP1EMU.WebApp.Models;
+using SAP1EMU.Assembler;
 
 namespace SAP1EMU.WebApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TestAJAXController : ControllerBase
+    public class AssemblerController : ControllerBase
     {
-        //// GET: api/TestAJAX
+        //// GET: api/Assembler
         //[HttpGet]
         //public IEnumerable<string> Get()
         //{
         //    return new string[] { "value1", "value2" };
         //}
 
-        //// GET: api/TestAJAX/5
+        //// GET: api/Assembler/5
         //[HttpGet("{id}", Name = "Get")]
         //public string Get(int id)
         //{
         //    return "value";
         //}
 
-        // POST: api/TestAJAX
+        // POST: api/Assembler
         [HttpPost]
-        [Consumes("application/x-www-form-urlencoded")]
-        public ActionResult Post([FromForm] InputModel value)
+        public ActionResult Post([FromBody] List<string> codeList)
         {
-            return Ok(new Tuple<InputModel,string>(value, "Hello World - test test test"));
+            return Ok(SAP1EMU.Assembler.Assemble.ParseFileContents(codeList));
         }
 
-
-        // POST: api/TestAJAX
-        //[HttpPost]
-        //public void Post([FromBody] string value)
-        //{
-        //    System.Console.Error.WriteLine("YAYAYAYAYAYA");
-        //   // System.Console.Error.WriteLine(value);
-        //}
-
-        // PUT: api/TestAJAX/5
+        //// PUT: api/Assembler/5
         //[HttpPut("{id}")]
         //public void Put(int id, [FromBody] string value)
         //{
