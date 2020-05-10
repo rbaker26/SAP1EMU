@@ -53,6 +53,7 @@
             registers.jnq = "keyword";
             registers.jlt = "keyword";
             registers.jgt = "keyword";
+            registers.jic = "keyword";
 
 
 
