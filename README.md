@@ -32,4 +32,5 @@ Each project file (.csproj) contains only one discrete prortion of the project t
  * SAP1EMU.Lib
  * SAP1EMU.Assembler
  * SAP1EMU.Engine
+ 
 These three projects hold all of the core logic and class definitions used by the CLI's and the GUI (WebApp).
