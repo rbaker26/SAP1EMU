@@ -28,5 +28,8 @@ SAP1EMU.sln/
 └── SAP1EMU.WebApp/
 ```
 
-
-
+Each project file (.csproj) contains only one discrete prortion of the project to allow reusability and structure. The three major building blocks of this project are the following:
+ * SAP1EMU.Lib
+ * SAP1EMU.Assembler
+ * SAP1EMU.Engine
+These three projects hold all of the core logic and class definitions used by the CLI's and the GUI (WebApp).
