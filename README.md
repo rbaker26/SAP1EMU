@@ -72,4 +72,70 @@ I originally wanted to write a single WPF app only support a GUI for Windwows.  
 
 ## Adding a New Register
 To add a new register or compenent to the SAP1EMU.Lib, there are XXXXXXX steps:
- 1) Cre
+ 1) Create your Class Definition
+ 2) Implament the IObserver<T> interface
+ 3) Update the Sequencer to include new control bits for your new register (note only one register can push to the bus at a time)
+ 4) In the SAP1EMU.Engine, Subscribe the new register to the Clock.
+ 
+ Below is an example of adding a Register called CReg:
+ 
+ ```c#
+  public class CReg : IObserver<TicTok>
+    {
+        private string RegContent { get; set; }
+
+        private void Exec(TicTok tictok)
+        {
+            string cw = SEQ.Instance().ControlWord;
+
+            // Active Hi, Push on Tic
+            if (cw[7] == '1' & tictok.ClockState == TicTok.State.Tic)
+            {
+                // Send A to the WBus
+                Wbus.Instance().Value = RegContent;
+            }
+
+            // Active Low, Pull on Tok
+            if (cw[6] == '0' && tictok.ClockState == TicTok.State.Tok)
+            {
+                // Store Wbus val in A
+                RegContent = Wbus.Instance().Value;
+            }
+
+
+        }
+ ```
+ 
+ Add the following code to your class:
+ 
+ ```c#
+ #region IObserver Region
+        private IDisposable unsubscriber;
+        public virtual void Subscribe(IObservable<TicTok> clock)
+        {
+            if (clock != null)
+                unsubscriber = clock.Subscribe(this);
+        }
+
+
+        void IObserver<TicTok>.OnCompleted()
+        {
+            this.Unsubscribe();
+        }
+
+        void IObserver<TicTok>.OnError(Exception error)
+        {
+            throw error;
+        }
+
+        void IObserver<TicTok>.OnNext(TicTok value)
+        {
+            Exec(value);
+        }
+
+        public virtual void Unsubscribe()
+        {
+            unsubscriber.Dispose();
+        }
+        #endregion
+```
