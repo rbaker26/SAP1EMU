@@ -42,3 +42,14 @@ The SAP1EMU.Lib project contains definitions for all of the SAP1 Components, Reg
 Most of the registers and components are implamented using the Observer Pattern using .Net Core's IObservable<T> and IObserver<T> interfaces.  This allows most of the registers and components to be unaware of their counterparts.  All they "pay attention to is the Clock and the Control-Word.
  
 A few components are dependent on others, like the MAR and the RAM, but efforts will be taken to decouple them further.
+
+The SAP1EMU.Lib project doesn't contain and "runtime logic".  It is a simple library project with no Main().
+
+### SAP1EMU.Engine
+The SAP1EMU.Engine is the main interface for the SAP1EMU.Engine-CLI and SAP1EMU.WebApp.  It handles subscribing the registers to the Clock, running the main loop, and perserving the output of the program.
+
+The main loop is only about 14 lines of code. This simplicity is achived because of the Observer Pattern implamented in the SAP1EMU.Lib.  Besides the Instruction register, the Engine is not "aware" of any of the other registers or components, just like the registers or components are not aware of eachother.  
+
+This decoupling has the huge benifit of be able to add new registers or components with little effort of side effects. <br>
+To add a new registers or components, all that is needed is that registers or components and adding its control bits to the Sequencer.  Thats it.
+
