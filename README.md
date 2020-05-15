@@ -71,7 +71,7 @@ I originally wanted to write a single WPF app only support a GUI for Windwows.  
 
 
 ## Adding a New Register
-To add a new register or compenent to the SAP1EMU.Lib, there are XXXXXXX steps:
+To add a new register or compenent to the SAP1EMU.Lib, there are 4 steps:
  1) Create your Class Definition
  2) Implament the IObserver<T> interface
  3) Update the Sequencer to include new control bits for your new register (note only one register can push to the bus at a time)
