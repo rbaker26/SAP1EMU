@@ -16,7 +16,7 @@ For tutorials, file specifications, instruction sets and other educational infor
 
 ## About this Project (Technical)
 I decided to break this project up into a bunch of different reusable conponents knowing that once the CLI was complete, I wanted to reuse as much code as posible for the GUI.  To do this, I broke the project up into eight district parts. <br>
-Below is a diagram of how this project is set up
+Below is a diagram of how this project (solution) is set up with its corresponding .csproj files.
 ```
 SAP1EMU.sln/
 ├── SAP1EMU.Lib/
