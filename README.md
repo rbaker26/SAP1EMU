@@ -94,15 +94,13 @@ To add a new register or compenent to the SAP1EMU.Lib, there are XXXXXXX steps:
                 // Send A to the WBus
                 Wbus.Instance().Value = RegContent;
             }
-
+            
             // Active Low, Pull on Tok
             if (cw[#] == '0/1' && tictok.ClockState == TicTok.State.Tok)
             {
                 // Store Wbus val in A
                 RegContent = Wbus.Instance().Value;
             }
-
-
         }
  ```
  
