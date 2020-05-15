@@ -89,14 +89,14 @@ To add a new register or compenent to the SAP1EMU.Lib, there are XXXXXXX steps:
             string cw = SEQ.Instance().ControlWord;
 
             // Active Hi, Push on Tic
-            if (cw[7] == '1' & tictok.ClockState == TicTok.State.Tic)
+            if (cw[#] == '0/1' & tictok.ClockState == TicTok.State.Tic)
             {
                 // Send A to the WBus
                 Wbus.Instance().Value = RegContent;
             }
 
             // Active Low, Pull on Tok
-            if (cw[6] == '0' && tictok.ClockState == TicTok.State.Tok)
+            if (cw[#] == '0/1' && tictok.ClockState == TicTok.State.Tok)
             {
                 // Store Wbus val in A
                 RegContent = Wbus.Instance().Value;
@@ -116,7 +116,6 @@ To add a new register or compenent to the SAP1EMU.Lib, there are XXXXXXX steps:
             if (clock != null)
                 unsubscriber = clock.Subscribe(this);
         }
-
 
         void IObserver<TicTok>.OnCompleted()
         {
