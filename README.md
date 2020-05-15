@@ -33,4 +33,12 @@ Each project file (.csproj) contains only one discrete prortion of the project t
  * SAP1EMU.Assembler
  * SAP1EMU.Engine
  
-These three projects hold all of the core logic and class definitions used by the CLI's and the GUI (WebApp).
+These three projects hold all of the core logic and class definitions used by the CLI's and the GUI (WebApp). <br>
+The other projects "glue" the core projects together in a way useful to the user.
+
+
+### SAP1EMU.Lib
+The SAP1EMU.Lib project contains definitions for all of the SAP1 Components, Registers and some Utily classes.
+Most of the registers and components are implamented using the Observer Pattern using .Net Core's IObservable<T> and IObserver<T> interfaces.  This allows most of the registers and components to be unaware of their counterparts.  All they "pay attention to is the Clock and the Control-Word.
+ 
+A few components are dependent on others, like the MAR and the RAM, but efforts will be taken to decouple them further.
