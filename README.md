@@ -137,5 +137,50 @@ To add a new register or compenent to the SAP1EMU.Lib, there are XXXXXXX steps:
         {
             unsubscriber.Dispose();
         }
-        #endregion
+#endregion
+```
+
+In SAP1EMU.Engine/EngineProc.cs, Subscribe your new register to the Clock.
+```c#
+        public void Run()
+        {
+
+            Clock clock = new Clock();
+            TicTok tictok = new TicTok();
+
+
+            tictok.Init(); ;
+
+            AReg areg = new AReg();
+            BReg breg = new BReg();
+            IReg ireg = new IReg();
+            OReg oreg = new OReg();
+            RAM ram = new RAM();
+            
+            // Create your new class instance
+            CReg creg = new CReg();  
+
+            PC pc = new PC(ref ireg, ref areg);
+            ALU alu = new ALU(ref areg, ref breg);
+            MReg mreg = new MReg(ref ram);
+            SEQ seq = SEQ.Instance();
+
+            Wbus.Instance().Value = "00000000";
+            Flags.Instance().Clear();
+
+            areg.Subscribe(clock);
+            breg.Subscribe(clock);
+            ireg.Subscribe(clock);
+            mreg.Subscribe(clock);
+            oreg.Subscribe(clock);
+            pc.Subscribe(clock);
+            alu.Subscribe(clock); // ALU must come after A and B
+            ram.Subscribe(clock);
+            
+            // Subscribe your new register to the clock
+            creg.Subscribe(clock);
+            
+            ...
+           
+}
 ```
