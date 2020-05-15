@@ -148,8 +148,7 @@ In SAP1EMU.Engine/EngineProc.cs, Subscribe your new register to the Clock.
             Clock clock = new Clock();
             TicTok tictok = new TicTok();
 
-
-            tictok.Init(); ;
+            tictok.Init(); 
 
             AReg areg = new AReg();
             BReg breg = new BReg();
