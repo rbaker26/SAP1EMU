@@ -108,60 +108,60 @@ To add a new register or compenent to the SAP1EMU.Lib, there are XXXXXXX steps:
  
  ```c#
  #region IObserver Region
-        private IDisposable unsubscriber;
-        public virtual void Subscribe(IObservable<TicTok> clock)
-        {
-            if (clock != null)
-                unsubscriber = clock.Subscribe(this);
-        }
+     private IDisposable unsubscriber;
+     public virtual void Subscribe(IObservable<TicTok> clock)
+     {
+         if (clock != null)
+             unsubscriber = clock.Subscribe(this);
+     }
 
-        void IObserver<TicTok>.OnCompleted()
-        {
-            this.Unsubscribe();
-        }
+     void IObserver<TicTok>.OnCompleted()
+     {
+         this.Unsubscribe();
+     }
 
-        void IObserver<TicTok>.OnError(Exception error)
-        {
-            throw error;
-        }
+     void IObserver<TicTok>.OnError(Exception error)
+     {
+         throw error;
+     }
 
-        void IObserver<TicTok>.OnNext(TicTok value)
-        {
-            Exec(value);
-        }
+     void IObserver<TicTok>.OnNext(TicTok value)
+     {
+         Exec(value);
+     }
 
-        public virtual void Unsubscribe()
-        {
-            unsubscriber.Dispose();
-        }
+     public virtual void Unsubscribe()
+     {
+         unsubscriber.Dispose();
+     }
 #endregion
 ```
 
 In SAP1EMU.Engine/EngineProc.cs, Subscribe your new register to the Clock.
 ```c#
-        public void Run()
-        {
+public void Run()
+{
 
-            Clock clock = new Clock();
-            TicTok tictok = new TicTok();
+    Clock clock = new Clock();
+    TicTok tictok = new TicTok();
 
-            tictok.Init(); 
+    tictok.Init(); 
 
-            AReg areg = new AReg();
-            BReg breg = new BReg();
-            ...            
-            // Create your new class instance
-            CReg creg = new CReg();  
-            
-            ...
+    AReg areg = new AReg();
+    BReg breg = new BReg();
+    ...            
+    // Create your new class instance
+    CReg creg = new CReg();  
 
-            areg.Subscribe(clock);
-            breg.Subscribe(clock);
-            ...
-            // Subscribe your new register to the clock
-            creg.Subscribe(clock);
-            
-            ...
-           
+    ...
+
+    areg.Subscribe(clock);
+    breg.Subscribe(clock);
+    ...
+    // Subscribe your new register to the clock
+    creg.Subscribe(clock);
+
+    ...
+    
 }
 ```
