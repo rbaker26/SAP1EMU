@@ -50,6 +50,22 @@ The SAP1EMU.Engine is the main interface for the SAP1EMU.Engine-CLI and SAP1EMU.
 
 The main loop is only about 14 lines of code. This simplicity is achived because of the Observer Pattern implamented in the SAP1EMU.Lib.  Besides the Instruction register, the Engine is not "aware" of any of the other registers or components, just like the registers or components are not aware of eachother.  
 
-This decoupling has the huge benifit of be able to add new registers or components with little effort of side effects. <br>
+This decoupling has the huge benefit of be able to add new registers or components with little effort of side effects. <br>
 To add a new registers or components, all that is needed is that registers or components and adding its control bits to the Sequencer.  Thats it.
+
+
+### SAP1EMU.Assembler
+The Assembler handles the conversion of SAP1Emu Assembly to SAP1Emu Binary and returns an errors via a ParseException object.
+The SAP1EMU.Assembler-CLI or SAP1EMU.WebApp can interpret those errors.
+
+### SAP1EMU.Lib.Test
+This project contains all the Unit Tests for the project. The CodeCov metrics are based off of these test. <br>
+In GitHub, no Pull Request can merge without all the Unit Tests passing.  
+
+### SAP1EMU.WebApp
+The SAP1EMU.WebApp is the culmination of all of the core projects.  It presents a cross-platform GUI that provides Assembly and Engine Runtime functionality to the user.  
+
+The GUI is an ASP.NET Core app wrapped in Electron.Net (a .NET wrapper for Electron).  This allows a single .NET Core app to be deployed on Windows, MacOS and Linux platforms.  
+
+I originally wanted to write a single WPF app only support a GUI for Windwows.  I realized that in education, there are a ton of Mac computers, so I would need to write two apps (WPF and GTK#).  That was going  to be too much work, so Electron.Net seemed to be a great solution. I am trying to keep the JavaScript to be only "glue-code" can keep all of the processing in .Net Core by using the REST API as the go-between.  Finally, AJAX is used for all REST requests to prevent reloading the ASP.NET Views.
 
