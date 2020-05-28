@@ -68,16 +68,11 @@ namespace SAP1EMU.WebApp.Controllers
         }
 
 
-        public IActionResult TestAJAX()
-        {
-            return View();
-        }
-
-
         public async Task<IActionResult> Wiki()
         {
-            _ = await Electron.Shell.OpenExternalAsync("https://github.com/ElectronNET");
-            return View("Index");
+            
+            await Electron.Shell.OpenExternalAsync("https://github.com/ElectronNET");
+            return RedirectToAction("Index");
 
         }
 

@@ -30,7 +30,7 @@
     My name is Bob Baker and, at the time of writing, I am a Computer Science Student at Saddleback College in Orange County, California.
     <br />
     The majority of my programming focus is on C++ and C# with an emphasis on ASP.NET Core.
-    I have worked with other languages like Java, SQL, and Python, but mostly for academic projects.
+    I have worked with other languages like Java, SQL, and Python, but mostly for academic projects. <br />
 
     Checkout my <a class="text-dark" id="open-github-profile"><u>Github Profile</u></a> for more about me or for my contact info.
 </p>
@@ -46,16 +46,18 @@
 </p>
 
 <script>
-        (function () {
-            const { ipcRenderer } = require("electron");
+    (function () {
+        const { ipcRenderer } = require("electron");
 
-            document.getElementById("open-github-profile").addEventListener("click", () => {
-                ipcRenderer.send("open-github-profile");
-            });
-            document.getElementById("open-ben-eater").addEventListener("click", () => {
-                ipcRenderer.send("open-ben-eater");
-            });
+        document.getElementById("open-github-profile").addEventListener("click", () => {
+            ipcRenderer.send("open-github-profile");
+        });
+        document.getElementById("open-ben-eater").addEventListener("click", () => {
+            ipcRenderer.send("open-ben-eater");
+        });
 
-        }());
+
+    }());
+
 </script>
 

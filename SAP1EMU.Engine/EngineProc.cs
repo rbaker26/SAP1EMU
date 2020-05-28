@@ -56,7 +56,7 @@ namespace SAP1EMU.Engine
             TicTok tictok = new TicTok();
 
 
-            tictok.Init(); ;
+            tictok.Init();
 
             AReg areg = new AReg();
             BReg breg = new BReg();
