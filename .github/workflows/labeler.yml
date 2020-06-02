@@ -1,14 +1,11 @@
-engine:
-  - ./SAP1EMU.Engine/*
-  
-library: 
-  - ./SAP1EMU.Lib
-  
-unit test:
-  - ./SAP1EMU.Lib.Test
-  
-frontend:
-  - any: ['./SAP1EMU.WebApp/wwwroot/*', './SAP1EMU.WebApp/**/*.cshtml']
+name: "Pull Request Labeler"
+on:
+- pull_request
 
-backend:
-  - any: ['./SAP1EMU.WebApp/Controllers/*', './SAP1EMU.WebApp/Models/*']
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/labeler@v2
+      with:
+        repo-token: "${{ secrets.GITHUB_TOKEN }}"
