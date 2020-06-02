@@ -32,7 +32,7 @@ namespace SAP1EMU.WebApp.Controllers
         {
             try
             {
-                return Ok(SAP1EMU.Assembler.Assemble.ParseFileContents(codeList));
+                return Ok(SAP1EMU.Assembler.Assemble.Parse(codeList));
 
             }
             catch (Exception e)

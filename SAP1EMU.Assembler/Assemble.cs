@@ -11,12 +11,64 @@ namespace SAP1EMU.Assembler
     public static class Assemble
     {
 
-        public static List<string> ParseFileContents(List<string> unchecked_assembly)
+        public static List<string> Parse(List<string> unchecked_assembly)
         {
-            _ = IsValid(unchecked_assembly);  //if is not valid, will throw execptions for CLI to catch and display to user
+
+            // *********************************************************************
+            // Sanitize                                                            *
+            // *********************************************************************
+
+            // Remove Blank Lines
+            unchecked_assembly.RemoveAll(s => s == null);
+            unchecked_assembly.RemoveAll(s => Regex.IsMatch(s, "^\\s*$"));
+
+
+            // Remove Newline Comments
+            unchecked_assembly.RemoveAll(s => s[0] == '#');
+
+
+            for (int i = 0; i < unchecked_assembly.Count; i++)
+            {
+                // *******************************
+                // Trim Whitespace               *
+                // *******************************
+
+                // Outter Whitespace
+                unchecked_assembly[i] = unchecked_assembly[i].Trim();
+
+                // Inner Whitspace
+                unchecked_assembly[i] = Regex.Replace(unchecked_assembly[i], "\\s{2,}", " ");
+                // *******************************
+
+                // *******************************
+                // Remove Inline Comments
+                // *******************************
+                unchecked_assembly[i] = Regex.Replace(unchecked_assembly[i], "\\s*#.*$", "");
+                // *******************************
+
+
+            }
+            // *********************************************************************
 
 
 
+
+
+            // *********************************************************************
+            // Validate
+            // *********************************************************************
+
+
+            //if is not valid, will throw execptions for CLI to catch and display to user
+            _ = IsValid(unchecked_assembly); 
+            // *********************************************************************
+
+
+
+
+            // *********************************************************************
+            // Assemble
+            // *********************************************************************
             List<string> binary = new List<string>();
 
             int lines_of_asm = unchecked_assembly.Count;
@@ -28,7 +80,7 @@ namespace SAP1EMU.Assembler
 
                 if (line == "...")
                 {
-                    int nop_count = 16 - lines_of_asm+1;
+                    int nop_count = 16 - lines_of_asm + 1;
                     for (int i = 0; i < nop_count; i++)
                     {
                         binary.Add("00000000");
@@ -67,24 +119,16 @@ namespace SAP1EMU.Assembler
 
                 current_line_number++;
             }
+            // *********************************************************************
 
 
             return binary;
         }
 
-
-        public static List<string> ParseAssembly(string filename)
-        {
-            // Loads the file into the list
-            List<string> unchecked_assembly = new List<string>(System.IO.File.ReadAllLines(filename));
-
-            return ParseFileContents(unchecked_assembly);
-
-        }
-
-
         private static bool IsValid(List<string> unchecked_assembly)
         {
+            bool dot_macro_used = false;
+
             int line_number = 1;
             foreach (string line in unchecked_assembly)
             {
@@ -94,14 +138,14 @@ namespace SAP1EMU.Assembler
                     
                     if(nibbles.Length == 0)
                     {
-                        throw new ParseException($"SAP1ASM: Line cannot be blank {line_number}", new ParseException("Use \"NOP 0x0\" for a no-operation command"));
+                        throw new ParseException($"SAP1ASM: Line cannot be blank (line: {line_number})", new ParseException("Use \"NOP 0x0\" for a no-operation command"));
 
                     }
 
                     string instruction = nibbles[0];
                     if (nibbles.Length < 2)
                     {
-                        throw new ParseException($"SAP1ASM: No lower nibble detected {line_number}", new ParseException($"{instruction} must be paired with a valid address in the range of 0x0 - 0xF"));
+                        throw new ParseException($"SAP1ASM: No lower nibble detected (line: {line_number})", new ParseException($"{instruction} must be paired with a valid address in the range of 0x0 - 0xF"));
                     }
                     string addr = nibbles[1];
 
@@ -139,7 +183,19 @@ namespace SAP1EMU.Assembler
 
                     if(line.Contains("..."))
                     {
-                        throw new ParseException($"SAP1ASM: invalid use of \"...\" {line_number}", new ParseException($"{line} must only contain \"...\" with no extra charecters or spaces"));
+                        throw new ParseException($"SAP1ASM: invalid use of \"...\" on line {line_number}", new ParseException($"{line} must only contain \"...\" with no extra charecters or spaces"));
+
+                    }
+                }
+                else
+                {
+                    if (!dot_macro_used)
+                    {
+                        dot_macro_used = true;
+                    }
+                    else
+                    {
+                        throw new ParseException($"SAP1ASM: invalid use of \"...\" {line_number}", new ParseException($"{line} must only contain once instance of \"...\" in the program"));
 
                     }
                 }

@@ -141,7 +141,7 @@ namespace SAP1EMU.Engine_CLI
 
                            if (fileType == FileType.S)
                            {
-                               compiled_binary = Assemble.ParseFileContents(source_file_contents);
+                               compiled_binary = Assemble.Parse(source_file_contents);
                            }
                            else
                            {

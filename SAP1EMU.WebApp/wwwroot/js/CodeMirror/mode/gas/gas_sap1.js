@@ -103,7 +103,7 @@
                 }
                 maybeEnd = (ch === "*");
             }
-            return "comment";
+            return "variable";
         }
 
         return {
@@ -124,12 +124,12 @@
 
                 var style, cur, ch = stream.next();
 
-                if (ch === "/") {
-                    if (stream.eat("*")) {
-                        state.tokenize = clikeComment;
-                        return clikeComment(stream, state);
-                    }
-                }
+                //if (ch === "/") {
+                //    if (stream.eat("*")) {
+                //        state.tokenize = clikeComment;
+                //        return clikeComment(stream, state);
+                //    }
+                //}
 
                 if (ch === lineCommentStartSymbol) {
                     stream.skipToEnd();
