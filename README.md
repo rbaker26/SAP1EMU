@@ -1,5 +1,6 @@
 # SAP1EMU
 [![Build Status](https://travis-ci.org/rbaker26/SAP1EMU.svg?branch=master)](https://travis-ci.org/rbaker26/SAP1EMU) 
+![.NET Core](https://github.com/rbaker26/SAP1EMU/workflows/.NET%20Core/badge.svg)  
 [![codecov](https://codecov.io/gh/rbaker26/SAP1EMU/branch/master/graph/badge.svg)](https://codecov.io/gh/rbaker26/SAP1EMU)
 ![GitHub All Releases](https://img.shields.io/github/downloads/rbaker26/SAP1EMU/total?color=blue) 
 ![GitHub language count](https://img.shields.io/github/languages/count/rbaker26/SAP1EMU) 
