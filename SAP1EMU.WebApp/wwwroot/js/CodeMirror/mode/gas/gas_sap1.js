@@ -45,7 +45,6 @@
             registers.add = "variable-3";
             registers.sub = "variable-3";
             registers.sta = "variable-3";
-            registers.stb = "variable-3";
 
             // The Value Regerenced Instructions
             registers.jmp = "keyword";
@@ -53,6 +52,7 @@
             registers.jnq = "keyword";
             registers.jlt = "keyword";
             registers.jgt = "keyword";
+            registers.jic = "keyword";
 
 
 
@@ -103,7 +103,7 @@
                 }
                 maybeEnd = (ch === "*");
             }
-            return "comment";
+            return "variable";
         }
 
         return {
@@ -124,12 +124,12 @@
 
                 var style, cur, ch = stream.next();
 
-                if (ch === "/") {
-                    if (stream.eat("*")) {
-                        state.tokenize = clikeComment;
-                        return clikeComment(stream, state);
-                    }
-                }
+                //if (ch === "/") {
+                //    if (stream.eat("*")) {
+                //        state.tokenize = clikeComment;
+                //        return clikeComment(stream, state);
+                //    }
+                //}
 
                 if (ch === lineCommentStartSymbol) {
                     stream.skipToEnd();

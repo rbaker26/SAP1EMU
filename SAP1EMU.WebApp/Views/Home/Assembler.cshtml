@@ -1,10 +1,10 @@
 ﻿<script src="/js/CodeMirror/lib/codemirror.js"></script>
 <script src="/js/CodeMirror/mode/gas/gas_sap1.js" type="text/javascript"></script>
 <link href="/js/CodeMirror/lib/codemirror.css" rel="stylesheet" type="text/css" />
-<link href="/js/CodeMirror/theme/default.css" rel="stylesheet" type="text/css" />
 
-<script src="Scripts/jquery-1.10.2.min.js"></script> 
-@* Need to get jQuery lib into the project staticly, no web ref *@
+<script src="/lib/jquery/dist/jquery.js" type="text/javascript"></script>
+<script src="/js/Views/AssemblerView.js" type="text/javascript"></script>
+
 @{
     ViewData["Title"] = "Assembler";
 }
@@ -16,11 +16,8 @@
         <h3>Assembly</h3>
         <br />
 
-        @* An AJAX Form is prob the answer here *@
-        @*https://stackoverflow.com/questions/1720020/mvc-jquery-submit-form-without-page-refresh-from-javascript-function*@
         <form id="asm_form" method="post" action="AssembleCode">
             @Html.TextArea("CodeList", null, new { rows = "20", cols = "80", @class = "codebox", id = "asm_code" })
-            @*<input type="submit" name="CodeList" value="Assemble" />*@
             <input type="button" name="CodeList" value="Assemble" onclick="AssembleCode(this)" />
             <input type="button" value="Load from File" />
         </form>
@@ -42,63 +39,9 @@
 <div class="row">
     <div class="column1">
         <h4>Assembler Output</h4>
-        <code class="assembler-out">example error@*<br />*@</code>
+        <code class="assembler-out" id="assembler-out"><br /></code>
     </div>
-    <div></div> @*This blank div is req to trick the row::after or else the margins get screwed up*@
+    <div>@*This blank div is req to trick the row::after or else the margins get screwed up*@</div> 
 </div>
 
-<script>
-    var asm_editor = CodeMirror.fromTextArea(document.getElementById("asm_code"), {
-        lineNumbers: true,
-        matchBrackets: true,
-        mode: {name: "gas_sap1", architecture: "x86"},
-        });
 
-    var bin_editor = CodeMirror.fromTextArea(document.getElementById("bin_code"), {
-        lineNumbers: true,
-        matchBrackets: true,
-        mode: {name: "gas_sap1", architecture: "x86"},
-        readOnly: true,
-      });
-</script>
-
-@*<script type="text/javascript">
-        $("#asm_form").submit(function () {
-            var jqxhr = $.post('AssembleCode', $('#asm_form').serialize())
-                .success(function () {
-                    var loc = jqxhr.getResponseHeader('Location');
-                    var a = $('<a/>', { href: loc, text: loc });
-                    $('#message').html(a);
-                })
-                .error(function () {
-                    $('#message').html("Error posting the update.");
-                });
-            return false;
-        });
-    </script>*@
-<script>
-    function AssembleCode(btnClicked)
-{
-       var $form = $(btnClicked).parents('form');
-
-        $.ajax({
-            type: "POST",
-            url: $form.attr('AssembleCode'),
-            data: $form.serialize(),
-            error: function(xhr, status, error) {
-                console.log(error);
-
-                  //do something about the error
-             },
-            success: function(response) {
-                 //do something with response
-                console.log(response);
-                LoadBooks();
-
-            }
-        });
-
-  return false;// if it's a link to prevent post
-
-}
-</script>

@@ -40,7 +40,7 @@ namespace SAP1EMU.Lib.Test
 
             };
 
-            List<string> compiled_bin = Assemble.ParseFileContents(asm);
+            List<string> compiled_bin = Assemble.Parse(asm);
 
             for (int i = 0; i <= 15; i++)
             {
@@ -83,7 +83,7 @@ namespace SAP1EMU.Lib.Test
 
             };
 
-            List<string> compiled_bin = Assemble.ParseFileContents(asm);
+            List<string> compiled_bin = Assemble.Parse(asm);
 
             for (int i = 0; i <= 15; i++)
             {
@@ -130,7 +130,7 @@ namespace SAP1EMU.Lib.Test
 
             };
 
-            List<string> compiled_bin = Assemble.ParseFileContents(asm);
+            List<string> compiled_bin = Assemble.Parse(asm);
 
             for (int i = 0; i <= 15; i++)
             {
@@ -183,7 +183,7 @@ namespace SAP1EMU.Lib.Test
 
             };
 
-            List<string> compiled_bin = Assemble.ParseFileContents(asm);
+            List<string> compiled_bin = Assemble.Parse(asm);
 
             for (int i = 0; i <= 15; i++)
             {
@@ -239,7 +239,7 @@ namespace SAP1EMU.Lib.Test
 
             };
 
-            List<string> compiled_bin = Assemble.ParseFileContents(asm);
+            List<string> compiled_bin = Assemble.Parse(asm);
 
             for (int i = 0; i <= 15; i++)
             {
@@ -279,7 +279,7 @@ namespace SAP1EMU.Lib.Test
 
             };
 
-            List<string> compiled_bin = Assemble.ParseFileContents(asm);
+            List<string> compiled_bin = Assemble.Parse(asm);
 
             for (int i = 0; i <= 15; i++)
             {
@@ -332,7 +332,7 @@ namespace SAP1EMU.Lib.Test
 
             };
 
-            List<string> compiled_bin = Assemble.ParseFileContents(asm);
+            List<string> compiled_bin = Assemble.Parse(asm);
 
             for (int i = 0; i <= 15; i++)
             {
@@ -359,7 +359,7 @@ namespace SAP1EMU.Lib.Test
             try
             {
                 // This should fail and throw an execption, if it doesn't it will fail
-                _ = Assemble.ParseFileContents(asm);
+                _ = Assemble.Parse(asm);
                 Assert.Fail();
             }
             catch (ParseException)
@@ -380,7 +380,7 @@ namespace SAP1EMU.Lib.Test
             try
             {
                 // This should fail and throw an execption, if it doesn't it will fail
-                _ = Assemble.ParseFileContents(asm);
+                _ = Assemble.Parse(asm);
                 Assert.Fail();
             }
             catch (ParseException)
@@ -406,7 +406,7 @@ namespace SAP1EMU.Lib.Test
             try
             {
                 // This should fail and throw an execption, if it doesn't it will fail
-                _ = Assemble.ParseFileContents(asm);
+                _ = Assemble.Parse(asm);
                 Assert.Fail();
             }
             catch (ParseException)
