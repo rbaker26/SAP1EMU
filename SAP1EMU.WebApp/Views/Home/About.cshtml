@@ -1,4 +1,8 @@
-﻿@{
+﻿
+<script src="~/js/Views/AboutView.js" type="text/javascript"></script>
+
+
+@{
     ViewData["Title"] = "About";
 }
 
@@ -20,7 +24,7 @@
     <br />
     For more info, please see the license on the Project's Github page.
     <br />
-    Please also visit <a class="text-dark" id="open-ben-eater"><u>Ben Eater's Website</u></a> to learn more about his project.
+    Please also visit <a onclick="openBenEater()" class="text-dark"><u>Ben Eater's Website</u></a> to learn more about his project.
 </p>
 
 <br />
@@ -32,9 +36,8 @@
     The majority of my programming focus is on C++ and C# with an emphasis on ASP.NET Core.
     I have worked with other languages like Java, SQL, and Python, but mostly for academic projects. <br />
 
-    Checkout my <a class="text-dark" id="open-github-profile"><u>Github Profile</u></a> for more about me or for my contact info.
+    Checkout my <a onclick="openGithub()" class="text-dark"><u>Github Profile</u></a> for more about me or for my contact info.
 </p>
-
 <h4>Why this project?</h4>
 <p>
     At Saddleback College, I worked as a Teachers Assistant in the Intro to Computer Architecture and Machine Language Lab
@@ -44,21 +47,4 @@
     <br />
     For these reasons, I decided to create the SAP1Emu Project.
 </p>
-
-<script>
-    (function () {
-        const { ipcRenderer } = require("electron");
-
-        document.getElementById("open-github-profile").addEventListener("click", () => {
-            ipcRenderer.send("open-github-profile");
-        });
-        document.getElementById("open-ben-eater").addEventListener("click", () => {
-            ipcRenderer.send("open-ben-eater");
-        });
-
-
-    }());
-
-</script>
-
 
