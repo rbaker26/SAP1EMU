@@ -135,3 +135,7 @@ body {
     display: flex;
     flex-direction: row;
 }
+
+.profile-pic {
+    max-width: 50%;
+}

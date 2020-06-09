@@ -6,6 +6,9 @@
     <title>@ViewData["Title"] - SAP1Emu Project</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+
+    <script src="/js/Views/_LayoutView.js" type="text/javascript"></script>
+
 </head>
 <body>
     <header>
@@ -31,7 +34,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Assembler">Assembler</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" id="open-wiki" >Wiki</a>
+                            <a class="nav-link text-dark" onclick="openWiki()" >Wiki</a>
                         </li>
                     </ul>
                 </div>
@@ -55,19 +58,5 @@
     @RenderSection("Scripts", required: false)
 
 
-    <script>
-        (function redirect() {
-            const { ipcRenderer } = require("electron");
-          
-            //document.getElementById("open-file-manager").addEventListener("click", () => {
-            //    ipcRenderer.send("open-file-manager");
-            //});
-
-            document.getElementById("open-wiki").addEventListener("click", () => {
-                ipcRenderer.send("open-wiki");
-            });
-
-        }());
-    </script>
 </body>
 </html>
