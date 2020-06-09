@@ -1,7 +1,59 @@
-﻿
+﻿<script src="/js/CodeMirror/lib/codemirror.js"></script>
+<script src="/js/CodeMirror/mode/gas/gas_sap1.js" type="text/javascript"></script>
+<link href="/js/CodeMirror/lib/codemirror.css" rel="stylesheet" type="text/css" />
+
+<script src="/lib/jquery/dist/jquery.js" type="text/javascript"></script>
+<script src="/js/Views/EmulatorView.js" type="text/javascript"></script>
+
 @{
     ViewData["Title"] = "Emulator";
 }
 
 <h1>Emulator</h1>
 
+<div class="row">
+    <div class="column2">
+        <h3>Assembly</h3>
+        <br />
+
+        <form id="asm_form" method="post" action="AssembleCode">
+            @Html.TextArea("CodeList", null, new { rows = "20", cols = "80", @class = "codebox", id = "asm_code" })
+            <input type="button" name="CodeList" value="Assemble" onclick="AssembleCode(this)" />
+            <input type="button" value="Load from File" />
+        </form>
+        <br />
+        <br />
+    </div>
+    <div class="column2">
+        <div class="vbox_sap">
+            <div>
+                <h3>SAP1</h3>
+            </div>
+            <div class="hbox_sap">
+                <div>
+                    <h3>RAM</h3>
+                    @Html.TextArea("ram_dump", null, new { rows = "16", cols = "20", @class = "codebox", id = "ram_dump" })
+                </div>
+                <div vbox_sap>
+                    <div>
+                        <h3>Controls</h3>
+                        <button></button>  <button></button> <br />
+                        <button></button> <br />
+                    </div>
+                    <div>
+                        <h3>Flags</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+</div>
+
+<div class="row">
+    <div class="column1">
+        <h4>Emulator Output</h4>
+        <code class="emulator-out" id="emulator-out"><br /></code>
+    </div>
+    <div>@*This blank div is req to trick the row::after or else the margins get screwed up*@</div>
+</div>
