@@ -11,9 +11,9 @@
     <AssemblyName>SAP1Emu</AssemblyName>
     <StartupObject>SAP1EMU.Engine_CLI.Program</StartupObject>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>1.10.2.0</AssemblyVersion>
-    <FileVersion>1.10.2.0</FileVersion>
-    <Version>1.10.2</Version>
+    <AssemblyVersion>1.11.0.0</AssemblyVersion>
+    <FileVersion>1.11.0.0</FileVersion>
+    <Version>1.11.0</Version>
     <Copyright>2020 Bob Baker</Copyright>
   </PropertyGroup>
 
