@@ -116,7 +116,7 @@ namespace SAP1EMU.Lib.Components
             ControlTable.Add(HashKey(6, "0011"), "00111110001111");
             // ***************************************************
 
-            // TODO - Microcode for T4-T6 for JMP, JEQ, JNQ, JLT, JGT have not been implamented
+            // TODO - Microcode for T4-T6 for JNQ, JLT, JGT have not been implamented
 
             // CP EP LM_ CE_ LI_ EI_ LA_ EA SU EU LB_ LO_ |  LR_ LP_
 

@@ -17,32 +17,11 @@ namespace SAP1EMU.Engine
 
         string OutPutRegContents = "";
         private readonly List<Frame> _FrameStack = new List<Frame>();
-
-        public List<Frame> FrameStack()
-        {
-            return _FrameStack;
-        }
-
-
-        public Frame FinalFrame()
-        {
-            if(_FrameStack.Count != 0)
-            {
-                return _FrameStack[_FrameStack.Count - 1];
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public string GetOutput()
-        {
-            return OutPutRegContents;
-        }
-
-
         private RAMProgram Program { get; set; }
+
+        // *************************************************************************
+        // Init Engine
+        // *************************************************************************
         public void Init(RAMProgram program)
         {
             if (program == null)
@@ -51,8 +30,12 @@ namespace SAP1EMU.Engine
             }
             this.Program = program;
         }
+        // *************************************************************************
 
 
+        // *************************************************************************
+        // Engine Runtime 
+        // *************************************************************************
         public void Run()
         {
 
@@ -153,6 +136,42 @@ namespace SAP1EMU.Engine
             OutPutRegContents = oreg.ToString();
             #endregion
         }
+        // *************************************************************************
+
+
+
+
+
+
+        // *************************************************************************
+        public List<Frame> FrameStack()
+        {
+            return _FrameStack;
+        }
+
+
+        public Frame FinalFrame()
+        {
+            if (_FrameStack.Count != 0)
+            {
+                return _FrameStack[_FrameStack.Count - 1];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public string GetOutput()
+        {
+            return OutPutRegContents;
+        }
+
+
+
+        // *************************************************************************
+
+
 
 
     }
