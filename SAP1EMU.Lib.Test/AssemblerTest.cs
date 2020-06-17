@@ -417,5 +417,56 @@ namespace SAP1EMU.Lib.Test
 
 
         #endregion
+
+
+        // Malvino Op Code Loop Detection Test **************************************
+        [TestMethod]
+        public void Test_MalvinoCodes_1()
+        {
+            List<string> asm = new List<string>
+            {
+                "LDA 0xF",
+                "OUT 0x0",
+                "HLT 0x0",
+                "...    ",
+                "0xA 0xA"
+            };
+            try
+            {
+                Assemble.Parse(asm, "Malvino");
+            }
+            catch(Exception e)
+            {
+                Assert.Fail(e.ToString());
+            }
+        }
+
+
+        [TestMethod]
+        public void Test_MalvinoCodes_2()
+        {
+            List<string> asm = new List<string>
+            {
+                "LDA 0xF",
+                "STA 0xE",
+                "OUT 0x0",
+                "HLT 0x0",
+                "...    ",
+                "0x0 0x0",
+                "0xA 0xA"
+            };
+            try
+            {
+                Assemble.Parse(asm, "Malvino");
+                Assert.Fail();
+            }
+            catch (Exception e)
+            {
+        
+            }
+        }
+        // **************************************************************************
+
+
     }
 }

@@ -16,14 +16,15 @@ namespace SAP1EMU.Engine
         private readonly List<Frame> _FrameStack = new List<Frame>();
         private RAMProgram Program { get; set; }
         private InstructionSet InstructionSet { get; set; }
+        private const string DefaultInstructionSetName = "SAP1Emu";
 
         // *************************************************************************
         // Init Engine
         // *************************************************************************
-        public void Init(RAMProgram program)
+        public void Init(RAMProgram program, string InstructionSetName = DefaultInstructionSetName)
         {
             // Get Instruction Set
-            InstructionSet = OpCodeLoader.GetSet("SAP1Emu");
+            InstructionSet = OpCodeLoader.GetSet(InstructionSetName);
 
             // Init RAM
             if (program == null)

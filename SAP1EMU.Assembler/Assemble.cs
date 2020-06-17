@@ -11,12 +11,12 @@ namespace SAP1EMU.Assembler
 {
     public static class Assemble
     {
-
-        public static List<string> Parse(List<string> unchecked_assembly)
+        private const string DefaultInstructionSetName = "SAP1Emu";
+        public static List<string> Parse(List<string> unchecked_assembly, string InstructionSetName = DefaultInstructionSetName)
         {
 
             // Get Instruction Set
-            InstructionSet iset = OpCodeLoader.GetSet("SAP1Emu");
+            InstructionSet iset = OpCodeLoader.GetSet(InstructionSetName);
 
             // *********************************************************************
             // Sanitize                                                            *
@@ -142,14 +142,14 @@ namespace SAP1EMU.Assembler
                     
                     if(nibbles.Length == 0)
                     {
-                        throw new ParseException($"SAP1ASM: Line cannot be blank (line: {line_number})", new ParseException("Use \"NOP 0x0\" for a no-operation command"));
+                        throw new ParseException($"SAP1ASM: Line cannot be blank (line: {line_number}).", new ParseException("Use \"NOP 0x0\" for a no-operation command"));
 
                     }
 
                     string instruction = nibbles[0];
                     if (nibbles.Length < 2)
                     {
-                        throw new ParseException($"SAP1ASM: No lower nibble detected (line: {line_number})", new ParseException($"{instruction} must be paired with a valid address in the range of 0x0 - 0xF"));
+                        throw new ParseException($"SAP1ASM: No lower nibble detected (line: {line_number}).", new ParseException($"{instruction} must be paired with a valid address in the range of 0x0 - 0xF"));
                     }
                     string addr = nibbles[1];
 
@@ -158,7 +158,7 @@ namespace SAP1EMU.Assembler
                     // Check Intruction
                     if (instruction.Length != 3)
                     {
-                        throw new ParseException($"SAP1ASM: invalid intruction on line {line_number}", new ParseException($"{instruction} is not a recognized instruction"));
+                        throw new ParseException($"SAP1ASM: invalid intruction on line {line_number}.", new ParseException($"{instruction} is not a recognized instruction"));
                     }
 
 
@@ -166,7 +166,7 @@ namespace SAP1EMU.Assembler
                     {
                         if (!Regex.IsMatch(instruction, "^0[xX][0-9a-fA-F]$"))               // Make sure it isnt data
                         {
-                            throw new ParseException($"SAP1ASM: invalid intruction on line {line_number}", new ParseException($"{instruction} is not a recognized instruction or valid data"));
+                            throw new ParseException($"SAP1ASM: invalid intruction on line {line_number}.", new ParseException($"{instruction} is not a recognized instruction or valid data"));
                         }
                     }
 
@@ -175,21 +175,21 @@ namespace SAP1EMU.Assembler
                     // Check Address
                     if (addr.Length != 3)                                               // should be no more than 3
                     {
-                        throw new ParseException($"SAP1ASM: invalid address on line {line_number}", new ParseException($"{addr} is not of the form \"0xX\""));
+                        throw new ParseException($"SAP1ASM: invalid address on line {line_number}.", new ParseException($"{addr} is not of the form \"0xX\""));
                     }
                     if (!Regex.IsMatch(addr, "^0[xX][0-9a-fA-F]$"))     // should be of the form 0xX
                     {
-                        throw new ParseException($"SAP1ASM: invalid address on line {line_number}", new ParseException($"{addr} is not of the form \"0xX\""));
+                        throw new ParseException($"SAP1ASM: invalid address on line {line_number}.", new ParseException($"{addr} is not of the form \"0xX\""));
                     }
                     int hex_addr = (int)(Convert.ToUInt32(addr.Substring(2, 1), 16));
                     if (hex_addr < 0 || hex_addr >= 16)                                // must tbe between 0-15
                     {
-                        throw new ParseException($"SAP1ASM: address out of range on line {line_number}", new ParseException($"{addr} must be betweeen 0x0 and 0xF"));
+                        throw new ParseException($"SAP1ASM: address out of range on line {line_number}.", new ParseException($"{addr} must be betweeen 0x0 and 0xF"));
                     }
 
                     if(line.Contains("..."))
                     {
-                        throw new ParseException($"SAP1ASM: invalid use of \"...\" on line {line_number}", new ParseException($"{line} must only contain \"...\" with no extra charecters or spaces"));
+                        throw new ParseException($"SAP1ASM: invalid use of \"...\" on line {line_number}.", new ParseException($"{line} must only contain \"...\" with no extra charecters or spaces"));
 
                     }
                 }
@@ -201,7 +201,7 @@ namespace SAP1EMU.Assembler
                     }
                     else
                     {
-                        throw new ParseException($"SAP1ASM: invalid use of \"...\" {line_number}", new ParseException($"{line} must only contain once instance of \"...\" in the program"));
+                        throw new ParseException($"SAP1ASM: invalid use of \"...\" {line_number}.", new ParseException($"{line} must only contain once instance of \"...\" in the program"));
 
                     }
                 }
