@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading;
+
 using CommandLine;
+
 using SAP1EMU.Assembler;
 using SAP1EMU.Engine;
 using SAP1EMU.Lib;
@@ -24,13 +26,13 @@ namespace SAP1EMU.Engine_CLI
             // ********************************************
 
 
-
-            // Verbosity **********************************
-            [Option('v', "verbose", Required = false, HelpText = "Set output to verbose.\n(inlcudes debug statements from the engine)")]
-            public bool Verbose { get; set; }
-            [Option('V', "very-verbose", Required = false, HelpText = "Set output to very verbose.\n(includes debug statements from the engine and the input file in output)")]
-            public bool VeryVerbose { get; set; }
-            // ********************************************
+            // TODO - Figure out if I want to use these
+            //// Verbosity **********************************
+            //[Option('v', "verbose", Required = false, HelpText = "Set output to verbose.\n(inlcudes debug statements from the engine)")]
+            //public bool Verbose { get; set; }
+            //[Option('V', "very-verbose", Required = false, HelpText = "Set output to very verbose.\n(includes debug statements from the engine and the input file in output)")]
+            //public bool VeryVerbose { get; set; }
+            //// ********************************************
 
 
             // Frame Support ******************************
@@ -44,7 +46,7 @@ namespace SAP1EMU.Engine_CLI
 
             // TODO - Figure out why default isnt working here
             // Default should be "std"
-            [Option('O', "FOframe", SetName = "FOframe", Required = false, HelpText = "Include Snapshots of the Output Register in the output file.\nParameters:\n  std\t\tOutputs with formatting\n  no-format\tOutputs wil no formatting")]
+            [Option('O', "FOfragitme", SetName = "FOframe", Required = false, HelpText = "Include Snapshots of the Output Register in the output file.\nParameters:\n  std\t\tOutputs with formatting\n  no-format\tOutputs wil no formatting")]
             public string FOframe { get; set; }
             // ********************************************
 
@@ -52,6 +54,12 @@ namespace SAP1EMU.Engine_CLI
             [Option('d', "debug", Required = false, HelpText = "Turns on Debug Mode")]
             public bool Debug { get; set; }
             // ********************************************
+
+            // Instruction Set ****************************
+            [Option('i', "instructionSet", Required = false, HelpText = "Sets the Instruction Set to use\nParameters:\n  SAP1Emu\tUses expanded SAP1EMU Instruction Set (default)\n  Malvino\tUses Malvino's Instruction Set\n  BenEater\tUses Ben Eater's Instruction Set", Default = "SAP1Emu")]
+            public string InstructionSetName { get; set; }
+            // ********************************************
+
 
 
 
@@ -124,7 +132,7 @@ namespace SAP1EMU.Engine_CLI
 
 
                            }
-                           if(!string.IsNullOrEmpty(o.FOframe))
+                           if (!string.IsNullOrEmpty(o.FOframe))
                            {
                                if (o.FOframe.ToLower() != "no-format" && o.FOframe.ToLower() != "std")
                                {
@@ -132,16 +140,50 @@ namespace SAP1EMU.Engine_CLI
                                    o.FOframe = "std";
                                }
                            }
-                           
-                          
+
+                           if (o.InstructionSetName.ToLower() != "sap1emu" && o.InstructionSetName.ToLower() != "malvino" && o.InstructionSetName.ToLower() != "beneater")
+                           {
+                               Console.Error.WriteLine($"SAP1EMU: warning: {o.InstructionSetName}: invalid argument:  Defaulting to \"SAP1Emu\".");
+                               o.InstructionSetName = "SAP1Emu";
+                           }
 
 
 
-                           List<string> compiled_binary;
+
+
+
+                           List<string> compiled_binary = null;
 
                            if (fileType == FileType.S)
                            {
-                               compiled_binary = Assemble.Parse(source_file_contents);
+                               try
+                               {
+                                   compiled_binary = Assemble.Parse(source_file_contents, o.InstructionSetName);
+                               }
+                               catch (ParseException pe)
+                               {
+                                   //Console.SetOut(new StreamWriter(Console.OpenStandardOutput()));
+                                   //Console.SetError(new StreamWriter(Console.OpenStandardError()));
+
+                                   var tempColor = Console.ForegroundColor;
+                                   if (Console.BackgroundColor == ConsoleColor.Red)
+                                   {
+                                       Console.ForegroundColor = ConsoleColor.Cyan;
+                                   }
+                                   else
+                                   {
+                                       Console.ForegroundColor = ConsoleColor.Red;
+                                   }
+                                   Console.Error.WriteLine($"SAP1ASM: fatal error: " + pe.Message + " " + pe.InnerException.Message);
+                                   Console.ForegroundColor = tempColor;
+                                   Console.Error.WriteLine("assembly terminated");
+
+
+
+                                   Console.Error.Flush();
+
+                                   System.Environment.Exit(1);
+                               }
                            }
                            else
                            {
@@ -164,7 +206,7 @@ namespace SAP1EMU.Engine_CLI
                            //Console.SetError(writer_error);
 
 
-                           engine.Init(rmp);
+                           engine.Init(rmp, o.InstructionSetName);
                            try
                            {
                                engine.Run();
@@ -172,10 +214,20 @@ namespace SAP1EMU.Engine_CLI
                            }
                            catch (EngineRuntimeException ere)
                            {
-                               Console.SetOut(new StreamWriter(Console.OpenStandardOutput()));
-                               Console.SetError(new StreamWriter(Console.OpenStandardError()));
+                               var tempColor = Console.ForegroundColor;
+                               if (Console.BackgroundColor == ConsoleColor.Red)
+                               {
+                                   Console.ForegroundColor = ConsoleColor.Cyan;
+                               }
+                               else
+                               {
+                                   Console.ForegroundColor = ConsoleColor.Red;
+                               }
+                               //Console.SetOut(new StreamWriter(Console.OpenStandardOutput()));
+                               //Console.SetError(new StreamWriter(Console.OpenStandardError()));
 
-                               Console.Error.WriteLine($"SAP1EMU: fatal error: " + ere.Message);
+                               Console.Error.WriteLine($"SAP1EMU: fatal error: " + ere.Message + " " + ere.InnerException.Message);
+                               Console.ForegroundColor = tempColor;
                                Console.Error.WriteLine("emulation terminated");
 
                                Console.Error.Flush();
@@ -186,7 +238,7 @@ namespace SAP1EMU.Engine_CLI
 
 
                            string engine_output = "************************************************************\n"
-                                                + "Final Output Register Value: " + engine.GetOutput()
+                                                + "Final Output Register Value: " + engine.GetOutputReg()
                                                 + "\n************************************************************\n\n";
 
                            List<Frame> FrameStack = engine.FrameStack();
@@ -208,9 +260,9 @@ namespace SAP1EMU.Engine_CLI
 
                                engine_output += "\n" + sb.ToString();
                            }
-                           else if(o.FOframe != null)
+                           else if (o.FOframe != null)
                            {
-                               engine_output =null; // Clear the output
+                               engine_output = null; // Clear the output
 
                                StringBuilder sb = new StringBuilder();
                                StringWriter fw = new StringWriter(sb);
@@ -223,16 +275,16 @@ namespace SAP1EMU.Engine_CLI
                                        {
                                            fw.WriteLine(frame.OutputRegister());
                                        }
-                                       else if(o.FOframe.ToLower() == "no-format")
+                                       else if (o.FOframe.ToLower() == "no-format")
                                        {
                                            string temp = frame.OReg;
-                                           if(string.IsNullOrEmpty(temp))
+                                           if (string.IsNullOrEmpty(temp))
                                            {
                                                temp = "00000000";
                                            }
                                            fw.WriteLine(temp);
                                        }
-                                       
+
                                    }
                                }
                                fw.Flush();

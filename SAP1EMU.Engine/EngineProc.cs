@@ -5,50 +5,40 @@ using SAP1EMU.Lib;
 
 using SAP1EMU.Lib.Registers;
 using SAP1EMU.Lib.Components;
-using System.IO;
+
 
 namespace SAP1EMU.Engine
 {
     public class EngineProc
     {
+
         string OutPutRegContents = "";
         private readonly List<Frame> _FrameStack = new List<Frame>();
-
-        public List<Frame> FrameStack()
-        {
-            return _FrameStack;
-        }
-
-
-        public Frame FinalFrame()
-        {
-            if(_FrameStack.Count != 0)
-            {
-                return _FrameStack[_FrameStack.Count - 1];
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public string GetOutput()
-        {
-            return OutPutRegContents;
-        }
-
-
         private RAMProgram Program { get; set; }
-        public void Init(RAMProgram program)
+        private InstructionSet InstructionSet { get; set; }
+        private const string DefaultInstructionSetName = "SAP1Emu";
+
+        // *************************************************************************
+        // Init Engine
+        // *************************************************************************
+        public void Init(RAMProgram program, string InstructionSetName = DefaultInstructionSetName)
         {
+            // Get Instruction Set
+            InstructionSet = OpCodeLoader.GetSet(InstructionSetName);
+
+            // Init RAM
             if (program == null)
             {
                 this.Program = new RAMProgram(new List<string>());
             }
             this.Program = program;
         }
+        // *************************************************************************
 
 
+        // *************************************************************************
+        // Engine Runtime 
+        // *************************************************************************
         public void Run()
         {
 
@@ -87,7 +77,9 @@ namespace SAP1EMU.Engine
             // Load the program into the RAM
             ram.LoadProgram(Program);
 
-            
+            // Load the intsructionSet into the SEQ
+            seq.Load(InstructionSet);
+
 
 
             Frame tempFrame;
@@ -149,6 +141,41 @@ namespace SAP1EMU.Engine
             OutPutRegContents = oreg.ToString();
             #endregion
         }
+        // *************************************************************************
+
+
+
+
+
+
+        // *************************************************************************
+        // Output Functions
+        // *************************************************************************
+        public List<Frame> FrameStack()
+        {
+            return _FrameStack;
+        }
+
+
+        public Frame FinalFrame()
+        {
+            if (_FrameStack.Count != 0)
+            {
+                return _FrameStack[_FrameStack.Count - 1];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public string GetOutputReg()
+        {
+            return OutPutRegContents;
+        }
+        // *************************************************************************
+
+
 
 
     }

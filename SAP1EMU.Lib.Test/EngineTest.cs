@@ -65,7 +65,7 @@ namespace SAP1EMU.Lib.Test
             engine.Init(new RAMProgram(program));
             engine.Run();
 
-            string output = engine.GetOutput();
+            string output = engine.GetOutputReg();
 
             Assert.AreEqual(expectedResult, output);
         }
@@ -125,7 +125,7 @@ namespace SAP1EMU.Lib.Test
             engine.Init(new RAMProgram(program));
             engine.Run();
 
-            string output = engine.GetOutput();
+            string output = engine.GetOutputReg();
 
             Assert.AreEqual(expectedResult, output);
         }
@@ -186,7 +186,7 @@ namespace SAP1EMU.Lib.Test
             engine.Init(new RAMProgram(program));
             engine.Run();
 
-            string output = engine.GetOutput();
+            string output = engine.GetOutputReg();
 
             Assert.AreEqual(expectedResult, output);
         }
@@ -250,7 +250,7 @@ namespace SAP1EMU.Lib.Test
             engine.Init(new RAMProgram(program));
             engine.Run();
 
-            string output = engine.GetOutput();
+            string output = engine.GetOutputReg();
 
             Assert.AreEqual(expectedResult, output);
         }
@@ -311,7 +311,7 @@ namespace SAP1EMU.Lib.Test
             engine.Init(new RAMProgram(program));
             engine.Run();
 
-            string output = engine.GetOutput();
+            string output = engine.GetOutputReg();
 
             Assert.AreEqual(expectedResult, output);
         }
@@ -371,7 +371,7 @@ namespace SAP1EMU.Lib.Test
             engine.Init(new RAMProgram(program));
             engine.Run();
 
-            string output = engine.GetOutput();
+            string output = engine.GetOutputReg();
 
             Assert.AreEqual(expectedResult, output);
         }
@@ -437,7 +437,7 @@ namespace SAP1EMU.Lib.Test
             engine.Init(new RAMProgram(program));
             engine.Run();
 
-            string output = engine.GetOutput();
+            string output = engine.GetOutputReg();
 
             Assert.AreEqual(expectedResult, output);
         }
@@ -498,7 +498,7 @@ namespace SAP1EMU.Lib.Test
             engine.Init(new RAMProgram(program));
             engine.Run();
 
-            string output = engine.GetOutput();
+            string output = engine.GetOutputReg();
 
             Assert.AreEqual(expectedResult, output);
         }
@@ -558,7 +558,7 @@ namespace SAP1EMU.Lib.Test
             engine.Init(new RAMProgram(program));
             engine.Run();
 
-            string output = engine.GetOutput();
+            string output = engine.GetOutputReg();
 
             Assert.AreEqual(expectedResult, output);
         }
@@ -624,7 +624,7 @@ namespace SAP1EMU.Lib.Test
             engine.Init(new RAMProgram(program));
             engine.Run();
 
-            string output = engine.GetOutput();
+            string output = engine.GetOutputReg();
 
             Assert.AreEqual(expectedResult, output);
         }
@@ -684,7 +684,7 @@ namespace SAP1EMU.Lib.Test
             engine.Init(new RAMProgram(program));
             engine.Run();
 
-            string output = engine.GetOutput();
+            string output = engine.GetOutputReg();
 
             Assert.AreEqual(expectedResult, output);
         }
@@ -745,7 +745,7 @@ namespace SAP1EMU.Lib.Test
             engine.Init(new RAMProgram(program));
             engine.Run();
 
-            string output = engine.GetOutput();
+            string output = engine.GetOutputReg();
 
             Assert.AreEqual(expectedResult, output);
         }
@@ -812,7 +812,7 @@ namespace SAP1EMU.Lib.Test
             engine.Init(new RAMProgram(program));
             engine.Run();
 
-            string output = engine.GetOutput();
+            string output = engine.GetOutputReg();
 
             Assert.AreEqual(expectedResult, output);
         }
@@ -872,7 +872,7 @@ namespace SAP1EMU.Lib.Test
             engine.Init(new RAMProgram(program));
             engine.Run();
 
-            string output = engine.GetOutput();
+            string output = engine.GetOutputReg();
 
             Assert.AreEqual(expectedResult, output);
         }
@@ -932,7 +932,7 @@ namespace SAP1EMU.Lib.Test
             engine.Init(new RAMProgram(program));
             engine.Run();
 
-            string output = engine.GetOutput();
+            string output = engine.GetOutputReg();
 
             Assert.AreEqual(expectedResult, output);
         }
@@ -972,7 +972,7 @@ namespace SAP1EMU.Lib.Test
             engine.Init(new RAMProgram(program));
             engine.Run();
 
-            string output = engine.GetOutput();
+            string output = engine.GetOutputReg();
 
             Assert.AreEqual(expectedResult, output);
         }
@@ -1010,7 +1010,7 @@ namespace SAP1EMU.Lib.Test
             engine.Init(new RAMProgram(program));
             engine.Run();
 
-            string output = engine.GetOutput();
+            string output = engine.GetOutputReg();
 
             Assert.AreEqual(expectedResult, output);
         }
@@ -1047,7 +1047,7 @@ namespace SAP1EMU.Lib.Test
             engine.Init(new RAMProgram(program));
             engine.Run();
 
-            string output = engine.GetOutput();
+            string output = engine.GetOutputReg();
 
             Assert.AreEqual(expectedResult, output);
         }
@@ -1084,7 +1084,7 @@ namespace SAP1EMU.Lib.Test
             engine.Init(new RAMProgram(program));
             engine.Run();
 
-            string output = engine.GetOutput();
+            string output = engine.GetOutputReg();
 
             Assert.AreEqual(expectedResult, output);
         }
@@ -1138,7 +1138,7 @@ namespace SAP1EMU.Lib.Test
         }
         // **************************************************************************
 
-
+        
 
     }
 }  
