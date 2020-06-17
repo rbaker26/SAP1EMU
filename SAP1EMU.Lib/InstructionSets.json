@@ -115,7 +115,7 @@
   },
   {
     "SetName": "Malvino",
-    "SetDescription": "The instruction set outlined in Digital Computer Electronics by Malvino & Brown.\nThe SAP1EMU Set is a superset of the Malvino Set.",
+    "SetDescription": "The instruction set outlined in Digital Computer Electronics by Malvino & Brown.\nThe SAP1Emu Set is a superset of the Malvino Set.",
     "instructions": [
       {
         "OpCode": "LDA",
