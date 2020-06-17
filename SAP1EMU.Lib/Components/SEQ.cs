@@ -33,15 +33,6 @@ namespace SAP1EMU.Lib.Components
 
         //************************************************************************************************************************
         /// <summary>
-        /// Insures the ControlTable is only filled once and 
-        /// not access before it is filled.
-        /// </summary>
-        private bool Initialized = false;
-        //************************************************************************************************************************
-
-
-        //************************************************************************************************************************
-        /// <summary>
         /// Gets the Control Word for the specified TState and Instruction
         /// </summary>
         /// <param name="TState"></param>
@@ -49,35 +40,10 @@ namespace SAP1EMU.Lib.Components
         /// <returns></returns>
         public string UpdateControlWordReg(int TState, string Instruction)
         {
-            // Check to make sure the hash table has been filled
-            if(!Initialized)
-            {
-                Init();
-                Initialized = true;
-            }
             int hash = HashKey(TState, Instruction);
             ControlWord = ControlTable[hash];
             return ControlWord;
             
-        }
-        //************************************************************************************************************************
-
-
-
-        //************************************************************************************************************************
-        /// <summary>
-        /// Initializes the ControlWord Table
-        /// <para>
-        ///     It emulates the EEPROM that would store the words on the SAP1.
-        ///     I did not follow the same mmemory optimization as Ben Eater because that is stupid when running on a x86 system.
-        ///     Instead, the table is "addressed" by a hash of the TState and the Instruction
-        /// </para>
-        /// </summary>
-        private void Init()
-        {
-            // Set ControlWord to NO OPP
-            ControlWord = "00‬1111100011";
-
         }
         //************************************************************************************************************************
 
@@ -118,6 +84,7 @@ namespace SAP1EMU.Lib.Components
             if (_instance == null)
             {
                 _instance = new SEQ();
+                _instance.ControlWord = "00‬1111100011";
             }
             
             return _instance;
