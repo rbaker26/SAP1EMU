@@ -10,10 +10,14 @@ namespace SAP1EMU.CLI
         static void Main(string[] args)
         {
 
-            EngineProc e = new EngineProc();
-            RAMProgram rmp = new RAMProgram(new List<string>());
-            e.Init(rmp);
-            e.Run();
+            //EngineProc e = new EngineProc();
+            //RAMProgram rmp = new RAMProgram(new List<string>());
+            //e.Init(rmp);
+            //e.Run();
+
+            OpCodeLoader.GetSet("SAP1Emu");
+            OpCodeLoader.GetSet("MalVIno");
+            OpCodeLoader.GetSet("BenEater");
         }
     }
 }

@@ -18,4 +18,10 @@
     <ProjectReference Include="..\SAP1EMU.Lib\SAP1EMU.Lib.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="InstructionSets.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

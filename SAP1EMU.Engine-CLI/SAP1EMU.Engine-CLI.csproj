@@ -18,6 +18,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Makefile" />
+    <None Remove="packages-microsoft-prod.deb" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.8.0" />
   </ItemGroup>
 
@@ -26,5 +31,13 @@
     <ProjectReference Include="..\SAP1EMU.Engine\SAP1EMU.Engine.csproj" />
     <ProjectReference Include="..\SAP1EMU.Lib\SAP1EMU.Lib.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="InstructionSets.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+
   
 </Project>

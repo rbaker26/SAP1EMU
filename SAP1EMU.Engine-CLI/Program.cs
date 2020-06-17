@@ -186,7 +186,7 @@ namespace SAP1EMU.Engine_CLI
 
 
                            string engine_output = "************************************************************\n"
-                                                + "Final Output Register Value: " + engine.GetOutput()
+                                                + "Final Output Register Value: " + engine.GetOutputReg()
                                                 + "\n************************************************************\n\n";
 
                            List<Frame> FrameStack = engine.FrameStack();

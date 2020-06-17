@@ -15,12 +15,17 @@ namespace SAP1EMU.Engine
         string OutPutRegContents = "";
         private readonly List<Frame> _FrameStack = new List<Frame>();
         private RAMProgram Program { get; set; }
+        private InstructionSet InstructionSet { get; set; }
 
         // *************************************************************************
         // Init Engine
         // *************************************************************************
         public void Init(RAMProgram program)
         {
+            // Get Instruction Set
+            InstructionSet = OpCodeLoader.GetSet("SAP1Emu");
+
+            // Init RAM
             if (program == null)
             {
                 this.Program = new RAMProgram(new List<string>());
@@ -71,7 +76,9 @@ namespace SAP1EMU.Engine
             // Load the program into the RAM
             ram.LoadProgram(Program);
 
-            
+            // Load the intsructionSet into the SEQ
+            seq.Load(InstructionSet);
+
 
 
             Frame tempFrame;
@@ -141,6 +148,8 @@ namespace SAP1EMU.Engine
 
 
         // *************************************************************************
+        // Output Functions
+        // *************************************************************************
         public List<Frame> FrameStack()
         {
             return _FrameStack;
@@ -159,13 +168,10 @@ namespace SAP1EMU.Engine
             }
         }
 
-        public string GetOutput()
+        public string GetOutputReg()
         {
             return OutPutRegContents;
         }
-
-
-
         // *************************************************************************
 
 
