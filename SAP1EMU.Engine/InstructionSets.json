@@ -1,32 +1,84 @@
 [
-  {
-    "SetName": "Malvino",
-    "instructions": [
-      {
-        "OpCode": "LDA",
-        "BinCode": "0000",
-        "MicroCode": [ "01010", "11111" ]
-      },
-      {
-        "OpCode": "ADD",
-        "BinCode": "1111",
-        "MicroCode": [ "10101", "00011" ]
-      }
-    ]
-  },
-  {
-    "SetName": "Ben",
-    "instructions": [
-      {
-        "OpCode": "ADD",
-        "BinCode": "1111",
-        "MicroCode": [ "10101", "00011" ]
-      },
-      {
-        "OpCode": "LDA",
-        "BinCode": "0000",
-        "MicroCode": [ "01010", "11111" ]
-      }
-    ]
-  }
+   {
+      "SetName":"SAP1Emu",
+      "SetDescription":"The full intruction set for the SAP1Emu Project.",
+      "instructions":[
+         {
+            "OpCode":"LDA",
+            "BinCode":"0000",
+            "MicroCode":[
+               "01011110001111",
+               "10111110001111",
+               "00100110001111",
+               "00011010001111",
+               "00101100001111",
+               "00111110001111"
+            ]
+         },
+         {
+            "OpCode":"ADD",
+            "BinCode":"0001",
+            "MicroCode":[
+               "01011110001111",
+               "10111110001111",
+               "00100110001111",
+               "00011010001111",
+               "00101110000111",
+               "00111100011111"
+            ]
+         }
+      ]
+   },
+   {
+      "SetName":"Malvino",
+      "SetDescription":"The instruction set outlined in Digital Computer Electronics by Malvino & Brown.\nThe SAP1EMU Set is a superset of the Malvino Set.",
+      "instructions":[
+         {
+            "OpCode":"LDA",
+            "BinCode":"0000",
+            "MicroCode":[
+               "01011110001111",
+               "10111110001111",
+               "00100110001111",
+               "00011010001111",
+               "00101100001111",
+               "00111110001111"
+            ]
+         },
+         {
+            "OpCode":"ADD",
+            "BinCode":"0001",
+            "MicroCode":[
+               "01011110001111",
+               "10111110001111",
+               "00100110001111",
+               "00011010001111",
+               "00101110000111",
+               "00111100011111"
+            ]
+         }
+      ]
+   },
+   {
+      "SetName":"BenEater",
+      "SetDescription":"The instruction set outlined by Ben Eater.",
+      "instructions":[
+         {
+            "OpCode":"ADD",
+            "BinCode":"1111",
+            "MicroCode":[
+               "10101",
+               "00011"
+            ]
+         },
+         {
+            "OpCode":"LDA",
+            "BinCode":"0000",
+            "MicroCode":[
+               "01010",
+               "11111"
+            ]
+         }
+      ]
+   }
 ]
