@@ -419,7 +419,7 @@ namespace SAP1EMU.Lib.Test
         #endregion
 
 
-        // Malvino Op Code Loop Detection Test **************************************
+        // Malvino Op Code Test *****************************************************
         [TestMethod]
         public void Test_MalvinoCodes_1()
         {
@@ -460,7 +460,7 @@ namespace SAP1EMU.Lib.Test
                 Assemble.Parse(asm, "Malvino");
                 Assert.Fail();
             }
-            catch (Exception e)
+            catch (Exception)
             {
         
             }

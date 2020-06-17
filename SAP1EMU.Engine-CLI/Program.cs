@@ -46,7 +46,7 @@ namespace SAP1EMU.Engine_CLI
 
             // TODO - Figure out why default isnt working here
             // Default should be "std"
-            [Option('O', "FOframe", SetName = "FOframe", Required = false, HelpText = "Include Snapshots of the Output Register in the output file.\nParameters:\n  std\t\tOutputs with formatting\n  no-format\tOutputs wil no formatting")]
+            [Option('O', "FOfragitme", SetName = "FOframe", Required = false, HelpText = "Include Snapshots of the Output Register in the output file.\nParameters:\n  std\t\tOutputs with formatting\n  no-format\tOutputs wil no formatting")]
             public string FOframe { get; set; }
             // ********************************************
 
