@@ -6,10 +6,10 @@ using System.Text;
 
 namespace SAP1EMU.Lib
 {
-    class Instruction
+    public class Instruction
     {
-        string OpCode { get; set; }
-        string BinCode { get; set; }
-        List<string> MicroCode { get; set; }
+        public string OpCode { get; set; }
+        public string BinCode { get; set; }
+        public List<string> MicroCode { get; set; }
     }
 }

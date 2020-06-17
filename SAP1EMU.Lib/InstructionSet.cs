@@ -4,9 +4,9 @@ using System.Text;
 
 namespace SAP1EMU.Lib
 {
-    class InstructionSet
+    public class InstructionSet
     {
-        string SetName { get; set; }
-        List<Instruction> instructions { get; set; }
+        public string SetName { get; set; }
+        public List<Instruction> instructions { get; set; }
     }
 }

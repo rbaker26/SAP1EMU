@@ -1,5 +1,32 @@
-{
-  [
-
-  ]
-}
+[
+  {
+    "SetName": "Malvino",
+    "instructions": [
+      {
+        "OpCode": "LDA",
+        "BinCode": "0000",
+        "MicroCode": [ "01010", "11111" ]
+      },
+      {
+        "OpCode": "ADD",
+        "BinCode": "1111",
+        "MicroCode": [ "10101", "00011" ]
+      }
+    ]
+  },
+  {
+    "SetName": "Ben",
+    "instructions": [
+      {
+        "OpCode": "ADD",
+        "BinCode": "1111",
+        "MicroCode": [ "10101", "00011" ]
+      },
+      {
+        "OpCode": "LDA",
+        "BinCode": "0000",
+        "MicroCode": [ "01010", "11111" ]
+      }
+    ]
+  }
+]
