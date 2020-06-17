@@ -26,13 +26,13 @@ namespace SAP1EMU.Engine_CLI
             // ********************************************
 
 
-
-            // Verbosity **********************************
-            [Option('v', "verbose", Required = false, HelpText = "Set output to verbose.\n(inlcudes debug statements from the engine)")]
-            public bool Verbose { get; set; }
-            [Option('V', "very-verbose", Required = false, HelpText = "Set output to very verbose.\n(includes debug statements from the engine and the input file in output)")]
-            public bool VeryVerbose { get; set; }
-            // ********************************************
+            // TODO - Figure out if I want to use these
+            //// Verbosity **********************************
+            //[Option('v', "verbose", Required = false, HelpText = "Set output to verbose.\n(inlcudes debug statements from the engine)")]
+            //public bool Verbose { get; set; }
+            //[Option('V', "very-verbose", Required = false, HelpText = "Set output to very verbose.\n(includes debug statements from the engine and the input file in output)")]
+            //public bool VeryVerbose { get; set; }
+            //// ********************************************
 
 
             // Frame Support ******************************
