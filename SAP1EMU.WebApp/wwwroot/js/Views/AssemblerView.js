@@ -73,6 +73,15 @@ function AssembleCode() {
 
 
 function openFromFile() {
+    // Send Request to ASP.NET
     const { ipcRenderer } = require("electron");
     ipcRenderer.send("open-from-file-asm");
+
+    // Receive code back from ASP.NET
+    ipcRenderer.once("code-from-file-asm",
+        (sender, asm_code) => {
+            asm_editor.setValue(asm_code);
+        }
+    );
+
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Text;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -52,6 +54,7 @@ namespace SAP1EMU.WebApp.Controllers
                 {
                     await Electron.Shell.OpenExternalAsync("https://eater.net/");
                 });
+                
             }
             return View();
         }
@@ -67,8 +70,31 @@ namespace SAP1EMU.WebApp.Controllers
 
                 Electron.IpcMain.On("open-from-file-asm", async (args) =>
                 {
-                    string path = await Electron.App.GetPathAsync(PathName.home);
-                    await Electron.Shell.ShowItemInFolderAsync(path);
+                    var mainWindow = Electron.WindowManager.BrowserWindows.First();
+                    var options = new OpenDialogOptions {
+                        Properties = new OpenDialogProperty[] {
+                            OpenDialogProperty.openFile
+                        }
+                    };
+
+
+                    string[] files = await Electron.Dialog.ShowOpenDialogAsync(mainWindow, options);
+
+                    string code = System.IO.File.ReadAllText(files[0]);
+
+
+                    Electron.IpcMain.Send(mainWindow, "code-from-file-asm", code);
+
+
+                    //string path = await Electron.App.GetPathAsync(PathName.home);
+                    //await Electron.Shell.ShowItemInFolderAsync(path);
+                    //Electron.App.
+
+                    //// TODO - read code from file and return via IPC
+                    //var mainWindow = Electron.WindowManager.BrowserWindows.First();
+                    //Electron.IpcMain.Send(mainWindow, "code-from-file-asm", new List<string>() { "00000000", "11111111" });
+
+
 
                 });
             }
