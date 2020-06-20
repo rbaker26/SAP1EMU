@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
 using SAP1EMU.Assembler;
+using SAP1EMU.Lib;
 
 namespace SAP1EMU.WebApp.Controllers
 {
@@ -12,27 +14,34 @@ namespace SAP1EMU.WebApp.Controllers
     [ApiController]
     public class AssemblerController : ControllerBase
     {
-        //// GET: api/Assembler
-        //[HttpGet]
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
-
-        //// GET: api/Assembler/5
-        //[HttpGet("{id}", Name = "Get")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
-
-        // POST: api/Assembler
-        [HttpPost]
-        public ActionResult Post([FromBody] List<string> codeList)
+        // GET: api/Assembler
+        [HttpGet("supported_sets")]
+        public ActionResult<IEnumerable<string>> Get()
         {
             try
             {
-                return Ok(SAP1EMU.Assembler.Assemble.Parse(codeList));
+                return Ok(OpCodeLoader.GetISetNames());
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message + " " + e.InnerException.Message);
+            }
+            
+        }
+
+        public class AssemblePacket 
+        {
+            public List<string> CodeList { get; set; }
+            public string SetName { get; set; }
+        }
+        // POST: api/Assembler
+        [HttpPost]
+        public ActionResult Post([FromBody] AssemblePacket assemblePacket)
+        {
+            try
+            {
+                return Ok(Assemble.Parse(assemblePacket.CodeList, assemblePacket.SetName));
 
             }
             catch (Exception e)
@@ -41,16 +50,5 @@ namespace SAP1EMU.WebApp.Controllers
             }
         }
 
-        //// PUT: api/Assembler/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
-
-        //// DELETE: api/ApiWithActions/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
     }
 }

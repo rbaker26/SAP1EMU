@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Text;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -17,7 +19,6 @@ namespace SAP1EMU.WebApp.Controllers
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-
         }
 
         public IActionResult Index()
@@ -27,15 +28,7 @@ namespace SAP1EMU.WebApp.Controllers
             {
                 // Must remvoe EL's before adding new ones or else duplicate EL's will be created
                 Electron.IpcMain.RemoveAllListeners("open-wiki");
-                Electron.IpcMain.RemoveAllListeners("open-file-manager");
-
-                Electron.IpcMain.On("open-file-manager", async (args) =>
-                {
-                    string path = await Electron.App.GetPathAsync(PathName.home);
-                    await Electron.Shell.ShowItemInFolderAsync(path);
-
-                });
-
+                
                 Electron.IpcMain.On("open-wiki", async (args) =>
                 {
                     await Electron.Shell.OpenExternalAsync("https://github.com/rbaker26/SAP1EMU/wiki");
@@ -46,20 +39,22 @@ namespace SAP1EMU.WebApp.Controllers
         }
         public IActionResult About()
         {
-            // Must remvoe EL's before adding new ones or else duplicate EL's will be created
-
-            Electron.IpcMain.RemoveAllListeners("open-github-profile");
-            Electron.IpcMain.RemoveAllListeners("open-ben-eater");
-
-            Electron.IpcMain.On("open-github-profile", async (args) =>
+            if (HybridSupport.IsElectronActive)
             {
-                await Electron.Shell.OpenExternalAsync("https://github.com/rbaker26/");
-            });
-            Electron.IpcMain.On("open-ben-eater", async (args) =>
-            {
-                await Electron.Shell.OpenExternalAsync("https://eater.net/");
-            });
+                // Must remvoe EL's before adding new ones or else duplicate EL's will be created
+                Electron.IpcMain.RemoveAllListeners("open-github-profile");
+                Electron.IpcMain.RemoveAllListeners("open-ben-eater");
 
+                Electron.IpcMain.On("open-github-profile", async (args) =>
+                {
+                    await Electron.Shell.OpenExternalAsync("https://github.com/rbaker26/");
+                });
+                Electron.IpcMain.On("open-ben-eater", async (args) =>
+                {
+                    await Electron.Shell.OpenExternalAsync("https://eater.net/");
+                });
+                
+            }
             return View();
         }
         public IActionResult Emulator()
@@ -68,6 +63,26 @@ namespace SAP1EMU.WebApp.Controllers
         }
         public IActionResult Assembler()
         {
+            if (HybridSupport.IsElectronActive)
+            {
+                Electron.IpcMain.RemoveAllListeners("open-from-file-asm");
+
+                Electron.IpcMain.On("open-from-file-asm", async (args) =>
+                {
+                    var mainWindow = Electron.WindowManager.BrowserWindows.First();
+                    var options = new OpenDialogOptions {
+                        Properties = new OpenDialogProperty[] {
+                            OpenDialogProperty.openFile
+                        }
+                    };
+                    string[] files = await Electron.Dialog.ShowOpenDialogAsync(mainWindow, options);
+
+                    string code = System.IO.File.ReadAllText(files[0]);
+
+
+                    Electron.IpcMain.Send(mainWindow, "code-from-file-asm", code);
+                });
+            }
             return View();
         }
 
@@ -75,16 +90,6 @@ namespace SAP1EMU.WebApp.Controllers
         {
             return View();
         }
-
-
-        // TODO prob can remove
-        //public async Task<IActionResult> Wiki()
-        //{
-            
-        //    await Electron.Shell.OpenExternalAsync("https://github.com/ElectronNET");
-        //    return RedirectToAction("Index");
-
-        //}
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
