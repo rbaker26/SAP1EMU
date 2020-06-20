@@ -77,16 +77,6 @@ namespace SAP1EMU.WebApp.Controllers
             return View();
         }
 
-
-        // TODO prob can remove
-        //public async Task<IActionResult> Wiki()
-        //{
-            
-        //    await Electron.Shell.OpenExternalAsync("https://github.com/ElectronNET");
-        //    return RedirectToAction("Index");
-
-        //}
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

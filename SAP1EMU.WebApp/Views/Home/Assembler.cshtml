@@ -18,7 +18,11 @@
 
         <form id="asm_form" method="post" action="AssembleCode">
             @Html.TextArea("CodeList", null, new { rows = "20", cols = "80", @class = "codebox", id = "asm_code" })
-            <input type="button" name="CodeList" value="Assemble" onclick="AssembleCode(this)" />
+
+
+            <label>Instruction Set</label>
+            <select name="langs" id="langs"></select>
+            <input type="button" name="CodeList" value="Assemble" onclick="AssembleCode()" />
             <input type="button" value="Load from File" />
         </form>
         <br />

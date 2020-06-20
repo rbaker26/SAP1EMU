@@ -44,5 +44,41 @@ namespace SAP1EMU.Lib
             return setChoice;
         }
 
+
+
+
+        public static List<string> GetISetNames()
+        {
+            string json;
+            try
+            {
+                json = File.ReadAllText(jsonFile);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"SAP1EMU: Error reading Instruction Set File: \"{jsonFile}\" ", e);
+            }
+
+
+            List<InstructionSet> sets;
+            try
+            {
+                sets = JsonSerializer.Deserialize<List<InstructionSet>>(json);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"SAP1EMU: Error reading Instruction Set File: Invalid JSON", e);
+            }
+            List<string> names = new List<string>();
+
+            foreach(InstructionSet instructionSet in sets)
+            {
+                names.Add(instructionSet.SetName);
+            }
+
+
+            return names;
+        }
+
     }
 }
