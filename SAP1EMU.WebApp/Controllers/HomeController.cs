@@ -14,10 +14,10 @@ namespace SAP1EMU.WebApp.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
+
         }
 
         public IActionResult Index()
@@ -25,6 +25,10 @@ namespace SAP1EMU.WebApp.Controllers
 
             if (HybridSupport.IsElectronActive)
             {
+                // Must remvoe EL's before adding new ones or else duplicate EL's will be created
+                Electron.IpcMain.RemoveAllListeners("open-wiki");
+                Electron.IpcMain.RemoveAllListeners("open-file-manager");
+
                 Electron.IpcMain.On("open-file-manager", async (args) =>
                 {
                     string path = await Electron.App.GetPathAsync(PathName.home);
@@ -42,6 +46,11 @@ namespace SAP1EMU.WebApp.Controllers
         }
         public IActionResult About()
         {
+            // Must remvoe EL's before adding new ones or else duplicate EL's will be created
+
+            Electron.IpcMain.RemoveAllListeners("open-github-profile");
+            Electron.IpcMain.RemoveAllListeners("open-ben-eater");
+
             Electron.IpcMain.On("open-github-profile", async (args) =>
             {
                 await Electron.Shell.OpenExternalAsync("https://github.com/rbaker26/");
@@ -50,8 +59,8 @@ namespace SAP1EMU.WebApp.Controllers
             {
                 await Electron.Shell.OpenExternalAsync("https://eater.net/");
             });
-            return View();
 
+            return View();
         }
         public IActionResult Emulator()
         {
@@ -69,13 +78,13 @@ namespace SAP1EMU.WebApp.Controllers
 
 
         // TODO prob can remove
-        public async Task<IActionResult> Wiki()
-        {
+        //public async Task<IActionResult> Wiki()
+        //{
             
-            await Electron.Shell.OpenExternalAsync("https://github.com/ElectronNET");
-            return RedirectToAction("Index");
+        //    await Electron.Shell.OpenExternalAsync("https://github.com/ElectronNET");
+        //    return RedirectToAction("Index");
 
-        }
+        //}
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
