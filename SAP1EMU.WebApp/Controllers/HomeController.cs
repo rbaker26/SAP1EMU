@@ -19,7 +19,6 @@ namespace SAP1EMU.WebApp.Controllers
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-
         }
 
         public IActionResult Index()
@@ -76,26 +75,12 @@ namespace SAP1EMU.WebApp.Controllers
                             OpenDialogProperty.openFile
                         }
                     };
-
-
                     string[] files = await Electron.Dialog.ShowOpenDialogAsync(mainWindow, options);
 
                     string code = System.IO.File.ReadAllText(files[0]);
 
 
                     Electron.IpcMain.Send(mainWindow, "code-from-file-asm", code);
-
-
-                    //string path = await Electron.App.GetPathAsync(PathName.home);
-                    //await Electron.Shell.ShowItemInFolderAsync(path);
-                    //Electron.App.
-
-                    //// TODO - read code from file and return via IPC
-                    //var mainWindow = Electron.WindowManager.BrowserWindows.First();
-                    //Electron.IpcMain.Send(mainWindow, "code-from-file-asm", new List<string>() { "00000000", "11111111" });
-
-
-
                 });
             }
             return View();
