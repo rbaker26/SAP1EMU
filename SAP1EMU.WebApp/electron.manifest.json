@@ -8,7 +8,7 @@
     "appId": "com.SAP1EMU.WebApp.app",
     "productName": "SAP1EMU.WebApp",
     "copyright": "Copyright © 2019",
-    "buildVersion": "1.0.0",
+    "buildVersion": "1.13.0",
     "compression": "maximum",
     "directories": {
       "output": "../../../bin/Desktop"
