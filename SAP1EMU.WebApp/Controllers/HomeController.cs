@@ -46,20 +46,21 @@ namespace SAP1EMU.WebApp.Controllers
         }
         public IActionResult About()
         {
-            // Must remvoe EL's before adding new ones or else duplicate EL's will be created
-
-            Electron.IpcMain.RemoveAllListeners("open-github-profile");
-            Electron.IpcMain.RemoveAllListeners("open-ben-eater");
-
-            Electron.IpcMain.On("open-github-profile", async (args) =>
+            if (HybridSupport.IsElectronActive)
             {
-                await Electron.Shell.OpenExternalAsync("https://github.com/rbaker26/");
-            });
-            Electron.IpcMain.On("open-ben-eater", async (args) =>
-            {
-                await Electron.Shell.OpenExternalAsync("https://eater.net/");
-            });
+                // Must remvoe EL's before adding new ones or else duplicate EL's will be created
+                Electron.IpcMain.RemoveAllListeners("open-github-profile");
+                Electron.IpcMain.RemoveAllListeners("open-ben-eater");
 
+                Electron.IpcMain.On("open-github-profile", async (args) =>
+                {
+                    await Electron.Shell.OpenExternalAsync("https://github.com/rbaker26/");
+                });
+                Electron.IpcMain.On("open-ben-eater", async (args) =>
+                {
+                    await Electron.Shell.OpenExternalAsync("https://eater.net/");
+                });
+            }
             return View();
         }
         public IActionResult Emulator()
