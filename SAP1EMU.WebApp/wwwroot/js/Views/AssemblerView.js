@@ -69,3 +69,10 @@ function AssembleCode() {
     return false;
 
 }
+
+
+
+function openFromFile() {
+    const { ipcRenderer } = require("electron");
+    ipcRenderer.send("open-from-file-asm");
+}

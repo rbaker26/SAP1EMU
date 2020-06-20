@@ -27,15 +27,7 @@ namespace SAP1EMU.WebApp.Controllers
             {
                 // Must remvoe EL's before adding new ones or else duplicate EL's will be created
                 Electron.IpcMain.RemoveAllListeners("open-wiki");
-                Electron.IpcMain.RemoveAllListeners("open-file-manager");
-
-                Electron.IpcMain.On("open-file-manager", async (args) =>
-                {
-                    string path = await Electron.App.GetPathAsync(PathName.home);
-                    await Electron.Shell.ShowItemInFolderAsync(path);
-
-                });
-
+                
                 Electron.IpcMain.On("open-wiki", async (args) =>
                 {
                     await Electron.Shell.OpenExternalAsync("https://github.com/rbaker26/SAP1EMU/wiki");
@@ -69,6 +61,17 @@ namespace SAP1EMU.WebApp.Controllers
         }
         public IActionResult Assembler()
         {
+            if (HybridSupport.IsElectronActive)
+            {
+                Electron.IpcMain.RemoveAllListeners("open-from-file-asm");
+
+                Electron.IpcMain.On("open-from-file-asm", async (args) =>
+                {
+                    string path = await Electron.App.GetPathAsync(PathName.home);
+                    await Electron.Shell.ShowItemInFolderAsync(path);
+
+                });
+            }
             return View();
         }
 
