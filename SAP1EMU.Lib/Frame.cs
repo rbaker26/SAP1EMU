@@ -58,6 +58,8 @@ namespace SAP1EMU.Lib
 
         }
 
+
+        // TODO - Repleace with something in the LIB OpCodeLoader
         private string InstuctionDecode(string BinInstruction, int TState)
         {
             List<string> KnownInstructions = new List<string> { "LDA", "ADD", "SUB", "STA", "JMP", "JEQ", "", "", "", "JIC", "", "", "", "", "OUT", "HLT" };

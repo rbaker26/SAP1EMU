@@ -223,10 +223,12 @@ namespace SAP1EMU.Engine_CLI
                                {
                                    Console.ForegroundColor = ConsoleColor.Red;
                                }
+                               
+
                                //Console.SetOut(new StreamWriter(Console.OpenStandardOutput()));
                                //Console.SetError(new StreamWriter(Console.OpenStandardError()));
 
-                               Console.Error.WriteLine($"SAP1EMU: fatal error: " + ere.Message + " " + ere.InnerException.Message);
+                               Console.Error.WriteLine($"SAP1EMU: fatal error: " + ere.Message);
                                Console.ForegroundColor = tempColor;
                                Console.Error.WriteLine("emulation terminated");
 
