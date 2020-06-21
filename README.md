@@ -68,8 +68,8 @@ The SAP1EMU.WebApp is the culmination of all of the core projects.  It presents 
 
 The GUI is an ASP.NET Core app wrapped in Electron.Net (a .NET wrapper for Electron).  This allows a single .NET Core app to be deployed on Windows, MacOS and Linux platforms.  
 
-I originally wanted to write a single WPF app only support a GUI for Windwows.  I realized that in education, there are a ton of Mac computers, so I would need to write two apps (WPF and GTK#).  That was going  to be too much work, so Electron.Net seemed to be a great solution. I am trying to keep the JavaScript to be only "glue-code" can keep all of the processing in .Net Core by using the REST API as the go-between.  Finally, AJAX is used for all REST requests to prevent reloading the ASP.NET Views.
-
+I originally wanted to write a single WPF app only support a GUI for Windwows.  I realized that in education, there are a ton of Mac computers, so I would need to write two apps (WPF and GTK#).  That was going  to be too much work, so Electron.Net seemed to be a great solution. I am trying to keep the JavaScript to be only "glue-code" can keep all of the processing in .Net Core by using the REST API as a go-between.  For one-way comunications, AJAX is used for all REST requests to prevent reloading the ASP.NET Views.
+For two-way comunication betweeen the processes, the IPC will be used.
 
 ## Adding a New Register
 To add a new register or compenent to the SAP1EMU.Lib, there are 4 steps:
