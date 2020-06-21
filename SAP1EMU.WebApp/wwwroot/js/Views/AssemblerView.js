@@ -86,3 +86,9 @@ function openFromFile() {
     );
 
 }
+
+function saveToFile() {
+    // Send Request to ASP.NET
+    const { ipcRenderer } = require("electron");
+    ipcRenderer.send("save-to-file-asm", bin_editor.getValue());
+}
