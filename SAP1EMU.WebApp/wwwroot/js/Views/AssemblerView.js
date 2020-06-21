@@ -1,4 +1,5 @@
-﻿var asm_editor;
+﻿// These are global so they presist throught the page lifetime
+var asm_editor;
 var bin_editor;
 
 window.onload = function () {
