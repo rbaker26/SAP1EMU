@@ -35,7 +35,7 @@
         @using (Html.BeginForm())
         {
             @Html.TextArea("bin_code", null, new { rows = "20", cols = "80", @class = "codebox", id = "bin_code" })
-            <input type="button" value="Save" />
+            <input type="button" value="Save" onclick="saveToFile()"/>
         }
     </div>
 </div>

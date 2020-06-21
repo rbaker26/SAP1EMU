@@ -71,16 +71,55 @@ namespace SAP1EMU.WebApp.Controllers
                 {
                     var mainWindow = Electron.WindowManager.BrowserWindows.First();
                     var options = new OpenDialogOptions {
+                        Title = "Open SAP1Emu Assembly Code",
+                        Filters = new FileFilter[] {
+                           new FileFilter
+                           {
+                               Name = "SAP1Emu Assembly",
+                               Extensions = new string[] {"s"}
+                           }
+                        },
                         Properties = new OpenDialogProperty[] {
-                            OpenDialogProperty.openFile
+                            OpenDialogProperty.openFile,
                         }
                     };
                     string[] files = await Electron.Dialog.ShowOpenDialogAsync(mainWindow, options);
 
-                    string code = System.IO.File.ReadAllText(files[0]);
-
+                    string code = "";
+                    if (files.Length != 0)
+                    {
+                        if(!string.IsNullOrEmpty(files[0]))
+                        {
+                            code = System.IO.File.ReadAllText(files[0]);
+                        }
+                    }
 
                     Electron.IpcMain.Send(mainWindow, "code-from-file-asm", code);
+
+                });
+
+
+                Electron.IpcMain.On("save-to-file-asm", async (args) =>
+                {
+                    var mainWindow = Electron.WindowManager.BrowserWindows.First();
+                    var options = new SaveDialogOptions {
+                        Title = "Save SAP1Emu Binary Code",
+                        Filters = new FileFilter[] {
+                            new FileFilter { 
+                                Name = "SAP1Emu Binary", 
+                                Extensions = new string[] {"b"} 
+                            }
+                        }
+                    };
+
+                    var path = await Electron.Dialog.ShowSaveDialogAsync(mainWindow, options);
+
+                    if(!string.IsNullOrEmpty(path))
+                    {
+                        string contents = (string)args;
+                        System.IO.File.WriteAllText(path, contents);
+                    }
+                   
                 });
             }
             return View();
