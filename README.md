@@ -75,7 +75,7 @@ For two-way comunication betweeen the processes, the IPC will be used.
 To add a new register or compenent to the SAP1EMU.Lib, there are 4 steps:
  1) Create your Class Definition
  2) Implament the IObserver<T> interface
- 3) Update the Sequencer to include new control bits for your new register (note only one register can push to the bus at a time)
+ 3) Update the Sequencer's JSON File to include new control bits for your new register (note only one register can push to the bus at a time)
  4) In the SAP1EMU.Engine, Subscribe the new register to the Clock.
  
  Below is an example of adding a Register called CReg:
