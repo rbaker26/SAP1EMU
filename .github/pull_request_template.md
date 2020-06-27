@@ -29,4 +29,4 @@
 - [ ] I have read the **CONTRIBUTING** document.
 - [ ] I have added tests to cover my changes.
 - [ ] All new and existing tests passed.
-- [ ] I updated the SamVer in the approprate .csproj file.
+- [ ] I updated the SamVer in the appropriate .csproj file (ask rbaker26 for a release number).
