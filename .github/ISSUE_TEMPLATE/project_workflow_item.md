@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-**Discription:**
+**Description:**
 
 
 **To-Do List**
