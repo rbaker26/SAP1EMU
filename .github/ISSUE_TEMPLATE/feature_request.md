@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-## Add this Ticket to the "Request Tracker" Project
+**Add this Ticket to the "Request Tracker" Project**
 In the right column under _Projects_ 
  1. Click the _Setting Icon_
  2. Click "Request Tracker"
