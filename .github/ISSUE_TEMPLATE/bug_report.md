@@ -6,6 +6,10 @@ labels: bug
 assignees: rbaker26
 
 ---
+## Add this Ticket to the "Issue Tracker" Project
+In the right column under _Projects_ 
+ 1. Click the _Setting Icon_
+ 2. Click "Issue Tracker"Definition
 
 ## Where was the bug located
  - [x] Assembler CLI
