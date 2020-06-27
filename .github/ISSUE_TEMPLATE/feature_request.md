@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-**What part of the projec is your feature request for?**
+**What part of the project is your feature request for?**
  - [x] Assembler CLI
  - [ ] Emulator CLI
  - [ ] Emulator GUI
