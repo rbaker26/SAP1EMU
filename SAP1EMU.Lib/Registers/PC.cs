@@ -36,8 +36,6 @@ namespace SAP1EMU.Lib.Registers
                 Wbus.Instance().Value = RegContent;
             }
 
-
-            // TODO - Still need the other jumps 
             // Active Low - Broadside Load, Pull
             if (cw[13] == '0' & tictok.ClockState == TicTok.State.Tok)
             {
