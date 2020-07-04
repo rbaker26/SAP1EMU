@@ -1053,6 +1053,197 @@ namespace SAP1EMU.Lib.Test
         }
         // **************************************************************************
 
+
+        // JNQ Tests 1 **************************************************************
+        [TestMethod]
+        public void Test_JNQ_PROG_1()
+        {
+            string expectedResult = "00000001";
+            List<string> program = new List<string>()
+            {
+                "00001111",
+                "01100011",
+                "00001110", // This LDA should be skipped
+                "11100000",
+                "11110000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "11111111", // should never be loaded into A
+                "00000001"
+            };
+
+            EngineProc engine = new EngineProc();
+
+
+            engine.Init(new RAMProgram(program));
+            engine.Run();
+
+            string output = engine.GetOutputReg();
+
+            Assert.AreEqual(expectedResult, output);
+        }
+        // **************************************************************************
+
+
+        // JLT Tests 1 **************************************************************
+        [TestMethod]
+        public void Test_JLT_PROG_1()
+        {
+            string expectedResult = "11111111";
+            List<string> program = new List<string>()
+            {
+                "00001111",
+                "01110011", // Should not jump, 1 > 0
+                "00001110",
+                "11100000",
+                "11110000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "11111111",
+                "00000001"
+            };
+
+            EngineProc engine = new EngineProc();
+
+
+            engine.Init(new RAMProgram(program));
+            engine.Run();
+
+            string output = engine.GetOutputReg();
+
+            Assert.AreEqual(expectedResult, output);
+        }
+        // **************************************************************************
+
+
+        // JLT Tests 2 **************************************************************
+        [TestMethod]
+        public void Test_JLT_PROG_2()
+        {
+            string expectedResult = "11111110";
+            List<string> program = new List<string>()
+            {
+                "00001111",
+                "01110011", // Should jump, -254 < 0
+                "00001110",
+                "11100000",
+                "11110000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "11111111",
+                "11111110"
+            };
+
+            EngineProc engine = new EngineProc();
+
+
+            engine.Init(new RAMProgram(program));
+            engine.Run();
+
+            string output = engine.GetOutputReg();
+
+            Assert.AreEqual(expectedResult, output);
+        }
+        // **************************************************************************
+
+
+        // JGT Tests 1 **************************************************************
+        [TestMethod]
+        public void Test_JGT_PROG_1()
+        {
+            string expectedResult = "00000001";
+            List<string> program = new List<string>()
+            {
+                "00001111",
+                "10000011",
+                "00001110",
+                "11100000",
+                "11110000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "11111111",
+                "00000001"
+            };
+
+            EngineProc engine = new EngineProc();
+
+
+            engine.Init(new RAMProgram(program));
+            engine.Run();
+
+            string output = engine.GetOutputReg();
+
+            Assert.AreEqual(expectedResult, output);
+        }
+        // **************************************************************************
+
+
+        // JGT Tests 2 **************************************************************
+        [TestMethod]
+        public void Test_JGT_PROG_2()
+        {
+            string expectedResult = "11111111";
+            List<string> program = new List<string>()
+            {
+                "00001111",
+                "10000011",
+                "00001110",
+                "11100000",
+                "11110000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "11111111",
+                "10000001"
+            };
+
+            EngineProc engine = new EngineProc();
+
+
+            engine.Init(new RAMProgram(program));
+            engine.Run();
+
+            string output = engine.GetOutputReg();
+
+            Assert.AreEqual(expectedResult, output);
+        }
+        // **************************************************************************
+
+
         // JIC Test 1 ***************************************************************
         [TestMethod]
         public void Test_JIC_PROG_1()

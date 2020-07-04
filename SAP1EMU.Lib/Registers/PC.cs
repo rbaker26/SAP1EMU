@@ -8,14 +8,12 @@ namespace SAP1EMU.Lib.Registers
 {
     public class PC : IObserver<TicTok>
     {
-        readonly IReg ireg;
         readonly AReg areg;
         private string RegContent { get; set; }
 
-        public PC(ref IReg ireg, ref AReg areg)
+        public PC(ref AReg areg)
         {
             RegContent = "00000000";
-            this.ireg = ireg;
             this.areg = areg;
         }
         public void Exec(TicTok tictok)
@@ -36,8 +34,6 @@ namespace SAP1EMU.Lib.Registers
                 Wbus.Instance().Value = RegContent;
             }
 
-
-            // TODO - Still need the other jumps 
             // Active Low - Broadside Load, Pull
             if (cw[13] == '0' & tictok.ClockState == TicTok.State.Tok)
             {
@@ -48,32 +44,63 @@ namespace SAP1EMU.Lib.Registers
                 }
 
 
+                // The cw[14-16] is a 3-bit jump code that tells the PC which jump code to preform.
+                // JMP == 000
+                // JEQ == 001
+                // JNQ == 010
+                // JLT == 011
+                // JGT == 100
+                // JIC == 101
+
+                
+                string jump_code = cw.Substring(14, 3);
+
                 // JMP
-                if (ireg.ToString().Substring(0,4) == "0100")
+                if (jump_code == "000")
                 {
                     this.RegContent = count;
-
                 }
                 // JEQ
-                else if(ireg.ToString().Substring(0, 4) == "0101")
+                else if (jump_code == "001")
                 {
-                    if(areg.ToString()=="00000000")
+                    if (areg.ToString() == "00000000")
+                    {
+                        this.RegContent = count;
+                    }
+                }
+                // JNQ
+                else if(jump_code == "010")
+                {
+                    if (areg.ToString() != "00000000")
+                    {
+                        this.RegContent = count;
+                    }
+                }
+                // JLT  
+                else if (jump_code == "011")
+                {
+                    if (areg.ToString()[0] == '1')
+                    {
+                        this.RegContent = count;
+                    }
+                }
+                // JGT 
+                else if (jump_code == "100")
+                {
+                    if (areg.ToString() != "00000000" && areg.ToString()[0] == '0')
                     {
                         this.RegContent = count;
                     }
                 }
                 // JIC
-                else if (ireg.ToString().Substring(0, 4) == "1001")
+                else if(jump_code == "101")
                 {
-                    if(Flags.Instance().Overflow == 1)
+                    if (Flags.Instance().Overflow == 1)
                     {
                         this.RegContent = count;
                     }
                 }
 
-                // I might change LP_ to CJ for check_jump
-                // than i could pass an Ireg* to the PC to it can tell what the instruction is
-                // it would be like a mini-jmp register in the PC
 
             }
 
