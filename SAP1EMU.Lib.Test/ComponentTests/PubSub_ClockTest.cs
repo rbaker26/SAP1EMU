@@ -28,7 +28,7 @@ namespace SAP1EMU.Lib.Test.ComponentTests
                 OReg oreg = new OReg();
                 RAM ram = new RAM();
 
-                PC pc = new PC(ref ireg, ref areg);
+                PC pc = new PC(ref areg);
                 ALU alu = new ALU(ref areg, ref breg);
                 MReg mreg = new MReg(ref ram);
                 SEQ seq = SEQ.Instance();
@@ -69,7 +69,7 @@ namespace SAP1EMU.Lib.Test.ComponentTests
                 OReg oreg = new OReg();
                 RAM ram = new RAM();
 
-                PC pc = new PC(ref ireg, ref areg);
+                PC pc = new PC(ref areg);
                 ALU alu = new ALU(ref areg, ref breg);
                 MReg mreg = new MReg(ref ram);
                 SEQ seq = SEQ.Instance();
@@ -116,7 +116,7 @@ namespace SAP1EMU.Lib.Test.ComponentTests
             OReg oreg = new OReg();
             RAM ram = new RAM();
 
-            PC pc = new PC(ref ireg, ref areg);
+            PC pc = new PC(ref areg);
             ALU alu = new ALU(ref areg, ref breg);
             MReg mreg = new MReg(ref ram);
             SEQ seq = SEQ.Instance();

@@ -12,7 +12,7 @@ namespace SAP1EMU.Lib.Registers
         readonly AReg areg;
         private string RegContent { get; set; }
 
-        public PC(ref IReg ireg, ref AReg areg)
+        public PC(ref AReg areg)
         {
             RegContent = "00000000";
             this.ireg = ireg;
