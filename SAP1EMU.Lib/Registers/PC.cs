@@ -8,14 +8,12 @@ namespace SAP1EMU.Lib.Registers
 {
     public class PC : IObserver<TicTok>
     {
-        readonly IReg ireg;
         readonly AReg areg;
         private string RegContent { get; set; }
 
         public PC(ref AReg areg)
         {
             RegContent = "00000000";
-            this.ireg = ireg;
             this.areg = areg;
         }
         public void Exec(TicTok tictok)
