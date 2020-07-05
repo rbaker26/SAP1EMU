@@ -161,6 +161,7 @@ body {
     justify-self: stretch;
     min-height: 48px;
 }
+
 .sap1-grid-span {
     grid-column-start: 2;
     grid-column-end: 2;
