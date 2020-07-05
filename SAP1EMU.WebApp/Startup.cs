@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ElectronNET.API;
+using ElectronNET.API.Entities;
 
 namespace SAP1EMU.WebApp
 {
@@ -41,15 +42,23 @@ namespace SAP1EMU.WebApp
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-            Task.Run(async () => await Electron.WindowManager.CreateWindowAsync());
+
+
+            var display = Electron.Screen.GetPrimaryDisplayAsync().Result;
+            BrowserWindowOptions browserWindowOptions = new BrowserWindowOptions()
+            {
+                Width = display.WorkAreaSize.Width,
+                Height = display.WorkAreaSize.Height
+            };
+           
+            Task.Run(async () => await Electron.WindowManager.CreateWindowAsync(browserWindowOptions));
+           
         }
     }
 }

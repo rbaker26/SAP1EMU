@@ -18,7 +18,7 @@
 
         <form id="asm_form" method="post" action="AssembleCode">
             @Html.TextArea("CodeList", null, new { rows = "20", cols = "80", @class = "codebox", id = "asm_code" })
-            <input type="button" name="CodeList" value="Assemble" onclick="AssembleCode(this)" />
+            <input type="button" name="CodeList" value="Run Emulator" onclick="AssembleCode(this)" />
             <input type="button" value="Load from File" />
         </form>
         <br />
@@ -37,11 +37,37 @@
                 <div vbox_sap>
                     <div>
                         <h3>Controls</h3>
-                        <button></button>  <button></button> <br />
-                        <button></button> <br />
+                        <button><img src="~/img/skip_previous-24px.svg " /></button>
+                        <button><img src="~/img/play_arrow-24px.svg" /></button>
+                        <button><img src="~/img/skip_next-24px.svg" /></button>
+                        <button><img src="~/img/replay-24px.svg" /></button> 
+                        <br />
+                        <br />
+
+                    </div>
+                    <div class="sap1-grid">
+                        <div >PC</div>
+                        <div class="sap1-grid-span">WBus</div>
+                        <div >AReg</div>
+
+                        <div >Mar</div>
+                        <div >ALU</div>
+
+                        <div >RAM</div>
+                        <div >BReg</div>
+
+                        <div >IReg</div>
+                        <div >OReg</div>
+
+                        <div >Seq</div>
+                        <div >Dis</div>
+
                     </div>
                     <div>
                         <h3>Flags</h3>
+                        <div class="flags-box">
+                            <pre>CF = 0   UF = 0   ZF = 1</pre>
+                        </div>
                     </div>
                 </div>
             </div>

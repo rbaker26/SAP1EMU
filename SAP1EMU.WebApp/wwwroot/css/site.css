@@ -134,8 +134,45 @@ body {
 .hbox_sap {
     display: flex;
     flex-direction: row;
+    
+}
+.hbox_sap > * {
+    margin: 5px;
 }
 
 .profile-pic {
     max-width: 50%;
+}
+
+
+.sap1-grid {
+    display: grid;
+    grid-template-columns: 40% 20% 40%;
+    grid-template-rows: 20% 20% 20% 20% 20%;
+   
+    width:390px;
+
+}
+.sap1-grid > div {
+    border: 2px solid black;
+   
+    background-color: grey;
+    margin: 2px;
+    justify-self: stretch;
+    min-height: 48px;
+}
+.sap1-grid-span {
+    grid-column-start: 2;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: span 5;
+
+    justify-self: stretch;
+    text-align: center;
+}
+
+.flags-box {
+    border: 2px solid black;
+    background-color: grey;
+    margin: 2px;
 }
