@@ -16,9 +16,11 @@
         <h3>Assembly</h3>
         <br />
 
-        <form id="asm_form" method="post" action="AssembleCode">
+        <form id="asm_form">
             @Html.TextArea("CodeList", null, new { rows = "20", cols = "80", @class = "codebox", id = "asm_code" })
-            <input type="button" name="CodeList" value="Run Emulator" onclick="AssembleCode(this)" />
+            <label>Instruction Set</label>
+            <select name="langs" id="langs"></select>
+            <input type="button" name="CodeList" value="Run Emulator" onclick="RunEmulator()" />
             <input type="button" value="Load from File" />
         </form>
         <br />
@@ -47,21 +49,21 @@
 
                     </div>
                     <div class="sap1-grid">
-                        <div >PC</div>
-                        <div class="sap1-grid-span">WBus</div>
-                        <div >AReg</div>
+                        <div>PC<br /><p id-"pc-block"></p></div>
+                        <div class="sap1-grid-span">WBus<br /><p id-"wbus-block"></p></div>
+                        <div>AReg <br /><p id-"areg-block"></p></div>
 
-                        <div >Mar</div>
-                        <div >ALU</div>
+                        <div>Mar <br /><p id-"mar-block"></p></div>
+                        <div>ALU <br /><p id-"alu-block"></p></div>
 
-                        <div >RAM</div>
-                        <div >BReg</div>
+                        <div>RAM <br /><p id-"ram-block"></p></div>
+                        <div>BReg<br /><p id-"breg-block"></p></div>
 
-                        <div >IReg</div>
-                        <div >OReg</div>
+                        <div>IReg<br /><p id-"ireg-block"></p></div>
+                        <div>OReg<br /><p id-"oreg-block"></p></div>
 
-                        <div >Seq</div>
-                        <div >Dis</div>
+                        <div>Seq <br /><p id-"seq-block"></p></div>
+                        <div>Dis <br /><p id-"dis-block"></p></div>
 
                     </div>
                     <div>
@@ -84,3 +86,4 @@
     </div>
     <div>@*This blank div is req to trick the row::after or else the margins get screwed up*@</div>
 </div>
+
