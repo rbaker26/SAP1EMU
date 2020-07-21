@@ -110,18 +110,6 @@ body {
 }
 
 
-
-.button {
-    background-color: #A39898; /* Green */
-    border: none;
-    color: white;
-    padding: 15px 28px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-}
-
 .assembler-out{
     
 }
