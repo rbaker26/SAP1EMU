@@ -16,9 +16,11 @@
         <h3>Assembly</h3>
         <br />
 
-        <form id="asm_form" method="post" action="AssembleCode">
+        <form id="asm_form">
             @Html.TextArea("CodeList", null, new { rows = "20", cols = "80", @class = "codebox", id = "asm_code" })
-            <input type="button" name="CodeList" value="Assemble" onclick="AssembleCode(this)" />
+            <label>Instruction Set</label>
+            <select name="langs" id="langs"></select>
+            <input type="button" name="CodeList" value="Run Emulator" onclick="RunEmulator()" />
             <input type="button" value="Load from File" />
         </form>
         <br />
@@ -34,14 +36,41 @@
                     <h3>RAM</h3>
                     @Html.TextArea("ram_dump", null, new { rows = "16", cols = "20", @class = "codebox", id = "ram_dump" })
                 </div>
-                <div vbox_sap>
+                <div vbox_sapre>
                     <div>
                         <h3>Controls</h3>
-                        <button></button>  <button></button> <br />
-                        <button></button> <br />
+                        <button id="back-button" onclick="playerInstance.back()"><img src="~/img/skip_previous-24px.svg " /></button>
+                        <button id="play-button" onclick="play_button_onclick()"><img src="~/img/play_arrow-24px.svg" /></button>
+                        <button id="pause-button" onclick="playerInstance.pause()"><img src="~/img/pause-24px.svg" /></button>
+                        <button id="next-button" onclick="playerInstance.forward()"><img src="~/img/skip_next-24px.svg" /></button>
+                        <button id="reset-button" onclick="playerInstance.reset()"><img src="~/img/replay-24px.svg" /></button> 
+                        <br />
+                        <br />
+                        
+                    </div>
+                    <div class="sap1-grid">
+                        <div>PC<br /><pre id="pc-block"> </pre></div>
+                        <div class="sap1-grid-span">WBus<br /><pre id="wbus-block" ></pre></div>
+                        <div>AReg <br /><pre id="areg-block"> </pre></div>
+
+                        <div>Mar <br /><pre id="mar-block">1111 1111</pre></div>
+                        <div>ALU <br /><pre id="alu-block"> </pre></div>
+
+                        <div>RAM <br /><pre id="ram-block"> </pre></div>
+                        <div>BReg<br /><pre id="breg-block"> </pre></div>
+
+                        <div>IReg<br /><pre id="ireg-block"> </pre></div>
+                        <div>OReg<br /><pre id="oreg-block"> </pre></div>
+
+                        <div>Seq <br /><pre id="seq-block"> </pre></div>
+                        <div>Dis <br /><pre id="dis-block"> </pre></div>
+
                     </div>
                     <div>
                         <h3>Flags</h3>
+                        <div class="flags-box">
+                            <pre>CF = 0   UF = 0   ZF = 1</pre>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -57,3 +86,4 @@
     </div>
     <div>@*This blank div is req to trick the row::after or else the margins get screwed up*@</div>
 </div>
+

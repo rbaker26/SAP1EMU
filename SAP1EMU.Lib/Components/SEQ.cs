@@ -19,7 +19,7 @@ namespace SAP1EMU.Lib.Components
         /// <summary>
         /// The control word storage location for all registers and components
         /// <para> 
-        /// CP EP LM_ CE_ LI_ EI_ LA_ EA SU EU LB_ LO_ |  LR_ LP_
+        /// CP EP LM_ CE_ LI_ EI_ LA_ EA SU EU LB_ LO_ |  LR_ LP_ | 0bXXX (Jump Code)
         /// </para>
         /// </summary>
         public string ControlWord { get; private set; }
