@@ -65,7 +65,7 @@ function initBoard() {
     $('#breg-block').html("0000 0000");
     $('#ireg-block').html("0000 0000");
     $('#oreg-block').html("0000 0000");
-    $('#seq-block').html("00111110001111");
+    $('#seq-block').html("0011 1110 0011 11");
     $('#dis-block').html("0");
 
 }

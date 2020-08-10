@@ -167,4 +167,6 @@ body {
     margin: 2px;*/  
 }
 
- 
+.input-disabled-correct-background:disabled {
+    background: white;
+}

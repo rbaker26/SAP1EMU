@@ -60,29 +60,59 @@
                     <div class="alert alert-secondary"><h6>B Register</h6><pre id="breg-block"></pre></div>
                     <div class="alert alert-secondary"><h6>I Register</h6><pre id="ireg-block"></pre></div>
                     <div class="alert alert-secondary"><h6>O Register</h6><pre id="oreg-block"></pre></div>
-                    <div class="alert alert-secondary"><h6>Seq</h6><pre id="seq-block"></pre></div>
+                    <div class="alert alert-secondary"><h6>Sequencer</h6><pre id="seq-block"></pre></div>
                     <div class="alert alert-secondary"><h6>Display</h6><pre id="dis-block"></pre></div>
 
                 </div>
-                @*<div class="sap1-grid">
-                        <div>PC<br /><pre id="pc-block"> </pre></div>
-                        <div class="sap1-grid-span">WBus<br /><pre id="wbus-block"></pre></div>
-                        <div>AReg <br /><pre id="areg-block"> </pre></div>
-                        <div>Mar <br /><pre id="mar-block">1111 1111</pre></div>
-                        <div>ALU <br /><pre id="alu-block"> </pre></div>
-                        <div>RAM <br /><pre id="ram-block"> </pre></div>
-                        <div>BReg<br /><pre id="breg-block"> </pre></div>
-                        <div>IReg<br /><pre id="ireg-block"> </pre></div>
-                        <div>OReg<br /><pre id="oreg-block"> </pre></div>
-                        <div>Seq <br /><pre id="seq-block"> </pre></div>
-                        <div>Dis <br /><pre id="dis-block"> </pre></div>
-
-                    </div>*@
                 <div>
                     <h3>Flags</h3>
-                    <div class="alert alert-secondary">
-                        <pre>CF = 0   UF = 0   ZF = 1</pre>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">Carry</span>
+                                </div>
+                                <input type="text" class="form-control input-disabled-correct-background" value="0" aria-label="Username" aria-describedby="basic-addon1" disabled>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">Underflow</span>
+                                </div>
+                                <input type="text" class="form-control input-disabled-correct-background" value="0" aria-label="Username" aria-describedby="basic-addon1" disabled>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">Zero</span>
+                                </div>
+                                <input type="text" class="form-control input-disabled-correct-background" value="0" aria-label="Username" aria-describedby="basic-addon1" disabled>
+                            </div>
+                        </div>
                     </div>
+
+                    @*<div class="form-row align-items-center">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">Carry</span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">Underflow</span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">Zero</span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                            </div>
+                        </div>*@
                 </div>
             </div>
 
