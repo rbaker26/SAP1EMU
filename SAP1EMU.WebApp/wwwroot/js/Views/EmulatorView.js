@@ -80,7 +80,7 @@ function updateBoard(frame) {
     $('#breg-block').html(frame.bReg);
     $('#ireg-block').html(frame.iReg);
     $('#oreg-block').html(frame.oReg);
-    $('#seq-block').html(frame.seq.substring(0,13));
+    $('#seq-block').html(frame.seq.substring(0,13)); // TODO This substring should be handled at the API level, not the UI level
     $('#dis-block').html(parseInt(frame.oReg, 2) + " " + parseInt("0" + frame.oReg, 2));
 }
 
