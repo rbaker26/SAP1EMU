@@ -65,7 +65,7 @@ function initBoard() {
     $('#breg-block').html("0000 0000");
     $('#ireg-block').html("0000 0000");
     $('#oreg-block').html("0000 0000");
-    $('#seq-block').html("0011 1110 0011 11");
+    $('#seq-block').html("00111110001111");
     $('#dis-block').html("0");
 
 }
@@ -80,7 +80,7 @@ function updateBoard(frame) {
     $('#breg-block').html(frame.bReg);
     $('#ireg-block').html(frame.iReg);
     $('#oreg-block').html(frame.oReg);
-    $('#seq-block').html(frame.seq.substring(0,13));
+    $('#seq-block').html(frame.seq.substring(0,13)); // TODO This substring should be handled at the API level, not the UI level
     $('#dis-block').html(parseInt(frame.oReg, 2) + " " + parseInt("0" + frame.oReg, 2));
 }
 
