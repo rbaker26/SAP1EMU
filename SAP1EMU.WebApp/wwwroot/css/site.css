@@ -170,3 +170,8 @@ body {
 .input-disabled-correct-background:disabled {
     background: white;
 }
+
+
+.tstate-width-correction {
+    max-width: 70px;
+}
