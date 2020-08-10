@@ -15,22 +15,38 @@
     <div class="column2">
         <h3>Assembly</h3>
         <br />
-        <div class="hbox_sap">
-            <div>
-                <form id="asm_form">
-                    @Html.TextArea("CodeList", null, new { rows = "20", cols = "80", @class = "codebox", id = "asm_code" })
-                    <label>Instruction Set</label>
-                    <select name="langs" id="langs"></select>
-                    <input type="button" name="CodeList" value="Run Emulator" onclick="RunEmulator()" />
-                    <input type="button" value="Load from File" />
-                </form>
+
+        <div class="form-row">
+            <div class="col">
+                @Html.TextArea("CodeList", null, new { rows = "20", cols = "80", @class = "codebox", id = "asm_code" })
             </div>
-
-
-            <div>
+            <div class="col-auto">
                 @Html.TextArea("ram_dump", null, new { rows = "16", cols = "20", @class = "codebox", id = "ram_dump" })
             </div>
         </div>
+
+        <div class="form-row mt-4">
+            <div class="form-group mx-2">
+                <label for="langs">Instruction Set</label>
+                <select id="langs" class="form-control"></select>
+            </div>
+            <div class="form-group mx-2 d-flex align-items-center">
+                <button id="loadFile" class="btn btn-light mt-auto">Load from File</button>
+            </div>
+            <div class="form-group mx-2 d-flex align-items-center">
+                <button id="loadRAM" class="btn btn-light mt-auto" onclick="RunEmulator()">Load into RAM</button>
+            </div>
+        </div>
+
+
+        @*<div class="form-group col-md-4">
+            <label>Instruction Set</label>
+            <select name="langs" id="langs"></select>
+        </div>
+        <div>
+            <input type="button" name="CodeList" value="Run Emulator" onclick="RunEmulator()" />
+            <input type="button" value="Load from File" />
+        </div>*@
 
     </div>
     <div class="column2">
@@ -92,27 +108,6 @@
                             </div>
                         </div>
                     </div>
-
-                    @*<div class="form-row align-items-center">
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">Carry</span>
-                                </div>
-                                <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-                            </div>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">Underflow</span>
-                                </div>
-                                <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-                            </div>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">Zero</span>
-                                </div>
-                                <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-                            </div>
-                        </div>*@
                 </div>
             </div>
 
