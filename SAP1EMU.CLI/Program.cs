@@ -11,7 +11,7 @@ using SAP1EMU.Engine;
 using SAP1EMU.Lib;
 using SAP1EMU.Lib.Utilities;
 
-namespace SAP1EMU.Engine_CLI
+namespace SAP1EMU.CLI
 {
     class Program
     {
