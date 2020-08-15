@@ -71,6 +71,7 @@ namespace SAP1EMU.Lib.Components
                     ControlTable.Add(HashKey(i + 1, instruction.BinCode), instruction.MicroCode[i]);
                 }
             }
+            _instance.ControlWord = ControlTable[HashKey(6,"1111")]; // sets the default to a NOP
             
         }
 
@@ -84,9 +85,11 @@ namespace SAP1EMU.Lib.Components
             if (_instance == null)
             {
                 _instance = new SEQ();
-                _instance.ControlWord = "00‬1111100011";
+                //_instance.ControlWord = "00‬1111100011"; 
+                // TODO - this wasnt enough chars bc the words got longer, I fixed by addding _instance.ControlWord = ControlTable[0]; abouve
+                // not a greate fix, but it works
             }
-            
+
             return _instance;
         }
 
