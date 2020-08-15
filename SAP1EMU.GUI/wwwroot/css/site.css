@@ -1,0 +1,177 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px; /* Vertically center the text there */
+}
+
+
+
+
+/* For Columns in Pages*/
+.column3 {
+    float: left;
+    width: 32%;
+    border: 1px solid #a39898;
+    padding: 8px;
+    margin: 5px;
+}
+.column2 {
+    float: left;
+    width: 49%;
+
+    border: 1px solid #a39898;
+    padding: 8px;
+    margin: 5px;
+}
+
+.column1 {
+    float: left;
+    width: 99%;
+    border: 1px solid #a39898;
+    padding: 8px;
+    margin: 5px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    margin: auto;
+    width: 100%;
+    content: "";
+    display: table;
+    clear: both;
+    align-content: center;
+    align-items: center;
+}
+
+
+.assembler-out{
+    
+}
+
+.vbox_sap {
+    display: flex;
+    flex-direction: column;
+}
+
+.hbox_sap {
+    display: flex;
+    flex-direction: row;
+    
+}
+.hbox_sap > * {
+    margin: 5px;
+}
+
+.profile-pic {
+    max-width: 50%;
+}
+
+
+.sap1-grid {
+    display: grid;
+    grid-template-columns: 35% 30% 35%;
+    grid-template-rows: 20% 20% 20% 20% 20%;
+   
+    
+
+}
+.sap1-grid > div {
+/*    border: 2px solid black;
+   
+    background-color: grey;
+    margin: 2px;
+    justify-self: stretch;
+    min-height: 48px;*/
+    max-height: 70px;
+}
+
+.sap1-grid-span {
+    grid-column-start: 2;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: span 5;
+
+    justify-self: stretch;
+    text-align: center;
+}
+
+.flags-box {
+/*    border: 2px solid black;
+    background-color: grey;
+    margin: 2px;*/  
+}
+
+.input-disabled-correct-background:disabled {
+    background: white;
+}
+
+
+.tstate-width-correction {
+    max-width: 70px;
+}

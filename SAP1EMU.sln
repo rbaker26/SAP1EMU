@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAP1EMU.Assembler", "SAP1EM
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F62A82B5-7BC1-430B-8E3B-A76E27724A49}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAP1EMU.WebApp", "SAP1EMU.WebApp\SAP1EMU.WebApp.csproj", "{28B1CC5D-C440-43E3-A812-17B0C29FB41C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAP1EMU.GUI", "SAP1EMU.GUI\SAP1EMU.GUI.csproj", "{1BE7AD93-45FD-48F5-825D-7F0C2BE30CD8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,10 +43,10 @@ Global
 		{46053099-4CB0-487B-8BF9-121FF7874329}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46053099-4CB0-487B-8BF9-121FF7874329}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46053099-4CB0-487B-8BF9-121FF7874329}.Release|Any CPU.Build.0 = Release|Any CPU
-		{28B1CC5D-C440-43E3-A812-17B0C29FB41C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{28B1CC5D-C440-43E3-A812-17B0C29FB41C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{28B1CC5D-C440-43E3-A812-17B0C29FB41C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{28B1CC5D-C440-43E3-A812-17B0C29FB41C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BE7AD93-45FD-48F5-825D-7F0C2BE30CD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BE7AD93-45FD-48F5-825D-7F0C2BE30CD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BE7AD93-45FD-48F5-825D-7F0C2BE30CD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BE7AD93-45FD-48F5-825D-7F0C2BE30CD8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
