@@ -9,7 +9,6 @@ using CommandLine;
 using SAP1EMU.Assembler;
 using SAP1EMU.Engine;
 using SAP1EMU.Lib;
-using SAP1EMU.Lib.Utilities;
 
 namespace SAP1EMU.CLI
 {
