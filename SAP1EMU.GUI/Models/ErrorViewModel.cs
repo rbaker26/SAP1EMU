@@ -1,6 +1,6 @@
 using System;
 
-namespace SAP1EMU.WebApp.Models
+namespace SAP1EMU.GUI.Models
 {
     public class ErrorViewModel
     {

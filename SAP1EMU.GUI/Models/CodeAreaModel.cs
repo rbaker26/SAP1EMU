@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SAP1EMU.WebApp.Models
+namespace SAP1EMU.GUI.Models
 {
     public class CodeAreaModel
     {

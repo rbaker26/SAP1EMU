@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace SAP1EMU.WebApp
+namespace SAP1EMU.GUI
 {
     public class Program
     {
