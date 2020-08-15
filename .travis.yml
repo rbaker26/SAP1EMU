@@ -4,6 +4,7 @@ mono: none
 dotnet: 3.1
 script:
   - dotnet build SAP1EMU.sln
+  - dotnet add package coverlet.collector
   - dotnet test SAP1EMU.Lib.Test -v n --no-build --collect:"XPlat Code Coverage"
   - dotnet test SAP1EMU.CLI.Test -v n --no-build --collect:"XPlat Code Coverage"
   - dotnet test SAP1EMU.Assembler.Test -v n --no-build --collect:"XPlat Code Coverage"
