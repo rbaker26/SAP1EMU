@@ -46,6 +46,51 @@ namespace SAP1EMU.CLI.Test
         }
 
         [TestMethod]
+        public void LDA170_BigF()
+        {
+            string input_file = "LDA170.s";
+            string output_file = "output_file.txt";
+            string expectedResult = "10101010";
+
+
+            string lineArgs = $"-s {input_file} -o {output_file} -F";
+            SAP1EMU.CLI.Program.Main(lineArgs.Split(' '));
+
+
+            string expected = $"************************************************************\n"
+                            + $"Final Output Register Value: { expectedResult }"
+                            + $"\n************************************************************\n\n";
+
+            string result = File.ReadAllText(output_file);
+            StringAssert.Contains(result, expected);
+
+            File.Delete(output_file);
+        }
+
+        [TestMethod]
+        public void LDA170_LittleF()
+        {
+            string input_file = "LDA170.s";
+            string output_file = "output_file.txt";
+            string expectedResult = "10101010";
+
+
+            string lineArgs = $"-s {input_file} -o {output_file} -f";
+            SAP1EMU.CLI.Program.Main(lineArgs.Split(' '));
+
+
+            string expected = $"************************************************************\n"
+                            + $"Final Output Register Value: { expectedResult }"
+                            + $"\n************************************************************\n\n";
+
+            string result = File.ReadAllText(output_file);
+            StringAssert.Contains(result, expected);
+
+            File.Delete(output_file);
+        }
+
+
+        [TestMethod]
         public void Fib()
         {
             string input_file = "Fib.s";
