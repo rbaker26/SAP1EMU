@@ -17,4 +17,10 @@
     <ProjectReference Include="..\SAP1EMU.CLI\SAP1EMU.CLI.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="test_asm.s">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

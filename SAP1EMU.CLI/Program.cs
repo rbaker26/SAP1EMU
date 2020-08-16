@@ -12,7 +12,7 @@ using SAP1EMU.Lib;
 
 namespace SAP1EMU.CLI
 {
-    class Program
+    public class Program
     {
         public class Options
         {
@@ -68,7 +68,7 @@ namespace SAP1EMU.CLI
             S, // ASM
             B  // BIN 
         }
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             _ = Parser.Default.ParseArguments<Options>(args)
                    .WithParsed(o =>
