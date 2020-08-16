@@ -89,6 +89,58 @@ namespace SAP1EMU.CLI.Test
             File.Delete(output_file);
         }
 
+        [TestMethod]
+        public void LDA170_BigO_STD()
+        {
+            string input_file = "LDA170.s";
+            string output_file = "output_file.txt";
+
+
+            string lineArgs = $"-s {input_file} -o {output_file} -O std";
+            SAP1EMU.CLI.Program.Main(lineArgs.Split(' '));
+
+
+            string expected = "************************************************************"  +Environment.NewLine +
+                              "* Output: 00000000                                         *" + Environment.NewLine +
+                              "************************************************************" + Environment.NewLine +
+                              Environment.NewLine +                                          
+                              "************************************************************" + Environment.NewLine +
+                              "* Output: 10101010                                         *" + Environment.NewLine +
+                              "************************************************************" + Environment.NewLine +
+                              Environment.NewLine +                                          
+                              "************************************************************" + Environment.NewLine +
+                              "* Output: 10101010                                         *" + Environment.NewLine +
+                              "************************************************************" + Environment.NewLine + Environment.NewLine;
+
+            string result = File.ReadAllText(output_file);
+            Assert.AreEqual(result, expected);
+
+            File.Delete(output_file);
+        }
+
+
+        [TestMethod]
+        public void LDA170_BigO_NF()
+        {
+            string input_file = "LDA170.s";
+            string output_file = "output_file.txt";
+
+
+            string lineArgs = $"-s {input_file} -o {output_file} -O no-format";
+            SAP1EMU.CLI.Program.Main(lineArgs.Split(' '));
+
+
+            string expected = "00000000" + Environment.NewLine +
+                              "10101010" + Environment.NewLine +
+                              "10101010" + Environment.NewLine;
+
+            string result = File.ReadAllText(output_file);
+            Assert.AreEqual(result, expected);
+
+            File.Delete(output_file);
+        }
+
+
 
         [TestMethod]
         public void Fib()
