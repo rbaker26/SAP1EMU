@@ -10,20 +10,4 @@ script:
   - dotnet test SAP1EMU.Engine.Test -v n --no-build --collect:"XPlat Code Coverage"
 
 after_success:
-  # - cd SAP1EMU.Lib.Test/
-  # - dotnet add package coverlet.collector
-  # - dotnet test --collect:"XPlat Code Coverage"
-
-  # - cd ..
-  # - cd SAP1EMU.Engine.Test/
-  # - dotnet test --collect:"XPlat Code Coverage"
-
-  # - cd ..
-  # - cd SAP1EMU.Assembler.Test/
-  # - dotnet test --collect:"XPlat Code Coverage"
-
-  # - cd ..
-  # - cd SAP1EMU.CLI.Test/
-  # - dotnet test --collect:"XPlat Code Coverage"
-
   - bash <(curl -s https://codecov.io/bash)

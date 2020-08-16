@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAP1EMU.Assembler.Test", "S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAP1EMU.CLI.Test", "SAP1EMU.CLI.Test\SAP1EMU.CLI.Test.csproj", "{26CDD026-0BF5-4DD0-B1B2-6D45C2DD06FB}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAP1EMU.Benchmarks", "SAP1EMU.Benchmarks\SAP1EMU.Benchmarks.csproj", "{B8A140F0-38F2-43D7-8269-52CAC8A78B32}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +67,10 @@ Global
 		{26CDD026-0BF5-4DD0-B1B2-6D45C2DD06FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26CDD026-0BF5-4DD0-B1B2-6D45C2DD06FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26CDD026-0BF5-4DD0-B1B2-6D45C2DD06FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8A140F0-38F2-43D7-8269-52CAC8A78B32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8A140F0-38F2-43D7-8269-52CAC8A78B32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8A140F0-38F2-43D7-8269-52CAC8A78B32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8A140F0-38F2-43D7-8269-52CAC8A78B32}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
