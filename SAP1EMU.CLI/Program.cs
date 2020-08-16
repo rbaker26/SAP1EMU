@@ -83,7 +83,7 @@ namespace SAP1EMU.CLI
                                Console.Error.WriteLine($"SAP1EMU: error: {o.SourceFile}: No such file");
                                Console.Error.WriteLine($"SAP1EMU: fatal error: no input file");
                                Console.Error.WriteLine("emulation terminated");
-                               System.Environment.Exit(1);
+                               CheckEnvAndExit();
 
                            }
                            else // Check if file is valid
@@ -108,7 +108,7 @@ namespace SAP1EMU.CLI
                                        Console.Error.WriteLine($"SAP1EMU: error: {o.SourceFile}: Invalid file extension: Must be <FileName>.s or <FileName>.b");
                                        Console.Error.WriteLine($"SAP1EMU: fatal error: no valid input file");
                                        Console.Error.WriteLine("emulation terminated.");
-                                       System.Environment.Exit(1);
+                                       CheckEnvAndExit();
                                    }
                                }
 
@@ -118,14 +118,14 @@ namespace SAP1EMU.CLI
                                    Console.Error.WriteLine($"SAP1EMU: error: {o.SourceFile}: File is empty");
                                    Console.Error.WriteLine($"SAP1EMU: fatal error: no valid input file");
                                    Console.Error.WriteLine("emulation terminated");
-                                   System.Environment.Exit(1);
+                                   CheckEnvAndExit();
                                }
                                if (loc > 16)
                                {
                                    Console.Error.WriteLine($"SAP1EMU: error: {o.SourceFile}: invalid file: Contains more than 16 lines of code.");
                                    Console.Error.WriteLine($"SAP1EMU: fatal error: no valid input file");
                                    Console.Error.WriteLine("emulation terminated");
-                                   System.Environment.Exit(1);
+                                   CheckEnvAndExit();
                                }
 
 
@@ -181,7 +181,7 @@ namespace SAP1EMU.CLI
 
                                    Console.Error.Flush();
 
-                                   System.Environment.Exit(1);
+                                   CheckEnvAndExit();
                                }
                            }
                            else
@@ -233,7 +233,7 @@ namespace SAP1EMU.CLI
 
                                Console.Error.Flush();
 
-                               System.Environment.Exit(1);
+                               CheckEnvAndExit();
                            }
 
 
@@ -338,6 +338,19 @@ namespace SAP1EMU.CLI
                    });
         }
 
+        private static void CheckEnvAndExit()
+        {
+            string env = Environment.GetEnvironmentVariable("IS_TESTING_ENV");
+            if (env == "TRUE")
+            {
+                throw new CLIException();
+            }
+            else
+            {
+                CheckEnvAndExit();
+            }
+        }
+
         private static void Debug_Proc(Options o, List<string> source_file_contents, List<Frame> FrameStack)
         {
             if (o.Debug)
@@ -391,7 +404,7 @@ namespace SAP1EMU.CLI
                         {
                             Console.Error.WriteLine($"SAP1EMU: fatal error: debug: break point must be in range (1-{executable_line_count})");
                             Console.Error.WriteLine("debug terminated.");
-                            System.Environment.Exit(1);
+                            CheckEnvAndExit();
                         }
 
                         Console.Out.WriteLine("\n\nDo you want to set a TState break point: (y/n) ");
@@ -409,7 +422,7 @@ namespace SAP1EMU.CLI
                             {
                                 Console.Error.WriteLine("SAP1EMU: fatal error: debug: TState break point must be in range (1-6)");
                                 Console.Error.WriteLine("debug terminated.");
-                                System.Environment.Exit(1);
+                                CheckEnvAndExit();
                             }
                         }
                         else if (answer_char == 'N')
@@ -420,7 +433,7 @@ namespace SAP1EMU.CLI
                         {
                             Console.Error.WriteLine($"SAP1EMU: fatal error: debug: Invalid charecter");
                             Console.Error.WriteLine("debug terminated.");
-                            System.Environment.Exit(1);
+                            CheckEnvAndExit();
                         }
 
                     }
@@ -433,7 +446,7 @@ namespace SAP1EMU.CLI
                     {
                         Console.Error.WriteLine($"SAP1EMU: fatal error: debug: Invalid charecter");
                         Console.Error.WriteLine("debug terminated.");
-                        System.Environment.Exit(1);
+                        CheckEnvAndExit();
                     }
 
 
@@ -488,7 +501,7 @@ namespace SAP1EMU.CLI
                             Console.Write("Type \"quit\" to exit:\n:");
                             if (Console.ReadLine().ToUpper().Contains("QUIT"))
                             {
-                                System.Environment.Exit(1);
+                                CheckEnvAndExit();
                             }
 
                         }
