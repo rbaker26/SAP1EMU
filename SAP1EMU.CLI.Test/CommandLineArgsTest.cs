@@ -24,7 +24,7 @@ namespace SAP1EMU.CLI.Test
                             + $"Final Output Register Value: { expectedResult }"  
                             + $"\n************************************************************\n\n";
 
-            string result = File.ReadAllText("output.txt");
+            string result = File.ReadAllText(output_file);
             Assert.AreEqual(expected, result);
 
 
