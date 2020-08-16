@@ -9,9 +9,9 @@ using ElectronNET.API;
 using ElectronNET.API.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SAP1EMU.WebApp.Models;
+using SAP1EMU.GUI.Models;
 
-namespace SAP1EMU.WebApp.Controllers
+namespace SAP1EMU.GUI.Controllers
 {
     public class HomeController : Controller
     {

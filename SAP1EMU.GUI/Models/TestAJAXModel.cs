@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace SAP1EMU.WebApp.Models
+namespace SAP1EMU.GUI.Models
 {
     public class InputModel
     {

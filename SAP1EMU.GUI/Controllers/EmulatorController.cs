@@ -10,7 +10,7 @@ using SAP1EMU.Engine;
 using SAP1EMU.Assembler;
 using SAP1EMU.Lib;
 
-namespace SAP1EMU.WebApp.Controllers
+namespace SAP1EMU.GUI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
