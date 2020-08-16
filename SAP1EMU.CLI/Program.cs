@@ -345,7 +345,7 @@ namespace SAP1EMU.CLI
             {
                 if (env == "TRUE")
                 {
-                    throw new CLIException();
+                    throw new CLITestingxception();
                 }
                 else
                 {

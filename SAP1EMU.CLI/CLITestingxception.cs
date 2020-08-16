@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SAP1EMU.CLI
 {
-    public class CLIException : Exception
+    public class CLITestingxception : Exception
     {
     }
 }

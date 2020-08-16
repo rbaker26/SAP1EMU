@@ -97,7 +97,7 @@ namespace SAP1EMU.CLI.Test
                     {
                         SAP1EMU.CLI.Program.Main(lineArgs.Split(' '));
                     }
-                    catch(CLIException)
+                    catch(CLITestingxception)
                     {
                         // This should happen.
                         // All good
