@@ -1,15 +1,15 @@
-﻿using System;
 using System.Collections.Generic;
-using System.Text;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using SAP1EMU.Engine;
-namespace SAP1EMU.Lib.Test
+using SAP1EMU.Lib;
+
+namespace SAP1EMU.Engine.Test
 {
     [TestClass]
     public class EngineTest
     {
-
         // LDA Tests 1-3 ************************************************************
         #region LDA Tests 1-3
         // Test_LDA_PROG_1 **********************************************************
@@ -1255,7 +1255,7 @@ namespace SAP1EMU.Lib.Test
                     "00011110", // ADD E
                     "10010100", // JIC 4
                     "00001101", // LDA D (should miss)
-                    "11100000",  
+                    "11100000",
                     "11110000",
                     "00000000",
                     "00000000",
@@ -1315,12 +1315,12 @@ namespace SAP1EMU.Lib.Test
             {
                 engine.Run();
             }
-            catch(EngineRuntimeException)
+            catch (EngineRuntimeException)
             {
                 caught = true;
             }
 
-            if(!caught)
+            if (!caught)
             {
                 Assert.Fail();
             }
@@ -1329,7 +1329,6 @@ namespace SAP1EMU.Lib.Test
         }
         // **************************************************************************
 
-        
 
     }
-}  
+}

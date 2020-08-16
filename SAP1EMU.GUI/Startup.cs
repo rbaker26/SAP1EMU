@@ -10,7 +10,7 @@ using Microsoft.Extensions.Hosting;
 using ElectronNET.API;
 using ElectronNET.API.Entities;
 
-namespace SAP1EMU.WebApp
+namespace SAP1EMU.GUI
 {
     public class Startup
     {

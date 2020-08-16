@@ -1,12 +1,13 @@
 language: csharp
-solution: SAP1EMU-no-gui.sln
+solution: SAP1EMU.sln
 mono: none
 dotnet: 3.1
 script:
-  - dotnet build SAP1EMU-no-gui.sln
-  - dotnet test SAP1EMU-no-gui.sln
+  - dotnet build SAP1EMU.sln
+  - dotnet test SAP1EMU.Lib.Test -v n --no-build --collect:"XPlat Code Coverage"
+  - dotnet test SAP1EMU.CLI.Test -v n --no-build --collect:"XPlat Code Coverage"
+  - dotnet test SAP1EMU.Assembler.Test -v n --no-build --collect:"XPlat Code Coverage"
+  - dotnet test SAP1EMU.Engine.Test -v n --no-build --collect:"XPlat Code Coverage"
+
 after_success:
-  - cd SAP1EMU.Lib.Test/
-  - dotnet add package coverlet.collector
-  - dotnet test --collect:"XPlat Code Coverage"
   - bash <(curl -s https://codecov.io/bash)
