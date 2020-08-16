@@ -341,13 +341,20 @@ namespace SAP1EMU.CLI
         private static void CheckEnvAndExit()
         {
             string env = Environment.GetEnvironmentVariable("IS_TESTING_ENV");
-            if (env == "TRUE")
+            if(string.IsNullOrEmpty(env) == false)
             {
-                throw new CLIException();
+                if (env == "TRUE")
+                {
+                    throw new CLIException();
+                }
+                else
+                {
+                    Environment.Exit(1);
+                }
             }
             else
             {
-                CheckEnvAndExit();
+                Environment.Exit(1);
             }
         }
 
