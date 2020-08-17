@@ -16,14 +16,7 @@ jobs:
       - name: run benchamrks
         run: dotnet run --project SAP1EMU.Benchmarks --no-build --configuration Release
       - name: copy report
-        run: cd SAP1EMU.Benchmarks
-             cd bin &&
-             cd Release &&
-             cd netcoreapp3.1 &&
-             cd Benchmark.Artifacts &&
-             cd results &&
-             ls -l &&
-             pwd &&
+        run: pwd && ls -l
 #         && cp ./SAP1EMU.Benchmarks/bin/Release/netcoreapp3.1/BenchmarkDotNet.Artifacts/results/SAP1EMU.Benchmarks.EngineBenchmark-report-github.md .
       - uses: harupy/comment-on-pr@master
         env:
