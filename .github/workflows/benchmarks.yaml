@@ -1,0 +1,16 @@
+
+name: Add Benchmark Results
+on: [pull_request]
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.1.x' # SDK Version to use; x will use the latest version of the 3.1 channe
+      - name: build project
+        run: 
+          dotnet build SAP1EMU.Benchmarks --configuration Release
+      - name: run benchamrks
+        run: dotnet run SAP1EMU.Benchmarks
