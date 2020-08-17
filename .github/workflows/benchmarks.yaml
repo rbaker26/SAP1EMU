@@ -14,4 +14,4 @@ jobs:
         run: 
           dotnet build SAP1EMU.Benchmarks --configuration Release
       - name: run benchamrks
-        run: dotnet run SAP1EMU.Benchmarks
+        run: dotnet run --project SAP1EMU.Benchmarks --no-build --configuration Release
