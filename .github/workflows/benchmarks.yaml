@@ -19,4 +19,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          filename: SAP1EMU.Benchmarks\bin\Release\netcoreapp3.1\BenchmarkDotNet.Artifacts\results\SAP1EMU.Benchmarks.EngineBenchmark-report-github.md
+          filename: ..\..\SAP1EMU.Benchmarks\bin\Release\netcoreapp3.1\BenchmarkDotNet.Artifacts\results\SAP1EMU.Benchmarks.EngineBenchmark-report-github.md
