@@ -16,7 +16,7 @@ jobs:
       - name: run benchamrks
         run: dotnet run --project SAP1EMU.Benchmarks --no-build --configuration Release
       - name: copy report
-        run: cp ./SAP1EMU.Benchmarks/bin/Release/netcoreapp3.1/BenchmarkDotNet.Artifacts/results/SAP1EMU.Benchmarks.EngineBenchmark-report-github.md .
+        run: ls -l && cp ./SAP1EMU.Benchmarks/bin/Release/netcoreapp3.1/BenchmarkDotNet.Artifacts/results/SAP1EMU.Benchmarks.EngineBenchmark-report-github.md .
       - uses: harupy/comment-on-pr@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
