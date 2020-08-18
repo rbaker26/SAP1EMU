@@ -16,6 +16,7 @@ For tutorials, file specifications, instruction sets and other educational infor
 
 
 ## About this Project (Technical)
+#### This is outdated, I will update after v2.0.0-rc merges to master. Email me if you have questions.
 I decided to break this project up into a bunch of different reusable conponents knowing that once the CLI was complete, I wanted to reuse as much code as posible for the GUI.  To do this, I broke the project up into eight district parts. <br>
 Below is a diagram of how this project (solution) is set up with its corresponding .csproj files.
 ```
