@@ -56,6 +56,16 @@ namespace SAP1EMU.Lib
                 this.IReg = "????";
             }
 
+
+            if(TState > 3)
+            {
+
+            }
+            else
+            {
+                Instruction = "???";
+
+            }
         }
 
 

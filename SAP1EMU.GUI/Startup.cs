@@ -9,6 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ElectronNET.API;
 using ElectronNET.API.Entities;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace SAP1EMU.GUI
 {
@@ -24,7 +27,19 @@ namespace SAP1EMU.GUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential 
+                // cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                // requires using Microsoft.AspNetCore.Http;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            // The following line enables Application Insights telemetry collection.
+            services.AddApplicationInsightsTelemetry();
+
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,6 +54,7 @@ namespace SAP1EMU.GUI
                 app.UseExceptionHandler("/Home/Error");
             }
             app.UseStaticFiles();
+            app.UseCookiePolicy();
 
             app.UseRouting();
 
@@ -48,17 +64,31 @@ namespace SAP1EMU.GUI
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+            //ElectronBootstrap();
+            //Task.Run(async () => await Electron.WindowManager.CreateWindowAsync(browserWindowOptions)).Result.WebContents.Session.ClearCacheAsync();
+            //Electron.WindowManager.CreateWindowAsync().Result.BlurWebView();
+        }
 
-
+        private async void ElectronBootstrap()
+        {
             var display = Electron.Screen.GetPrimaryDisplayAsync().Result;
-            BrowserWindowOptions browserWindowOptions = new BrowserWindowOptions()
+
+
+            var browserWindow = await Electron.WindowManager.CreateWindowAsync(new BrowserWindowOptions()
             {
                 Width = display.WorkAreaSize.Width,
-                Height = display.WorkAreaSize.Height
-            };
-           
-            Task.Run(async () => await Electron.WindowManager.CreateWindowAsync(browserWindowOptions));
-           
+                Height = display.WorkAreaSize.Height,
+                Show = false,
+
+                WebPreferences = new WebPreferences
+                {
+                    WebSecurity = false
+                }
+            });
+
+            await browserWindow.WebContents.Session.ClearCacheAsync();
+            browserWindow.OnReadyToShow += () => browserWindow.Show();
+            browserWindow.SetTitle("SAP1Emu");
         }
     }
 }

@@ -159,6 +159,7 @@ body {
 
     justify-self: stretch;
     text-align: center;
+    max-height: none;
 }
 
 .flags-box {

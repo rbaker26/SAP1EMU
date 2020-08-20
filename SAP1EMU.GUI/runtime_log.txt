@@ -1,0 +1,33 @@
+2020-08-18 23:21:06.810 -07:00 [INF] SAP1Emu: Begin Engine Initialization
+2020-08-18 23:21:06.819 -07:00 [INF] SAP1Emu: Using Instruction Set: "SAP1Emu"
+2020-08-18 23:21:06.820 -07:00 [INF] SAP1Emu: Finished Engine Initialization
+2020-08-18 23:21:06.826 -07:00 [INF] SAP1Emu: Begin Engine Run
+2020-08-18 23:21:06.830 -07:00 [INF] SAP1Emu: Loading Ram
+2020-08-18 23:21:06.843 -07:00 [INF] SAP1Emu: RAM:
+["00001111","00011110","01010100","01000001","00001111","11100000","11110000","00000000","00000000","00000000","00000000","00000000","00000000","00000000","00000001","11111010"]
+2020-08-18 23:21:06.849 -07:00 [INF] SAP1Emu: Loaded Instruction Set: "SAP1Emu"
+2020-08-18 23:21:06.850 -07:00 [INF] SAP1Emu: Start Program Execution
+2020-08-18 23:21:06.859 -07:00 [INF] SAP1Emu: Instruction: LDA, Operand: 0xF
+2020-08-18 23:21:06.859 -07:00 [INF] SAP1Emu: Instruction: ADD, Operand: 0xE
+2020-08-18 23:21:06.859 -07:00 [INF] SAP1Emu: Instruction: JEQ, Operand: 0x4
+2020-08-18 23:21:06.860 -07:00 [INF] SAP1Emu: Instruction: JMP, Operand: 0x1
+2020-08-18 23:21:06.860 -07:00 [INF] SAP1Emu: Instruction: ADD, Operand: 0xE
+2020-08-18 23:21:06.860 -07:00 [INF] SAP1Emu: Instruction: JEQ, Operand: 0x4
+2020-08-18 23:21:06.860 -07:00 [INF] SAP1Emu: Instruction: JMP, Operand: 0x1
+2020-08-18 23:21:06.860 -07:00 [INF] SAP1Emu: Instruction: ADD, Operand: 0xE
+2020-08-18 23:21:06.860 -07:00 [INF] SAP1Emu: Instruction: JEQ, Operand: 0x4
+2020-08-18 23:21:06.860 -07:00 [INF] SAP1Emu: Instruction: JMP, Operand: 0x1
+2020-08-18 23:21:06.860 -07:00 [INF] SAP1Emu: Instruction: ADD, Operand: 0xE
+2020-08-18 23:21:06.860 -07:00 [INF] SAP1Emu: Instruction: JEQ, Operand: 0x4
+2020-08-18 23:21:06.860 -07:00 [INF] SAP1Emu: Instruction: JMP, Operand: 0x1
+2020-08-18 23:21:06.860 -07:00 [INF] SAP1Emu: Instruction: ADD, Operand: 0xE
+2020-08-18 23:21:06.860 -07:00 [INF] SAP1Emu: Instruction: JEQ, Operand: 0x4
+2020-08-18 23:21:06.860 -07:00 [INF] SAP1Emu: Instruction: JMP, Operand: 0x1
+2020-08-18 23:21:06.860 -07:00 [INF] SAP1Emu: Instruction: ADD, Operand: 0xE
+2020-08-18 23:21:06.860 -07:00 [INF] SAP1Emu: Instruction: JEQ, Operand: 0x4
+2020-08-18 23:21:06.860 -07:00 [INF] SAP1Emu: Instruction: LDA, Operand: 0xF
+2020-08-18 23:21:06.860 -07:00 [INF] SAP1Emu: Instruction: OUT, Operand: 0x0
+2020-08-18 23:21:06.860 -07:00 [INF] SAP1Emu: Instruction: HLT, Operand: 0x0
+2020-08-18 23:21:06.861 -07:00 [INF] SAP1Emu: HLT Detected
+2020-08-18 23:21:06.861 -07:00 [INF] SAP1Emu: End Program Execution
+2020-08-18 23:21:06.861 -07:00 [INF] SAP1Emu: End Engine Run
