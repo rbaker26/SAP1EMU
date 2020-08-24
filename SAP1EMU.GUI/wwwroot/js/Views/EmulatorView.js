@@ -72,14 +72,14 @@ function initBoard() {
 
 function updateBoard(frame) {
     $('#pc-block').html(frame.pc);
-    $('#wbus-block').html(frame.wBus.match(/\d{1,4}/g).join(' '));
-    $('#areg-block').html(frame.aReg.match(/\d{1,4}/g).join(' '));
-    $('#mar-block').html(frame.mReg.match(/\d{1,4}/g).join(' '));
-    $('#alu-block').html(frame.alu.match(/\d{1,4}/g).join(' '));
-    $('#ram-block').html(frame.raM_Reg);
-    $('#breg-block').html(frame.bReg.match(/\d{1,4}/g).join(' '));
-    $('#ireg-block').html(frame.iReg.match(/\d{1,4}/g).join(' '));
-    $('#oreg-block').html(frame.oReg.match(/\d{1,4}/g).join(' '));
+    $('#wbus-block').html(frame.wBus.match(/.{1,4}/g).join(' '));
+    $('#areg-block').html(frame.aReg.match(/.{1,4}/g).join(' '));
+    $('#mar-block').html(frame.mReg.match(/.{1,4}/g).join(' '));
+    $('#alu-block').html(frame.alu.match(/.{1,4}/g).join(' '));
+    $('#ram-block').html(frame.raM_Reg.match(/.{1,4}/g).join(' '));
+    $('#breg-block').html(frame.bReg.match(/.{1,4}/g).join(' '));
+    $('#ireg-block').html(frame.iReg.match(/.{1,4}/g).join(' '));
+    $('#oreg-block').html(frame.oReg.match(/.{1,4}/g).join(' '));
     $('#seq-block').html(frame.seq.substring(0,13)); // TODO This substring should be handled at the API level, not the UI level
     $('#dis-block').html(parseInt(frame.oReg, 2) + " " + parseInt("0" + frame.oReg, 2));
 }
