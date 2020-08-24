@@ -31,7 +31,7 @@ namespace SAP1EMU.GUI.Controllers
                 
                 Electron.IpcMain.On("open-wiki", async (args) =>
                 {
-                    await Electron.Shell.OpenExternalAsync("https://github.com/rbaker26/SAP1EMU/wiki");
+                    await Electron.Shell.OpenExternalAsync("https://github.com/rbaker26/SAP1EMU/wiki"); 
                 });
             }
 
@@ -126,6 +126,11 @@ namespace SAP1EMU.GUI.Controllers
         }
 
         public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        public IActionResult Contributors()
         {
             return View();
         }

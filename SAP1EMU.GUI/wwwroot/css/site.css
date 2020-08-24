@@ -152,13 +152,17 @@ body {
 }
 
 .sap1-grid-span {
-    grid-column-start: 2;
+    justify-content: center;
+
+
+    /*    grid-column-start: 2;
     grid-column-end: 2;
     grid-row-start: 1;
     grid-row-end: span 5;
 
     justify-self: stretch;
     text-align: center;
+    max-height: none;*/
 }
 
 .flags-box {

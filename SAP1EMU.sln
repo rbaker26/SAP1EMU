@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAP1EMU.Assembler.Test", "S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAP1EMU.CLI.Test", "SAP1EMU.CLI.Test\SAP1EMU.CLI.Test.csproj", "{26CDD026-0BF5-4DD0-B1B2-6D45C2DD06FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAP1EMU.Benchmarks", "SAP1EMU.Benchmarks\SAP1EMU.Benchmarks.csproj", "{3924116E-911F-44ED-982B-6E767CDFBFC6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAP1EMU.Benchmarks", "SAP1EMU.Benchmarks\SAP1EMU.Benchmarks.csproj", "{3924116E-911F-44ED-982B-6E767CDFBFC6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

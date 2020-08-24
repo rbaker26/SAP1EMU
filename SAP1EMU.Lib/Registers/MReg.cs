@@ -64,11 +64,14 @@ namespace SAP1EMU.Lib.Registers
         }
         #endregion
 
-
-
         public override string ToString()
         {
-            return RegContent;
+            return this.RegContent;
+        }
+
+        public string ToString_Frame_Use()
+        {
+            return (String.IsNullOrEmpty(this.RegContent) ? "0000 0000" : this.RegContent);
         }
 
     }
