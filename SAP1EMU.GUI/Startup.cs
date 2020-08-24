@@ -52,7 +52,11 @@ namespace SAP1EMU.GUI
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
             }
+
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
@@ -64,6 +68,14 @@ namespace SAP1EMU.GUI
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            //app.Use(async (context, next) =>
+            //{
+            //    context.Response.Headers.Add("X-Xss-Protection", "1");
+            //    await next();
+            //});
+
+
             //ElectronBootstrap();
             //Task.Run(async () => await Electron.WindowManager.CreateWindowAsync(browserWindowOptions)).Result.WebContents.Session.ClearCacheAsync();
             //Electron.WindowManager.CreateWindowAsync().Result.BlurWebView();

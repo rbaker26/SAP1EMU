@@ -10,19 +10,19 @@ namespace SAP1EMU.Lib
 {
     public class Frame
     {
-        public string Instruction { get; private set; } = "????";
+        public string Instruction { get; private set; } = "???";
         public int TState { get; private set; } = 0;
-        public string AReg { get; private set; } = "????";
-        public string BReg { get; private set; } = "????";
-        public string IReg { get; private set; } = "????";
-        public string IRegShort { get; private set; } = "????";
-        public string MReg { get; private set; } = "????";
-        public string OReg { get; private set; } = "????";
-        public string PC { get; private set; } = "????";
-        public string ALU { get; private set; } = "????";
-        public string SEQ { get; private set; } = "????";
-        public string WBus { get; private set; } = "????";
-        public string RAM_Reg { get; private set; } = "?????";
+        public string AReg { get; private set; } = "0000 0000";
+        public string BReg { get; private set; } = "0000 0000";
+        public string IReg { get; private set; } = "0000 0000";
+        public string IRegShort { get; private set; } = "0000 0000";
+        public string MReg { get; private set; } = "0000 0000";
+        public string OReg { get; private set; } = "0000 0000";
+        public string PC { get; private set; } = "0000";
+        public string ALU { get; private set; } = "0000 0000";
+        public string SEQ { get; private set; } = "0000 0000";
+        public string WBus { get; private set; } = "0000 0000";
+        public string RAM_Reg { get; private set; } = "0000 0000";
 
         public List<string> RAM { get; private set; } // The reason this is here is that the RAM might change if a STA simular command is issued.
         public Frame(string instruction, int TState, AReg areg, BReg breg, IReg ireg, MReg mreg, OReg oreg, PC pc, ALU alu, List<string> ramContents, RAM ram, SEQ seq, string wbus_string)
@@ -31,12 +31,12 @@ namespace SAP1EMU.Lib
 
             this.TState = TState;
 
-            this.AReg = areg.ToString();
-            this.BReg = breg.ToString();
+            this.AReg = areg.ToString_Frame_Use();
+            this.BReg = breg.ToString_Frame_Use();
             this.IRegShort = ireg.ToString();
             this.IReg = ireg.ToString_Frame_Use();  // The real ToString() is in use with a substring in it.  This is needed for proper operation
-            this.MReg = mreg.ToString(); 
-            this.OReg = oreg.ToString();
+            this.MReg = mreg.ToString_Frame_Use(); 
+            this.OReg = oreg.ToString_Frame_Use();
             this.PC = pc.ToString().Substring(4, 4);
             this.ALU = alu.ToString();
             this.WBus = wbus_string;
@@ -49,11 +49,11 @@ namespace SAP1EMU.Lib
 
             this.SEQ = seq.ToString();
             this.WBus = wbus_string; // I didnt want to mess with the Singleton in the frame, so the value will just be passed as a string
-            this.RAM_Reg = ram.ToString();
+            this.RAM_Reg = ram.ToString_Frame_Use();
 
             if (instruction.Length == 0)
             {
-                this.IReg = "????";
+                this.IReg = "???";
             }
 
 
@@ -70,6 +70,7 @@ namespace SAP1EMU.Lib
 
 
         // TODO - Repleace with something in the LIB OpCodeLoader
+        // TODO -  is the still used? I think I replaced this somewhere else in the code
         private string InstuctionDecode(string BinInstruction, int TState)
         {
             List<string> KnownInstructions = new List<string> { "LDA", "ADD", "SUB", "STA", "JMP", "JEQ", "", "", "", "JIC", "", "", "", "", "OUT", "HLT" };

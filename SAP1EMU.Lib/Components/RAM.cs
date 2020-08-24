@@ -118,5 +118,11 @@ namespace SAP1EMU.Lib.Components
         {
             return RAM_Register_Content;
         }
+
+        public string ToString_Frame_Use()
+        {
+            return (String.IsNullOrEmpty(this.RAM_Register_Content) ? "00000000" : this.RAM_Register_Content);
+        }
+
     }
 }

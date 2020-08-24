@@ -17,6 +17,7 @@ namespace SAP1EMU.GUI.Models
             var result = await httpClient.GetAsync($"https://api.github.com/users/{username}");
             return JsonSerializer.Deserialize<GitHubProfileModel>(await result.Content.ReadAsStringAsync());
         }
+
         public string login { get; set; }
         public string avatar_url { get; set; }
         public string html_url { get; set; }

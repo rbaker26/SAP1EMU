@@ -39,7 +39,7 @@ namespace SAP1EMU.Lib.Registers
         {
             //  I dont know this this is the best place to put this substring command, but it is needed
             // Currently, 
-            return RegContent.Substring(0,4);
+            return RegContent.Substring(0, 4);
         }
         #region IObserver Region
         private IDisposable unsubscriber;
@@ -72,14 +72,13 @@ namespace SAP1EMU.Lib.Registers
         #endregion
 
 
-        public  string ToString_Frame_Use()
+        public string ToString_Frame_Use()
         {
-            return this.RegContent;
+            return (String.IsNullOrEmpty(this.RegContent) ? "0000 0000" : this.RegContent);
         }
+
+
+
     }
-
-
-
-
 
 }
