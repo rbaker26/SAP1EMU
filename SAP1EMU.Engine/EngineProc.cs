@@ -158,7 +158,7 @@ namespace SAP1EMU.Engine
                 tictok.ToggleClockState();
                 clock.SendTicTok(tictok);
                 tictok.ToggleClockState();
-                tempFrame = new Frame(ireg.ToString(), TState, areg, breg, ireg, mreg, oreg, pc, alu, ram.RAMDump(), ram, seq, Wbus.Instance().ToString());
+                tempFrame = new Frame(ireg.ToString(), TState, areg, breg, ireg, mreg, oreg, pc, alu, ram.RAMDump(), ram, seq, Wbus.Instance().ToString(), InstructionSet.SetName.ToUpper());
                 _FrameStack.Add(tempFrame);
 
                 if (ireg.ToString() == "1111" && TState == 6)
