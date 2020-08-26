@@ -218,6 +218,7 @@ var current_frame = 0;
 function frame_advance() {
     if (current_frame < frame_stack.length) {
         updateBoard(frame_stack[current_frame]);
+        loadRam(frame_stack[current_frame].ram);
         current_frame++;
     }
     else {
