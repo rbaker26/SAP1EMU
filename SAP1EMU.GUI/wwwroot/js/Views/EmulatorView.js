@@ -218,6 +218,10 @@ var current_frame = 0;
 function frame_advance() {
     if (current_frame < frame_stack.length) {
         updateBoard(frame_stack[current_frame]);
+        loadRam(frame_stack[current_frame].ram);
+        $("#instruction-box").text(frame_stack[current_frame].instruction);
+        $("#tstate-box").val('T' + frame_stack[current_frame].tState);
+
         current_frame++;
     }
     else {

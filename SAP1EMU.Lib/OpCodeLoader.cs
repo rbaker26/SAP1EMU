@@ -80,5 +80,39 @@ namespace SAP1EMU.Lib
             return names;
         }
 
+        public static string DecodeInstruction(string InstructionBin, string SetName = "SAP1EMU")
+        {
+            string json;
+            try
+            {
+                json = File.ReadAllText(jsonFile);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"SAP1EMU: Error reading Instruction Set File: \"{jsonFile}\" ", e);
+            }
+
+
+            List<InstructionSet> sets;
+            try
+            {
+                sets = JsonSerializer.Deserialize<List<InstructionSet>>(json);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"SAP1EMU: Error reading Instruction Set File: \"{SetName}\", Invalid JSON", e);
+            }
+
+            InstructionSet setChoice = sets.Find(x => x.SetName.ToLower().Equals(SetName.ToLower()));
+
+            if (setChoice == null || string.IsNullOrEmpty(setChoice.SetName))
+            {
+                throw new Exception($"SAP1EMU: Instruction Set \"{SetName}\" does not exist");
+            }
+
+            string Instruction = setChoice.instructions.Find(x => x.BinCode == InstructionBin).OpCode;
+            return Instruction;
+        }
+
     }
 }
