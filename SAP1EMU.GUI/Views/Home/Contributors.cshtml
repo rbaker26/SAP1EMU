@@ -6,6 +6,7 @@
         <h1 class="mb-4">Contributors</h1>
 
         <div class="row">
+        @*<div class="card-deck"> Will come later once more cards are made*@
             <div class="col-auto">
                 @{ await Html.RenderPartialAsync("_GitHubProfilePartial", GitHubProfileModel.GetProfile("rbaker26").Result); }
             </div>
