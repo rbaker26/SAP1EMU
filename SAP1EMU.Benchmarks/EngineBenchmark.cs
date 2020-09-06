@@ -98,7 +98,7 @@ namespace SAP1EMU.Benchmarks
         }
 
         [Benchmark]
-        public void EngineRun_FIB()
+        public void EngineRun_FIB5()
         {
             EngineProc engine = new EngineProc();
 

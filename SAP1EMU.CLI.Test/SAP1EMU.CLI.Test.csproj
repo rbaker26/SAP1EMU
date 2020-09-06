@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Fib.s">
+    <None Update="Fib5.s">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="LDA170.s">
