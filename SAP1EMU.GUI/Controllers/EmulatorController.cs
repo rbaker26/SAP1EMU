@@ -16,6 +16,11 @@ namespace SAP1EMU.GUI.Controllers
     [ApiController]
     public class EmulatorController : ControllerBase
     {
+        IDecoder _decoder;
+        public EmulatorController(IDecoder decoder)
+        {
+            _decoder = decoder;
+        }
 
         public class EmulatorPacket
         {
@@ -51,6 +56,14 @@ namespace SAP1EMU.GUI.Controllers
                     return BadRequest(e.Message);
                 }
             }
+        }
+
+
+        // TODO start from here
+        [HttpGet]
+        public string Get(string binCode, string setName)
+        {
+            return _decoder.Decode(binCode, setName);
         }
 
     }

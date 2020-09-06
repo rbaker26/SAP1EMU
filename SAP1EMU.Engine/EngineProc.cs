@@ -19,6 +19,8 @@ namespace SAP1EMU.Engine
         private RAMProgram Program { get; set; }
         private InstructionSet InstructionSet { get; set; }
         private const string DefaultInstructionSetName = "SAP1Emu";
+        IDecoder _decoder { get; set; }
+
 
         // *************************************************************************
         // Init Engine
