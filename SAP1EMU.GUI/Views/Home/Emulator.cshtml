@@ -34,7 +34,7 @@
                     <select id="langs" class="form-control"></select>
                 </div>
                 <div class="form-group mx-2 d-flex align-items-center">
-                    <button id="loadFile" onclick="openAndReadFromFile()" class="btn btn-light mt-auto">Load from File</button>
+                    <button id="loadFile" onclick="getFromFile()" class="btn btn-light mt-auto">Load from File</button>
                 </div>
                 <div class="form-group mx-2 d-flex align-items-center">
                     <button id="loadRAM" class="btn btn-light mt-auto" onclick="RunEmulator()">Load into RAM</button>
@@ -72,19 +72,19 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col">
+                        <div class="col pr-2">
                             <div class="alert alert-secondary"><h6>Program Counter</h6><pre class="mb-0 pb-0" id="pc-block"></pre></div>
                             <div class="alert alert-secondary"><h6>MAR</h6><pre class="mb-0 pb-0" id="mar-block"></pre></div>
                             <div class="alert alert-secondary"><h6>RAM</h6><pre class="mb-0 pb-0" id="ram-block"></pre></div>
-                            <div class="alert alert-secondary"><h6>Instruction Register</h6><pre class="mb-0 pb-0" id="ireg-block"></pre></div>
+                            <div class="alert alert-secondary pr-0"><h6>Instruction Register</h6><pre class="mb-0 pb-0" id="ireg-block"></pre></div>
                             <div class="alert alert-secondary"><h6>Sequencer</h6><pre class="mb-0 pb-0" id="seq-block"></pre></div>
                         </div>
-                        <div class="col-auto d-flex">
+                        <div class="col-auto d-flex  px-1">
                             <div class="alert alert-secondary flex-fill">
                                 <h6>WBus</h6><pre id="wbus-block"></pre>
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col pl-2">
                             <div class="alert alert-secondary"><h6>A Register</h6><pre class="mb-0 pb-0" id="areg-block"> </pre></div>
                             <div class="alert alert-secondary"><h6>ALU</h6><pre class="mb-0 pb-0" id="alu-block"></pre></div>
                             <div class="alert alert-secondary"><h6>B Register</h6><pre class="mb-0 pb-0" id="breg-block"></pre></div>

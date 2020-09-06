@@ -19,19 +19,14 @@ window.onload = function () {
         lineNumberFormatter: function (line) { return "0x" + line.toString(16).toLocaleUpperCase(); },
     });
 
-
-
     initRam();
     initBoard();
-
-
 
     // Setup ComboBox
     $.ajax({
         url: "../api/Assembler/supported_sets",
         type: "GET",
         success: function (data) {
-
             var selectDOM = document.getElementById("langs");
             var options = data;
 
@@ -50,10 +45,8 @@ window.onload = function () {
         }
     });
 
-   // playerInstance = new player;
-
+    // playerInstance = new player;
 }
-
 
 function initBoard() {
     $('#pc-block').html("0000");
@@ -67,7 +60,6 @@ function initBoard() {
     $('#oreg-block').html("0000 0000");
     $('#seq-block').html("0011 1110 0011 11");
     $('#dis-block').html("0");
-
 }
 
 function updateBoard(frame) {
@@ -80,10 +72,9 @@ function updateBoard(frame) {
     $('#breg-block').html(frame.bReg.match(/.{1,4}/g).join(' '));
     $('#ireg-block').html(frame.iReg.match(/.{1,4}/g).join(' '));
     $('#oreg-block').html(frame.oReg.match(/.{1,4}/g).join(' '));
-    $('#seq-block').html(frame.seq.substring(0,13)); // TODO This substring should be handled at the API level, not the UI level
+    $('#seq-block').html(frame.seq.substring(0, 14).match(/.{1,4}/g).join(' ')); // TODO This substring should be handled at the API level, not the UI level
     $('#dis-block').html(parseInt(frame.oReg, 2) + " " + parseInt("0" + frame.oReg, 2));
 }
-
 
 //class player  {
 //    interval= 500; // in ms
@@ -92,13 +83,11 @@ function updateBoard(frame) {
 
 //    job_id = null;
 
-    
 //    play() {
 //        $('#back-button').prop('disabled', true);
 //        $('#next-button').prop('disabled', true);
 
 //        job_id = setInterval(this.forward, this.interval);
-
 
 //    }
 //    pause() {
@@ -107,7 +96,6 @@ function updateBoard(frame) {
 //    }
 
 //    back() {
-
 //    }
 
 //    forward() {
@@ -167,7 +155,6 @@ function loadRam(ram) {
 }
 
 function RunEmulator() {
-
     var asm_code = asm_editor.getValue().split('\n');
     var langChoice = document.getElementById("langs").value;
 
@@ -187,7 +174,6 @@ function RunEmulator() {
 
             loadRam(first_frame.ram);
 
-
             return data;
         },
         error: function (request, status, error) {
@@ -196,11 +182,9 @@ function RunEmulator() {
         }
     });
 
-
     // Make sure the player is cleared and halted
-   // playerInstance.init();
+    // playerInstance.init();
 }
-
 
 var job_id = null;
 function play_button_onclick() {
@@ -211,7 +195,6 @@ function play_button_onclick() {
         clearInterval(job_id);
         job_id = null;
     }
-   
 }
 
 var current_frame = 0;
@@ -227,34 +210,11 @@ function frame_advance() {
     else {
         clearInterval(job_id);
         job_id = null;
-    } 
-        
+    }
+
     console.log(frame_stack[current_frame]);
 }
 
-
-function openAndReadFromFile() {
-    var input = document.createElement('input');
-    input.type = 'file';
-    input.accept = ".s,.asm"
-    input.onchange = e => {
-
-        var file = e.target.files[0];
-
-        // Read the file contents
-        var reader = new FileReader();
-        reader.readAsText(file, 'UTF-8');
-
-        // Send contents to ASM box
-        reader.onload = readerEvent => {
-            var content = readerEvent.target.result; 
-            asm_editor.setValue(content);
-        }
-
-    }
-
-
-    input.click();
-
-
+function getFromFile() {
+    readFromFile(".s,.asm", asm_editor);
 }
