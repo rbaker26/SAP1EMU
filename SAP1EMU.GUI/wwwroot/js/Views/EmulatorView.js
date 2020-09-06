@@ -231,3 +231,30 @@ function frame_advance() {
         
     console.log(frame_stack[current_frame]);
 }
+
+
+function openAndReadFromFile() {
+    var input = document.createElement('input');
+    input.type = 'file';
+    input.accept = ".s,.asm"
+    input.onchange = e => {
+
+        var file = e.target.files[0];
+
+        // Read the file contents
+        var reader = new FileReader();
+        reader.readAsText(file, 'UTF-8');
+
+        // Send contents to ASM box
+        reader.onload = readerEvent => {
+            var content = readerEvent.target.result; 
+            asm_editor.setValue(content);
+        }
+
+    }
+
+
+    input.click();
+
+
+}
