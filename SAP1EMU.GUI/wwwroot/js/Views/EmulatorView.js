@@ -213,9 +213,14 @@ function frame_advance() {
         $("#instruction-box").text(frame_stack[current_frame].instruction);
         $("#tstate-box").val('T' + frame_stack[current_frame].tState);
 
+        // Update Progress Bar
+        updateProgressBar(current_frame, frame_stack.length);
         current_frame++;
+
+
     }
     else {
+        $('#frameProgressBar').css("width", "100%");
         clearInterval(job_id);
         job_id = null;
     }
@@ -232,4 +237,16 @@ function setControlButtonsDisabled(isDisabled) {
     $("#play-pause-button").prop('disabled', isDisabled);
     $("#next-button").prop('disabled', isDisabled);
     $("#reset-button").prop('disabled', isDisabled);
+}
+
+
+function updateProgressBar(currentFrame, frameStackLength) {
+
+    if (currentFrame == frameStackLength - 1) {
+        $('#frameProgressBar').css("width", "100%");
+    }
+    else {
+        var frameProgress = (current_frame / frame_stack.length) * 100;
+        $('#frameProgressBar').css("width", frameProgress + "%");
+    }
 }

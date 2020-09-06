@@ -28,9 +28,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="wwwroot\img\" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="InstructionSets.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
