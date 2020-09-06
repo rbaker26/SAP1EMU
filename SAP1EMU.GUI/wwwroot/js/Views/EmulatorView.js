@@ -21,6 +21,8 @@ window.onload = function () {
 
     initRam();
     initBoard();
+    setControlButtonsDisabled(true);
+
 
     // Setup ComboBox
     $.ajax({
@@ -45,7 +47,6 @@ window.onload = function () {
         }
     });
 
-    // playerInstance = new player;
 }
 
 function initBoard() {
@@ -154,12 +155,12 @@ function loadRam(ram) {
     ram_dump.setValue(tempString);
 }
 
-function RunEmulator() {
+function LoadIntoRAM() {
     var asm_code = asm_editor.getValue().split('\n');
     var langChoice = document.getElementById("langs").value;
 
     jsonData = JSON.stringify({ CodeList: asm_code, SetName: langChoice });
-    console.log(jsonData);
+    //console.log(jsonData);
 
     $.ajax({
         url: "../api/Emulator",
@@ -182,18 +183,21 @@ function RunEmulator() {
         }
     });
 
-    // Make sure the player is cleared and halted
-    // playerInstance.init();
+    setControlButtonsDisabled(false);
 }
 
 var job_id = null;
 function play_button_onclick() {
     if (job_id == null) {
+        $("#play-pause-img").attr("src", "/img/pause-24px.svg");
         job_id = setInterval(frame_advance, 500);
     }
     else {
         clearInterval(job_id);
         job_id = null;
+        $("#play-pause-img").attr("src", "/img/play_arrow-24px.svg");
+
+
     }
 }
 
@@ -216,5 +220,12 @@ function frame_advance() {
 }
 
 function getFromFile() {
-    readFromFile(".s,.asm", asm_editor);
+    readFromFile(".s,.asm", asm_editor, "emulator-out");
+}
+
+function setControlButtonsDisabled(isDisabled) {
+    $("#back-button").prop('disabled', isDisabled);
+    $("#play-pause-button").prop('disabled', isDisabled);
+    $("#next-button").prop('disabled', isDisabled);
+    $("#reset-button").prop('disabled', isDisabled);
 }

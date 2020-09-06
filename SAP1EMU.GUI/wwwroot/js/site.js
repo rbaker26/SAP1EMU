@@ -3,7 +3,7 @@
 
 // Write your JavaScript code.
 
-function readFromFile(type, codeMiror) {
+function readFromFile(type, codeMirror, errorBoxID) {
     var input = document.createElement('input');
     input.type = 'file';
     input.accept = type;
@@ -17,9 +17,13 @@ function readFromFile(type, codeMiror) {
         // Send contents to CodeMiror Box
         reader.onload = readerEvent => {
             content = readerEvent.target.result;
-            console.log(content);
-            codeMiror.setValue(content);
+            codeMirror.setValue(content);
         }
+
+        reader.onerror = readerEvent => {
+            $("#" + errorBoxID).setValue(readerEvent.target.error);
+        }
+
     }
     input.click();
 }
