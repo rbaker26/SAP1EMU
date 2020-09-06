@@ -27,7 +27,7 @@ namespace SAP1EMU.Lib
         public string Underflow_Flag { get; private set; } = "0";
 
         public List<string> RAM { get; private set; } // The reason this is here is that the RAM might change if a STA simular command is issued.
-        public Frame(string instruction, int TState, AReg areg, BReg breg, IReg ireg, MReg mreg, OReg oreg, PC pc, ALU alu, List<string> ramContents, RAM ram, SEQ seq, string wbus_string, Flags flags, string SetName = "SAP1EMU")
+        public Frame(string instruction, int TState, AReg areg, BReg breg, IReg ireg, MReg mreg, OReg oreg, PC pc, ALU alu, List<string> ramContents, RAM ram, SEQ seq, string wbus_string, Flags flags, IDecoder decoder, string SetName = "SAP1EMU")
         {
             this.RAM = new List<string>();
 
@@ -63,7 +63,8 @@ namespace SAP1EMU.Lib
 
             if(TState > 3)
             {
-                Instruction = OpCodeLoader.DecodeInstruction(IReg.Substring(0, 4), SetName); // TODO this is really inifeciant.  Should prob make a service and inject it
+                //Instruction = OpCodeLoader.DecodeInstruction(IReg.Substring(0, 4), SetName); // TODO this is really inifeciant.  Should prob make a service and inject it
+                Instruction = decoder.Decode(IReg.Substring(0, 4), SetName);
             }
             else
             {

@@ -68,8 +68,12 @@ namespace SAP1EMU.CLI
             S, // ASM
             B  // BIN 
         }
+
+
         public static void Main(string[] args)
         {
+            IDecoder _decoder = new InstructionDecoder();
+
             _ = Parser.Default.ParseArguments<Options>(args)
                    .WithParsed(o =>
                    {
@@ -205,7 +209,7 @@ namespace SAP1EMU.CLI
                            //Console.SetError(writer_error);
 
 
-                           engine.Init(rmp, o.InstructionSetName);
+                           engine.Init(rmp, _decoder, o.InstructionSetName);
                            try
                            {
                                engine.Run();

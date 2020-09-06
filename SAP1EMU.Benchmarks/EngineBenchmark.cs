@@ -15,6 +15,7 @@ namespace SAP1EMU.Benchmarks
         RAMProgram RP_HLT { get; set; }
         RAMProgram RP_LDA170 { get; set; }
         RAMProgram RP_FIB{ get; set; }
+        IDecoder _decoder = new InstructionDecoder();
 
         [GlobalSetup]
         public void GlobalSetup()
@@ -83,7 +84,7 @@ namespace SAP1EMU.Benchmarks
         {
             EngineProc engine = new EngineProc();
 
-            engine.Init(RP_HLT);
+            engine.Init(RP_HLT, _decoder);
             engine.Run();
         }
         
@@ -92,7 +93,7 @@ namespace SAP1EMU.Benchmarks
         {
             EngineProc engine = new EngineProc();
 
-            engine.Init(RP_LDA170);
+            engine.Init(RP_LDA170, _decoder);
             engine.Run();
         }
 
@@ -101,7 +102,7 @@ namespace SAP1EMU.Benchmarks
         {
             EngineProc engine = new EngineProc();
 
-            engine.Init(RP_FIB);
+            engine.Init(RP_FIB, _decoder);
             engine.Run();
         }
     }

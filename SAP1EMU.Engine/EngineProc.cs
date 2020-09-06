@@ -25,7 +25,7 @@ namespace SAP1EMU.Engine
         // *************************************************************************
         // Init Engine
         // *************************************************************************
-        public void Init(RAMProgram program, string InstructionSetName = DefaultInstructionSetName)
+        public void Init(RAMProgram program, IDecoder decoder, string InstructionSetName = DefaultInstructionSetName)
         {
             //string log_name = "runtime_log.txt";
             //// Clear Old Log 
@@ -51,6 +51,9 @@ namespace SAP1EMU.Engine
             // Get Instruction Set
             //Log.Information($"SAP1Emu: Using Instruction Set: \"{InstructionSetName}\"");
             InstructionSet = OpCodeLoader.GetSet(InstructionSetName);
+            _decoder = decoder;
+
+            //_decoder = new InstructionDecoder();
 
             // Init RAM
             if (program == null)
@@ -160,7 +163,7 @@ namespace SAP1EMU.Engine
                 tictok.ToggleClockState();
                 clock.SendTicTok(tictok);
                 tictok.ToggleClockState();
-                tempFrame = new Frame(ireg.ToString(), TState, areg, breg, ireg, mreg, oreg, pc, alu, ram.RAMDump(), ram, seq, Wbus.Instance().ToString(), Flags.Instance(), InstructionSet.SetName.ToUpper());
+                tempFrame = new Frame(ireg.ToString(), TState, areg, breg, ireg, mreg, oreg, pc, alu, ram.RAMDump(), ram, seq, Wbus.Instance().ToString(), Flags.Instance(), _decoder, InstructionSet.SetName.ToUpper());
                 _FrameStack.Add(tempFrame);
 
                 if (ireg.ToString() == "1111" && TState == 6)
