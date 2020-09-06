@@ -23,9 +23,11 @@ namespace SAP1EMU.Lib
         public string SEQ { get; private set; } = "0000 0000";
         public string WBus { get; private set; } = "0000 0000";
         public string RAM_Reg { get; private set; } = "0000 0000";
+        public string Overflow_Flag { get; private set; } = "0";
+        public string Underflow_Flag { get; private set; } = "0";
 
         public List<string> RAM { get; private set; } // The reason this is here is that the RAM might change if a STA simular command is issued.
-        public Frame(string instruction, int TState, AReg areg, BReg breg, IReg ireg, MReg mreg, OReg oreg, PC pc, ALU alu, List<string> ramContents, RAM ram, SEQ seq, string wbus_string, string SetName = "SAP1EMU")
+        public Frame(string instruction, int TState, AReg areg, BReg breg, IReg ireg, MReg mreg, OReg oreg, PC pc, ALU alu, List<string> ramContents, RAM ram, SEQ seq, string wbus_string, Flags flags, string SetName = "SAP1EMU")
         {
             this.RAM = new List<string>();
 
@@ -41,11 +43,13 @@ namespace SAP1EMU.Lib
             this.ALU = alu.ToString();
             this.WBus = wbus_string;
 
+            this.Overflow_Flag = flags.Overflow.ToString();
+            this.Underflow_Flag = flags.Underflow.ToString();
+
             foreach(string s in ramContents)
             {
                 RAM.Add(s);
             }
-
 
             this.SEQ = seq.ToString();
             this.WBus = wbus_string; // I didnt want to mess with the Singleton in the frame, so the value will just be passed as a string

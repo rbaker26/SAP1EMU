@@ -61,6 +61,8 @@ function initBoard() {
     $('#oreg-block').html("0000 0000");
     $('#seq-block').html("0011 1110 0011 11");
     $('#dis-block').html("0");
+    $('#carryFlagBox').html("0");
+    $('#underflowFlagBox').html("0");
 }
 
 function updateBoard(frame) {
@@ -75,6 +77,8 @@ function updateBoard(frame) {
     $('#oreg-block').html(frame.oReg.match(/.{1,4}/g).join(' '));
     $('#seq-block').html(frame.seq.substring(0, 14).match(/.{1,4}/g).join(' ')); // TODO This substring should be handled at the API level, not the UI level
     $('#dis-block').html(parseInt(frame.oReg, 2) + " " + parseInt("0" + frame.oReg, 2));
+    $('#carryFlagBox').val(frame.overflow_Flag);
+    $('#underflowFlagBox').val(frame.underflow_Flag);
 }
 
 //class player  {
