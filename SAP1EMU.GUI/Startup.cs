@@ -12,6 +12,7 @@ using ElectronNET.API.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
+using SAP1EMU.Lib;
 
 namespace SAP1EMU.GUI
 {
@@ -38,6 +39,9 @@ namespace SAP1EMU.GUI
 
             // The following line enables Application Insights telemetry collection.
             services.AddApplicationInsightsTelemetry();
+
+
+            services.AddSingleton<IDecoder, InstructionDecoder>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }

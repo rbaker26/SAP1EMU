@@ -10,6 +10,7 @@ namespace SAP1EMU.Lib.Test
     [TestClass]
     public class FrameTest
     {
+        IDecoder _decoder = new InstructionDecoder();
         [TestMethod]
         public void TestToString()
         {
@@ -35,7 +36,7 @@ namespace SAP1EMU.Lib.Test
 
 
 
-            Frame frame = new Frame(ireg.ToString(), TState, areg, breg, ireg, mreg, oreg, pc, alu, ram.RAMDump(), ram, seq, Wbus.Instance().ToString());
+            Frame frame = new Frame(ireg.ToString(), TState, areg, breg, ireg, mreg, oreg, pc, alu, ram.RAMDump(), ram, seq, Wbus.Instance().ToString(), Flags.Instance(), _decoder);
             _ = frame.ToString();
             _ = frame.OutputRegister();
 

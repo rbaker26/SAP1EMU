@@ -19,11 +19,9 @@ window.onload = function () {
         lineNumberFormatter: function (line) { return "0x" + line.toString(16).toLocaleUpperCase(); },
     });
 
-
-
     initRam();
     initBoard();
-
+    setControlButtonsDisabled(true);
 
 
     // Setup ComboBox
@@ -31,7 +29,6 @@ window.onload = function () {
         url: "../api/Assembler/supported_sets",
         type: "GET",
         success: function (data) {
-
             var selectDOM = document.getElementById("langs");
             var options = data;
 
@@ -50,10 +47,7 @@ window.onload = function () {
         }
     });
 
-   // playerInstance = new player;
-
 }
-
 
 function initBoard() {
     $('#pc-block').html("0000");
@@ -67,7 +61,8 @@ function initBoard() {
     $('#oreg-block').html("0000 0000");
     $('#seq-block').html("0011 1110 0011 11");
     $('#dis-block').html("0");
-
+    $('#carryFlagBox').html("0");
+    $('#underflowFlagBox').html("0");
 }
 
 function updateBoard(frame) {
@@ -80,10 +75,11 @@ function updateBoard(frame) {
     $('#breg-block').html(frame.bReg.match(/.{1,4}/g).join(' '));
     $('#ireg-block').html(frame.iReg.match(/.{1,4}/g).join(' '));
     $('#oreg-block').html(frame.oReg.match(/.{1,4}/g).join(' '));
-    $('#seq-block').html(frame.seq.substring(0,13)); // TODO This substring should be handled at the API level, not the UI level
+    $('#seq-block').html(frame.seq.substring(0, 14).match(/.{1,4}/g).join(' ')); // TODO This substring should be handled at the API level, not the UI level
     $('#dis-block').html(parseInt(frame.oReg, 2) + " " + parseInt("0" + frame.oReg, 2));
+    $('#carryFlagBox').val(frame.overflow_Flag);
+    $('#underflowFlagBox').val(frame.underflow_Flag);
 }
-
 
 //class player  {
 //    interval= 500; // in ms
@@ -92,13 +88,11 @@ function updateBoard(frame) {
 
 //    job_id = null;
 
-    
 //    play() {
 //        $('#back-button').prop('disabled', true);
 //        $('#next-button').prop('disabled', true);
 
 //        job_id = setInterval(this.forward, this.interval);
-
 
 //    }
 //    pause() {
@@ -107,7 +101,6 @@ function updateBoard(frame) {
 //    }
 
 //    back() {
-
 //    }
 
 //    forward() {
@@ -166,13 +159,12 @@ function loadRam(ram) {
     ram_dump.setValue(tempString);
 }
 
-function RunEmulator() {
-
+function LoadIntoRAM() {
     var asm_code = asm_editor.getValue().split('\n');
     var langChoice = document.getElementById("langs").value;
 
     jsonData = JSON.stringify({ CodeList: asm_code, SetName: langChoice });
-    console.log(jsonData);
+    //console.log(jsonData);
 
     $.ajax({
         url: "../api/Emulator",
@@ -187,7 +179,6 @@ function RunEmulator() {
 
             loadRam(first_frame.ram);
 
-
             return data;
         },
         error: function (request, status, error) {
@@ -196,22 +187,22 @@ function RunEmulator() {
         }
     });
 
-
-    // Make sure the player is cleared and halted
-   // playerInstance.init();
+    setControlButtonsDisabled(false);
 }
-
 
 var job_id = null;
 function play_button_onclick() {
     if (job_id == null) {
+        $("#play-pause-img").attr("src", "/img/pause-24px.svg");
         job_id = setInterval(frame_advance, 500);
     }
     else {
         clearInterval(job_id);
         job_id = null;
+        $("#play-pause-img").attr("src", "/img/play_arrow-24px.svg");
+
+
     }
-   
 }
 
 var current_frame = 0;
@@ -227,7 +218,18 @@ function frame_advance() {
     else {
         clearInterval(job_id);
         job_id = null;
-    } 
-        
+    }
+
     console.log(frame_stack[current_frame]);
+}
+
+function getFromFile() {
+    readFromFile(".s,.asm", asm_editor, "emulator-out");
+}
+
+function setControlButtonsDisabled(isDisabled) {
+    $("#back-button").prop('disabled', isDisabled);
+    $("#play-pause-button").prop('disabled', isDisabled);
+    $("#next-button").prop('disabled', isDisabled);
+    $("#reset-button").prop('disabled', isDisabled);
 }

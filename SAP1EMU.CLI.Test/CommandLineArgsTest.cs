@@ -145,9 +145,9 @@ namespace SAP1EMU.CLI.Test
         [TestMethod]
         public void Fib()
         {
-            string input_file = "Fib.s";
+            string input_file = "Fib5.s";
             string output_file = "output_file.txt";
-            string expectedResult = "11111101";
+            string expectedResult = "00000101";
 
 
             string lineArgs = $"-s {input_file} -o {output_file}";

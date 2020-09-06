@@ -73,22 +73,28 @@ function AssembleCode() {
 
 
 
-function openFromFile() {
-    // Send Request to ASP.NET
-    const { ipcRenderer } = require("electron");
-    ipcRenderer.send("open-from-file-asm");
+//function openFromFile() {
+//    // Send Request to ASP.NET
+//    const { ipcRenderer } = require("electron");
+//    ipcRenderer.send("open-from-file-asm");
 
-    // Receive code back from ASP.NET
-    ipcRenderer.once("code-from-file-asm",
-        (sender, asm_code) => {
-            asm_editor.setValue(asm_code);
-        }
-    );
+//    // Receive code back from ASP.NET
+//    ipcRenderer.once("code-from-file-asm",
+//        (sender, asm_code) => {
+//            asm_editor.setValue(asm_code);
+//        }
+//    );
 
+//}
+
+//function saveToFile() {
+//    // Send Request to ASP.NET
+//    const { ipcRenderer } = require("electron");
+//    ipcRenderer.send("save-to-file-asm", bin_editor.getValue());
+//}
+
+
+function getFromFile() {
+    readFromFile(".s,.asm", asm_editor, "assembler-out");
 }
 
-function saveToFile() {
-    // Send Request to ASP.NET
-    const { ipcRenderer } = require("electron");
-    ipcRenderer.send("save-to-file-asm", bin_editor.getValue());
-}

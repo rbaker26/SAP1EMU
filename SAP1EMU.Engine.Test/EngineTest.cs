@@ -10,6 +10,7 @@ namespace SAP1EMU.Engine.Test
     [TestClass]
     public class EngineTest
     {
+        IDecoder _decoder = new InstructionDecoder();
         // LDA Tests 1-3 ************************************************************
         #region LDA Tests 1-3
         // Test_LDA_PROG_1 **********************************************************
@@ -62,7 +63,7 @@ namespace SAP1EMU.Engine.Test
             EngineProc engine = new EngineProc();
 
 
-            engine.Init(new RAMProgram(program));
+            engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
             string output = engine.GetOutputReg();
@@ -122,7 +123,7 @@ namespace SAP1EMU.Engine.Test
             EngineProc engine = new EngineProc();
 
 
-            engine.Init(new RAMProgram(program));
+            engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
             string output = engine.GetOutputReg();
@@ -183,7 +184,7 @@ namespace SAP1EMU.Engine.Test
             EngineProc engine = new EngineProc();
 
 
-            engine.Init(new RAMProgram(program));
+            engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
             string output = engine.GetOutputReg();
@@ -247,7 +248,7 @@ namespace SAP1EMU.Engine.Test
             EngineProc engine = new EngineProc();
 
 
-            engine.Init(new RAMProgram(program));
+            engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
             string output = engine.GetOutputReg();
@@ -308,7 +309,7 @@ namespace SAP1EMU.Engine.Test
             EngineProc engine = new EngineProc();
 
 
-            engine.Init(new RAMProgram(program));
+            engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
             string output = engine.GetOutputReg();
@@ -368,7 +369,7 @@ namespace SAP1EMU.Engine.Test
             EngineProc engine = new EngineProc();
 
 
-            engine.Init(new RAMProgram(program));
+            engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
             string output = engine.GetOutputReg();
@@ -434,7 +435,7 @@ namespace SAP1EMU.Engine.Test
             EngineProc engine = new EngineProc();
 
 
-            engine.Init(new RAMProgram(program));
+            engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
             string output = engine.GetOutputReg();
@@ -495,7 +496,7 @@ namespace SAP1EMU.Engine.Test
             EngineProc engine = new EngineProc();
 
 
-            engine.Init(new RAMProgram(program));
+            engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
             string output = engine.GetOutputReg();
@@ -555,7 +556,7 @@ namespace SAP1EMU.Engine.Test
             EngineProc engine = new EngineProc();
 
 
-            engine.Init(new RAMProgram(program));
+            engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
             string output = engine.GetOutputReg();
@@ -621,7 +622,7 @@ namespace SAP1EMU.Engine.Test
             EngineProc engine = new EngineProc();
 
 
-            engine.Init(new RAMProgram(program));
+            engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
             string output = engine.GetOutputReg();
@@ -681,7 +682,7 @@ namespace SAP1EMU.Engine.Test
             EngineProc engine = new EngineProc();
 
 
-            engine.Init(new RAMProgram(program));
+            engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
             string output = engine.GetOutputReg();
@@ -742,7 +743,7 @@ namespace SAP1EMU.Engine.Test
             EngineProc engine = new EngineProc();
 
 
-            engine.Init(new RAMProgram(program));
+            engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
             string output = engine.GetOutputReg();
@@ -809,7 +810,7 @@ namespace SAP1EMU.Engine.Test
             EngineProc engine = new EngineProc();
 
 
-            engine.Init(new RAMProgram(program));
+            engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
             string output = engine.GetOutputReg();
@@ -869,7 +870,7 @@ namespace SAP1EMU.Engine.Test
             EngineProc engine = new EngineProc();
 
 
-            engine.Init(new RAMProgram(program));
+            engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
             string output = engine.GetOutputReg();
@@ -929,7 +930,7 @@ namespace SAP1EMU.Engine.Test
             EngineProc engine = new EngineProc();
 
 
-            engine.Init(new RAMProgram(program));
+            engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
             string output = engine.GetOutputReg();
@@ -969,7 +970,7 @@ namespace SAP1EMU.Engine.Test
             EngineProc engine = new EngineProc();
 
 
-            engine.Init(new RAMProgram(program));
+            engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
             string output = engine.GetOutputReg();
@@ -1007,7 +1008,7 @@ namespace SAP1EMU.Engine.Test
             EngineProc engine = new EngineProc();
 
 
-            engine.Init(new RAMProgram(program));
+            engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
             string output = engine.GetOutputReg();
@@ -1044,7 +1045,7 @@ namespace SAP1EMU.Engine.Test
             EngineProc engine = new EngineProc();
 
 
-            engine.Init(new RAMProgram(program));
+            engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
             string output = engine.GetOutputReg();
@@ -1082,7 +1083,7 @@ namespace SAP1EMU.Engine.Test
             EngineProc engine = new EngineProc();
 
 
-            engine.Init(new RAMProgram(program));
+            engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
             string output = engine.GetOutputReg();
@@ -1120,7 +1121,7 @@ namespace SAP1EMU.Engine.Test
             EngineProc engine = new EngineProc();
 
 
-            engine.Init(new RAMProgram(program));
+            engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
             string output = engine.GetOutputReg();
@@ -1158,7 +1159,7 @@ namespace SAP1EMU.Engine.Test
             EngineProc engine = new EngineProc();
 
 
-            engine.Init(new RAMProgram(program));
+            engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
             string output = engine.GetOutputReg();
@@ -1196,7 +1197,7 @@ namespace SAP1EMU.Engine.Test
             EngineProc engine = new EngineProc();
 
 
-            engine.Init(new RAMProgram(program));
+            engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
             string output = engine.GetOutputReg();
@@ -1234,7 +1235,7 @@ namespace SAP1EMU.Engine.Test
             EngineProc engine = new EngineProc();
 
 
-            engine.Init(new RAMProgram(program));
+            engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
             string output = engine.GetOutputReg();
@@ -1272,7 +1273,7 @@ namespace SAP1EMU.Engine.Test
             EngineProc engine = new EngineProc();
 
 
-            engine.Init(new RAMProgram(program));
+            engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
             string output = engine.GetOutputReg();
@@ -1310,7 +1311,7 @@ namespace SAP1EMU.Engine.Test
             EngineProc engine = new EngineProc();
 
             bool caught = false;
-            engine.Init(new RAMProgram(program));
+            engine.Init(new RAMProgram(program), _decoder);
             try
             {
                 engine.Run();

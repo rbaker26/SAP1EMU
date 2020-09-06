@@ -11,123 +11,129 @@
 
 <h1>Emulator</h1>
 
-<div class="row">
+<div class="card-deck">
 
-    <div class="column2">
-        <h3>Assembly</h3>
-        <br />
-
-        <div class="form-row">
-            <div class="col">
-                @Html.TextArea("CodeList", null, new { rows = "20", cols = "80", @class = "codebox", id = "asm_code" })
-            </div>
-            <div class="col-auto">
-                @Html.TextArea("ram_dump", null, new { rows = "16", cols = "20", @class = "codebox", id = "ram_dump" })
-            </div>
+    <div class="card">
+        <div class="card-header">
+            <h4>Assembly</h4>
         </div>
 
-        <div class="form-row mt-4">
-            <div class="form-group mx-2">
-                <label for="langs">Instruction Set</label>
-                <select id="langs" class="form-control"></select>
+        <div class="card-body">
+            <div class="form-row">
+                <div class="col">
+                    @Html.TextArea("CodeList", null, new { rows = "20", cols = "80", @class = "codebox", id = "asm_code" })
+                </div>
+                <div class="col-auto">
+                    @Html.TextArea("ram_dump", null, new { rows = "16", cols = "20", @class = "codebox", id = "ram_dump" })
+                </div>
             </div>
-            <div class="form-group mx-2 d-flex align-items-center">
-                <button id="loadFile" class="btn btn-light mt-auto">Load from File</button>
-            </div>
-            <div class="form-group mx-2 d-flex align-items-center">
-                <button id="loadRAM" class="btn btn-light mt-auto" onclick="RunEmulator()">Load into RAM</button>
+
+            <div class="form-row mt-4">
+                <div class="form-group mx-2">
+                    <label for="langs">Instruction Set</label>
+                    <select id="langs" class="form-control"></select>
+                </div>
+                <div class="form-group mx-2 d-flex align-items-center">
+                    <button id="loadFile" onclick="getFromFile()" class="btn btn-light mt-auto">Load from File</button>
+                </div>
+                <div class="form-group mx-2 d-flex align-items-center">
+                    <button id="loadRAM" class="btn btn-light mt-auto" onclick="LoadIntoRAM()">Load into RAM</button>
+                </div>
             </div>
         </div>
     </div>
 
 
 
-    <div class="column2">
-        <div class="vbox_sap">
-            <div>
-                <h3>SAP1</h3>
-            </div>
-
+    <div class="card">
+        <div class="card-header">
+            <h4>SAP1</h4>
+        </div>
+        <div class="card-body">
             <div class="vbox_sap">
-                <div class="row mb-3">
-                    <div class="col-auto mr-auto">
-                        <button class="btn" id="back-button" onclick="playerInstance.back()"><img src="~/img/skip_previous-24px.svg " /></button>
-                        <button class="btn" id="play-button" onclick="play_button_onclick()"><img src="~/img/play_arrow-24px.svg" /></button>
-                        <button class="btn" id="pause-button" onclick="playerInstance.pause()"><img src="~/img/pause-24px.svg" /></button>
-                        <button class="btn" id="next-button" onclick="playerInstance.forward()"><img src="~/img/skip_next-24px.svg" /></button>
-                        <button class="btn" id="reset-button" onclick="playerInstance.reset()"><img src="~/img/replay-24px.svg" /></button>
-                    </div>
-                    <div class="col-auto">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="instruction-box">???</span>
-                            </div>
-                            <input id="tstate-box" type="text" class="form-control input-disabled-correct-background tstate-width-correction" value="T1" aria-label="Zero Flag" aria-describedby="instruction-box" disabled>
+                <div class="vbox_sap">
+                    <div class="row mb-3">
+                        <div class="col-auto mr-auto">
+                            <button class="btn" id="back-button" onclick="playerInstance.back()"><img src="~/img/skip_previous-24px.svg " /></button>
+                            <button class="btn" id="play-pause-button" onclick="play_button_onclick()"><img id="play-pause-img" src="~/img/play_arrow-24px.svg" /></button>
+                            <button class="btn" id="next-button" onclick="playerInstance.forward()"><img src="~/img/skip_next-24px.svg" /></button>
+                            <button class="btn" id="reset-button" onclick="playerInstance.reset()"><img src="~/img/replay-24px.svg" /></button>
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="alert alert-secondary"><h6>Program Counter</h6><pre class="mb-0 pb-0" id="pc-block"></pre></div>
-                        <div class="alert alert-secondary"><h6>MAR</h6><pre class="mb-0 pb-0" id="mar-block"></pre></div>
-                        <div class="alert alert-secondary"><h6>RAM</h6><pre class="mb-0 pb-0" id="ram-block"></pre></div>
-                        <div class="alert alert-secondary"><h6>Instruction Register</h6><pre class="mb-0 pb-0" id="ireg-block"></pre></div>
-                        <div class="alert alert-secondary"><h6>Sequencer</h6><pre class="mb-0 pb-0" id="seq-block"></pre></div>
-                    </div>
-                    <div class="col-auto d-flex">
-                        <div class="alert alert-secondary flex-fill">
-                            <h6>WBus</h6><pre id="wbus-block"></pre>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="alert alert-secondary"><h6>A Register</h6><pre class="mb-0 pb-0" id="areg-block"> </pre></div>
-                        <div class="alert alert-secondary"><h6>ALU</h6><pre class="mb-0 pb-0" id="alu-block"></pre></div>
-                        <div class="alert alert-secondary"><h6>B Register</h6><pre class="mb-0 pb-0" id="breg-block"></pre></div>
-                        <div class="alert alert-secondary"><h6>Output Register</h6><pre class="mb-0 pb-0" id="oreg-block"></pre></div>
-                        <div class="alert alert-secondary"><h6>Display</h6><pre class="mb-0 pb-0" id="dis-block"></pre></div>
-                    </div>
-                </div>
-                <div>
-                    <h3>Flags</h3>
-                    <div class="form-row">
-                        <div class="col">
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="carry-flag">Carry</span>
-                                </div>
-                                <input type="text" class="form-control input-disabled-correct-background" value="0" aria-label="Carry Flag" aria-describedby="carry-flag" disabled>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="underflow-flag">Underflow</span>
-                                </div>
-                                <input type="text" class="form-control input-disabled-correct-background" value="0" aria-label="Underflow Flag" aria-describedby="underflow-flag" disabled>
-                            </div>
-                        </div>
-                        <div class="col">
+                        <div class="col-auto">
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="zero-flag">Zero</span>
+                                    <span class="input-group-text" id="instruction-box">???</span>
                                 </div>
-                                <input type="text" class="form-control input-disabled-correct-background" value="0" aria-label="Zero Flag" aria-describedby="zero-flag" disabled>
+                                <input id="tstate-box" type="text" class="form-control input-disabled-correct-background tstate-width-correction" value="T1" aria-label="Zero Flag" aria-describedby="instruction-box" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col pr-2">
+                            <div class="alert alert-secondary"><h6>Program Counter</h6><pre class="mb-0 pb-0" id="pc-block"></pre></div>
+                            <div class="alert alert-secondary"><h6>MAR</h6><pre class="mb-0 pb-0" id="mar-block"></pre></div>
+                            <div class="alert alert-secondary"><h6>RAM</h6><pre class="mb-0 pb-0" id="ram-block"></pre></div>
+                            <div class="alert alert-secondary pr-0"><h6>Instruction Register</h6><pre class="mb-0 pb-0" id="ireg-block"></pre></div>
+                            <div class="alert alert-secondary"><h6>Sequencer</h6><pre class="mb-0 pb-0" id="seq-block"></pre></div>
+                        </div>
+                        <div class="col-auto d-flex  px-1">
+                            <div class="alert alert-secondary flex-fill">
+                                <h6>WBus</h6><pre id="wbus-block"></pre>
+                            </div>
+                        </div>
+                        <div class="col pl-2">
+                            <div class="alert alert-secondary"><h6>A Register</h6><pre class="mb-0 pb-0" id="areg-block"> </pre></div>
+                            <div class="alert alert-secondary"><h6>ALU</h6><pre class="mb-0 pb-0" id="alu-block"></pre></div>
+                            <div class="alert alert-secondary"><h6>B Register</h6><pre class="mb-0 pb-0" id="breg-block"></pre></div>
+                            <div class="alert alert-secondary"><h6>Output Register</h6><pre class="mb-0 pb-0" id="oreg-block"></pre></div>
+                            <div class="alert alert-secondary"><h6>Display</h6><pre class="mb-0 pb-0" id="dis-block"></pre></div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Flags</h3>
+                        <div class="form-row">
+                            <div class="col">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="carry-flag">Carry</span>
+                                    </div>
+                                    <input type="text" class="form-control input-disabled-correct-background" value="0" aria-label="Carry Flag" aria-describedby="carry-flag" id="carryFlagBox" disabled>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="underflow-flag">Underflow</span>
+                                    </div>
+                                    <input type="text" class="form-control input-disabled-correct-background" value="0" aria-label="Underflow Flag" aria-describedby="underflow-flag" id="underflowFlagBox" disabled>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="zero-flag">Zero</span>
+                                    </div>
+                                    <input type="text" class="form-control input-disabled-correct-background" value="0" aria-label="Zero Flag" aria-describedby="zero-flag" disabled>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
     <br />
 </div>
 
-<div class="row">
-    <div class="column1">
-        <h4>Emulator Output</h4>
-        <code class="emulator-out" id="emulator-out"><br /></code>
+<div class="card-deck mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h4>Emulator Output</h4>
+        </div>
+        <div class="card-body">
+            <code class="emulator-out" id="emulator-out"><br /></code>
+        </div>
     </div>
-    <div>@*This blank div is req to trick the row::after or else the margins get screwed up*@</div>
+    <!--<div>-->@*This blank div is req to trick the row::after or else the margins get screwed up*@<!--</div>-->
 </div>
 
