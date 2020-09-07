@@ -27,3 +27,5 @@ function readFromFile(type, codeMirror, errorBoxID) {
     }
     input.click();
 }
+
+
