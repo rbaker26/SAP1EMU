@@ -191,19 +191,46 @@ function LoadIntoRAM() {
 }
 
 var job_id = null;
+var justPaused = false;
 function play_button_onclick() {
     if (job_id == null) {
         $("#play-pause-img").attr("src", "/img/pause-24px.svg");
         job_id = setInterval(frame_advance, 500);
+
+        // Disable back and next
+        $("#back-button").prop('disabled', true);
+        $("#next-button").prop('disabled', true);
     }
     else {
+        justPaused = true;
         clearInterval(job_id);
         job_id = null;
         $("#play-pause-img").attr("src", "/img/play_arrow-24px.svg");
 
-
+        // Enable back and next
+        $("#back-button").prop('disabled', false);
+        $("#next-button").prop('disabled', false);
     }
 }
+
+function back_button_onclick() {
+    frame_reverse();
+}
+
+function next_button_onclick() {
+    frame_advance();
+}
+
+function reset_button_onclick() {
+    current_frame = 0;
+    updateBoard(frame_stack[current_frame]);
+    loadRam(frame_stack[current_frame].ram);
+    $("#instruction-box").text(frame_stack[current_frame].instruction);
+    $("#tstate-box").val('T' + frame_stack[current_frame].tState);
+    updateProgressBar(current_frame, frame_stack.length);
+}
+
+
 
 var current_frame = 0;
 function frame_advance() {
@@ -223,9 +250,28 @@ function frame_advance() {
         $('#frameProgressBar').css("width", "100%");
         clearInterval(job_id);
         job_id = null;
+
+
     }
 
-    console.log(frame_stack[current_frame]);
+    //console.log(frame_stack[current_frame]);
+}
+
+function frame_reverse() {
+    if (justPaused) {
+        current_frame--;
+        justPaused = false;
+    }
+    if (current_frame > 0) {
+        current_frame--;
+        updateBoard(frame_stack[current_frame]);
+        loadRam(frame_stack[current_frame].ram);
+        $("#instruction-box").text(frame_stack[current_frame].instruction);
+        $("#tstate-box").val('T' + frame_stack[current_frame].tState);
+
+        // Update Progress Bar
+        updateProgressBar(current_frame, frame_stack.length);
+    }
 }
 
 function getFromFile() {
@@ -250,3 +296,4 @@ function updateProgressBar(currentFrame, frameStackLength) {
         $('#frameProgressBar').css("width", frameProgress + "%");
     }
 }
+
