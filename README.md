@@ -10,7 +10,7 @@
 
 An Emulator for the SAP1 Computer, based off of the SAP1 from _Digital Computer Electronics_ by Malvino and Brown.
 
-Check out the Emulator [Here:](sap1emu.net) [sap1emu.net](sap1emu.net)
+Check out the Emulator here: [sap1emu.net](sap1emu.net)
 ## About this Project (User Guide Wiki)
 This readme.md will address topics regarding the SAP1Emu Library, Engine and API. <br>
 For tutorials, file specifications, instruction sets and other educational information, visit the SAP1Emu Project's [Wiki Page](https://github.com/rbaker26/SAP1EMU/wiki).
