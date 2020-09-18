@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
 using SAP1EMU.Lib;
+using SAP1EMU.GUI.Services;
 
 namespace SAP1EMU.GUI
 {
@@ -42,6 +43,7 @@ namespace SAP1EMU.GUI
 
 
             services.AddSingleton<IDecoder, InstructionDecoder>();
+            services.AddSingleton<IDocumentationService,DocumentationService>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
