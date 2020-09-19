@@ -11,41 +11,61 @@
 
 <h1>Assembler</h1>
 
-<div class="row">
-    <div class="column2">
-        <h3>Assembly</h3>
-        <br />
+<div class="card-deck">
 
-        <form id="asm_form">
-            @Html.TextArea("CodeList", null, new { rows = "20", cols = "80", @class = "codebox", id = "asm_code" })
+    <div class="card">
+        <div class="card-header">
+            <h4>Assembly</h4>
+        </div>
 
+        <div class="card-body">
+            <div class="form-row">
+                <div class="col">
+                    @Html.TextArea("CodeList", null, new { rows = "20", cols = "80", @class = "codebox", id = "asm_code" })
+                </div>
+            </div>
 
-            <label>Instruction Set</label>
-            <select name="langs" id="langs"></select>
-            <input type="button" name="CodeList" value="Assemble" onclick="AssembleCode()" />
-            <input type="button" value="Load from File" onclick="getFromFile()" />
-        </form>
-        <br />
-        <br />
+            <div class="form-row mt-4">
+                <div class="form-group mx-2">
+                    <label for="langs">Instruction Set</label>
+                    <select id="langs" class="form-control"></select>
+                </div>
+                <div class="form-group mx-2 d-flex align-items-center">
+                    <button class="btn btn-light" name="CodeList" onclick="AssembleCode()">Assemble</button>
+                </div>
+                <div class="form-group mx-2 d-flex align-items-center">
+                    <button class="btn btn-light" onclick="getFromFile()">Load from File</button>
+                </div>
+            </div>
+
+        </div>
     </div>
-    <div class="column2">
-        <h3>Binary</h3>
-        <br />
 
-        @using (Html.BeginForm())
-        {
-            @Html.TextArea("bin_code", null, new { rows = "20", cols = "80", @class = "codebox", id = "bin_code" })
-            <input type="button" value="Save" onclick="saveToFile()"/>
-        }
+    <div class="card">
+        <div class="card-header">
+            <h4>Binary</h4>
+        </div>
+
+        <div class="card-body">
+            <div class="form-row">
+                <div class="col">
+                    @Html.TextArea("bin_code", null, new { rows = "20", cols = "80", @class = "codebox", id = "bin_code" })
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>
-<br />
-<div class="row">
-    <div class="column1">
-        <h4>Assembler Output</h4>
-        <code class="assembler-out" id="assembler-out"><br /></code>
-    </div>
-    <div>@*This blank div is req to trick the row::after or else the margins get screwed up*@</div> 
-</div>
 
+
+<div class="card-deck mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h4>Assembler Errors</h4>
+        </div>
+        <div class="card-body">
+            <code class="assembler-out" id="assembler-out"><br /></code>
+        </div>
+    </div>
+</div>
 

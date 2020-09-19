@@ -1,0 +1,222 @@
+﻿@{
+    ViewData["Title"] = "Docs";
+}
+
+<h1>Docs</h1>
+
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas placerat a nulla vitae feugiat. Pellentesque eu tristique mi, quis dapibus enim. Nulla porttitor justo sit amet pretium ultrices.
+    Morbi imperdiet consequat sapien, ut ornare erat suscipit ut. Aliquam quis condimentum nunc. Nunc laoreet massa ut mi varius placerat. Donec facilisis at arcu at varius.
+</p>
+
+
+<br />
+<br />
+
+<div class="card">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs" id="docTabs">
+            <li class="nav-item">
+                <a data-toggle="tab" class="nav-link active" href="#sap1emu-doc">SAP1Emu</a>
+            </li>
+            <li class="nav-item">
+                <a data-toggle="tab" class="nav-link" href="#malvino-doc">Malvino</a>
+            </li>
+            <li class="nav-item">
+                <a data-toggle="tab" class="nav-link" href="#beneater-doc">Ben Eater</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="tab-content mt-3">
+            <div class="tab-pane active" id="sap1emu-doc" role="tabpanel">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th style="width: 150px;">OpCode</th>
+                            <th style="width: 150px;">Usage</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>LDA</td>
+                            <td><code>LDA 0xH</code></td>
+                            <td>Loads the value of <code>RAM[0xH]</code> into the <span class="text-muted">A Register</span>.</td>
+                        </tr>
+                        <tr>
+                            <td>ADD</td>
+                            <td><code>ADD 0xH</code></td>
+                            <td>
+                                Adds the value of <code>RAM[0xH]</code> to the value stored in the <span class="text-muted">A Register</span>
+                                and stores the result in the <span class="text-muted">A Register</span>.
+                                <br />
+                                <span class="badge badge-pill badge-info mt-4">Side Effects</span>
+                                <br />
+                                Can set the <span class="text-muted">Carry Flag</span> or the <span class="text-muted">Zero Flag</span>.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>SUB</td>
+                            <td><code>SUB 0xH</code></td>
+                            <td>
+                                Subtracts the value of <code>RAM[0xH]</code> from the value stored in the <span class="text-muted">A Register</span>
+                                and stores the result in the <span class="text-muted">A Register</span>.
+                                <br />
+                                <span class="badge badge-pill badge-info mt-4">Side Effects</span>
+                                <br />
+                                Can set the <span class="text-muted">Underflow Flag</span> or the <span class="text-muted">Zero Flag</span>.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>STA</td>
+                            <td><code>STA 0xH</code></td>
+                            <td>
+                                Stores the value of the <span class="text-muted">A Register</span> into <code>RAM[0xH]</code>.
+                                <br />
+                                <span class="badge badge-pill badge-warning mt-4">Warning</span>
+                                <br />
+                                This can overwrite code stored in  <span class="text-muted">RAM</span> and cause an infinite loop or other undefined behavior.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>JMP</td>
+                            <td><code>JMP 0xH</code></td>
+                            <td>
+                                Performs an unconditional jump to the specified address.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>JEQ</td>
+                            <td><code>JEQ 0xH</code></td>
+                            <td>
+                                Performs a jump to the specified address if the value of the <span class="text-muted">A Register</span> is equal to zero.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>JNQ</td>
+                            <td><code>JNQ 0xH</code></td>
+                            <td>
+                                Performs a jump to the specified address if the value of the <span class="text-muted">A Register</span> is NOT equal to zero.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>JLT</td>
+                            <td><code>JLT 0xH</code></td>
+                            <td>
+                                Performs a jump to the specified address if the value of the <span class="text-muted">A Register</span> is less than zero.
+                                <br />
+                                If the first bit of the value in the <span class="text-muted">A Register</span> is non-zero, it will treat it as a negitive
+                                number for the purpose of this OpCode.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>JGT</td>
+                            <td><code>JGT 0xH</code></td>
+                            <td>
+                                Performs a jump to the specified address if the value of the <span class="text-muted">A Register</span> is greater than zero.
+                                <br />
+                                If the value in the <span class="text-muted">A Register</span> is non-zero but the first bit of the <span class="text-muted">A Register</span> is zero, it will treat it as a positive
+                                number for the purpose of this OpCode.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>JIC</td>
+                            <td><code>JIC 0xH</code></td>
+                            <td>
+                                Performs a jump to the specified address if the <span class="text-muted">Carry Flag</span> is set.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>OUT</td>
+                            <td><code>OUT 0x0</code></td>
+                            <td>
+                                Stores the value of the <span class="text-muted">A Register</span> in the <span class="text-muted">Output Register</span>.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>HLT</td>
+                            <td><code>HLT 0x0</code></td>
+                            <td>
+                                Halts the program execution.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>NOP</td>
+                            <td><code>NOP 0x0</code></td>
+                            <td>
+                                A no-operation instruction. 
+                                <br />
+                                Must come after a <code>HLT</code> instruction.
+                                <br />
+                                Also, see the <code>...</code> macro.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane" id="malvino-doc" role="tabpanel">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th style="width: 150px;">OpCode</th>
+                            <th style="width: 150px;">Usage</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>LDA</td>
+                            <td><code>LDA 0xH</code></td>
+                            <td>Loads the value of <code>RAM[0xH]</code> into the <span class="text-muted">A Register</span>.</td>
+                        </tr>
+                        <tr>
+                            <td>ADD</td>
+                            <td><code>ADD 0xH</code></td>
+                            <td>
+                                Adds the value of <code>RAM[0xH]</code> to the value stored in the <span class="text-muted">A Register</span>
+                                and stores the result in the <span class="text-muted">A Register</span>.
+                                <br />
+                                <span class="badge badge-pill badge-info mt-4">Side Effects</span>
+                                <br />
+                                Can set the <span class="text-muted">Carry Flag</span> or the <span class="text-muted">Zero Flag</span>.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>SUB</td>
+                            <td><code>SUB 0xH</code></td>
+                            <td>
+                                Subtracts the value of <code>RAM[0xH]</code> from the value stored in the <span class="text-muted">A Register</span>
+                                and stores the result in the <span class="text-muted">A Register</span>.
+                                <br />
+                                <span class="badge badge-pill badge-info mt-4">Side Effects</span>
+                                <br />
+                                Can set the <span class="text-muted">Underflow Flag</span> or the <span class="text-muted">Zero Flag</span>.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>OUT</td>
+                            <td><code>OUT 0x0</code></td>
+                            <td>
+                                Stores the value of the <span class="text-muted">A Register</span> in the <span class="text-muted">Output Register</span>.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>HLT</td>
+                            <td><code>HLT 0x0</code></td>
+                            <td>
+                                Halts the program execution.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane" id="beneater-doc" role="tabpanel">
+                <p class="lead">
+                    Documentation Coming Soon
+                </p>
+            </div>
+        </div>
+    </div>
+ </div>
+

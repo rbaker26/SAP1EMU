@@ -28,9 +28,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="wwwroot\img\" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="InstructionSets.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -40,4 +37,5 @@
     <ProjectReference Include="..\SAP1EMU.Engine\SAP1EMU.Engine.csproj" />
     <ProjectReference Include="..\SAP1EMU.Lib\SAP1EMU.Lib.csproj" />
   </ItemGroup>
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 </Project>
