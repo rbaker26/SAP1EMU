@@ -21,13 +21,11 @@ namespace SAP1EMU.GUI.Controllers
             try
             {
                 return Ok(OpCodeLoader.GetISetNames());
-
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message + " " + e.InnerException.Message);
             }
-            
         }
 
         public class AssemblePacket 
