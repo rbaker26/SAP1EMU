@@ -1,0 +1,27 @@
+﻿
+<h1>8-Bit Programming</h1>
+<p class="lead">
+    An Introduction to Limited Instruction Set Programs
+</p>
+
+
+@{ await Html.RenderPartialAsync("_EightBitProgramming_TOC"); }
+
+<p class="mb-4">
+    Macros
+</p>
+
+
+
+<div class="mt-4">
+    @{ await Html.RenderPartialAsync("_PageNavHelper", new PageNavHelperModel
+        {
+            ControllerName = "Docs",
+            PreviousView = "EightBitProgramming_2",
+            PreviousViewDisplay = "Exploring the Instruction Set",
+            NextView = "",
+            NextViewDisplay = ""
+        }
+       );
+    }
+</div>

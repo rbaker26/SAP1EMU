@@ -13,42 +13,34 @@ using Microsoft.Extensions.Hosting;
 
 namespace SAP1EMU.GUI.Controllers
 {
-    public class HomeController : Controller
+    public class DocsController : Controller
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public DocsController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-        public IActionResult About()
-        {
-            return View();
-        }
-        public IActionResult Emulator()
-        {
-            return View();
-        }
-        public IActionResult Assembler()
+        public IActionResult Docs()
         {
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult EightBitProgramming_1()
         {
             return View();
         }
 
-        public IActionResult Contributors()
+        public IActionResult EightBitProgramming_2()
         {
             return View();
         }
 
+        public IActionResult EightBitProgramming_3()
+        {
+            return View();
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

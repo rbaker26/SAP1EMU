@@ -18,4 +18,8 @@
     <ProjectReference Include="..\SAP1EMU.GUI\SAP1EMU.GUI.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Tests\Shared\" />
+  </ItemGroup>
+
 </Project>

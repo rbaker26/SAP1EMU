@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 using SAP1EMU.Engine;
 using SAP1EMU.Assembler;
 using SAP1EMU.Lib;
+using Microsoft.EntityFrameworkCore;
+using SAP1EMU.GUI.Contexts;
+using SAP1EMU.GUI.Models;
 
 namespace SAP1EMU.GUI.Controllers
 {
@@ -17,9 +20,11 @@ namespace SAP1EMU.GUI.Controllers
     public class EmulatorController : ControllerBase
     {
         IDecoder _decoder { get; set; }
-        public EmulatorController(IDecoder decoder)
+        Sap1EmuContext _sap1EmuContext { get; set; }
+        public EmulatorController(IDecoder decoder, Sap1EmuContext sap1EmuContext)
         {
             _decoder = decoder;
+            _sap1EmuContext = sap1EmuContext;
         }
 
 
@@ -30,7 +35,7 @@ namespace SAP1EMU.GUI.Controllers
         }
         // POST: api/Emulator
         [HttpPost]
-        public ActionResult Post([FromBody] EmulatorPacket emulatorPacket)
+        public async Task<ActionResult> PostAsync([FromBody] EmulatorPacket emulatorPacket)
         {
             try
             {
@@ -42,6 +47,21 @@ namespace SAP1EMU.GUI.Controllers
                 engine.Init(rmp, _decoder, emulatorPacket.SetName);
 
                 engine.Run();
+
+                try
+                {
+                    _sap1EmuContext.Add<CodeSubmit>(new CodeSubmit
+                    {
+                        code = emulatorPacket.CodeList.Aggregate("", (current, s) => current + (s + ",")),
+                        submitted_at = DateTime.Now
+                    });
+                    await _sap1EmuContext.SaveChangesAsync();
+                }
+                catch(Exception)
+                {
+                   // TODO: Log DB Error
+                }
+                
 
                 return Ok(engine.FrameStack());
 

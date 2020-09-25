@@ -6,7 +6,7 @@ using Xunit;
 using SAP1EMU.GUI.Test;
 using System.Threading.Tasks;
 
-namespace SAP1EMU.GUI.Test.Tests
+namespace SAP1EMU.GUI.Test.Tests.Home
 {
 
 
