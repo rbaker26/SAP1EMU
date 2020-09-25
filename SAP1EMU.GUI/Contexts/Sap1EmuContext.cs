@@ -15,7 +15,7 @@ namespace SAP1EMU.GUI.Contexts
             
         }
 
-        public DbSet<CodeSubmit> Code { get; set; }
+        public DbSet<CodeSubmit> CodeStore { get; set; }
 
 
     }

@@ -48,12 +48,20 @@ namespace SAP1EMU.GUI.Controllers
 
                 engine.Run();
 
-                _sap1EmuContext.Add<CodeSubmit>(new CodeSubmit
+                try
                 {
-                    code = emulatorPacket.CodeList.Aggregate("", (current, s) => current + (s + ",")),
-                    submitted_at = DateTime.Now
-                });
-                await _sap1EmuContext.SaveChangesAsync();
+                    _sap1EmuContext.Add<CodeSubmit>(new CodeSubmit
+                    {
+                        code = emulatorPacket.CodeList.Aggregate("", (current, s) => current + (s + ",")),
+                        submitted_at = DateTime.Now
+                    });
+                    await _sap1EmuContext.SaveChangesAsync();
+                }
+                catch(Exception)
+                {
+                   // TODO: Log DB Error
+                }
+                
 
                 return Ok(engine.FrameStack());
 

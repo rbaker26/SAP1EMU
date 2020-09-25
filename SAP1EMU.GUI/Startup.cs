@@ -46,9 +46,8 @@ namespace SAP1EMU.GUI
             services.AddSingleton<IDecoder, InstructionDecoder>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
-
             services.AddDbContext<Sap1EmuContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            options.UseSqlServer(Configuration.GetConnectionString("sap1emu_db_conn_string")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
