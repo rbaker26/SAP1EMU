@@ -1,4 +1,8 @@
-﻿<script src="/js/CodeMirror/lib/codemirror.js"></script>
+﻿@{
+    ViewData["Title"] = "8Bit";
+}
+
+<script src="/js/CodeMirror/lib/codemirror.js"></script>
 <script src="/js/CodeMirror/mode/gas/gas_sap1.js" type="text/javascript"></script>
 <link href="/js/CodeMirror/lib/codemirror.css" rel="stylesheet" type="text/css" />
 <script src="/js/Views/Docs/8BitDocs.js" type="text/javascript"></script>
@@ -33,9 +37,9 @@
 <p class="mt-3">
     As you can see, the <code>...</code> macro filled the empty space with <code>0x0 0x0</code>'s until the program
     has 16 lines of code.
-    <br /> 
+    <br />
     It is also important to note that the macro is executed by the Parser, not the Emulator.
-    This means the Emulator will never see the macro. Instead it will only see the <code>0x0 0x0</code>'s left behind 
+    This means the Emulator will never see the macro. Instead it will only see the <code>0x0 0x0</code>'s left behind
     by the Parser.
 </p>
 
@@ -43,11 +47,11 @@
 <h2 class="mt-4">Comments</h2>
 <p>
     A comment is a line of code that is not executed. They are stripped out by the Parser, so they never reach the Emulator.
-    Due to the difficulty in reading Assembly-like code, comments should be used to help you remember what your code does. 
+    Due to the difficulty in reading Assembly-like code, comments should be used to help you remember what your code does.
     <br /> <br />
-    The SAP1Emu uses Bash-Style comments utilizing the <code>#</code>. Anything that comes after a <code>#</code> is 
+    The SAP1Emu uses Bash-Style comments utilizing the <code>#</code>. Anything that comes after a <code>#</code> is
     not treated as code. Comments can take up their own line or come after code.
-    <br /> 
+    <br />
     Below is an example of comments in use.
 </p>
 <div class="row">

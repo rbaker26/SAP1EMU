@@ -1,4 +1,7 @@
-﻿
+﻿@{
+    ViewData["Title"] = "8Bit";
+}
+
 <h1>8-Bit Programming</h1>
 <p class="lead">
     An Introduction to Limited Instruction Set Programs
@@ -71,14 +74,14 @@
 
 <div class="mt-4">
     @{ await Html.RenderPartialAsync("_PageNavHelper", new PageNavHelperModel
-            {
-                ControllerName = "Docs",
-                PreviousView = "",
-                PreviousViewDisplay = "",
-                NextView = "EightBitProgramming_2",
-                NextViewDisplay = "Exploring the Instruction Set"
-            } 
-        );
+        {
+            ControllerName = "Docs",
+            PreviousView = "",
+            PreviousViewDisplay = "",
+            NextView = "EightBitProgramming_2",
+            NextViewDisplay = "Exploring the Instruction Set"
+        }
+         );
     }
 </div>
 
