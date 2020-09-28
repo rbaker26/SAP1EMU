@@ -177,6 +177,9 @@ function LoadIntoRAM() {
             frame_stack = data;
             first_frame = frame_stack[0];
 
+            console.log(frame_stack);
+            console.log(frame_stack.length);
+
             loadRam(first_frame.ram);
 
             return data;
@@ -186,6 +189,8 @@ function LoadIntoRAM() {
             $('#emulator-out').html(request.responseText);
         }
     });
+
+    
 
     setControlButtonsDisabled(false);
 }
@@ -235,6 +240,7 @@ function reset_button_onclick() {
 var current_frame = 0;
 function frame_advance() {
     if (current_frame < frame_stack.length) {
+        current_frame++;
         updateBoard(frame_stack[current_frame]);
         loadRam(frame_stack[current_frame].ram);
         $("#instruction-box").text(frame_stack[current_frame].instruction);
@@ -242,9 +248,6 @@ function frame_advance() {
 
         // Update Progress Bar
         updateProgressBar(current_frame, frame_stack.length);
-        current_frame++;
-
-
     }
     else {
         $('#frameProgressBar').css("width", "100%");
