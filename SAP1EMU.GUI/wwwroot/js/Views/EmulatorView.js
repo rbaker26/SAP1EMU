@@ -177,8 +177,8 @@ function LoadIntoRAM() {
             frame_stack = data;
             first_frame = frame_stack[0];
 
-            console.log(frame_stack);
-            console.log(frame_stack.length);
+            //console.log(frame_stack);
+            //console.log(frame_stack.length);
 
             loadRam(first_frame.ram);
 
