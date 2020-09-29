@@ -1,9 +1,13 @@
 ﻿var asm_editor;
 var ram_dump;
 var frame_stack;
+var interval_slider;
+var interval_time;
 //var playerInstance;
 
 window.onload = function () {
+    interval_slider = document.getElementById("formControlRange");
+
     asm_editor = CodeMirror.fromTextArea(document.getElementById("asm_code"), {
         lineNumbers: true,
         matchBrackets: true,
@@ -200,7 +204,7 @@ var justPaused = false;
 function play_button_onclick() {
     if (job_id == null) {
         $("#play-pause-img").attr("src", "/img/pause-24px.svg");
-        job_id = setInterval(frame_advance, 500);
+        job_id = setInterval(frame_advance, interval_time);
 
         // Disable back and next
         $("#back-button").prop('disabled', true);
@@ -239,7 +243,7 @@ function reset_button_onclick() {
 
 var current_frame = 0;
 function frame_advance() {
-    if (current_frame < frame_stack.length) {
+    if (current_frame < frame_stack.length - 1) {
         current_frame++;
         updateBoard(frame_stack[current_frame]);
         loadRam(frame_stack[current_frame].ram);
@@ -297,6 +301,16 @@ function updateProgressBar(currentFrame, frameStackLength) {
     else {
         var frameProgress = (current_frame / frame_stack.length) * 100;
         $('#frameProgressBar').css("width", frameProgress + "%");
+    }
+}
+
+function changeIntervalTiming(value) {
+    interval_time = value;
+
+    //If we currently have a job in process meaning the code is executing then clear it and change the interval time and start again
+    if (job_id != null) {
+        clearInterval(job_id);
+        job_id = setInterval(frame_advance, interval_time);
     }
 }
 
