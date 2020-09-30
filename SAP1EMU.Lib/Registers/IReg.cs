@@ -74,7 +74,7 @@ namespace SAP1EMU.Lib.Registers
 
         public string ToString_Frame_Use()
         {
-            return (string.IsNullOrEmpty(this.RegContent) ? "0000 0000" : this.RegContent);
+            return (String.IsNullOrEmpty(this.RegContent) ? "0000 0000" : this.RegContent);
         }
 
 
