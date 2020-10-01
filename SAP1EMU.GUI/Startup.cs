@@ -7,8 +7,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ElectronNET.API;
-using ElectronNET.API.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
@@ -76,39 +74,8 @@ namespace SAP1EMU.GUI
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-
-            //app.Use(async (context, next) =>
-            //{
-            //    context.Response.Headers.Add("X-Xss-Protection", "1");
-            //    await next();
-            //});
-
-
-            //ElectronBootstrap();
-            //Task.Run(async () => await Electron.WindowManager.CreateWindowAsync(browserWindowOptions)).Result.WebContents.Session.ClearCacheAsync();
-            //Electron.WindowManager.CreateWindowAsync().Result.BlurWebView();
         }
 
-        private async void ElectronBootstrap()
-        {
-            var display = Electron.Screen.GetPrimaryDisplayAsync().Result;
-
-
-            var browserWindow = await Electron.WindowManager.CreateWindowAsync(new BrowserWindowOptions()
-            {
-                Width = display.WorkAreaSize.Width,
-                Height = display.WorkAreaSize.Height,
-                Show = false,
-
-                WebPreferences = new WebPreferences
-                {
-                    WebSecurity = false
-                }
-            });
-
-            await browserWindow.WebContents.Session.ClearCacheAsync();
-            browserWindow.OnReadyToShow += () => browserWindow.Show();
-            browserWindow.SetTitle("SAP1Emu");
-        }
+      
     }
 }

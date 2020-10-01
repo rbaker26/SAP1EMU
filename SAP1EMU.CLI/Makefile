@@ -6,7 +6,7 @@ CC = dotnet publish
 CC_FLAGS = -c Release --framework netcoreapp3.1
 CC_SELF =  --self-contained true
 CC_NOSF = --self-contained false
-PROJ = SAP1EMU.Engine-CLI.csproj
+PROJ = SAP1EMU.CLI.csproj
 PROJ_NAME = SAP1Emu-CLI
 
 
