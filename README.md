@@ -10,12 +10,19 @@
 
 An Emulator for the SAP1 Computer, based off of the SAP1 from _Digital Computer Electronics_ by Malvino and Brown.
 
+Check out the Emulator here: [sap1emu.net](https://sap1emu.net)
+
+
+A lot of this is outdated. Documentation is slowly moving over to [sap1emu.net/Docs/Docs](https://sap1emu.net/Docs/Docs)
+
+
 ## About this Project (User Guide Wiki)
 This readme.md will address topics regarding the SAP1Emu Library, Engine and API. <br>
 For tutorials, file specifications, instruction sets and other educational information, visit the SAP1Emu Project's [Wiki Page](https://github.com/rbaker26/SAP1EMU/wiki).
 
 
 ## About this Project (Technical)
+#### This is outdated, I will update after v2.0.0-rc merges to master. Email me if you have questions.
 I decided to break this project up into a bunch of different reusable conponents knowing that once the CLI was complete, I wanted to reuse as much code as posible for the GUI.  To do this, I broke the project up into eight district parts. <br>
 Below is a diagram of how this project (solution) is set up with its corresponding .csproj files.
 ```
