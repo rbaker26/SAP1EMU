@@ -228,5 +228,27 @@ namespace SAP1EMU.CLI.Test
             }
 
         }
+
+        [TestMethod]
+        public void LDI_Ben_Eater()
+        {
+            string input_file = "LDI.s";
+            string output_file = "output_file.txt";
+            string instruction_set = "BenEater";
+            string expectedResult = "11110110";
+
+
+            string lineArgs = $"-s {input_file} -o {output_file} -i {instruction_set} - O std";
+            SAP1EMU.CLI.Program.Main(lineArgs.Split(' '));
+
+            string expected = $"************************************************************\n"
+                            + $"Final Output Register Value: { expectedResult }"
+                            + $"\n************************************************************\n\n";
+
+            string result = File.ReadAllText(output_file);
+            StringAssert.Contains(result, expected);
+
+            File.Delete(output_file);
+        }
     }
 }

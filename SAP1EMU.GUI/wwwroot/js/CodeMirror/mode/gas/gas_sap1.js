@@ -45,6 +45,7 @@
             registers.add = "variable-3";
             registers.sub = "variable-3";
             registers.sta = "variable-3";
+            registers.ldi = "variable-3";
 
             // The Value Regerenced Instructions
             registers.jmp = "keyword";
