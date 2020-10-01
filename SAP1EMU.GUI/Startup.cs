@@ -1,18 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.FileProviders;
-using System.IO;
-using SAP1EMU.Lib;
+
 using SAP1EMU.GUI.Contexts;
-using Microsoft.EntityFrameworkCore;
+using SAP1EMU.Lib;
 
 namespace SAP1EMU.GUI
 {
@@ -30,7 +25,7 @@ namespace SAP1EMU.GUI
         {
             services.Configure<CookiePolicyOptions>(options =>
             {
-                // This lambda determines whether user consent for non-essential 
+                // This lambda determines whether user consent for non-essential
                 // cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 // requires using Microsoft.AspNetCore.Http;
@@ -39,7 +34,6 @@ namespace SAP1EMU.GUI
 
             // The following line enables Application Insights telemetry collection.
             services.AddApplicationInsightsTelemetry();
-
 
             services.AddSingleton<IDecoder, InstructionDecoder>();
 
@@ -75,7 +69,5 @@ namespace SAP1EMU.GUI
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
-
-      
     }
 }

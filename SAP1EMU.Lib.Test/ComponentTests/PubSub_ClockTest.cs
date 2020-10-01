@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using SAP1EMU.Lib.Components;
 using SAP1EMU.Lib.Registers;
+
+using System;
 
 namespace SAP1EMU.Lib.Test.ComponentTests
 {
@@ -16,7 +16,6 @@ namespace SAP1EMU.Lib.Test.ComponentTests
             return OpCodeLoader.GetSet(InstructionSetName);
         }
 
-
         [TestMethod]
         public void TestSubscribe()
         {
@@ -24,7 +23,6 @@ namespace SAP1EMU.Lib.Test.ComponentTests
             {
                 Clock clock = new Clock();
                 TicTok tictok = new TicTok();
-
 
                 tictok.Init(); ;
 
@@ -52,15 +50,12 @@ namespace SAP1EMU.Lib.Test.ComponentTests
                 pc.Subscribe(clock);
                 alu.Subscribe(clock); // ALU must come after A and B
                 ram.Subscribe(clock);
-
-
             }
             catch (Exception e)
             {
                 Assert.Fail(e.ToString());
             }
         }
-
 
         [TestMethod]
         public void TestUpdate()
@@ -70,8 +65,7 @@ namespace SAP1EMU.Lib.Test.ComponentTests
                 Clock clock = new Clock();
                 TicTok tictok = new TicTok();
 
-
-                tictok.Init(); 
+                tictok.Init();
 
                 AReg areg = new AReg();
                 BReg breg = new BReg();
@@ -84,7 +78,6 @@ namespace SAP1EMU.Lib.Test.ComponentTests
                 MReg mreg = new MReg(ref ram);
                 SEQ seq = SEQ.Instance();
                 seq.Load(GetInstructionSet());
-
 
                 Wbus.Instance().Value = "00000000";
                 Flags.Instance().Clear();
@@ -120,7 +113,6 @@ namespace SAP1EMU.Lib.Test.ComponentTests
             Clock clock = new Clock();
             TicTok tictok = new TicTok();
 
-
             tictok.Init(); ;
 
             AReg areg = new AReg();
@@ -135,7 +127,6 @@ namespace SAP1EMU.Lib.Test.ComponentTests
             SEQ seq = SEQ.Instance();
             seq.Load(GetInstructionSet());
 
-
             Wbus.Instance().Value = "00000000";
             Flags.Instance().Clear();
 
@@ -148,7 +139,6 @@ namespace SAP1EMU.Lib.Test.ComponentTests
             alu.Subscribe(clock); // ALU must come after A and B
             ram.Subscribe(clock);
 
-
             for (int i = 0; i < 500; i++)
             {
                 clock.SendTicTok(tictok);
@@ -160,7 +150,6 @@ namespace SAP1EMU.Lib.Test.ComponentTests
             // UnSub all
             clock.EndTransmission();
 
-
             for (int i = 0; i < 500; i++)
             {
                 clock.SendTicTok(tictok);
@@ -168,8 +157,6 @@ namespace SAP1EMU.Lib.Test.ComponentTests
                 clock.SendTicTok(tictok);
                 tictok.ToggleClockState();
             }
-
         }
-
     }
 }

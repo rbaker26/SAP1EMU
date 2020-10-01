@@ -39,7 +39,7 @@
         function x86(_parserConfig) {
             lineCommentStartSymbol = "#";
 
-            // The Memory Referenced Instructions 
+            // The Memory Referenced Instructions
             registers.lda = "variable-3";
             registers.ldb = "variable-3";
             registers.add = "variable-3";
@@ -55,13 +55,10 @@
             registers.jgt = "keyword";
             registers.jic = "keyword";
 
-
-
             // The Null Referenced Intstructions
             registers.out = "builtin";
             registers.hlt = "builtin";
         }
-
 
         // Not Used
         function armv6(_parserConfig) {
@@ -142,7 +139,6 @@
                     return "string";
                 }
 
-
                 if (ch === '=') {
                     stream.eatWhile(/\w/);
                     return "tag";
@@ -191,5 +187,4 @@
             blockCommentEnd: "*/"
         };
     });
-
 });

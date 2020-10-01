@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
-using SAP1EMU.Lib;
-using SAP1EMU.Lib.Components;
+﻿using SAP1EMU.Lib;
 using SAP1EMU.Lib.Utilities;
+
+using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace SAP1EMU.Assembler
 {
     public static class Assemble
     {
         private const string DefaultInstructionSetName = "SAP1Emu";
+
         public static List<string> Parse(List<string> unchecked_assembly, string InstructionSetName = DefaultInstructionSetName)
         {
-
             // Get Instruction Set
             InstructionSet iset = OpCodeLoader.GetSet(InstructionSetName);
 
@@ -26,10 +24,8 @@ namespace SAP1EMU.Assembler
             unchecked_assembly.RemoveAll(s => s == null);
             unchecked_assembly.RemoveAll(s => Regex.IsMatch(s, "^\\s*$"));
 
-
             // Remove Newline Comments
             unchecked_assembly.RemoveAll(s => s[0] == '#');
-
 
             for (int i = 0; i < unchecked_assembly.Count; i++)
             {
@@ -49,26 +45,16 @@ namespace SAP1EMU.Assembler
                 // *******************************
                 unchecked_assembly[i] = Regex.Replace(unchecked_assembly[i], "\\s*#.*$", "");
                 // *******************************
-
-
             }
             // *********************************************************************
-
-
-
-
 
             // *********************************************************************
             // Validate
             // *********************************************************************
 
-
             //if is not valid, will throw execptions for CLI to catch and display to user
-            _ = IsValid(unchecked_assembly, iset); 
+            _ = IsValid(unchecked_assembly, iset);
             // *********************************************************************
-
-
-
 
             // *********************************************************************
             // Assemble
@@ -77,11 +63,9 @@ namespace SAP1EMU.Assembler
 
             int lines_of_asm = unchecked_assembly.Count;
 
-
             int current_line_number = 0;
             foreach (string line in unchecked_assembly)
             {
-
                 if (line == "...")
                 {
                     int nop_count = 16 - lines_of_asm + 1;
@@ -89,7 +73,6 @@ namespace SAP1EMU.Assembler
                     {
                         binary.Add("00000000");
                     }
-
                 }
                 else
                 {
@@ -97,7 +80,6 @@ namespace SAP1EMU.Assembler
                     string lower_nibble_asm = line.Split(" ", 2)[1];
                     string upper_nibble_bin = "";
                     string lower_nibble_bin = "";
-
 
                     // Convert Upper Nibble
                     if (InstructionValidator.IsValidInstruction(upper_nibble_asm, iset))     // Is instruction
@@ -110,21 +92,16 @@ namespace SAP1EMU.Assembler
                         upper_nibble_bin = BinConverter.IntToBin4(value_upper);
                     }
 
-
-
                     // Convert Lower Nibble
                     int value_lower = (int)(Convert.ToUInt32(lower_nibble_asm, 16));
                     lower_nibble_bin = BinConverter.IntToBin4(value_lower);
 
                     binary.Add(upper_nibble_bin + lower_nibble_bin);
-
-
                 }
 
                 current_line_number++;
             }
             // *********************************************************************
-
 
             return binary;
         }
@@ -139,11 +116,10 @@ namespace SAP1EMU.Assembler
                 if (line != "...")
                 {
                     string[] nibbles = line.Split(' ', 2);
-                    
-                    if(nibbles.Length == 0)
+
+                    if (nibbles.Length == 0)
                     {
                         throw new ParseException($"SAP1ASM: Line cannot be blank (line: {line_number}).", new ParseException("Use \"NOP 0x0\" for a no-operation command"));
-
                     }
 
                     string instruction = nibbles[0];
@@ -153,24 +129,19 @@ namespace SAP1EMU.Assembler
                     }
                     string addr = nibbles[1];
 
-                    
-
                     // Check Intruction
                     if (instruction.Length != 3)
                     {
                         throw new ParseException($"SAP1ASM: invalid intruction on line {line_number}.", new ParseException($"{instruction} is not a recognized instruction"));
                     }
 
-
-                    if (!InstructionValidator.IsValidInstruction(instruction.ToUpper(),iset))         // Check if is valid instruction
+                    if (!InstructionValidator.IsValidInstruction(instruction.ToUpper(), iset))         // Check if is valid instruction
                     {
                         if (!Regex.IsMatch(instruction, "^0[xX][0-9a-fA-F]$"))               // Make sure it isnt data
                         {
                             throw new ParseException($"SAP1ASM: invalid intruction on line {line_number}.", new ParseException($"{instruction} is not a recognized instruction or valid data"));
                         }
                     }
-
-
 
                     // Check Address
                     if (addr.Length != 3)                                               // should be no more than 3
@@ -187,10 +158,9 @@ namespace SAP1EMU.Assembler
                         throw new ParseException($"SAP1ASM: address out of range on line {line_number}.", new ParseException($"{addr} must be betweeen 0x0 and 0xF"));
                     }
 
-                    if(line.Contains("..."))
+                    if (line.Contains("..."))
                     {
                         throw new ParseException($"SAP1ASM: invalid use of \"...\" on line {line_number}.", new ParseException($"{line} must only contain \"...\" with no extra charecters or spaces"));
-
                     }
                 }
                 else
@@ -202,11 +172,8 @@ namespace SAP1EMU.Assembler
                     else
                     {
                         throw new ParseException($"SAP1ASM: invalid use of \"...\" {line_number}.", new ParseException($"{line} must only contain once instance of \"...\" in the program"));
-
                     }
                 }
-
-
 
                 line_number++;
             }
@@ -214,6 +181,4 @@ namespace SAP1EMU.Assembler
             return true;
         }
     }
-
-
 }

@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using NuGet.Frameworks;
+using System;
 
 namespace SAP1EMU.Lib.Test.InstructionSetTests
 {
     [TestClass]
     public class InstructionTests
     {
-
         [TestMethod]
         public void TestInstruction()
         {
@@ -37,6 +32,7 @@ namespace SAP1EMU.Lib.Test.InstructionSetTests
                 Assert.Fail(e.ToString());
             }
         }
+
         [TestMethod]
         public void TestopCodeLoader()
         {
@@ -46,7 +42,7 @@ namespace SAP1EMU.Lib.Test.InstructionSetTests
                 OpCodeLoader.GetSet("Malvino");
                 OpCodeLoader.GetSet("BenEater");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Assert.Fail(e.ToString());
             }

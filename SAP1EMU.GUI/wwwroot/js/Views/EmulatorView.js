@@ -27,7 +27,6 @@ window.onload = function () {
     initBoard();
     setControlButtonsDisabled(true);
 
-
     // Setup ComboBox
     $.ajax({
         url: "../api/Assembler/supported_sets",
@@ -50,7 +49,6 @@ window.onload = function () {
             alert("SAP1EMU ERROR: JSON CONFIG FILE ERROR:\n" + request.responseText);
         }
     });
-
 }
 
 function initBoard() {
@@ -152,8 +150,6 @@ function LoadIntoRAM() {
         }
     });
 
-    
-
     setControlButtonsDisabled(false);
 }
 
@@ -197,8 +193,6 @@ function reset_button_onclick() {
     updateProgressBar(current_frame, frame_stack.length);
 }
 
-
-
 var current_frame = 0;
 function frame_advance() {
     if (current_frame < frame_stack.length - 1) {
@@ -215,8 +209,6 @@ function frame_advance() {
         $('#frameProgressBar').css("width", "100%");
         clearInterval(job_id);
         job_id = null;
-
-
     }
 
     //console.log(frame_stack[current_frame]);
@@ -250,9 +242,7 @@ function setControlButtonsDisabled(isDisabled) {
     $("#reset-button").prop('disabled', isDisabled);
 }
 
-
 function updateProgressBar(currentFrame, frameStackLength) {
-
     if (currentFrame == frameStackLength - 1) {
         $('#frameProgressBar').css("width", "100%");
     }
@@ -263,18 +253,16 @@ function updateProgressBar(currentFrame, frameStackLength) {
 }
 
 function changeIntervalTiming(value) {
-
     // keep the time from getting too long
     if (value <= .250) {
         value = .250;
     }
     interval_time = (1 / value) * 500;
 
-    // If we currently have a job in process meaning the code is executing then 
+    // If we currently have a job in process meaning the code is executing then
     //  clear it and change the interval time and start again
     if (job_id != null) {
         clearInterval(job_id);
         job_id = setInterval(frame_advance, interval_time);
     }
 }
-

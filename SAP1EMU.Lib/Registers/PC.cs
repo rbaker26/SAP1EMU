@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SAP1EMU.Lib.Components;
+﻿using SAP1EMU.Lib.Components;
 using SAP1EMU.Lib.Utilities;
+
+using System;
 
 namespace SAP1EMU.Lib.Registers
 {
     public class PC : IObserver<TicTok>
     {
-        readonly AReg areg;
+        private readonly AReg areg;
         private string RegContent { get; set; }
 
         public PC(ref AReg areg)
@@ -16,6 +15,7 @@ namespace SAP1EMU.Lib.Registers
             RegContent = "00000000";
             this.areg = areg;
         }
+
         public void Exec(TicTok tictok)
         {
             string cw = SEQ.Instance().ControlWord;
@@ -43,7 +43,6 @@ namespace SAP1EMU.Lib.Registers
                     count = "0000" + count.Substring(4, 4);
                 }
 
-
                 // The cw[14-16] is a 3-bit jump code that tells the PC which jump code to preform.
                 // JMP == 000
                 // JEQ == 001
@@ -52,7 +51,6 @@ namespace SAP1EMU.Lib.Registers
                 // JGT == 100
                 // JIC == 101
 
-                
                 string jump_code = cw.Substring(14, 3);
 
                 // JMP
@@ -69,14 +67,14 @@ namespace SAP1EMU.Lib.Registers
                     }
                 }
                 // JNQ
-                else if(jump_code == "010")
+                else if (jump_code == "010")
                 {
                     if (areg.ToString() != "00000000")
                     {
                         this.RegContent = count;
                     }
                 }
-                // JLT  
+                // JLT
                 else if (jump_code == "011")
                 {
                     if (areg.ToString()[0] == '1')
@@ -84,7 +82,7 @@ namespace SAP1EMU.Lib.Registers
                         this.RegContent = count;
                     }
                 }
-                // JGT 
+                // JGT
                 else if (jump_code == "100")
                 {
                     if (areg.ToString() != "00000000" && areg.ToString()[0] == '0')
@@ -93,30 +91,25 @@ namespace SAP1EMU.Lib.Registers
                     }
                 }
                 // JIC
-                else if(jump_code == "101")
+                else if (jump_code == "101")
                 {
                     if (Flags.Instance().Overflow == 1)
                     {
                         this.RegContent = count;
                     }
                 }
-
-
             }
-
         }
 
-
-
-
         #region IObserver Region
+
         private IDisposable unsubscriber;
+
         public virtual void Subscribe(IObservable<TicTok> clock)
         {
             if (clock != null)
                 unsubscriber = clock.Subscribe(this);
         }
-
 
         void IObserver<TicTok>.OnCompleted()
         {
@@ -137,13 +130,12 @@ namespace SAP1EMU.Lib.Registers
         {
             unsubscriber.Dispose();
         }
-        #endregion
 
+        #endregion IObserver Region
 
         public override string ToString()
         {
             return RegContent;
         }
-
     }
 }

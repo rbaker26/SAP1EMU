@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using SAP1EMU.Lib.Components;
 using SAP1EMU.Lib.Registers;
 
@@ -10,13 +8,13 @@ namespace SAP1EMU.Lib.Test
     [TestClass]
     public class FrameTest
     {
-        IDecoder _decoder = new InstructionDecoder();
+        private IDecoder _decoder = new InstructionDecoder();
+
         [TestMethod]
         public void TestToString()
         {
             Clock clock = new Clock();
             TicTok tictok = new TicTok();
-
 
             tictok.Init(); ;
             int TState = 0;
@@ -34,12 +32,9 @@ namespace SAP1EMU.Lib.Test
             Wbus.Instance().Value = "00000000";
             Flags.Instance().Clear();
 
-
-
             Frame frame = new Frame(ireg.ToString(), TState, areg, breg, ireg, mreg, oreg, pc, alu, ram.RAMDump(), ram, seq, Wbus.Instance().ToString(), Flags.Instance(), _decoder);
             _ = frame.ToString();
             _ = frame.OutputRegister();
-
         }
     }
 }

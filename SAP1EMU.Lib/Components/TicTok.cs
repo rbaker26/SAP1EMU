@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SAP1EMU.Lib.Components
 {
@@ -16,12 +14,11 @@ namespace SAP1EMU.Lib.Components
             Tok
         };
 
-        
         public State ClockState { get; private set; }
 
-        public void ToggleClockState() 
+        public void ToggleClockState()
         {
-            if(ClockState == State.Tic)
+            if (ClockState == State.Tic)
             {
                 ClockState = State.Tok;
             }
@@ -30,14 +27,14 @@ namespace SAP1EMU.Lib.Components
                 ClockState = State.Tic;
             }
         }
+
         public void Init()
         {
             ClockState = State.Tic;
         }
 
-
-
         #region Equals Override Sutff
+
         public override bool Equals(object obj)
         {
             return base.Equals(obj) && this.ClockState == ((TicTok)obj).ClockState;
@@ -57,6 +54,7 @@ namespace SAP1EMU.Lib.Components
         {
             return !(left == right);
         }
-        #endregion
+
+        #endregion Equals Override Sutff
     }
 }

@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using SAP1EMU.Lib.Components;
 
+using System;
+using System.Collections.Generic;
 
 namespace SAP1EMU.Lib.Test.ComponentTests
 {
@@ -65,14 +64,12 @@ namespace SAP1EMU.Lib.Test.ComponentTests
 
                 Assert.IsTrue(true);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Assert.Fail(e.ToString());
             }
             ram.ClearRAM();
-
         }
-
 
         [TestMethod]
         public void TestRamContentsEmpty()
@@ -87,7 +84,7 @@ namespace SAP1EMU.Lib.Test.ComponentTests
                 RAMProgram rmp = new RAMProgram(RamContentsData);
                 ram.LoadProgram(rmp);
 
-                for(int i =0; i < 15; i++)
+                for (int i = 0; i < 15; i++)
                 {
                     // Since the RAMProgram was empty, the RAMProgam should fill will all zeros, so the RAM should be filled will all zeros.
                     Assert.IsTrue(string.Equals(ram.GetWordAt(ADDRS[i]), "00000000"));
@@ -98,10 +95,7 @@ namespace SAP1EMU.Lib.Test.ComponentTests
                 Assert.Fail(e.ToString());
             }
             ram.ClearRAM();
-
         }
-
-
 
         [TestMethod]
         public void TestRamContentFull()
@@ -135,28 +129,22 @@ namespace SAP1EMU.Lib.Test.ComponentTests
                 RAMProgram rmp = new RAMProgram(RamContentsData);
                 ram.LoadProgram(rmp);
 
-
                 // Check to make sure the RAM entries and the list<string> share the same values
-                for(int i =0; i < 15; i++)
+                for (int i = 0; i < 15; i++)
                 {
                     Assert.IsTrue(Equals(RamContentsData[i], ram.GetWordAt(ADDRS[i])));
                 }
                 // Check to see it i == i+1, should be false
                 for (int i = 0; i < 14; i++)
                 {
-                    Assert.IsFalse(Equals(RamContentsData[i], ram.GetWordAt(ADDRS[i+1])));
+                    Assert.IsFalse(Equals(RamContentsData[i], ram.GetWordAt(ADDRS[i + 1])));
                 }
-
             }
             catch (Exception e)
             {
                 Assert.Fail(e.ToString());
             }
             ram.ClearRAM();
-
         }
     }
-
-
-    
 }

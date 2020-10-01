@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 
 using SAP1EMU.Engine;
 using SAP1EMU.Lib;
+
+using System.Collections.Generic;
 
 namespace SAP1EMU.Benchmarks
 {
     public class EngineBenchmark
     {
-       
-        RAMProgram RP_HLT { get; set; }
-        RAMProgram RP_LDA170 { get; set; }
-        RAMProgram RP_FIB{ get; set; }
-        IDecoder _decoder = new InstructionDecoder();
+        private RAMProgram RP_HLT { get; set; }
+        private RAMProgram RP_LDA170 { get; set; }
+        private RAMProgram RP_FIB { get; set; }
+        private IDecoder _decoder = new InstructionDecoder();
 
         [GlobalSetup]
         public void GlobalSetup()
@@ -78,7 +75,6 @@ namespace SAP1EMU.Benchmarks
             });
         }
 
-
         [Benchmark(Baseline = true)]
         public void EngineRun_HLT()
         {
@@ -87,7 +83,7 @@ namespace SAP1EMU.Benchmarks
             engine.Init(RP_HLT, _decoder);
             engine.Run();
         }
-        
+
         [Benchmark]
         public void EngineRun_LDA170()
         {

@@ -13,7 +13,7 @@ function readFromFile(type, codeMirror, errorBoxID) {
         // Read the file contents
         var reader = new FileReader();
         reader.readAsText(file, 'UTF-8');
-        
+
         // Send contents to CodeMiror Box
         reader.onload = readerEvent => {
             content = readerEvent.target.result;
@@ -23,9 +23,6 @@ function readFromFile(type, codeMirror, errorBoxID) {
         reader.onerror = readerEvent => {
             $("#" + errorBoxID).setValue(readerEvent.target.error);
         }
-
     }
     input.click();
 }
-
-

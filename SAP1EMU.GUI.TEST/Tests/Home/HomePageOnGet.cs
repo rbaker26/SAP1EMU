@@ -1,15 +1,10 @@
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.Hosting;
-using System;
 using System.Net.Http;
-using Xunit;
-using SAP1EMU.GUI.Test;
 using System.Threading.Tasks;
+
+using Xunit;
 
 namespace SAP1EMU.GUI.Test.Tests.Home
 {
-
-
     [Collection("Sequential")]
     public class HomePageOnGet : IClassFixture<WebTestFixture>
     {
@@ -19,9 +14,6 @@ namespace SAP1EMU.GUI.Test.Tests.Home
         {
             Client = factory.CreateClient();
         }
-
-
-
 
         [Fact]
         public async Task ReturnsHomePage()

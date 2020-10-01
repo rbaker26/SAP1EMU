@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Text.Json;
-using SAP1EMU.Lib;
 
 namespace SAP1EMU.Lib
 {
     public class OpCodeLoader
     {
-        const string jsonFile = "InstructionSets.json";
+        private const string jsonFile = "InstructionSets.json";
 
         public static InstructionSet GetSet(string SetName)
         {
@@ -18,34 +16,30 @@ namespace SAP1EMU.Lib
             {
                 json = File.ReadAllText(jsonFile);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw new Exception($"SAP1EMU: Error reading Instruction Set File: \"{jsonFile}\" ", e);
             }
-
 
             List<InstructionSet> sets;
             try
             {
                 sets = JsonSerializer.Deserialize<List<InstructionSet>>(json);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw new Exception($"SAP1EMU: Error reading Instruction Set File: \"{SetName}\", Invalid JSON", e);
             }
 
-            InstructionSet setChoice = sets.Find( x => x.SetName.ToLower().Equals(SetName.ToLower()) );
+            InstructionSet setChoice = sets.Find(x => x.SetName.ToLower().Equals(SetName.ToLower()));
 
-            if(setChoice == null || string.IsNullOrEmpty(setChoice.SetName))
+            if (setChoice == null || string.IsNullOrEmpty(setChoice.SetName))
             {
                 throw new Exception($"SAP1EMU: Instruction Set \"{SetName}\" does not exist");
             }
 
             return setChoice;
         }
-
-
-
 
         public static List<string> GetISetNames()
         {
@@ -59,7 +53,6 @@ namespace SAP1EMU.Lib
                 throw new Exception($"SAP1EMU: Error reading Instruction Set File: \"{jsonFile}\" ", e);
             }
 
-
             List<InstructionSet> sets;
             try
             {
@@ -71,15 +64,13 @@ namespace SAP1EMU.Lib
             }
             List<string> names = new List<string>();
 
-            foreach(InstructionSet instructionSet in sets)
+            foreach (InstructionSet instructionSet in sets)
             {
                 names.Add(instructionSet.SetName);
             }
 
-
             return names;
         }
-
 
         // Replaced by IDecoder
         //public static string DecodeInstruction(string InstructionBin, string SetName = "SAP1EMU")
@@ -93,7 +84,6 @@ namespace SAP1EMU.Lib
         //    {
         //        throw new Exception($"SAP1EMU: Error reading Instruction Set File: \"{jsonFile}\" ", e);
         //    }
-
 
         //    List<InstructionSet> sets;
         //    try
@@ -115,6 +105,5 @@ namespace SAP1EMU.Lib
         //    string Instruction = setChoice.instructions.Find(x => x.BinCode == InstructionBin).OpCode;
         //    return Instruction;
         //}
-
     }
 }

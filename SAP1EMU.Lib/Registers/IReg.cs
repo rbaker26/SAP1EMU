@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SAP1EMU.Lib.Components;
+﻿using SAP1EMU.Lib.Components;
+
+using System;
 
 namespace SAP1EMU.Lib.Registers
 {
     public class IReg : IObserver<TicTok>
     {
-
         private string RegContent { get; set; } = "00000000";
 
         private void Exec(TicTok tictok)
@@ -21,7 +19,7 @@ namespace SAP1EMU.Lib.Registers
             if (cw[5] == '0' & tictok.ClockState == TicTok.State.Tic)
             {
                 // Send A to the WBus
-                Wbus.Instance().Value = "0000" + RegContent.Substring(4,4); //Instruction register only outputs the least significant bits to the WBus
+                Wbus.Instance().Value = "0000" + RegContent.Substring(4, 4); //Instruction register only outputs the least significant bits to the WBus
             }
 
             // Active Low, Pull on Tok
@@ -34,21 +32,23 @@ namespace SAP1EMU.Lib.Registers
         /// <summary>
         /// For the real ToString, use the ToString_Frame_use() method
         /// </summary>
-        /// <returns></returns>  
+        /// <returns></returns>
         public override string ToString()
         {
             //  I dont know this this is the best place to put this substring command, but it is needed
-            // Currently, 
+            // Currently,
             return RegContent.Substring(0, 4);
         }
+
         #region IObserver Region
+
         private IDisposable unsubscriber;
+
         public virtual void Subscribe(IObservable<TicTok> clock)
         {
             if (clock != null)
                 unsubscriber = clock.Subscribe(this);
         }
-
 
         void IObserver<TicTok>.OnCompleted()
         {
@@ -69,16 +69,12 @@ namespace SAP1EMU.Lib.Registers
         {
             unsubscriber.Dispose();
         }
-        #endregion
 
+        #endregion IObserver Region
 
         public string ToString_Frame_Use()
         {
             return (String.IsNullOrEmpty(this.RegContent) ? "0000 0000" : this.RegContent);
         }
-
-
-
     }
-
 }

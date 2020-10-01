@@ -4,7 +4,6 @@
 
 <script src="~/js/Views/AboutView.js" type="text/javascript"></script>
 
-
 <div class="jumbotron">
     <h1 class="display-4">Welcome to the SAP1Emu Project!</h1>
     <p class="lead">The only open-source, multiplatform SAP1 Computer Emulator.</p>
@@ -13,7 +12,6 @@
     <p class="mt-0">If you would like to contribute to this project financially, please see the Sponsor link below.</p>
     <a class="btn btn-primary btn-lg" href="https://github.com/rbaker26/SAP1EMU" role="button" target="_blank">GitHub</a>
     <a class="btn btn-danger btn-lg" href="https://github.com/sponsors/rbaker26" role="button" target="_blank">Sponsor</a>
-    
 </div>
 
 <div class="container mb-5">
@@ -53,17 +51,15 @@
 
             <h2 class="mt-4">Contribute to this Project</h2>
             <p>
-                I am always looking for help with this project. Check out the <a href="https://github.com/rbaker26/SAP1EMU/issues">GitHub Issues Page</a> or send me a Pull Request. If it benifits the project, I'd love to add it in. 
+                I am always looking for help with this project. Check out the <a href="https://github.com/rbaker26/SAP1EMU/issues">GitHub Issues Page</a> or send me a Pull Request. If it benifits the project, I'd love to add it in.
                 <br />
                 <br />
                 <a asp-area="" asp-controller="Home" asp-action="Contributors">Click here</a> for a list of all Project Contributors.
             </p>
         </div>
 
-
         <div class="col-4">
             @{ await Html.RenderPartialAsync("_GitHubProfilePartial", GitHubProfileModel.GetProfile("rbaker26").Result); }
         </div>
     </div>
 </div>
-

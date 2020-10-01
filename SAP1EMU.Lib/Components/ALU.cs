@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SAP1EMU.Lib.Registers;
+﻿using SAP1EMU.Lib.Registers;
 using SAP1EMU.Lib.Utilities;
+
+using System;
 
 namespace SAP1EMU.Lib.Components
 {
@@ -12,24 +11,22 @@ namespace SAP1EMU.Lib.Components
 
         private AReg Areg { get; set; }
         private BReg Breg { get; set; }
+
         public ALU(ref AReg areg, ref BReg breg)
         {
             this.Areg = areg;
             this.Breg = breg;
         }
-        //************************************************************************************************************************
-        private void Exec(TicTok tictok) 
-        {
 
+        //************************************************************************************************************************
+        private void Exec(TicTok tictok)
+        {
             string cw = SEQ.Instance().ControlWord;
 
             //  TODO - Find a better way of using the mask to get the value
             //          Currently is using hardcoded magic numbers
 
-
             string temp;
-
-
 
             // Active Hi, SUB on Tic
             if (cw[8] == '1' && tictok.ClockState == TicTok.State.Tic)
@@ -41,46 +38,38 @@ namespace SAP1EMU.Lib.Components
                 temp = Compute(Areg.ToString(), Breg.ToString(), true);
             }
 
-            // For Frame ToString support 
+            // For Frame ToString support
             RegContent = temp;
-
 
             // Active Hi, Push on Tic
             if (cw[9] == '1' & tictok.ClockState == TicTok.State.Tic)
             {
                 Wbus.Instance().Value = temp;
             }
-
-            
         }
+
         //************************************************************************************************************************
-
-
-
 
         //************************************************************************************************************************
         public static string Compute(string AReg, string BReg, bool Add = true)
         {
-            
             const int MAX_RESEULT = 255;
-            const int  MIN_RESULT = 0;
+            const int MIN_RESULT = 0;
 
             int ia = BinConverter.Bin8ToInt(AReg);
             int ib = BinConverter.Bin8ToInt(BReg);
 
             int result;
 
-            
             if (Add)
             {
                 result = ia + ib;
 
                 // Set Flags
-                if(result > MAX_RESEULT)
+                if (result > MAX_RESEULT)
                 {
                     Flags.Instance().Overflow = 1;
                 }
-           
             }
             else // SUB
             {
@@ -90,28 +79,27 @@ namespace SAP1EMU.Lib.Components
 
                 // Set Flags
                 if (result < MIN_RESULT)
-                {                 
+                {
                     Flags.Instance().Underflow = 1;
                 }
-               
             }
 
             string val = BinConverter.IntToBin8(result);
 
-            return val ;
+            return val;
         }
+
         //************************************************************************************************************************
 
-
-
         #region IObserver Region
+
         private IDisposable unsubscriber;
+
         public virtual void Subscribe(IObservable<TicTok> clock)
         {
             if (clock != null)
                 unsubscriber = clock.Subscribe(this);
         }
-
 
         void IObserver<TicTok>.OnCompleted()
         {
@@ -132,13 +120,12 @@ namespace SAP1EMU.Lib.Components
         {
             unsubscriber.Dispose();
         }
-        #endregion
 
+        #endregion IObserver Region
 
         public override string ToString()
         {
             return this.RegContent;
         }
-
     }
 }

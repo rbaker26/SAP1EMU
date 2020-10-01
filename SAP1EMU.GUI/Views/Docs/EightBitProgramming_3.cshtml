@@ -12,8 +12,6 @@
     An Introduction to Limited Instruction Set Programs
 </p>
 
-
-
 @{ await Html.RenderPartialAsync("_EightBitProgramming_TOC"); }
 
 <h2 class="mt-4">Macros</h2>
@@ -43,7 +41,6 @@
     by the Parser.
 </p>
 
-
 <h2 class="mt-4">Comments</h2>
 <p>
     A comment is a line of code that is not executed. They are stripped out by the Parser, so they never reach the Emulator.
@@ -64,8 +61,6 @@
         @Html.TextArea("8Bit_P3_Example_Comment_Right", null, new { rows = "20", cols = "80", @class = "codebox", id = "8Bit_P3_Example_Comment_Right" })
     </div>
 </div>
-
-
 
 <div class="mt-4">
     @{ await Html.RenderPartialAsync("_PageNavHelper", new PageNavHelperModel

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SAP1EMU.Lib.Components;
+﻿using SAP1EMU.Lib.Components;
 
+using System;
 
 namespace SAP1EMU.Lib.Registers
 {
@@ -31,19 +28,17 @@ namespace SAP1EMU.Lib.Registers
                 // Store Wbus val in A
                 RegContent = Wbus.Instance().Value;
             }
-
-
         }
 
-
         #region IObserver Region
+
         private IDisposable unsubscriber;
+
         public virtual void Subscribe(IObservable<TicTok> clock)
         {
             if (clock != null)
                 unsubscriber = clock.Subscribe(this);
         }
-
 
         void IObserver<TicTok>.OnCompleted()
         {
@@ -64,19 +59,17 @@ namespace SAP1EMU.Lib.Registers
         {
             unsubscriber.Dispose();
         }
-        #endregion
 
-
-
+        #endregion IObserver Region
 
         public override string ToString()
         {
             return this.RegContent;
         }
+
         public string ToString_Frame_Use()
         {
             return (String.IsNullOrEmpty(this.RegContent) ? "00000000" : this.RegContent);
         }
-
     }
 }

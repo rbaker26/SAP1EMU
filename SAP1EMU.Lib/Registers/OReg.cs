@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SAP1EMU.Lib.Components;
+﻿using SAP1EMU.Lib.Components;
+
+using System;
 
 namespace SAP1EMU.Lib.Registers
 {
     public class OReg : IObserver<TicTok>
     {
         private string RegContent { get; set; }
+
         private void Exec(TicTok tictok)
         {
             string cw = SEQ.Instance().ControlWord;
@@ -24,13 +24,14 @@ namespace SAP1EMU.Lib.Registers
         }
 
         #region IObserver Region
+
         private IDisposable unsubscriber;
+
         public virtual void Subscribe(IObservable<TicTok> clock)
         {
             if (clock != null)
                 unsubscriber = clock.Subscribe(this);
         }
-
 
         void IObserver<TicTok>.OnCompleted()
         {
@@ -51,7 +52,9 @@ namespace SAP1EMU.Lib.Registers
         {
             unsubscriber.Dispose();
         }
-        #endregion
+
+        #endregion IObserver Region
+
         public override string ToString()
         {
             return this.RegContent;

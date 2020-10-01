@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Threading;
-
-using CommandLine;
+﻿using CommandLine;
 
 using SAP1EMU.Assembler;
 using SAP1EMU.Engine;
 using SAP1EMU.Lib;
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using System.Threading;
 
 namespace SAP1EMU.CLI
 {
@@ -22,8 +22,8 @@ namespace SAP1EMU.CLI
 
             [Option('o', "output-file", Required = false, HelpText = "Place the output into <file>.", Default = "a.txt")]
             public string OutputFile { get; set; }
-            // ********************************************
 
+            // ********************************************
 
             // TODO - Figure out if I want to use these
             //// Verbosity **********************************
@@ -33,13 +33,14 @@ namespace SAP1EMU.CLI
             //public bool VeryVerbose { get; set; }
             //// ********************************************
 
-
             // Frame Support ******************************
             // -f and -F are mutually exclusive. And error will appeear if the user tries to use both.
             [Option('f', "fframe", SetName = "fframe", Required = false, HelpText = "Include final frame in the output file.")]
 #pragma warning disable IDE1006 // Naming Styles
             public bool fframe { get; set; }
+
 #pragma warning restore IDE1006 // Naming Styles
+
             [Option('F', "Fframe", SetName = "Fframe", Required = false, HelpText = "Include all frames in the output file.")]
             public bool Fframe { get; set; }
 
@@ -47,28 +48,27 @@ namespace SAP1EMU.CLI
             // Default should be "std"
             [Option('O', "FOframe", SetName = "FOframe", Required = false, HelpText = "Include Snapshots of the Output Register in the output file.\nParameters:\n  std\t\tOutputs with formatting\n  no-format\tOutputs wil no formatting")]
             public string FOframe { get; set; }
+
             // ********************************************
 
             // Debug Setting ******************************
             [Option('d', "debug", Required = false, HelpText = "Turns on Debug Mode")]
             public bool Debug { get; set; }
+
             // ********************************************
 
             // Instruction Set ****************************
             [Option('i', "instructionSet", Required = false, HelpText = "Sets the Instruction Set to use\nParameters:\n  SAP1Emu\tUses expanded SAP1EMU Instruction Set (default)\n  Malvino\tUses Malvino's Instruction Set\n  BenEater\tUses Ben Eater's Instruction Set", Default = "SAP1Emu")]
             public string InstructionSetName { get; set; }
+
             // ********************************************
-
-
-
-
         }
-        enum FileType
+
+        private enum FileType
         {
             S, // ASM
-            B  // BIN 
+            B  // BIN
         }
-
 
         public static void Main(string[] args)
         {
@@ -88,7 +88,6 @@ namespace SAP1EMU.CLI
                                Console.Error.WriteLine($"SAP1EMU: fatal error: no input file");
                                Console.Error.WriteLine("emulation terminated");
                                CheckEnvAndExit();
-
                            }
                            else // Check if file is valid
                            {
@@ -105,7 +104,6 @@ namespace SAP1EMU.CLI
                                    else if (ftype == ".b")
                                    {
                                        fileType = FileType.B;
-
                                    }
                                    else
                                    {
@@ -115,7 +113,6 @@ namespace SAP1EMU.CLI
                                        CheckEnvAndExit();
                                    }
                                }
-
 
                                if (loc == 0)
                                {
@@ -131,9 +128,6 @@ namespace SAP1EMU.CLI
                                    Console.Error.WriteLine("emulation terminated");
                                    CheckEnvAndExit();
                                }
-
-
-
                            }
                            if (!string.IsNullOrEmpty(o.FOframe))
                            {
@@ -149,11 +143,6 @@ namespace SAP1EMU.CLI
                                Console.Error.WriteLine($"SAP1EMU: warning: {o.InstructionSetName}: invalid argument:  Defaulting to \"SAP1Emu\".");
                                o.InstructionSetName = "SAP1Emu";
                            }
-
-
-
-
-
 
                            List<string> compiled_binary = null;
 
@@ -181,8 +170,6 @@ namespace SAP1EMU.CLI
                                    Console.ForegroundColor = tempColor;
                                    Console.Error.WriteLine("assembly terminated");
 
-
-
                                    Console.Error.Flush();
 
                                    CheckEnvAndExit();
@@ -193,27 +180,21 @@ namespace SAP1EMU.CLI
                                compiled_binary = source_file_contents;
                            }
 
-
                            RAMProgram rmp = new RAMProgram(compiled_binary);
                            EngineProc engine = new EngineProc();
-
-
 
                            //StringBuilder sb_out = new StringBuilder();
                            //TextWriter writer_out = new StringWriter(sb_out);
                            //Console.SetOut(writer_out);
 
-
                            //StringBuilder sb_error = new StringBuilder();
                            //TextWriter writer_error = new StringWriter(sb_error);
                            //Console.SetError(writer_error);
-
 
                            engine.Init(rmp, _decoder, o.InstructionSetName);
                            try
                            {
                                engine.Run();
-
                            }
                            catch (EngineRuntimeException ere)
                            {
@@ -226,7 +207,6 @@ namespace SAP1EMU.CLI
                                {
                                    Console.ForegroundColor = ConsoleColor.Red;
                                }
-                               
 
                                //Console.SetOut(new StreamWriter(Console.OpenStandardOutput()));
                                //Console.SetError(new StreamWriter(Console.OpenStandardError()));
@@ -239,8 +219,6 @@ namespace SAP1EMU.CLI
 
                                CheckEnvAndExit();
                            }
-
-
 
                            string engine_output = "************************************************************\n"
                                                 + "Final Output Register Value: " + engine.GetOutputReg()
@@ -289,14 +267,12 @@ namespace SAP1EMU.CLI
                                            }
                                            fw.WriteLine(temp);
                                        }
-
                                    }
                                }
                                fw.Flush();
 
                                engine_output += sb.ToString();
                            }
-
 
                            var standardOutput = new StreamWriter(Console.OpenStandardOutput())
                            {
@@ -310,18 +286,10 @@ namespace SAP1EMU.CLI
                            };
                            Console.SetError(standardError);
 
-
-
                            //string stdout = sb_out.ToString();
                            //string stderror = sb_error.ToString();
 
-
-
                            File.WriteAllText(o.OutputFile, engine_output);
-
-
-
-
 
                            // Start the Single Stepping Debug Session if Debug Flag is set
 
@@ -337,15 +305,13 @@ namespace SAP1EMU.CLI
                            //    Console.Out.WriteLine("\n");
                            //}
                        }
-
-
                    });
         }
 
         private static void CheckEnvAndExit()
         {
             string env = Environment.GetEnvironmentVariable("IS_TESTING_ENV");
-            if(string.IsNullOrEmpty(env) == false)
+            if (string.IsNullOrEmpty(env) == false)
             {
                 if (env == "TRUE")
                 {
@@ -371,14 +337,12 @@ namespace SAP1EMU.CLI
 
                 Console.Out.WriteLine("Assembly Program:\n");
 
-
                 int source_file_contents_line_count = source_file_contents.Count;
 
                 int line_mult = 1;
                 int executable_line_count = 1;
                 for (int i = 1; i < source_file_contents_line_count + 1; i++)
                 {
-
                     Console.Out.WriteLine($"{((i * line_mult) != 0 ? i.ToString() + ")" : "  ")} {source_file_contents[i - 1]}");
 
                     if (IsAfterHLT(source_file_contents[i - 1].Substring(0, 3)))
@@ -394,7 +358,6 @@ namespace SAP1EMU.CLI
                 Console.Out.WriteLine("\n\nDo you want to set a break point: (y/n) ");
                 Console.Out.WriteLine("If no, debug will single-step though the program starting at line 1");
 
-
                 Console.Out.Write(">>> ");
                 string break_point_answer = Console.ReadLine();
 
@@ -409,7 +372,6 @@ namespace SAP1EMU.CLI
                         Console.Out.WriteLine($"Enter breakpoint number: (1-{executable_line_count})");
                         Console.Out.Write(">>> ");
                         Int32.TryParse(Console.ReadLine(), out break_point);
-
 
                         if (break_point > executable_line_count || break_point <= 0)
                         {
@@ -446,7 +408,6 @@ namespace SAP1EMU.CLI
                             Console.Error.WriteLine("debug terminated.");
                             CheckEnvAndExit();
                         }
-
                     }
                     else if (answer_char == 'N')
                     {
@@ -460,15 +421,12 @@ namespace SAP1EMU.CLI
                         CheckEnvAndExit();
                     }
 
-
-
                     // After this point, break_point and t_break_point should have their correct values
 
                     for (int i = 0; i < FrameStack.Count; i++)
                     {
                         Console.Clear();
                         Console.Out.WriteLine("SAP1EMU: DEBUG MODE");
-
 
                         Console.Out.WriteLine("|-----------------------------|");
                         Console.Out.WriteLine("| Assembly Program:           |");
@@ -477,7 +435,6 @@ namespace SAP1EMU.CLI
                         line_mult = 1;
                         for (int asm_print_index = 1; asm_print_index < source_file_contents_line_count + 1; asm_print_index++)
                         {
-
                             Console.Out.WriteLine($"| {((asm_print_index * line_mult) != 0 ? asm_print_index.ToString() + ")" : "  ")} {source_file_contents[asm_print_index - 1]}".PadRight(30, ' ') + "|");
 
                             if (IsAfterHLT(source_file_contents[asm_print_index - 1].Substring(0, 3)))
@@ -487,11 +444,9 @@ namespace SAP1EMU.CLI
                         }
                         Console.Out.WriteLine("|-----------------------------|\n");
 
-
                         PrintRAM(FrameStack[i].RAM);
 
                         Console.WriteLine(FrameStack[i]);
-
 
                         int skip_point;
                         if (t_break_point == 1)
@@ -514,16 +469,11 @@ namespace SAP1EMU.CLI
                             {
                                 CheckEnvAndExit();
                             }
-
                         }
-
                     }
-
                 }
-
             }
         }
-
 
         private static void PrintRAM(List<string> RAMContents)
         {
@@ -542,14 +492,13 @@ namespace SAP1EMU.CLI
                     + RAMContents[i].PadRight(10, ' ') + "   |");
             }
             Console.Out.WriteLine($"|--------------|--------------|--------------|");
-
-
-
         }
+
         private static bool IsAfterHLT(string s)
         {
             return (s.ToUpper() == "HLT");
         }
+
         private const string Banner =
             "*********************************************************\n" +
             "*  ____    _    ____  _ _____                           *\n" +
