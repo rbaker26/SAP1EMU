@@ -1,0 +1,87 @@
+﻿@{
+    ViewData["Title"] = "8Bit";
+}
+
+<h1>8-Bit Programming</h1>
+<p class="lead">
+    An Introduction to Limited Instruction Set Programs
+</p>
+
+
+<p>
+    This learning module will go over everything you need to start writting programs for the SAP1 Computer.
+</p>
+
+
+@{ await Html.RenderPartialAsync("_EightBitProgramming_TOC"); }
+
+
+
+
+<h2 class="mt-4">What does 8-Bit mean?</h2>
+<p>
+    8-Bit describes the bus-width of a CPU, meaning that it can transfer 8 bits of data in a single operation.
+    This means our CPU can only use 8 bits of data to make up one instruction.  <br /> <br />
+
+    Now, you might think that with 8 ones and zeros we could have 256 different instructions/operations, and you would be half right.
+    In addition to the instruction, our CPU will need some data to use in that instruction.
+    The SAP1 Computer accomplishes this by reserving the first 4 bits for the instruction and the last 4 bits for the data / instruction parameter. <br />
+
+    <small>
+        Note: The first 4 bits are called the <span class="text-muted">Upper Nibble</span> and the last 4 bits are called the <span class="text-muted">Lower Nibble</span>.
+    </small>
+    <br /> <br />
+
+    So if we were to look at an instruction in Machine Language (ones and zeros) entering the CPU we might see something like this:
+    <div class="alert alert-dark mb-1" role="alert">
+        0001 1010
+    </div>
+    <small>
+        In the above example, <code>0001</code> would be the instruction and <code>1010</code> would the the data / instruction parameter.
+    </small>
+
+    <br /> <br />
+
+    Knowing that we have only 4 bits to store our instruction, we can say that our SAP1 Computer can only use 16, or 2<sup>4</sup> instructions.
+    This is because we only have 4 ones and zeros to represent our instruction (0000, 0001, 0010, ..., 1110, 1111).
+</p>
+
+<h2 class="mt-4">One-to-One Compiling</h2>
+<p>
+    In the above example, a complete instruction is listed as <code>0001 1010</code>. This type of Machine Language code is not very easy to program with
+    because it requires the programmer to remember what all the ones and zeros mean.
+    To help programmers write code, most Machine Languages are accompanied by an One-To-One Assembly Language, in this case, the SAP1Emu Project supports three.
+
+    <br />
+    <br />
+
+    A One-to-One language means there is some human-readable code that directly maps to the Machine Language. If we were to write the above code in SAP1Emu Assembly Language,
+    it would look like this:
+    <div class="alert alert-dark mb-1" role="alert">
+        ADD 0xA
+    </div>
+    <small>
+        In the above example, <code>0xA</code> is the Hex value for <code>10</code> in decimal. The <code>0x</code> prefix denotes a hex-number.
+    </small>
+</p>
+@*<div class="row">
+        <div class="col-auto"></div>
+        <div class="col"></div>
+        <div class="col-auto">
+            <button class="btn btn-primary">Next - Exploring the Instruction Set</button>
+        </div>
+    </div>*@
+
+<div class="mt-4">
+    @{ await Html.RenderPartialAsync("_PageNavHelper", new PageNavHelperModel
+        {
+            ControllerName = "Docs",
+            PreviousView = "",
+            PreviousViewDisplay = "",
+            NextView = "EightBitProgramming_2",
+            NextViewDisplay = "Exploring the Instruction Set"
+        }
+         );
+    }
+</div>
+

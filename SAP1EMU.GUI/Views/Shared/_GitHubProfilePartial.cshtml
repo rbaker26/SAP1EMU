@@ -1,0 +1,28 @@
+﻿@model GitHubProfileModel
+
+
+<div class="card" style="width: 18rem;">
+    @{
+        if (@Model.login == "rbaker26")
+        {
+            <div class="card-header">
+                Main Author
+            </div>
+        }
+        else
+        {
+            <div class="card-header">
+                Contributor
+            </div>
+        }
+    }
+
+    <img src="@Model.avatar_url" class="card-img-top rounded-circle p-3" alt="@Model.login profile picure">
+    <div class="card-body">
+        <h5 class="card-title mb-0">@Model.name</h5>
+        <p class="card-subtitle mt-0">@Model.login</p>
+        <p class="card-text">@Model.bio</p>
+        <a href="@Model.html_url" class="btn btn-primary" target="_blank">Follow</a>
+
+    </div>
+</div>

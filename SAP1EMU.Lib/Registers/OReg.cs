@@ -52,11 +52,14 @@ namespace SAP1EMU.Lib.Registers
             unsubscriber.Dispose();
         }
         #endregion
-
-
         public override string ToString()
         {
             return this.RegContent;
+        }
+
+        public string ToString_Frame_Use()
+        {
+            return (String.IsNullOrEmpty(this.RegContent) ? "00000000" : this.RegContent);
         }
     }
 }

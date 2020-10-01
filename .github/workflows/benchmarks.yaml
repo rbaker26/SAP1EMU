@@ -1,0 +1,25 @@
+
+name: Add Benchmark Results
+on: [pull_request]
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.1.x' # SDK Version to use; x will use the latest version of the 3.1 channe
+      - name: build project
+        run: 
+          dotnet build SAP1EMU.Benchmarks --configuration Release
+      - name: run benchamrks
+        run: dotnet run --project SAP1EMU.Benchmarks --no-build --configuration Release
+      - name: copy report
+        run: cp BenchmarkDotNet.Artifacts/results/SAP1EMU.Benchmarks.EngineBenchmark-report-github.md .github/workflows/
+#         && cp ./SAP1EMU.Benchmarks/bin/Release/netcoreapp3.1/BenchmarkDotNet.Artifacts/results/SAP1EMU.Benchmarks.EngineBenchmark-report-github.md .
+      - uses: harupy/comment-on-pr@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          filename: SAP1EMU.Benchmarks.EngineBenchmark-report-github.md

@@ -10,6 +10,12 @@ namespace SAP1EMU.Lib.Test.ComponentTests
     [TestClass]
     public class PubSub_ClockTest
     {
+        private InstructionSet GetInstructionSet()
+        {
+            string InstructionSetName = "SAP1Emu";
+            return OpCodeLoader.GetSet(InstructionSetName);
+        }
+
 
         [TestMethod]
         public void TestSubscribe()
@@ -33,6 +39,8 @@ namespace SAP1EMU.Lib.Test.ComponentTests
                 MReg mreg = new MReg(ref ram);
                 SEQ seq = SEQ.Instance();
 
+                seq.Load(GetInstructionSet());
+
                 Wbus.Instance().Value = "00000000";
                 Flags.Instance().Clear();
 
@@ -44,6 +52,8 @@ namespace SAP1EMU.Lib.Test.ComponentTests
                 pc.Subscribe(clock);
                 alu.Subscribe(clock); // ALU must come after A and B
                 ram.Subscribe(clock);
+
+
             }
             catch (Exception e)
             {
@@ -61,7 +71,7 @@ namespace SAP1EMU.Lib.Test.ComponentTests
                 TicTok tictok = new TicTok();
 
 
-                tictok.Init(); ;
+                tictok.Init(); 
 
                 AReg areg = new AReg();
                 BReg breg = new BReg();
@@ -73,6 +83,8 @@ namespace SAP1EMU.Lib.Test.ComponentTests
                 ALU alu = new ALU(ref areg, ref breg);
                 MReg mreg = new MReg(ref ram);
                 SEQ seq = SEQ.Instance();
+                seq.Load(GetInstructionSet());
+
 
                 Wbus.Instance().Value = "00000000";
                 Flags.Instance().Clear();
@@ -86,6 +98,7 @@ namespace SAP1EMU.Lib.Test.ComponentTests
                 alu.Subscribe(clock); // ALU must come after A and B
                 ram.Subscribe(clock);
 
+                clock.IsEnabled = true;
 
                 for (int i = 0; i < 500; i++)
                 {
@@ -120,6 +133,8 @@ namespace SAP1EMU.Lib.Test.ComponentTests
             ALU alu = new ALU(ref areg, ref breg);
             MReg mreg = new MReg(ref ram);
             SEQ seq = SEQ.Instance();
+            seq.Load(GetInstructionSet());
+
 
             Wbus.Instance().Value = "00000000";
             Flags.Instance().Clear();

@@ -21,7 +21,7 @@ namespace SAP1EMU.Lib.Registers
             if (cw[5] == '0' & tictok.ClockState == TicTok.State.Tic)
             {
                 // Send A to the WBus
-                Wbus.Instance().Value = RegContent;
+                Wbus.Instance().Value = "0000" + RegContent.Substring(4,4); //Instruction register only outputs the least significant bits to the WBus
             }
 
             // Active Low, Pull on Tok
@@ -32,14 +32,14 @@ namespace SAP1EMU.Lib.Registers
         }
 
         /// <summary>
-        /// For the real ToString, use the ToString_Fram_use() method
+        /// For the real ToString, use the ToString_Frame_use() method
         /// </summary>
-        /// <returns></returns>
+        /// <returns></returns>  
         public override string ToString()
         {
             //  I dont know this this is the best place to put this substring command, but it is needed
             // Currently, 
-            return RegContent.Substring(0,4);
+            return RegContent.Substring(0, 4);
         }
         #region IObserver Region
         private IDisposable unsubscriber;
@@ -72,14 +72,13 @@ namespace SAP1EMU.Lib.Registers
         #endregion
 
 
-        public  string ToString_Frame_Use()
+        public string ToString_Frame_Use()
         {
-            return this.RegContent;
+            return (String.IsNullOrEmpty(this.RegContent) ? "0000 0000" : this.RegContent);
         }
+
+
+
     }
-
-
-
-
 
 }

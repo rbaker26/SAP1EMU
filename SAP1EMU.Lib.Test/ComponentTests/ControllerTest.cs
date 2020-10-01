@@ -9,9 +9,19 @@ namespace SAP1EMU.Lib.Test.ComponentTests
     [TestClass]
     public class ControllerTest
     {
+        private InstructionSet GetInstructionSet()
+        {
+            string InstructionSetName = "SAP1Emu";
+            return OpCodeLoader.GetSet(InstructionSetName);
+        }
+
+
+
         [TestMethod]
         public void TestControlWordTableInit()
         {
+            SEQ.Instance().Load(GetInstructionSet());
+
             const int INT_COUNT = 6;
             const int T_STATE_COUNT = 6;
             string[] INSTRUCTIONS = new string[6]{ "0000", "0001", "0010", "0011", "1110", "1111" };

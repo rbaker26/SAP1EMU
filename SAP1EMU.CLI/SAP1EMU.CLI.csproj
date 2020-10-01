@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>SAP1EMU.CLI</RootNamespace>
+    <Authors>Bob Baker</Authors>
+    <Company />
+    <RepositoryUrl>https://github.com/rbaker26/SAP1EMU/wiki</RepositoryUrl>
+    <RepositoryType>https://github.com/rbaker26/SAP1EMU/</RepositoryType>
+    <AssemblyName>SAP1Emu</AssemblyName>
+    <StartupObject>SAP1EMU.CLI.Program</StartupObject>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <AssemblyVersion>1.14.0.0</AssemblyVersion>
+    <FileVersion>1.14.0.0</FileVersion>
+    <Version>1.14.0</Version>
+    <Copyright>2020 Bob Baker</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Makefile" />
+    <None Remove="packages-microsoft-prod.deb" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\SAP1EMU.Lib\InstructionSets.json" Link="InstructionSets.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SAP1EMU.Assembler\SAP1EMU.Assembler.csproj" />
+    <ProjectReference Include="..\SAP1EMU.Engine\SAP1EMU.Engine.csproj" />
+    <ProjectReference Include="..\SAP1EMU.Lib\SAP1EMU.Lib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="InstructionSets.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
