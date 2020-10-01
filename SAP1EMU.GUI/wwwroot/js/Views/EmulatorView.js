@@ -2,7 +2,7 @@
 var ram_dump;
 var frame_stack;
 var interval_slider;
-var interval_time;
+var interval_time = 500;
 //var playerInstance;
 
 window.onload = function () {
@@ -80,64 +80,22 @@ function updateBoard(frame) {
     $('#ireg-block').html(frame.iReg.match(/.{1,4}/g).join(' '));
     $('#oreg-block').html(frame.oReg.match(/.{1,4}/g).join(' '));
     $('#seq-block').html(frame.seq.substring(0, 14).match(/.{1,4}/g).join(' ')); // TODO This substring should be handled at the API level, not the UI level
-    $('#dis-block').html(parseInt(frame.oReg, 2) + " " + parseInt("0" + frame.oReg, 2));
     $('#carryFlagBox').val(frame.overflow_Flag);
     $('#underflowFlagBox').val(frame.underflow_Flag);
+
+    var posVal = parseInt(frame.oReg, 2);
+    var negVal = posVal;
+
+    if (posVal > 127) {
+        negVal = (-1) * (256 - posVal);
+    }
+    var displayString = "" + posVal;
+    if (negVal < 0) {
+        displayString += " " + negVal;
+    }
+
+    $('#dis-block').html(displayString);
 }
-
-//class player  {
-//    interval= 500; // in ms
-//    current_frame = 0;
-//    frame_count = 0;
-
-//    job_id = null;
-
-//    play() {
-//        $('#back-button').prop('disabled', true);
-//        $('#next-button').prop('disabled', true);
-
-//        job_id = setInterval(this.forward, this.interval);
-
-//    }
-//    pause() {
-//        $('#back-button').prop('disabled', false);
-//        $('#next-button').prop('disabled', false);
-//    }
-
-//    back() {
-//    }
-
-//    forward() {
-//        if (this.current_frame < this.frame_count) {
-//            updateBoard(frame_stack[this.current_frame]);
-//            this.current_frame++;
-//        }
-//        else {
-//            if (this.job_id != null) {
-//                clearInterval(job_id);
-//            }
-//            else {
-//                alert("Unknown JavaScript Failure");
-//            }
-//        }
-//    }
-
-//    reset () {
-//        $('#back-button').prop('disabled', false);
-//        $('#next-button').prop('disabled', false);
-//    }
-//    init() {
-//        $('#back-button').prop('disabled', false);
-//        $('#next-button').prop('disabled', false);
-
-//        if (job_id != null) {
-//            clearInterval(job_id);
-//        }
-
-//        frame_count = frame_stack.length;
-//    }
-
-//}
 
 function initRam() {
     // Init RAM Box
@@ -305,9 +263,15 @@ function updateProgressBar(currentFrame, frameStackLength) {
 }
 
 function changeIntervalTiming(value) {
-    interval_time = value;
 
-    //If we currently have a job in process meaning the code is executing then clear it and change the interval time and start again
+    // keep the time from getting too long
+    if (value <= .250) {
+        value = .250;
+    }
+    interval_time = (1 / value) * 500;
+
+    // If we currently have a job in process meaning the code is executing then 
+    //  clear it and change the interval time and start again
     if (job_id != null) {
         clearInterval(job_id);
         job_id = setInterval(frame_advance, interval_time);
