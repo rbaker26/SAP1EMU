@@ -1,19 +1,17 @@
-﻿
+﻿@{
+    ViewData["Title"] = "8Bit";
+}
+
 <h1>8-Bit Programming</h1>
 <p class="lead">
     An Introduction to Limited Instruction Set Programs
 </p>
 
-
 <p>
     This learning module will go over everything you need to start writting programs for the SAP1 Computer.
 </p>
 
-
 @{ await Html.RenderPartialAsync("_EightBitProgramming_TOC"); }
-
-
-
 
 <h2 class="mt-4">What does 8-Bit mean?</h2>
 <p>
@@ -71,14 +69,13 @@
 
 <div class="mt-4">
     @{ await Html.RenderPartialAsync("_PageNavHelper", new PageNavHelperModel
-            {
-                ControllerName = "Docs",
-                PreviousView = "",
-                PreviousViewDisplay = "",
-                NextView = "EightBitProgramming_2",
-                NextViewDisplay = "Exploring the Instruction Set"
-            } 
-        );
+        {
+            ControllerName = "Docs",
+            PreviousView = "",
+            PreviousViewDisplay = "",
+            NextView = "EightBitProgramming_2",
+            NextViewDisplay = "Exploring the Instruction Set"
+        }
+         );
     }
 </div>
-

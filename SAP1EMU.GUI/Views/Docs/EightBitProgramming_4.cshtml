@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "8Bit";
+}
+
+<h1>8-Bit Programming</h1>
+<p class="lead">
+    An Introduction to Limited Instruction Set Programs
+</p>
+
+@{ await Html.RenderPartialAsync("_EightBitProgramming_TOC"); }
+
+<p class="mb-4">
+    Below are list of the three different Instruction Sets, or Assembly Langueges, and the related binary equivalents to their instructions.
+    <br />
+    Unless you are progamming your physical SAP1 Computer or trying to perform a step-by-step debug of a SAP1Emu Program, knowing the
+    binary translations is not crucial. It is more important to know of their existence so you can reference them if needed.
+    <br /><br />
+    If you see that an <span class="text-muted">OpCode</span> is followed by a <code>0xH</code>, that means <code>H</code> can be replaced by any
+    valid hex digit (0 - F). Likewise, if you see a <span class="text-muted">binary half-word</span> with <code>bbbb</code>, that means <code>bbbb</code> can be replaced by any
+    valid binary digit (0 or 1).
+    <br />
+    <br />
+    <small>Note, you can only use instructions from one instruction set at a time. They cannot be mixed.</small>
+</p>
+<p>test</p>
+
+@{ await Html.RenderPartialAsync("_InstructionSetsBinary"); }
+
+<div class="mt-4">
+    @{ await Html.RenderPartialAsync("_PageNavHelper", new PageNavHelperModel
+        {
+            ControllerName = "Docs",
+            PreviousView = "EightBitProgramming_3",
+            PreviousViewDisplay = "Macros and Comments",
+            NextView = "",
+            NextViewDisplay = ""
+        }
+              );
+    }
+</div>

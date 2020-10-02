@@ -1,17 +1,66 @@
-﻿
+﻿@{
+    ViewData["Title"] = "8Bit";
+}
+
+<script src="/js/CodeMirror/lib/codemirror.js"></script>
+<script src="/js/CodeMirror/mode/gas/gas_sap1.js" type="text/javascript"></script>
+<link href="/js/CodeMirror/lib/codemirror.css" rel="stylesheet" type="text/css" />
+<script src="/js/Views/Docs/8BitDocs.js" type="text/javascript"></script>
+
 <h1>8-Bit Programming</h1>
 <p class="lead">
     An Introduction to Limited Instruction Set Programs
 </p>
 
-
 @{ await Html.RenderPartialAsync("_EightBitProgramming_TOC"); }
 
-<p class="mb-4">
-    Macros
+<h2 class="mt-4">Macros</h2>
+<p>
+    The SAP1Emu Emulator supports one marco, the <code>...</code> macro.
+    Since each program needs example 16 lines of code, the <code>...</code> macro will fill in the
+    extra lines in your program with <code>0x0 0x0</code>'s. This will be covered in more detail in the next section.
+    <br /> <br />
+    Below is an example of the <code>...</code> macro in use.
+</p>
+<div class="row">
+    <div class="col">
+        <h6>Before the macro-expansion</h6>
+        @Html.TextArea("8Bit_P3_Example_Left", null, new { rows = "20", cols = "80", @class = "codebox", id = "8Bit_P3_Example_Left" })
+    </div>
+    <div class="col">
+        <h6>After the macro-expansion</h6>
+        @Html.TextArea("8Bit_P3_Example_Right", null, new { rows = "20", cols = "80", @class = "codebox", id = "8Bit_P3_Example_Right" })
+    </div>
+</div>
+<p class="mt-3">
+    As you can see, the <code>...</code> macro filled the empty space with <code>0x0 0x0</code>'s until the program
+    has 16 lines of code.
+    <br />
+    It is also important to note that the macro is executed by the Parser, not the Emulator.
+    This means the Emulator will never see the macro. Instead it will only see the <code>0x0 0x0</code>'s left behind
+    by the Parser.
 </p>
 
-
+<h2 class="mt-4">Comments</h2>
+<p>
+    A comment is a line of code that is not executed. They are stripped out by the Parser, so they never reach the Emulator.
+    Due to the difficulty in reading Assembly-like code, comments should be used to help you remember what your code does.
+    <br /> <br />
+    The SAP1Emu uses Bash-Style comments utilizing the <code>#</code>. Anything that comes after a <code>#</code> is
+    not treated as code. Comments can take up their own line or come after code.
+    <br />
+    Below is an example of comments in use.
+</p>
+<div class="row">
+    <div class="col">
+        <h6>Before comments are stripped out</h6>
+        @Html.TextArea("8Bit_P3_Example_Comment_Left", null, new { rows = "20", cols = "80", @class = "codebox", id = "8Bit_P3_Example_Comment_Left" })
+    </div>
+    <div class="col">
+        <h6>After comments are stripped out</h6>
+        @Html.TextArea("8Bit_P3_Example_Comment_Right", null, new { rows = "20", cols = "80", @class = "codebox", id = "8Bit_P3_Example_Comment_Right" })
+    </div>
+</div>
 
 <div class="mt-4">
     @{ await Html.RenderPartialAsync("_PageNavHelper", new PageNavHelperModel
@@ -19,9 +68,9 @@
             ControllerName = "Docs",
             PreviousView = "EightBitProgramming_2",
             PreviousViewDisplay = "Exploring the Instruction Set",
-            NextView = "",
-            NextViewDisplay = ""
+            NextView = "EightBitProgramming_4",
+            NextViewDisplay = "Exploring the Binary"
         }
-       );
+           );
     }
 </div>

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using SAP1EMU.Lib;
 
-using SAP1EMU.Lib;
+using System;
 
 namespace SAP1EMU.Assembler
 {
@@ -10,7 +8,7 @@ namespace SAP1EMU.Assembler
     {
         public static bool IsValidInstruction(string instruction, InstructionSet iset)
         {
-            if(instruction.ToLower() == "nop")
+            if (instruction.ToLower() == "nop")
             {
                 return true;
             }
@@ -18,11 +16,12 @@ namespace SAP1EMU.Assembler
             {
                 return !string.IsNullOrEmpty(iset.instructions.Find(x => x.OpCode.ToLower().Equals(instruction.ToLower())).OpCode);
             }
-            catch(NullReferenceException)
+            catch (NullReferenceException)
             {
                 return false;
             }
         }
+
         public static string GetUpperNibble(string instruction, InstructionSet iset)
         {
             if (instruction.ToLower() == "nop")

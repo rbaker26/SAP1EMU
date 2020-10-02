@@ -1,14 +1,16 @@
-﻿
+﻿@{
+    ViewData["Title"] = "8Bit";
+}
+
 <h1>8-Bit Programming</h1>
 <p class="lead">
     An Introduction to Limited Instruction Set Programs
 </p>
 
-
 @{ await Html.RenderPartialAsync("_EightBitProgramming_TOC"); }
 
 <p class="mb-4">
-    Below are a lists the three different Instruction Sets, or Assmebly Languages, that the SAP1Emu Emulator supports.
+    Below are lists the three different Instruction Sets, or Assmebly Languages, that the SAP1Emu Emulator supports.
     If an instruction, or <span class="text-muted">OpCode</span>, is followed by a <code>0xH</code>, that means <code>H</code> can be replaced by any
     valid hex digit (0 - F).
     <br />
@@ -20,7 +22,6 @@
 
 @{ await Html.RenderPartialAsync("_InstructionSets"); }
 
-
 <div class="mt-4">
     @{ await Html.RenderPartialAsync("_PageNavHelper", new PageNavHelperModel
         {
@@ -30,6 +31,6 @@
             NextView = "EightBitProgramming_3",
             NextViewDisplay = "Macros and Comments"
         }
-        );
+         );
     }
 </div>

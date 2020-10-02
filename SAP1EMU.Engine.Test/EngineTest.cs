@@ -1,22 +1,23 @@
-using System.Collections.Generic;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using SAP1EMU.Engine;
 using SAP1EMU.Lib;
+
+using System.Collections.Generic;
 
 namespace SAP1EMU.Engine.Test
 {
     [TestClass]
     public class EngineTest
     {
-        IDecoder _decoder = new InstructionDecoder();
+        private IDecoder _decoder = new InstructionDecoder();
         // LDA Tests 1-3 ************************************************************
+
         #region LDA Tests 1-3
+
         // Test_LDA_PROG_1 **********************************************************
         /// <summary>
         /// This will run the following program
-        /// 
+        ///
         /// 0x0 LDA 0xF
         /// 0x1 OUT 0xX
         /// 0x2 HLT 0xX
@@ -33,7 +34,7 @@ namespace SAP1EMU.Engine.Test
         /// 0xD NOP 0xX
         /// 0xE NOP 0xX
         /// 0xf 0x0 0x1
-        /// 
+        ///
         /// The expected result is OReg: 00000001
         /// </summary>
         [TestMethod]
@@ -62,7 +63,6 @@ namespace SAP1EMU.Engine.Test
 
             EngineProc engine = new EngineProc();
 
-
             engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
@@ -70,13 +70,13 @@ namespace SAP1EMU.Engine.Test
 
             Assert.AreEqual(expectedResult, output);
         }
-        // **************************************************************************
 
+        // **************************************************************************
 
         // Test_LDA_PROG_2 **********************************************************
         /// <summary>
         /// This will run the following program
-        /// 
+        ///
         /// 0x0 LDA 0xF
         /// 0x1 OUT 0xX
         /// 0x2 HLT 0xX
@@ -93,7 +93,7 @@ namespace SAP1EMU.Engine.Test
         /// 0xD NOP 0xX
         /// 0xE NOP 0xX
         /// 0xf 0xA 0xA
-        /// 
+        ///
         /// The expected result is OReg: 1010 1010
         /// </summary>
         [TestMethod]
@@ -122,7 +122,6 @@ namespace SAP1EMU.Engine.Test
 
             EngineProc engine = new EngineProc();
 
-
             engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
@@ -130,14 +129,13 @@ namespace SAP1EMU.Engine.Test
 
             Assert.AreEqual(expectedResult, output);
         }
+
         // **************************************************************************
-
-
 
         // Test_LDA_PROG_3 **********************************************************
         /// <summary>
         /// This will run the following program
-        /// 
+        ///
         /// 0x0 LDA 0xF
         /// 0x1 OUT 0xX
         /// 0x2 HLT 0xX
@@ -154,7 +152,7 @@ namespace SAP1EMU.Engine.Test
         /// 0xD NOP 0xX
         /// 0xE NOP 0xX
         /// 0xf 0x5 0x5
-        /// 
+        ///
         /// The expected result is OReg: 0101 0101
         /// </summary>
         [TestMethod]
@@ -183,7 +181,6 @@ namespace SAP1EMU.Engine.Test
 
             EngineProc engine = new EngineProc();
 
-
             engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
@@ -191,17 +188,21 @@ namespace SAP1EMU.Engine.Test
 
             Assert.AreEqual(expectedResult, output);
         }
+
         // **************************************************************************
-        #endregion
+
+        #endregion LDA Tests 1-3
+
         // **************************************************************************
 
         // ADD Test 1-3 *************************************************************
+
         #region ADD Test 1-3
 
         // Test_ADD_PROG_1 **********************************************************
         /// <summary>
         /// This will run the following program
-        /// 
+        ///
         /// 0x0 LDA 0xE
         /// 0x1 ADD 0xF
         /// 0x2 OUT 0xX
@@ -218,7 +219,7 @@ namespace SAP1EMU.Engine.Test
         /// 0xD NOP 0xX
         /// 0xE 0x0 0x1
         /// 0xF 0x0 0x1
-        /// 
+        ///
         /// The expected result is OReg: 0000 0010
         /// </summary>
         [TestMethod]
@@ -247,7 +248,6 @@ namespace SAP1EMU.Engine.Test
 
             EngineProc engine = new EngineProc();
 
-
             engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
@@ -255,14 +255,13 @@ namespace SAP1EMU.Engine.Test
 
             Assert.AreEqual(expectedResult, output);
         }
+
         // **************************************************************************
-
-
 
         // Test_ADD_PROG_2 **********************************************************
         /// <summary>
         /// This will run the following program
-        /// 
+        ///
         /// 0x0 LDA 0xE
         /// 0x1 ADD 0xF
         /// 0x2 ADD 0xF
@@ -279,7 +278,7 @@ namespace SAP1EMU.Engine.Test
         /// 0xD HLT 0xX
         /// 0xE 0x0 0x1
         /// 0xF 0x0 0x1
-        /// 
+        ///
         /// The expected result is OReg: 0000 1100
         /// </summary>
         [TestMethod]
@@ -308,7 +307,6 @@ namespace SAP1EMU.Engine.Test
 
             EngineProc engine = new EngineProc();
 
-
             engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
@@ -316,13 +314,13 @@ namespace SAP1EMU.Engine.Test
 
             Assert.AreEqual(expectedResult, output);
         }
-        // **************************************************************************
 
+        // **************************************************************************
 
         // Test_ADD_PROG_3 **********************************************************
         /// <summary>
         /// This will run the following program
-        /// 
+        ///
         /// 0x0 LDA 0xD
         /// 0x1 ADD 0xE
         /// 0x2 ADD 0xF
@@ -339,7 +337,7 @@ namespace SAP1EMU.Engine.Test
         /// 0xD 0x2 0x8
         /// 0xE 0x0 0xF
         /// 0xF 0x0 0xD
-        /// 
+        ///
         /// The expected result is OReg: 0100 0100
         /// </summary>
         [TestMethod]
@@ -368,7 +366,6 @@ namespace SAP1EMU.Engine.Test
 
             EngineProc engine = new EngineProc();
 
-
             engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
@@ -376,19 +373,21 @@ namespace SAP1EMU.Engine.Test
 
             Assert.AreEqual(expectedResult, output);
         }
+
         // **************************************************************************
 
-        #endregion
-        // **************************************************************************
+        #endregion ADD Test 1-3
 
+        // **************************************************************************
 
         // SUB Test 1-3 *************************************************************
+
         #region SUB Test 1-3
 
         // Test_SUB_PROG_1 **********************************************************
         /// <summary>
         /// This will run the following program
-        /// 
+        ///
         /// 0x0 LDA 0xF
         /// 0x1 SUB 0xE
         /// 0x2 OUT 0xX
@@ -405,7 +404,7 @@ namespace SAP1EMU.Engine.Test
         /// 0xD NOP 0xX
         /// 0xE 0x0 0x0
         /// 0xF 0x0 0x1
-        /// 
+        ///
         /// The expected result is OReg: 0000 0000
         /// </summary>
         [TestMethod]
@@ -434,7 +433,6 @@ namespace SAP1EMU.Engine.Test
 
             EngineProc engine = new EngineProc();
 
-
             engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
@@ -442,14 +440,13 @@ namespace SAP1EMU.Engine.Test
 
             Assert.AreEqual(expectedResult, output);
         }
+
         // **************************************************************************
-
-
 
         // Test_SUB_PROG_2 **********************************************************
         /// <summary>
         /// This will run the following program
-        /// 
+        ///
         /// 0x0 LDA 0xF
         /// 0x1 SUB 0xE
         /// 0x2 OUT 0xX
@@ -466,7 +463,7 @@ namespace SAP1EMU.Engine.Test
         /// 0xD NOP 0xX
         /// 0xE 0x0 0x1
         /// 0xF 0x0 0x1
-        /// 
+        ///
         /// The expected result is OReg: 0000 0000
         /// </summary>
         [TestMethod]
@@ -495,7 +492,6 @@ namespace SAP1EMU.Engine.Test
 
             EngineProc engine = new EngineProc();
 
-
             engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
@@ -503,13 +499,13 @@ namespace SAP1EMU.Engine.Test
 
             Assert.AreEqual(expectedResult, output);
         }
-        // **************************************************************************
 
+        // **************************************************************************
 
         // Test_SUB_PROG_3 **********************************************************
         /// <summary>
         /// This will run the following program
-        /// 
+        ///
         /// 0x0 LDA 0xF
         /// 0x1 SUB 0xE
         /// 0x2 OUT 0xX
@@ -526,7 +522,7 @@ namespace SAP1EMU.Engine.Test
         /// 0xD NOP 0xX
         /// 0xE 0x9 0x0
         /// 0xF 0xF 0x0
-        /// 
+        ///
         /// The expected result is OReg: 0110 0000
         /// </summary>
         [TestMethod]
@@ -555,7 +551,6 @@ namespace SAP1EMU.Engine.Test
 
             EngineProc engine = new EngineProc();
 
-
             engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
@@ -563,19 +558,21 @@ namespace SAP1EMU.Engine.Test
 
             Assert.AreEqual(expectedResult, output);
         }
+
         // **************************************************************************
 
+        #endregion SUB Test 1-3
 
-        #endregion
         // **************************************************************************
-
 
         // Overflow Tests 1-3 *******************************************************
+
         #region Overflow Tests 1-3
+
         // Test_Overflow_PROG_1 **********************************************************
         /// <summary>
         /// This will run the following program
-        /// 
+        ///
         /// 0x0 LDA 0xF
         /// 0x1 ADD 0xE
         /// 0x2 OUT 0xX
@@ -592,7 +589,7 @@ namespace SAP1EMU.Engine.Test
         /// 0xD NOP 0xX
         /// 0xE 0x0 0x1
         /// 0xF 0xF 0xF
-        /// 
+        ///
         /// The expected result is OReg: 0000 0000
         /// </summary>
         [TestMethod]
@@ -621,7 +618,6 @@ namespace SAP1EMU.Engine.Test
 
             EngineProc engine = new EngineProc();
 
-
             engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
@@ -629,13 +625,13 @@ namespace SAP1EMU.Engine.Test
 
             Assert.AreEqual(expectedResult, output);
         }
-        // **************************************************************************
 
+        // **************************************************************************
 
         // Test_Overflow_PROG_2 **********************************************************
         /// <summary>
         /// This will run the following program
-        /// 
+        ///
         /// 0x0 LDA 0xF
         /// 0x1 ADD 0xE
         /// 0x2 OUT 0xX
@@ -652,7 +648,7 @@ namespace SAP1EMU.Engine.Test
         /// 0xD NOP 0xX
         /// 0xE 0x0 0x2
         /// 0xF 0xF 0xF
-        /// 
+        ///
         /// The expected result is OReg: 0000 0001
         /// </summary>
         [TestMethod]
@@ -681,7 +677,6 @@ namespace SAP1EMU.Engine.Test
 
             EngineProc engine = new EngineProc();
 
-
             engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
@@ -689,14 +684,13 @@ namespace SAP1EMU.Engine.Test
 
             Assert.AreEqual(expectedResult, output);
         }
+
         // **************************************************************************
-
-
 
         // Test_Overflow_PROG_3 **********************************************************
         /// <summary>
         /// This will run the following program
-        /// 
+        ///
         /// 0x0 LDA 0xF
         /// 0x1 ADD 0xE
         /// 0x2 OUT 0xX
@@ -713,7 +707,7 @@ namespace SAP1EMU.Engine.Test
         /// 0xD NOP 0xX
         /// 0xE 0xF 0xF
         /// 0xF 0xF 0xF
-        /// 
+        ///
         /// The expected result is OReg: 1111 1110
         /// </summary>
         [TestMethod]
@@ -742,7 +736,6 @@ namespace SAP1EMU.Engine.Test
 
             EngineProc engine = new EngineProc();
 
-
             engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
@@ -750,20 +743,21 @@ namespace SAP1EMU.Engine.Test
 
             Assert.AreEqual(expectedResult, output);
         }
+
         // **************************************************************************
 
+        #endregion Overflow Tests 1-3
 
-        #endregion
         // **************************************************************************
-
 
         // Underflow Tests 1-3 ******************************************************
+
         #region Underflow Test 1-3
 
         // Test_Underflow_PROG_1 **********************************************************
         /// <summary>
         /// This will run the following program
-        /// 
+        ///
         /// 0x0 LDA 0xF
         /// 0x1 SUB 0xE
         /// 0x2 OUT 0xX
@@ -780,7 +774,7 @@ namespace SAP1EMU.Engine.Test
         /// 0xD NOP 0xX
         /// 0xE 0x0 0x1
         /// 0xF 0x0 0x0
-        /// 
+        ///
         /// The expected result is OReg: 1111 1111
         /// </summary>
         [TestMethod]
@@ -809,7 +803,6 @@ namespace SAP1EMU.Engine.Test
 
             EngineProc engine = new EngineProc();
 
-
             engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
@@ -817,13 +810,13 @@ namespace SAP1EMU.Engine.Test
 
             Assert.AreEqual(expectedResult, output);
         }
-        // **************************************************************************
 
+        // **************************************************************************
 
         // Test_Underflow_PROG_2 **********************************************************
         /// <summary>
         /// This will run the following program
-        /// 
+        ///
         /// 0x0 LDA 0xF
         /// 0x1 SUB 0xE
         /// 0x2 OUT 0xX
@@ -840,7 +833,7 @@ namespace SAP1EMU.Engine.Test
         /// 0xD NOP 0xX
         /// 0xE 0x0 0x2
         /// 0xF 0x0 0x0
-        /// 
+        ///
         /// The expected result is OReg: 1111 1110
         /// </summary>
         [TestMethod]
@@ -869,7 +862,6 @@ namespace SAP1EMU.Engine.Test
 
             EngineProc engine = new EngineProc();
 
-
             engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
@@ -877,13 +869,13 @@ namespace SAP1EMU.Engine.Test
 
             Assert.AreEqual(expectedResult, output);
         }
-        // **************************************************************************
 
+        // **************************************************************************
 
         // Test_Underflow_PROG_3 **********************************************************
         /// <summary>
         /// This will run the following program
-        /// 
+        ///
         /// 0x0 LDA 0xF
         /// 0x1 SUB 0xE
         /// 0x2 OUT 0xX
@@ -900,7 +892,7 @@ namespace SAP1EMU.Engine.Test
         /// 0xD NOP 0xX
         /// 0xE 0xF 0xF
         /// 0xF 0x0 0x0
-        /// 
+        ///
         /// The expected result is OReg: 0000 0001
         /// </summary>
         [TestMethod]
@@ -929,7 +921,6 @@ namespace SAP1EMU.Engine.Test
 
             EngineProc engine = new EngineProc();
 
-
             engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
@@ -937,9 +928,11 @@ namespace SAP1EMU.Engine.Test
 
             Assert.AreEqual(expectedResult, output);
         }
+
         // **************************************************************************
 
-        #endregion
+        #endregion Underflow Test 1-3
+
         // **************************************************************************
 
         // STA Tests 1 **************************************************************
@@ -969,7 +962,6 @@ namespace SAP1EMU.Engine.Test
 
             EngineProc engine = new EngineProc();
 
-
             engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
@@ -977,8 +969,8 @@ namespace SAP1EMU.Engine.Test
 
             Assert.AreEqual(expectedResult, output);
         }
-        // **************************************************************************
 
+        // **************************************************************************
 
         // JMP Tests 1 **************************************************************
         [TestMethod]
@@ -1007,7 +999,6 @@ namespace SAP1EMU.Engine.Test
 
             EngineProc engine = new EngineProc();
 
-
             engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
@@ -1015,6 +1006,7 @@ namespace SAP1EMU.Engine.Test
 
             Assert.AreEqual(expectedResult, output);
         }
+
         // **************************************************************************
 
         // JEQ Tests 1 **************************************************************
@@ -1044,7 +1036,6 @@ namespace SAP1EMU.Engine.Test
 
             EngineProc engine = new EngineProc();
 
-
             engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
@@ -1052,8 +1043,8 @@ namespace SAP1EMU.Engine.Test
 
             Assert.AreEqual(expectedResult, output);
         }
-        // **************************************************************************
 
+        // **************************************************************************
 
         // JNQ Tests 1 **************************************************************
         [TestMethod]
@@ -1082,7 +1073,6 @@ namespace SAP1EMU.Engine.Test
 
             EngineProc engine = new EngineProc();
 
-
             engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
@@ -1090,8 +1080,8 @@ namespace SAP1EMU.Engine.Test
 
             Assert.AreEqual(expectedResult, output);
         }
-        // **************************************************************************
 
+        // **************************************************************************
 
         // JLT Tests 1 **************************************************************
         [TestMethod]
@@ -1120,7 +1110,6 @@ namespace SAP1EMU.Engine.Test
 
             EngineProc engine = new EngineProc();
 
-
             engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
@@ -1128,8 +1117,8 @@ namespace SAP1EMU.Engine.Test
 
             Assert.AreEqual(expectedResult, output);
         }
-        // **************************************************************************
 
+        // **************************************************************************
 
         // JLT Tests 2 **************************************************************
         [TestMethod]
@@ -1158,7 +1147,6 @@ namespace SAP1EMU.Engine.Test
 
             EngineProc engine = new EngineProc();
 
-
             engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
@@ -1166,8 +1154,8 @@ namespace SAP1EMU.Engine.Test
 
             Assert.AreEqual(expectedResult, output);
         }
-        // **************************************************************************
 
+        // **************************************************************************
 
         // JGT Tests 1 **************************************************************
         [TestMethod]
@@ -1196,7 +1184,6 @@ namespace SAP1EMU.Engine.Test
 
             EngineProc engine = new EngineProc();
 
-
             engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
@@ -1204,8 +1191,8 @@ namespace SAP1EMU.Engine.Test
 
             Assert.AreEqual(expectedResult, output);
         }
-        // **************************************************************************
 
+        // **************************************************************************
 
         // JGT Tests 2 **************************************************************
         [TestMethod]
@@ -1234,7 +1221,6 @@ namespace SAP1EMU.Engine.Test
 
             EngineProc engine = new EngineProc();
 
-
             engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
@@ -1242,8 +1228,8 @@ namespace SAP1EMU.Engine.Test
 
             Assert.AreEqual(expectedResult, output);
         }
-        // **************************************************************************
 
+        // **************************************************************************
 
         // JIC Test 1 ***************************************************************
         [TestMethod]
@@ -1272,7 +1258,6 @@ namespace SAP1EMU.Engine.Test
 
             EngineProc engine = new EngineProc();
 
-
             engine.Init(new RAMProgram(program), _decoder);
             engine.Run();
 
@@ -1280,9 +1265,8 @@ namespace SAP1EMU.Engine.Test
 
             Assert.AreEqual(expectedResult, output);
         }
+
         // **************************************************************************
-
-
 
         // Infinite Loop Detection Test *********************************************
         [TestMethod]
@@ -1325,11 +1309,8 @@ namespace SAP1EMU.Engine.Test
             {
                 Assert.Fail();
             }
-
-
         }
+
         // **************************************************************************
-
-
     }
 }

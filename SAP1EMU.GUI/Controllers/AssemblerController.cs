@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 using SAP1EMU.Assembler;
 using SAP1EMU.Lib;
+
+using System;
+using System.Collections.Generic;
 
 namespace SAP1EMU.GUI.Controllers
 {
@@ -28,11 +26,12 @@ namespace SAP1EMU.GUI.Controllers
             }
         }
 
-        public class AssemblePacket 
+        public class AssemblePacket
         {
             public List<string> CodeList { get; set; }
             public string SetName { get; set; }
         }
+
         // POST: api/Assembler
         [HttpPost]
         public ActionResult Post([FromBody] AssemblePacket assemblePacket)
@@ -40,13 +39,11 @@ namespace SAP1EMU.GUI.Controllers
             try
             {
                 return Ok(Assemble.Parse(assemblePacket.CodeList, assemblePacket.SetName));
-
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message + " " + e.InnerException.Message);
             }
         }
-
     }
 }

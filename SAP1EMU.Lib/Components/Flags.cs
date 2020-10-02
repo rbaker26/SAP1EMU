@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SAP1EMU.Lib.Components
+﻿namespace SAP1EMU.Lib.Components
 {
     public class Flags
     {
         private static Flags _instance; // Singleton Pattern
-
 
         public byte Overflow;
         public byte Underflow;
@@ -29,7 +24,6 @@ namespace SAP1EMU.Lib.Components
             if (_instance == null)
             {
                 _instance = new Flags();
-
             }
             return _instance;
         }

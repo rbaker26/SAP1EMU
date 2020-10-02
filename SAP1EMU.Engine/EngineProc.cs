@@ -1,26 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SAP1EMU.Lib;
-
-
-using SAP1EMU.Lib.Registers;
+﻿using SAP1EMU.Lib;
 using SAP1EMU.Lib.Components;
-using System.IO;
-using System.Diagnostics;
+using SAP1EMU.Lib.Registers;
+
+using System;
+using System.Collections.Generic;
 
 namespace SAP1EMU.Engine
 {
     public class EngineProc
     {
-        
-        string OutPutRegContents = "";
+        private string OutPutRegContents = "";
         private readonly List<Frame> _FrameStack = new List<Frame>();
         private RAMProgram Program { get; set; }
         private InstructionSet InstructionSet { get; set; }
         private const string DefaultInstructionSetName = "SAP1Emu";
-        IDecoder _decoder { get; set; }
-
+        private IDecoder _decoder { get; set; }
 
         // *************************************************************************
         // Init Engine
@@ -28,13 +22,12 @@ namespace SAP1EMU.Engine
         public void Init(RAMProgram program, IDecoder decoder, string InstructionSetName = DefaultInstructionSetName)
         {
             //string log_name = "runtime_log.txt";
-            //// Clear Old Log 
+            //// Clear Old Log
             //if (File.Exists(log_name))
             //{
             //    File.Delete(log_name);
             //}
             //File.Create(log_name).Close();  // must close the file or the handle will stay open and be locked
-
 
             //// Init Logger
             //Log.Logger = new LoggerConfiguration()
@@ -46,7 +39,6 @@ namespace SAP1EMU.Engine
             //Serilog.Debugging.SelfLog.Enable(Console.Error);
 
             //Log.Information("SAP1Emu: Begin Engine Initialization");
-
 
             // Get Instruction Set
             //Log.Information($"SAP1Emu: Using Instruction Set: \"{InstructionSetName}\"");
@@ -61,15 +53,14 @@ namespace SAP1EMU.Engine
                 this.Program = new RAMProgram(new List<string>());
             }
             this.Program = program;
-    
+
             //Log.Information("SAP1Emu: Finished Engine Initialization");
-
         }
-        // *************************************************************************
-
 
         // *************************************************************************
-        // Engine Runtime 
+
+        // *************************************************************************
+        // Engine Runtime
         // *************************************************************************
         public void Run()
         {
@@ -78,7 +69,6 @@ namespace SAP1EMU.Engine
             //Log.Verbose("SAP1Emu: Initializing Registers");
             Clock clock = new Clock();
             TicTok tictok = new TicTok();
-
 
             tictok.Init();
 
@@ -105,25 +95,21 @@ namespace SAP1EMU.Engine
             alu.Subscribe(clock); // ALU must come after A and B
             ram.Subscribe(clock);
 
+            //  Log.Verbose("SAP1Emu: Initialized Registers");
 
-          //  Log.Verbose("SAP1Emu: Initialized Registers");
-
-
-
-         //   Log.Information("SAP1Emu: Loading Ram");
+            //   Log.Information("SAP1Emu: Loading Ram");
             // Load the program into the RAM
             ram.LoadProgram(Program);
-        //    Log.Information("SAP1Emu: RAM:\n{RAM}", Program.RamContents);
+            //    Log.Information("SAP1Emu: RAM:\n{RAM}", Program.RamContents);
 
             // Load the intsructionSet into the SEQ
             seq.Load(InstructionSet);
-        //    Log.Information($"SAP1Emu: Loaded Instruction Set: \"{InstructionSet.SetName}\"");
-
-
+            //    Log.Information($"SAP1Emu: Loaded Instruction Set: \"{InstructionSet.SetName}\"");
 
             Frame tempFrame;
 
             #region Program_Exec
+
             // Since T1-T3 for all of the Intruction is the same,
             // LDA or "0000" will be used as the intruction for all T1-T3's
             clock.IsEnabled = true;
@@ -137,10 +123,10 @@ namespace SAP1EMU.Engine
             int loop_counter = 0;
 
             int TState = 1;
-          //  Log.Information("SAP1Emu: Start Program Execution");
-            while(clock.IsEnabled)
+            //  Log.Information("SAP1Emu: Start Program Execution");
+            while (clock.IsEnabled)
             {
-                if(TState <= 3)
+                if (TState <= 3)
                 {
                     seq.UpdateControlWordReg(TState, "0000");
                 }
@@ -149,14 +135,13 @@ namespace SAP1EMU.Engine
                     seq.UpdateControlWordReg(TState, ireg.ToString());
                 }
 
-
-                // Log the Instruction 
-                if(TState == 4)
+                // Log the Instruction
+                if (TState == 4)
                 {
                     string iname = InstructionSet.instructions.Find(x => x.BinCode.Equals(ireg.ToString())).OpCode;
                     int operandVal = Convert.ToInt32(ireg.ToString_Frame_Use().Substring(4, 4), 2);
                     string hexOperand = "0x" + operandVal.ToString("X");
-                //    Log.Information($"SAP1Emu: Instruction: {iname}, Operand: {hexOperand}");
+                    //    Log.Information($"SAP1Emu: Instruction: {iname}, Operand: {hexOperand}");
                 }
 
                 clock.SendTicTok(tictok);
@@ -168,10 +153,9 @@ namespace SAP1EMU.Engine
 
                 if (ireg.ToString() == "1111" && TState == 6)
                 {
-                   // Log.Information("SAP1Emu: HLT Detected");
+                    // Log.Information("SAP1Emu: HLT Detected");
                     clock.IsEnabled = false;
                 }
-
 
                 // Infinite Loop Checks
                 //if(loop_counter == warning1_loop_counter)
@@ -191,12 +175,10 @@ namespace SAP1EMU.Engine
                 //    Log.Warning($"SAP1Emu: Infinite Loop Warning: interations count: {warning4_loop_counter} ");
                 //}
 
-
-
                 if (loop_counter >= max_loop_count)
                 {
-                   // Log.Fatal($"SAP1Emu: Infinite Loop Fatal Error: Infinite Loop Detected");
-                   // Log.CloseAndFlush();
+                    // Log.Fatal($"SAP1Emu: Infinite Loop Fatal Error: Infinite Loop Detected");
+                    // Log.CloseAndFlush();
                     throw new EngineRuntimeException("Engine Error: Infinite Loop Detected");
                 }
                 else
@@ -204,7 +186,7 @@ namespace SAP1EMU.Engine
                     loop_counter++;
                 }
 
-                if(TState < 6)
+                if (TState < 6)
                 {
                     TState++;
                 }
@@ -213,22 +195,17 @@ namespace SAP1EMU.Engine
                     TState = 1;
                 }
             }
-           // Log.Information("SAP1Emu: End Program Execution");
-
+            // Log.Information("SAP1Emu: End Program Execution");
 
             OutPutRegContents = oreg.ToString();
-          //  Log.Information("SAP1Emu: End Engine Run");
+            //  Log.Information("SAP1Emu: End Engine Run");
 
-          //  Log.CloseAndFlush();
+            //  Log.CloseAndFlush();
 
-            #endregion
+            #endregion Program_Exec
         }
+
         // *************************************************************************
-
-
-
-
-
 
         // *************************************************************************
         // Output Functions
@@ -237,7 +214,6 @@ namespace SAP1EMU.Engine
         {
             return _FrameStack;
         }
-
 
         public Frame FinalFrame()
         {
@@ -255,13 +231,7 @@ namespace SAP1EMU.Engine
         {
             return OutPutRegContents;
         }
+
         // *************************************************************************
-
-
-
-
     }
-
-
-
 }

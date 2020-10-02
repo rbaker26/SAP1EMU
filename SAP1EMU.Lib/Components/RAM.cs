@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using SAP1EMU.Lib.Registers;
-using SAP1EMU.Lib.Utilities;
 
 namespace SAP1EMU.Lib.Components
 {
@@ -28,15 +25,13 @@ namespace SAP1EMU.Lib.Components
             }
 
             // LR_, Active Low, Pull on Tok
-            if(cw[12] == '0' && tictok.ClockState == TicTok.State.Tok)
+            if (cw[12] == '0' && tictok.ClockState == TicTok.State.Tok)
             {
                 string word = Wbus.Instance().Value;
                 SetWordAt(MARContents, word);
                 RAM_Register_Content = word;
             }
         }
-
-
 
         public void LoadProgram(RAMProgram rp)
         {
@@ -49,16 +44,16 @@ namespace SAP1EMU.Lib.Components
             }
         }
 
-
         public string GetWordAt(string addr)
         {
             int index = (int)(Convert.ToUInt32(addr, 2));
-            if(index < 0 || index > 15)
+            if (index < 0 || index > 15)
             {
                 throw new ArgumentOutOfRangeException($"RAM Index Error - Addr with value {index} not inbetween 0-15");
             }
             return RamContents[index];
         }
+
         public void SetWordAt(string addr, string word)
         {
             int index = (int)(Convert.ToUInt32(addr, 2));
@@ -82,13 +77,14 @@ namespace SAP1EMU.Lib.Components
         }
 
         #region IObserver<TicTok> Region
+
         private IDisposable unsubscriber;
+
         public virtual void Subscribe(IObservable<TicTok> clock)
         {
             if (clock != null)
                 unsubscriber = clock.Subscribe(this);
         }
-
 
         void IObserver<TicTok>.OnCompleted()
         {
@@ -109,7 +105,8 @@ namespace SAP1EMU.Lib.Components
         {
             unsubscriber.Dispose();
         }
-        #endregion
+
+        #endregion IObserver<TicTok> Region
 
         // For Frame Support
         public List<string> RAMDump() { return RamContents; }
@@ -123,6 +120,5 @@ namespace SAP1EMU.Lib.Components
         {
             return (String.IsNullOrEmpty(this.RAM_Register_Content) ? "00000000" : this.RAM_Register_Content);
         }
-
     }
 }

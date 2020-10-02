@@ -1,12 +1,10 @@
-﻿using System;
-
-using BenchmarkDotNet.Running;
+﻿using BenchmarkDotNet.Running;
 
 namespace SAP1EMU.Benchmarks
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             BenchmarkRunner.Run<EngineBenchmark>();
         }

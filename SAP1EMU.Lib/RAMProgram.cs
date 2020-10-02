@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace SAP1EMU.Lib
 {
@@ -13,7 +12,7 @@ namespace SAP1EMU.Lib
     {
         public List<string> RamContents { get; }
 
-      //  Program() { }
+        //  Program() { }
         public RAMProgram(List<string> RamContents)
         {
             this.RamContents = new List<string>();
@@ -23,8 +22,8 @@ namespace SAP1EMU.Lib
             {
                 throw new ArgumentOutOfRangeException("RAM Overflow - More than 16 lines of code.");
             }
-            
-            foreach(string s in RamContents)
+
+            foreach (string s in RamContents)
             {
                 this.RamContents.Add(s);
             }

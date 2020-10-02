@@ -17,13 +17,11 @@ window.onload = function () {
         readOnly: true,
     });
 
-
     // Setup ComboBox
     $.ajax({
         url: "../api/Assembler/supported_sets",
         type: "GET",
         success: function (data) {
-
             var selectDOM = document.getElementById("langs");
             var options = data;
 
@@ -42,7 +40,6 @@ window.onload = function () {
         }
     });
 }
-
 
 function AssembleCode() {
     var asm_code = asm_editor.getValue().split('\n');
@@ -68,10 +65,7 @@ function AssembleCode() {
     });
 
     return false;
-
 }
-
-
 
 //function openFromFile() {
 //    // Send Request to ASP.NET
@@ -93,8 +87,6 @@ function AssembleCode() {
 //    ipcRenderer.send("save-to-file-asm", bin_editor.getValue());
 //}
 
-
 function getFromFile() {
     readFromFile(".s,.asm", asm_editor, "assembler-out");
 }
-

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Net.Http;
 using System.Text.Json;
-
+using System.Threading.Tasks;
 
 namespace SAP1EMU.GUI.Models
 {
@@ -27,6 +23,5 @@ namespace SAP1EMU.GUI.Models
         public string bio { get; set; }
         public int public_repos { get; set; }
         public int followers { get; set; }
-
     }
 }

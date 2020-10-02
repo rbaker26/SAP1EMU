@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SAP1EMU.Lib.Components;
+﻿using SAP1EMU.Lib.Components;
+
+using System;
 
 namespace SAP1EMU.Lib.Registers
 {
@@ -24,15 +23,15 @@ namespace SAP1EMU.Lib.Registers
             }
         }
 
-
         #region IObserver Region
+
         private IDisposable unsubscriber;
+
         public virtual void Subscribe(IObservable<TicTok> clock)
         {
             if (clock != null)
                 unsubscriber = clock.Subscribe(this);
         }
-
 
         void IObserver<TicTok>.OnCompleted()
         {
@@ -47,15 +46,14 @@ namespace SAP1EMU.Lib.Registers
         void IObserver<TicTok>.OnNext(TicTok value)
         {
             Exec(value);
-        }   
+        }
 
         public virtual void Unsubscribe()
         {
             unsubscriber.Dispose();
         }
-        #endregion
 
-
+        #endregion IObserver Region
 
         public override string ToString()
         {

@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using System;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace SAP1EMU.Lib.Test
 {
     [TestClass]
     public class ProgramTest
     {
-
         [TestMethod]
         public void TestCtorReg()
         {
@@ -42,15 +42,12 @@ namespace SAP1EMU.Lib.Test
                 {
                     Assert.IsTrue(RamContentsResults[i] == "00000000");
                 }
-          
             }
-            catch(ArgumentOutOfRangeException e)
+            catch (ArgumentOutOfRangeException e)
             {
                 Assert.Fail(e.ToString());
             }
-
         }
-
 
         [TestMethod]
         public void TestCtorOverflow()
@@ -77,7 +74,6 @@ namespace SAP1EMU.Lib.Test
                     "01010101",
                     "01010101"
                 };
-
 
                 RAMProgram program = new RAMProgram(RamContentsData);
 
