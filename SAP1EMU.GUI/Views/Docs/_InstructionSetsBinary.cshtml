@@ -132,9 +132,72 @@
                 </table>
             </div>
             <div class="tab-pane" id="beneater-doc" role="tabpanel">
-                <p class="lead">
-                    Documentation Coming Soon
-                </p>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th style="width: 150px;">OpCode</th>
+                            <th style="width: 150px;">Usage</th>
+                            <th>Binary Half-Word</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>NOP</td>
+                            <td><code>NOP 0x0</code></td>
+                            <td><code>0000 0000</code></td>
+                        </tr>
+                        <tr>
+                            <td>LDA</td>
+                            <td><code>LDA 0xH</code></td>
+                            <td><code>0001 bbbb</code></td>
+                        </tr>
+                        <tr>
+                            <td>ADD</td>
+                            <td><code>ADD 0xH</code></td>
+                            <td><code>0010 bbbb</code></td>
+                        </tr>
+                        <tr>
+                            <td>SUB</td>
+                            <td><code>SUB 0xH</code></td>
+                            <td><code>0011 bbbb</code></td>
+                        </tr>
+                        <tr>
+                            <td>STA</td>
+                            <td><code>STA 0xH</code></td>
+                            <td><code>0100 bbbb</code></td>
+                        </tr>
+                        <tr>
+                            <td>LDI</td>
+                            <td><code>LDI 0xH</code></td>
+                            <td><code>0101 bbbb</code></td>
+                        </tr>
+                        <tr>
+                            <td>JMP</td>
+                            <td><code>JMP 0xH</code></td>
+                            <td><code>0110 bbbb</code></td>
+                        </tr>
+                        <tr>
+                            <td>JIC</td>
+                            <td><code>JIC 0xH</code></td>
+                            <td><code>0111 bbbb</code></td>
+                        </tr>
+                        <tr>
+                            <td>JEQ</td>
+                            <td><code>JEQ 0xH</code></td>
+                            <td><code>1000 bbbb</code></td>
+                        </tr>
+                        <tr>
+                            <td>OUT</td>
+                            <td><code>OUT 0x0</code></td>
+                            <td><code>1110 0000</code></td>
+                        </tr>
+                        <tr>
+                            <td>HLT</td>
+                            <td><code>HLT 0x0</code></td>
+                            <td><code>1111 0000</code></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
