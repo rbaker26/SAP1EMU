@@ -1,0 +1,22 @@
+﻿@model FeatureNotReadyModel 
+
+<div class="modal fade" id="@Model.DOM_ID" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Sorry about this...</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Sorry, this feature is not quite ready yet. <br />
+                We hope to bring you this feature in the next release.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="window.open('https://github.com/rbaker26/SAP1EMU/issues/' + '@Model.GitHubIssueNumber', '_blank');">View Issue on GitHub</button>
+            </div>
+        </div>
+    </div>
+</div>
