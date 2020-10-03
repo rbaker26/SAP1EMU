@@ -41,6 +41,16 @@ namespace SAP1EMU.GUI.Controllers
             return View();
         }
 
+        public IActionResult EightBitProgramming_5()
+        {
+            return View();
+        }
+
+        public IActionResult LowLevelLanguages_1()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

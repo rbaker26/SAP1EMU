@@ -1,0 +1,104 @@
+﻿@{
+    ViewData["Title"] = "8Bit";
+}
+
+<script src="/js/CodeMirror/lib/codemirror.js"></script>
+<script src="~/js/CodeMirror/mode/clike/clike.js" type="text/javascript"></script>
+<script src="/js/CodeMirror/mode/gas/gas_sap1.js" type="text/javascript"></script>
+<link href="/js/CodeMirror/lib/codemirror.css" rel="stylesheet" type="text/css" />
+<script src="/js/Views/Docs/8BitProgramming_5.js" type="text/javascript"></script>
+
+<h1>8-Bit Programming</h1>
+<p class="lead">
+    An Introduction to Limited Instruction Set Programs
+</p>
+
+@{ await Html.RenderPartialAsync("_EightBitProgramming_TOC"); }
+
+
+<h2 class="mt-4">Your First Program - Add Two Numbers</h2>
+<p>
+    In this example, we are going to cover a basic program that will add two numbers together, stores the result, and outputs the result.
+</p>
+<div class="row">
+    <div class="col">
+        <h6>Count to 10 - Pseudocode</h6>
+        @Html.TextArea("8Bit_P5_Pseudocode_1", null, new { rows = "20", cols = "80", @class = "codebox", id = "8Bit_P5_Pseudocode_1" })
+    </div>
+    <div class="col">
+        <h6>Count to 10 - SAP1Emu Assembly</h6>
+        @Html.TextArea("8Bit_P5_SAP1EmuCode_1", null, new { rows = "20", cols = "80", @class = "codebox", id = "8Bit_P5_SAP1EmuCode_1" })
+        <div class="row mt-2">
+            <div class="col"></div>
+            <div class="col-auto">
+                <button class="btn btn-outline-info" data-toggle="modal" data-target="#openInEmulatorFeature">Open in Emulator</button>
+                @{
+                    await Html.RenderPartialAsync("_FeatureNotReadyPartial", new FeatureNotReadyModel()
+                    {
+                        DOM_ID = "openInEmulatorFeature",
+                        GitHubIssueNumber = "106"
+                    }
+                    );
+                }
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<p class="mt-2">
+    In this example, the pseudocode translated to SAM1Emu Assembly in a relatively easy fashion. In the next example, this will not be true.
+    Once we need to introduce more complicated structures, like looping, the code can become much different looking than its pseudocode.
+</p>
+
+
+<h2 class="mt-4">Your Second Program - Count to 10</h2>
+<p>
+    In this example, we are going to cover a more complicated program that will output the numbers 0 to 10.
+    If we to write this in a "C-Style" Pseudocode and covert it to SAP1Emu Assembly, it might look like the following.
+</p>
+<div class="row">
+    <div class="col">
+        <h6>Count to 10 - Pseudocode</h6>
+        @Html.TextArea("8Bit_P5_Pseudocode_2", null, new { rows = "20", cols = "80", @class = "codebox", id = "8Bit_P5_Pseudocode_2" })
+    </div>
+    <div class="col">
+        <h6>Count to 10 - SAP1Emu Assembly</h6>
+        @Html.TextArea("8Bit_P5_SAP1EmuCode_2", null, new { rows = "20", cols = "80", @class = "codebox", id = "8Bit_P5_SAP1EmuCode_2" })
+        <div class="row mt-2">
+            <div class="col"></div>
+            <div class="col-auto">
+                <button class="btn btn-outline-info" data-toggle="modal" data-target="#openInEmulatorFeature">Open in Emulator</button>
+                @{
+                    await Html.RenderPartialAsync("_FeatureNotReadyPartial", new FeatureNotReadyModel()
+                    {
+                        DOM_ID = "openInEmulatorFeature",
+                        GitHubIssueNumber = "106"
+                    }
+                    );
+                }
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<p class="mt-2">
+    As you can tell, this got much more complicated than the first program. This demonstrates why <span class="text-muted">low-level languages</span>, like x86 Assembly,
+    are not use to write long, complicated programs. It just gets too hard to read, maintain, and debug.
+    <br /> <br />
+    To learn more about <span class="text-muted">low-level languages</span> and how and why they are used, check out our next Learning Module, Low-Level Languages, by using the navigation below.
+</p>
+
+<div class="mt-4">
+    @{ await Html.RenderPartialAsync("_PageNavHelper", new PageNavHelperModel {
+            ControllerName = "Docs",
+            PreviousView = "EightBitProgramming_4",
+            PreviousViewDisplay = "Exploring the Binary",
+            NextView = "LowLevelLanguages_1",
+            NextViewDisplay = "Low-Level Languages",
+            IsNewChapter = true
+        }
+        );
+    }
+</div>
