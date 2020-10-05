@@ -13,7 +13,7 @@ An Emulator for the SAP1 Computer, based off of the SAP1 from _Digital Computer 
 Check out the Emulator here: [sap1emu.net](https://sap1emu.net)
 
 
-A lot of this is outdated. Documentation is slowly moving over to [sap1emu.net/Docs/Docs](https://sap1emu.net/Docs/Docs)
+# A lot of this is outdated. Documentation is slowly moving over to [sap1emu.net/Docs/Docs](https://sap1emu.net/Docs/Docs)
 
 
 ## About this Project (User Guide Wiki)
