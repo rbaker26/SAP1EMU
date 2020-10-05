@@ -12,6 +12,8 @@ namespace SAP1EMU.Lib.Components
         private AReg Areg { get; set; }
         private BReg Breg { get; set; }
 
+        public static bool CanChangeFlag { get; private set; }
+
         public ALU(ref AReg areg, ref BReg breg)
         {
             this.Areg = areg;
@@ -25,6 +27,9 @@ namespace SAP1EMU.Lib.Components
 
             //  TODO - Find a better way of using the mask to get the value
             //          Currently is using hardcoded magic numbers
+
+            //Allow the ALU to only set flags when the ALU is going to output to the bus.
+            CanChangeFlag = tictok.ClockState == TicTok.State.Tic && cw[9] == '1';
 
             string temp;
 
@@ -53,7 +58,7 @@ namespace SAP1EMU.Lib.Components
         //************************************************************************************************************************
         public static string Compute(string AReg, string BReg, bool Add = true)
         {
-            const int MAX_RESEULT = 255;
+            const int MAX_RESULT = 255;
             const int MIN_RESULT = 0;
 
             int ia = BinConverter.Bin8ToInt(AReg);
@@ -66,21 +71,31 @@ namespace SAP1EMU.Lib.Components
                 result = ia + ib;
 
                 // Set Flags
-                if (result > MAX_RESEULT)
+                if(result > MAX_RESULT && CanChangeFlag)
                 {
+                    Flags.Instance().Clear();
                     Flags.Instance().Overflow = 1;
+                }
+                else if(result == 0 && CanChangeFlag)
+                {
+                    Flags.Instance().Clear();
+                    Flags.Instance().Zero = 1;
                 }
             }
             else // SUB
             {
-                Flags.Instance().Clear();
-
                 result = ia - ib;
 
                 // Set Flags
-                if (result < MIN_RESULT)
+                if (result < MIN_RESULT && CanChangeFlag)
                 {
+                    Flags.Instance().Clear();
                     Flags.Instance().Underflow = 1;
+                }
+                else if (result == 0 && CanChangeFlag)
+                {
+                    Flags.Instance().Clear();
+                    Flags.Instance().Zero = 1;
                 }
             }
 

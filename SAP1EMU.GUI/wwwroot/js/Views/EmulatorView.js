@@ -14,6 +14,13 @@ window.onload = function () {
         mode: { name: "gas_sap1", architecture: "x86" },
     });
 
+    //Check when the user is typing
+    asm_editor.on("change", function (cm, obj) { updateGutter(cm); });
+
+    //Check when it updates the DOM so pasting, hitting enter, etc...
+    asm_editor.on("update", function (cm) { updateGutter(cm); });
+
+
     ram_dump = CodeMirror.fromTextArea(document.getElementById("ram_dump"), {
         lineNumbers: true,
         matchBrackets: true,
@@ -119,6 +126,18 @@ function loadRam(ram) {
     ram_dump.setValue(tempString);
 }
 
+function resetBoard() {
+    initBoard();
+
+    //Change the instruction and tstate to default state
+    $('#instruction-box').text("???");
+    $('#tstate-box').val("T1");
+
+    //Set current frame back to 0 and make progress 0 since its a new program loaded
+    current_frame = 0;
+    updateProgressBar(0, frame_stack.length); //In case anyone has a previously loaded program in to know when its loaded.
+}
+
 function LoadIntoRAM() {
     var asm_code = asm_editor.getValue().split('\n');
     var langChoice = document.getElementById("langs").value;
@@ -137,10 +156,10 @@ function LoadIntoRAM() {
             frame_stack = data;
             first_frame = frame_stack[0];
 
-            //console.log(frame_stack);
-            //console.log(frame_stack.length);
-
             loadRam(first_frame.ram);
+
+            //If we loaded a new program and there is data from previous run, reset so show it was loaded properly
+            resetBoard();
 
             return data;
         },
@@ -247,12 +266,13 @@ function updateProgressBar(currentFrame, frameStackLength) {
         $('#frameProgressBar').css("width", "100%");
     }
     else {
-        var frameProgress = (current_frame / frame_stack.length) * 100;
+        var frameProgress = (current_frame / frame_stack.length) * 100; 
         $('#frameProgressBar').css("width", frameProgress + "%");
     }
 }
 
 function changeIntervalTiming(value) {
+
     // keep the time from getting too long
     if (value <= .250) {
         value = .250;
@@ -260,9 +280,38 @@ function changeIntervalTiming(value) {
     interval_time = (1 / value) * 500;
 
     // If we currently have a job in process meaning the code is executing then
+    // keep the time from getting too long
+    if (value <= .250) {
+        value = .250;
+    }
+    interval_time = (1 / value) * 500;
+
+    // If we currently have a job in process meaning the code is executing then 
     //  clear it and change the interval time and start again
     if (job_id != null) {
         clearInterval(job_id);
         job_id = setInterval(frame_advance, interval_time);
+    }
+}
+
+function updateGutter(cm) {
+    lineNumber = 1;
+    const doc = cm.getDoc();
+
+    //Since the html is exactly the same i need a way to distinguish between the code mirrors. 
+    //In order for this to work the column needs to be defined as editor if you want it to strip and comment rows only of numbering
+    //and then some issues with copy paste rose with a gutter being in no mans land so it started from 2 on. This contains an array
+    //of the gutter elements found by jquery recursive search with the certain parent of CodeMirror-code since gutter is a child of this
+    gutterElements = $('.editor').find('.CodeMirror-code').find('.CodeMirror-gutter-elt');
+   
+    for (i = 0; i < doc.lineCount(); i++) {
+        line = doc.getLine(i);
+
+        if (line.match(/^#w*/g)) {
+            gutterElements.eq(i).text('');
+        } else {
+            gutterElements.eq(i).text(lineNumber);
+            lineNumber++;
+        }
     }
 }
