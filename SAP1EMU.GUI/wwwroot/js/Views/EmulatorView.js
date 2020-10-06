@@ -296,7 +296,9 @@ function changeIntervalTiming(value) {
 
 function updateGutter(cm) {
     lineNumber = 1;
+
     const doc = cm.getDoc();
+    const cursor = doc.getCursor();
 
     //Since the html is exactly the same i need a way to distinguish between the code mirrors. 
     //In order for this to work the column needs to be defined as editor if you want it to strip and comment rows only of numbering
@@ -307,7 +309,8 @@ function updateGutter(cm) {
     for (i = 0; i < doc.lineCount(); i++) {
         line = doc.getLine(i);
 
-        if (line.match(/^#w*/g)) {
+        //If the line matches a comment style or its a empty line (they hit enter or on a new line) and its not the current line we editing, hide the number in gutter
+        if (line.match(/(^\#w*\s*$)/g) || (line.length == 0 && cursor.line != i)) {
             gutterElements.eq(i).text('');
         } else {
             gutterElements.eq(i).text(lineNumber);
