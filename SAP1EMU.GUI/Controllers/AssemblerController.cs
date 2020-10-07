@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 using SAP1EMU.Assembler;
 using SAP1EMU.Lib;
@@ -8,11 +9,19 @@ using System.Collections.Generic;
 
 namespace SAP1EMU.GUI.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class AssemblerController : ControllerBase
     {
-        // GET: api/Assembler
+        /// <summary>
+        /// Gets a list of supported instruction sets
+        /// </summary>
+        /// <returns>A list of instruction sets</returns>
+        /// <response code="200">Returns the list</response>
+        /// <response code="500">List not found. Contact Network Admin</response>    
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet("supported_sets")]
         public ActionResult<IEnumerable<string>> Get()
         {
@@ -22,7 +31,8 @@ namespace SAP1EMU.GUI.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message + " " + e.InnerException.Message);
+               // return NotFound(e.Message + " " + e.InnerException.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
