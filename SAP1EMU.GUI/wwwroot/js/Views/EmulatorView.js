@@ -72,6 +72,7 @@ function initBoard() {
     $('#dis-block').html("0");
     $('#carryFlagBox').html("0");
     $('#underflowFlagBox').html("0");
+    $('#zeroFlagBox').html("0");
 }
 
 function updateBoard(frame) {
@@ -87,6 +88,7 @@ function updateBoard(frame) {
     $('#seq-block').html(frame.seq.substring(0, 14).match(/.{1,4}/g).join(' ')); // TODO This substring should be handled at the API level, not the UI level
     $('#carryFlagBox').val(frame.overflow_Flag);
     $('#underflowFlagBox').val(frame.underflow_Flag);
+    $('#zeroFlagBox').val(frame.zero_Flag);
 
     var posVal = parseInt(frame.oReg, 2);
     var negVal = posVal;
@@ -310,7 +312,7 @@ function updateGutter(cm) {
         line = doc.getLine(i);
 
         //If the line matches a comment style or its a empty line (they hit enter or on a new line) and its not the current line we editing, hide the number in gutter
-        if (line.match(/(^\#w*\s*$)/g) || (line.length == 0 && cursor.line != i)) {
+        if (line.match(/^#w*/g) || (line.length == 0 && cursor.line != i)) {
             gutterElements.eq(i).text('');
         } else {
             gutterElements.eq(i).text(lineNumber);

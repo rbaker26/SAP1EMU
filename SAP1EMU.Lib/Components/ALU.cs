@@ -12,7 +12,7 @@ namespace SAP1EMU.Lib.Components
         private AReg Areg { get; set; }
         private BReg Breg { get; set; }
 
-        public static bool CanChangeFlag { get; private set; }
+        public static bool FlagEnable { get; private set; }
 
         public ALU(ref AReg areg, ref BReg breg)
         {
@@ -29,7 +29,7 @@ namespace SAP1EMU.Lib.Components
             //          Currently is using hardcoded magic numbers
 
             //Allow the ALU to only set flags when the ALU is going to output to the bus.
-            CanChangeFlag = tictok.ClockState == TicTok.State.Tic && cw[9] == '1';
+            FlagEnable = tictok.ClockState == TicTok.State.Tic && cw[9] == '1';
 
             string temp;
 
@@ -71,12 +71,12 @@ namespace SAP1EMU.Lib.Components
                 result = ia + ib;
 
                 // Set Flags
-                if(result > MAX_RESULT && CanChangeFlag)
+                if(result > MAX_RESULT && FlagEnable)
                 {
                     Flags.Instance().Clear();
                     Flags.Instance().Overflow = 1;
                 }
-                else if(result == 0 && CanChangeFlag)
+                else if(result == 0 && FlagEnable)
                 {
                     Flags.Instance().Clear();
                     Flags.Instance().Zero = 1;
@@ -87,12 +87,12 @@ namespace SAP1EMU.Lib.Components
                 result = ia - ib;
 
                 // Set Flags
-                if (result < MIN_RESULT && CanChangeFlag)
+                if (result < MIN_RESULT && FlagEnable)
                 {
                     Flags.Instance().Clear();
                     Flags.Instance().Underflow = 1;
                 }
-                else if (result == 0 && CanChangeFlag)
+                else if (result == 0 && FlagEnable)
                 {
                     Flags.Instance().Clear();
                     Flags.Instance().Zero = 1;
