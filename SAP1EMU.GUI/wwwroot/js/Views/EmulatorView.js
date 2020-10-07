@@ -312,7 +312,7 @@ function updateGutter(cm) {
         line = doc.getLine(i);
 
         //If the line matches a comment style or its a empty line (they hit enter or on a new line) and its not the current line we editing, hide the number in gutter
-        if (line.match(/^#w*/g) || (line.length == 0 && cursor.line != i)) {
+        if (line.match(/(^#w*)|(^\s+#w*)/g) || (line.length == 0 && cursor.line != i)) {
             gutterElements.eq(i).text('');
         } else {
             gutterElements.eq(i).text(lineNumber);
