@@ -128,8 +128,8 @@ function loadRam(ram) {
     ram_dump.setValue(tempString);
 }
 
-function resetBoard() {
-    initBoard();
+function resetBoard(frame) {
+    updateBoard(frame);
 
     //Change the instruction and tstate to default state
     $('#instruction-box').text("???");
@@ -158,10 +158,9 @@ function LoadIntoRAM() {
             frame_stack = data;
             first_frame = frame_stack[0];
 
-            loadRam(first_frame.ram);
+            resetBoard(first_frame);
 
-            //If we loaded a new program and there is data from previous run, reset so show it was loaded properly
-            resetBoard();
+            loadRam(first_frame.ram);
 
             return data;
         },
