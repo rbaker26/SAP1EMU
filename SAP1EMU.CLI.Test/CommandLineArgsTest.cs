@@ -226,5 +226,34 @@ namespace SAP1EMU.CLI.Test
 
             File.Delete(output_file);
         }
+
+
+
+        [TestMethod]
+        public void BinInputFile()
+        {
+            string input_file = "Fib5.b";
+            string output_file = "output_file.txt";
+            string expectedResult = "00000101";
+
+            string lineArgs = $"-s {input_file} -o {output_file}";
+            SAP1EMU.CLI.Program.Main(lineArgs.Split(' '));
+
+            string expected = $"************************************************************\n"
+                            + $"Final Output Register Value: { expectedResult }"
+                            + $"\n************************************************************\n\n";
+
+            try
+            {
+                string result = File.ReadAllText(output_file);
+                Assert.AreEqual(expected, result);
+
+                File.Delete(output_file);
+            }
+            catch (Exception e)
+            {
+                Assert.Fail(e.ToString());
+            }
+        }
     }
 }
