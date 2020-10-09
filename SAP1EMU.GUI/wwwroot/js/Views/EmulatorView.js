@@ -280,13 +280,6 @@ function changeIntervalTiming(value) {
     }
     interval_time = (1 / value) * 500;
 
-    // If we currently have a job in process meaning the code is executing then
-    // keep the time from getting too long
-    if (value <= .250) {
-        value = .250;
-    }
-    interval_time = (1 / value) * 500;
-
     // If we currently have a job in process meaning the code is executing then 
     //  clear it and change the interval time and start again
     if (job_id != null) {
