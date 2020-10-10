@@ -56,6 +56,24 @@ namespace SAP1EMU.GUI
                 app.UseHsts();
             }
 
+            // This adds the appropriate headers to the http responses
+            app.Use(async (context, next) =>
+            {
+                // Protect against XSS (Cross site scripting). The header is designed to enable the filter built into modern web browsers. This is usually enabled
+                // by default but using it will enforce it. 
+                context.Response.Headers.Add("X-Xss-Protection", "1; mode=block");
+                // This response indicates whether or not a browser should be allowed to render a page in a <frame>, <iframe>, or <object>. Sites can use this to 
+                // avoid clickjacking attacks, by ensuring that their content is not embedded into other sites. 
+                context.Response.Headers.Add("X-Frame-Options", "DENY");
+                // A header that is used by the server to indicate that the MIME types in Content-Type headers should not be changed and be followed.
+                context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+                // This header lets a webs site tell browsers that it should only be accessed using HTTPS, instead of using HTTP.
+                // max-age: The time in seconds that the browser should remmeber that a site is only to be accessed using HTTPS
+                // context.Response.Headers.Add("Strict-Transport-Security", "max-age=31536000");
+
+                await next();
+            });
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
