@@ -10,11 +10,9 @@
 @{ await Html.RenderPartialAsync("_EightBitProgramming_TOC"); }
 
 <p class="mb-4">
-    Below are lists the three different Instruction Sets, or Assmebly Languages, that the SAP1Emu Emulator supports.
+    Below are lists of the three different Instruction Sets, or Assembly Languages, that the SAP1Emu Emulator supports.
     If an instruction, or <span class="text-muted">OpCode</span>, is followed by a <code>0xH</code>, that means <code>H</code> can be replaced by any
-    valid hex digit (0 - F).
-    <br />
-    If a <span class="text-muted">OpCode</span> is follwed by a <code>0x0</code>, that means the <span class="text-muted">Lower Nibble</span> is not used and its value does not matter.
+    valid hex digit (0 - F), and if a <span class="text-muted">OpCode</span> is followed by a <code>0x0</code>, that means the <span class="text-muted">Lower Nibble</span> is not used and its value does not matter.
     <br />
     <br />
     <small>Note, you can only use instructions from one instruction set at a time. They cannot be mixed.</small>
