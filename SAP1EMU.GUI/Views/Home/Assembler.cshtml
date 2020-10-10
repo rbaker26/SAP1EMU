@@ -20,7 +20,7 @@
 
         <div class="card-body">
             <div class="form-row">
-                <div class="col">
+                <div class="col editor">
                     @Html.TextArea("CodeList", null, new { rows = "20", cols = "80", @class = "codebox", id = "asm_code" })
                 </div>
             </div>
@@ -31,10 +31,10 @@
                     <select id="langs" class="form-control"></select>
                 </div>
                 <div class="form-group mx-2 d-flex align-items-center">
-                    <button class="btn btn-light" name="CodeList" onclick="AssembleCode()">Assemble</button>
+                    <button class="btn btn-light mt-auto" name="CodeList" onclick="AssembleCode()">Assemble</button>
                 </div>
                 <div class="form-group mx-2 d-flex align-items-center">
-                    <button class="btn btn-light" onclick="getFromFile()">Load from File</button>
+                    <button class="btn btn-light mt-auto" onclick="getFromFile()">Load from File</button>
                 </div>
             </div>
         </div>
