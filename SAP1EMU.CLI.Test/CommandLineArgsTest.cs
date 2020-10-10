@@ -2,6 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System;
 using System.IO;
+using System.Text;
 
 namespace SAP1EMU.CLI.Test
 {
@@ -249,6 +250,54 @@ namespace SAP1EMU.CLI.Test
                 Assert.AreEqual(expected, result);
 
                 File.Delete(output_file);
+            }
+            catch (Exception e)
+            {
+                Assert.Fail(e.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void TestEmptyFile()
+        {
+            string input_file = "EmptyFile.s";
+            string output_file = "output_file.txt";
+
+            string lineArgs = $"-s {input_file} -o {output_file}";
+           
+            try
+            {
+                // Redirect output to string
+                string consoleError = "";
+                var originalConsoleError = Console.Error; // preserve the original stream
+                using (var writer = new StringWriter())
+                {
+                    Console.SetError(writer);
+
+                    try
+                    {
+                        SAP1EMU.CLI.Program.Main(lineArgs.Split(' '));
+                    }
+                    catch (CLITestingxception)
+                    {
+                        // This should happen.
+                        // All good
+                    }
+                    catch (Exception e)
+                    {
+                        // this should not happen
+                        Assert.Fail(e.ToString());
+                    }
+
+                    writer.Flush(); // when you're done, make sure everything is written out
+
+                    consoleError = writer.GetStringBuilder().ToString();
+                }
+                // Reset output
+                Console.SetOut(originalConsoleError); // restore Console.Out
+
+                string containsOutput = "File is empty";
+                Assert.IsTrue(consoleError.Contains(containsOutput));
             }
             catch (Exception e)
             {

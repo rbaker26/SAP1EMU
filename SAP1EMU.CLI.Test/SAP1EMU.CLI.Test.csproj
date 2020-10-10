@@ -21,6 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="EmptyFile.s">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Fib5.b">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
