@@ -109,6 +109,7 @@ namespace SAP1EMU.Assembler
         private static bool IsValid(List<string> unchecked_assembly, InstructionSet iset)
         {
             bool dot_macro_used = false;
+            bool contains_hlt = false;
 
             int line_number = 1;
             foreach (string line in unchecked_assembly)
@@ -123,6 +124,10 @@ namespace SAP1EMU.Assembler
                     }
 
                     string instruction = nibbles[0];
+                    if(instruction.ToUpper() == "HLT")
+                    {
+                        contains_hlt = true;
+                    }
                     if (nibbles.Length < 2)
                     {
                         throw new ParseException($"SAP1ASM: No lower nibble detected (line: {line_number}).", new ParseException($"\"{instruction}\" must be paired with a valid address in the range of 0x0 - 0xF"));
@@ -177,6 +182,12 @@ namespace SAP1EMU.Assembler
                 }
 
                 line_number++;
+            }
+
+            // If the code does not contain a HLT instruction
+            if(!contains_hlt)
+            {
+                throw new ParseException($"SAP1ASM: program does not contain an endpoint.", new ParseException($"\"HLT\" must be present in the program at least once"));
             }
 
             return true;
