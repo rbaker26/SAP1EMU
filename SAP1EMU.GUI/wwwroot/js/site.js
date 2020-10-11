@@ -27,14 +27,13 @@ function readFromFile(type, codeMirror, errorBoxID) {
     input.click();
 }
 
-
 function updateGutter(cm) {
     lineNumber = 1;
 
     const doc = cm.getDoc();
     const cursor = doc.getCursor();
 
-    //Since the html is exactly the same i need a way to distinguish between the code mirrors. 
+    //Since the html is exactly the same i need a way to distinguish between the code mirrors.
     //In order for this to work the column needs to be defined as editor if you want it to strip and comment rows only of numbering
     //and then some issues with copy paste rose with a gutter being in no mans land so it started from 2 on. This contains an array
     //of the gutter elements found by jquery recursive search with the certain parent of CodeMirror-code since gutter is a child of this
