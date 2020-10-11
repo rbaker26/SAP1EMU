@@ -6,17 +6,20 @@
 
         public byte Overflow;
         public byte Underflow;
+        public byte Zero;
 
         public void Clear()
         {
             Overflow = 0;
             Underflow = 0;
+            Zero = 0;
         }
 
         private Flags()
         {
             Overflow = 0;
             Underflow = 0;
+            Zero = 0;
         }
 
         public static Flags Instance()

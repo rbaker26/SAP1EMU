@@ -17,6 +17,12 @@ window.onload = function () {
         readOnly: true,
     });
 
+    //Check when the user is typing
+    asm_editor.on("change", function (cm, obj) { updateGutter(cm); });
+
+    //Check when it updates the DOM so pasting, hitting enter, etc...
+    asm_editor.on("update", function (cm) { updateGutter(cm); });
+
     // Setup ComboBox
     $.ajax({
         url: "../api/Assembler/supported_sets",
