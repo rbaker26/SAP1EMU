@@ -113,12 +113,13 @@ namespace SAP1EMU.Engine
             // Since T1-T3 for all of the Intruction is the same,
             // LDA or "0000" will be used as the intruction for all T1-T3's
             clock.IsEnabled = true;
-
+            
+            // TODO: Cleanup old code stubs
             // These vars will make sure that the engine will not hang if there is an infinite loop
-            int warning1_loop_counter = 3000;
-            int warning2_loop_counter = 5000;
-            int warning3_loop_counter = 7000;
-            int warning4_loop_counter = 9000;
+            // int warning1_loop_counter = 3000;
+            // int warning2_loop_counter = 5000;
+            // int warning3_loop_counter = 7000;
+            // int warning4_loop_counter = 9000;
             int max_loop_count = 10000;
             int loop_counter = 0;
 
@@ -156,7 +157,6 @@ namespace SAP1EMU.Engine
                     // Log.Information("SAP1Emu: HLT Detected");
                     clock.IsEnabled = false;
                 }
-
                 // Infinite Loop Checks
                 //if(loop_counter == warning1_loop_counter)
                 //{

@@ -25,6 +25,7 @@ namespace SAP1EMU.Lib
         public string RAM_Reg { get; private set; } = "0000 0000";
         public string Overflow_Flag { get; private set; } = "0";
         public string Underflow_Flag { get; private set; } = "0";
+        public string Zero_Flag { get; private set; } = "0";
 
         public List<string> RAM { get; private set; } // The reason this is here is that the RAM might change if a STA simular command is issued.
 
@@ -46,6 +47,7 @@ namespace SAP1EMU.Lib
 
             this.Overflow_Flag = flags.Overflow.ToString();
             this.Underflow_Flag = flags.Underflow.ToString();
+            this.Zero_Flag = flags.Zero.ToString();
 
             foreach (string s in ramContents)
             {

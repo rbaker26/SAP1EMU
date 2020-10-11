@@ -23,10 +23,8 @@ namespace SAP1EMU.Lib
                 throw new ArgumentOutOfRangeException("RAM Overflow - More than 16 lines of code.");
             }
 
-            foreach (string s in RamContents)
-            {
-                this.RamContents.Add(s);
-            }
+            this.RamContents = RamContents;
+
             for (int i = count; i < 15; i++)
             {
                 this.RamContents.Add("00000000");

@@ -14,6 +14,13 @@ window.onload = function () {
         mode: { name: "gas_sap1", architecture: "x86" },
     });
 
+    //Check when the user is typing
+    asm_editor.on("change", function (cm, obj) { updateGutter(cm); });
+
+    //Check when it updates the DOM so pasting, hitting enter, etc...
+    asm_editor.on("update", function (cm) { updateGutter(cm); });
+
+
     ram_dump = CodeMirror.fromTextArea(document.getElementById("ram_dump"), {
         lineNumbers: true,
         matchBrackets: true,
@@ -65,6 +72,7 @@ function initBoard() {
     $('#dis-block').html("0");
     $('#carryFlagBox').html("0");
     $('#underflowFlagBox').html("0");
+    $('#zeroFlagBox').html("0");
 }
 
 function updateBoard(frame) {
@@ -80,6 +88,7 @@ function updateBoard(frame) {
     $('#seq-block').html(frame.seq.substring(0, 14).match(/.{1,4}/g).join(' ')); // TODO This substring should be handled at the API level, not the UI level
     $('#carryFlagBox').val(frame.overflow_Flag);
     $('#underflowFlagBox').val(frame.underflow_Flag);
+    $('#zeroFlagBox').val(frame.zero_Flag);
 
     var posVal = parseInt(frame.oReg, 2);
     var negVal = posVal;
@@ -119,6 +128,18 @@ function loadRam(ram) {
     ram_dump.setValue(tempString);
 }
 
+function resetBoard(frame) {
+    updateBoard(frame);
+
+    //Change the instruction and tstate to default state
+    $('#instruction-box').text("???");
+    $('#tstate-box').val("T1");
+
+    //Set current frame back to 0 and make progress 0 since its a new program loaded
+    current_frame = 0;
+    updateProgressBar(0, frame_stack.length); //In case anyone has a previously loaded program in to know when its loaded.
+}
+
 function LoadIntoRAM() {
     var asm_code = asm_editor.getValue().split('\n');
     var langChoice = document.getElementById("langs").value;
@@ -137,8 +158,7 @@ function LoadIntoRAM() {
             frame_stack = data;
             first_frame = frame_stack[0];
 
-            //console.log(frame_stack);
-            //console.log(frame_stack.length);
+            resetBoard(first_frame);
 
             loadRam(first_frame.ram);
 
@@ -247,22 +267,24 @@ function updateProgressBar(currentFrame, frameStackLength) {
         $('#frameProgressBar').css("width", "100%");
     }
     else {
-        var frameProgress = (current_frame / frame_stack.length) * 100;
+        var frameProgress = (current_frame / frame_stack.length) * 100; 
         $('#frameProgressBar').css("width", frameProgress + "%");
     }
 }
 
 function changeIntervalTiming(value) {
+
     // keep the time from getting too long
     if (value <= .250) {
         value = .250;
     }
     interval_time = (1 / value) * 500;
 
-    // If we currently have a job in process meaning the code is executing then
+    // If we currently have a job in process meaning the code is executing then 
     //  clear it and change the interval time and start again
     if (job_id != null) {
         clearInterval(job_id);
         job_id = setInterval(frame_advance, interval_time);
     }
 }
+

@@ -6,6 +6,7 @@ using SAP1EMU.Lib;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -328,6 +329,8 @@ namespace SAP1EMU.CLI
             }
         }
 
+        // This is excluded because there is no good way to test this right now do to all the user input
+        [ExcludeFromCodeCoverage]
         private static void Debug_Proc(Options o, List<string> source_file_contents, List<Frame> FrameStack)
         {
             if (o.Debug)
