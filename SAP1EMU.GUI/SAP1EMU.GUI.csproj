@@ -4,7 +4,7 @@
     <Version>2.1.0</Version>
     <UserSecretsId>cc757b8c-63b5-49b2-8dd9-e2960a0882aa</UserSecretsId>
     <AssemblyVersion>2.1.0.0</AssemblyVersion>
-    <Authors>Bob Baker, Sean Raven, Bryce Callender</Authors>
+    <Authors>Bob Baker, Sean Raven, Bryce Callender, Hristijan</Authors>
     <Company>SAP1Emu Project</Company>
     <PackageProjectUrl>sap1emu.net</PackageProjectUrl>
     <RepositoryUrl>https://github.com/rbaker26/SAP1EMU</RepositoryUrl>
