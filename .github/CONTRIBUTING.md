@@ -62,3 +62,5 @@ dotnet restore
 dotent build --configuration release
 dotnet run --project SAP1EMU.CLI --configuration release
 ```
+
+When working on the project, any change to a `.cs` file will require the Kestrel Server to be shutdown `Ctrl+c` and the project to be rebuilt and restarted. Changes to `.cshtml` files do not require a rebuild or restart.
