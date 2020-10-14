@@ -17,17 +17,21 @@ Don't see your desired issue? [Open](https://github.com/rbaker26/SAP1EMU/issues/
 
 
 ## Aw Fork
-To start working on the project, you will need to fork it.  Once forked, create a new branch and give it a descriptive title (i.e. InputBugFix or CSS_Cleanup). After all that is done, start working on the ticket.  Make sure to add testing if required. When you are satisfied with the work done on the ticket, its time to submit a Pull Request.
+To start working on the project, you will need to fork it.  Once forked, create a new branch and give it a descriptive title (i.e. InputBugFix or CSS_Cleanup). After all that is done, start working on the ticket.  Make sure to add testing if required. When you are satisfied with the work done on the ticket, it's time to submit a Pull Request.
 
 
 ## Pull Request Process
-All code changes are done via Pull Request.  When you create a pull-request, a template will populate with all of the required information. Please fill it out completely as it helps us know what we are looking at.  IF you don'y know which branch to target with your pull request, just set it to master. If need be, someone on the Dev Team will update the branch targeting after it is submitted.  
+All code changes are done via Pull Request.  When you create a pull-request, a template will populate with all of the required information. Please fill it out completely as it helps us know what we are looking at.  If you don't know which branch to target with your pull request, just set it to master. If need be, someone on the Dev Team will update the branch targeting after it is submitted.  
 
 #### Testing & CI/CD
-The SAP1Emu Project is nearly full CI/CD and has a lot of different testing methods built-in. This includes Unit Tests, Integration Tests, Coverage Metrics, Benchmarking, and Security Scanning. With the execption of Coverage Metrics, all other tests must pass for a pull request to be considered.  If the tests don't pass, don't worry. We are here to help. 
+The SAP1Emu Project is nearly full CI/CD and has a lot of different testing methods built in. This includes Unit Tests, Integration Tests, Coverage Metrics, Benchmarking, and Security Scanning. Except for Coverage Metrics, all other tests must pass for a pull request to be considered.  If the tests do not pass, don't worry. We are here to help. 
 
 If a Coverage Metrics fails, we will consider it on a case-by-case bases.  
 
 
-## Final Steps 
-Once you pull request is approved, we will ask you to add your name to the [wall](https://sap1emu.net/Home/Contributors)
+#### Final Steps 
+Once you pull request is approved, we will ask you to add your name to the [wall](https://sap1emu.net/Home/Contributors).
+Your name will not appear on GitHub or the wall until the code makes its way to the master branch.  
+
+Once in master, it will take about 5-10 minutes for the Azure App to update and 1-2 minutes for the GitHub Page to update.
+
