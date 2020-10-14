@@ -5,9 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
+using Microsoft.OpenApi.Models;
 using SAP1EMU.GUI.Contexts;
 using SAP1EMU.Lib;
+using System;
+using System.IO;
+using System.Reflection;
 
 namespace SAP1EMU.GUI
 {
@@ -40,6 +43,35 @@ namespace SAP1EMU.GUI
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddDbContext<Sap1EmuContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("sap1emu_db_conn_string")));
+
+            // Register the Swagger generator, defining 1 or more Swagger documents
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "SAP1Emu API",
+                    Description = "The SAP1Emu API for Emulating and Assembly SAP1Emu Assembly",
+                    //TermsOfService = new Uri("https://example.com/terms"),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "SAP1Emu Project GitHub Page",
+                        Email = string.Empty,
+                        Url = new Uri("https://github.com/rbaker26/SAP1EMU"),
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "Use under GNU General Public License v3.0",
+                        Url = new Uri("https://github.com/rbaker26/SAP1EMU/blob/master/LICENSE"),
+                    }
+                });
+
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,6 +91,18 @@ namespace SAP1EMU.GUI
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "SAP1Emu API v2");
+            });
+
 
             app.UseRouting();
 
