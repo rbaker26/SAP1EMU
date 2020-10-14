@@ -28,3 +28,6 @@ The SAP1Emu Project is nearly full CI/CD and has a lot of different testing meth
 
 If a Coverage Metrics fails, we will consider it on a case-by-case bases.  
 
+
+## Final Steps 
+Once you pull request is approved, we will ask you to add your name to the [wall](https://sap1emu.net/Home/Contributors)
