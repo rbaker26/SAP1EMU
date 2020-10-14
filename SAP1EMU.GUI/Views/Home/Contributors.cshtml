@@ -16,6 +16,9 @@
         <div class="col-auto">
             @{ await Html.RenderPartialAsync("_GitHubProfilePartial", GitHubProfileModel.GetProfile("BryceCallender").Result); }
         </div>
+        <div class="col-auto">
+            @{ await Html.RenderPartialAsync("_GitHubProfilePartial", GitHubProfileModel.GetProfile("lubeskih").Result); }
+        </div>
         <div class="col-6">
         </div>
     </div>
