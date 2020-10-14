@@ -17,7 +17,7 @@ Don't see your desired issue? [Open](https://github.com/rbaker26/SAP1EMU/issues/
 
 
 ## Aw Fork
-To start working on the project, you will need to fork it.  Once forked, create a new branch and give it a descriptive title (i.e. InputBugFix or CSS_Cleanup). Once all that is done, start working on the ticket.  Make sure to add testing if required. Once you are satisfied with the ticket, its time to submit a Pull Request.
+To start working on the project, you will need to fork it.  Once forked, create a new branch and give it a descriptive title (i.e. InputBugFix or CSS_Cleanup). After all that is done, start working on the ticket.  Make sure to add testing if required. When you are satisfied with the work done on the ticket, its time to submit a Pull Request.
 
 ## Pull Request 
 fdjaksjhfkljsa
