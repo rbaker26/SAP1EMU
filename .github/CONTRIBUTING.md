@@ -35,3 +35,30 @@ Your name will not appear on GitHub or the wall until the code makes its way to 
 
 Once in master, it will take about 5-10 minutes for the Azure App to update and 1-2 minutes for the GitHub Page to update.
 
+
+
+## Building and Running the Project
+This is a .Net Core 3.1 project, so it will run on Windows, macOS and Linux. For Windows and macOS, using Visual Studio is the easiestway to get started on this project. Simply open the SLN file with from within Visual Studio and it will load the project for you.
+
+For command-line users (Windows, macOS and Linux) run the following commands from the project directory to start the project.
+
+#### Run the GUI Project
+```bash
+dotnet restore
+dotent build
+dotnet run --project SAP1EMU.GUI 
+```
+
+#### Run the CLI Project
+```bash
+dotnet restore
+dotent build
+dotnet run --project SAP1EMU.CLI
+```
+
+#### Run Tests
+```bash
+dotnet restore
+dotent build --configuration release
+dotnet run --project SAP1EMU.CLI --configuration release
+```
