@@ -26,7 +26,7 @@ All code changes are done via Pull Request.  When you create a pull-request, a t
 #### Testing & CI/CD
 The SAP1Emu Project is nearly full CI/CD and has a lot of different testing methods built in. This includes Unit Tests, Integration Tests, Coverage Metrics, Benchmarking, and Security Scanning. Except for Coverage Metrics, all other tests must pass for a pull request to be considered.  If the tests do not pass, don't worry. We are here to help. 
 
-If a Coverage Metrics fails, we will consider it on a case-by-case bases.  
+If a Coverage Metrics fails, we will consider it on a case-by-case basis.  
 
 
 #### Final Steps 
