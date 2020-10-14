@@ -30,7 +30,7 @@ If a Coverage Metrics fails, we will consider it on a case-by-case basis.
 
 
 #### Final Steps 
-Once you pull request is approved, we will ask you to add your name to the [wall](https://sap1emu.net/Home/Contributors).
+Once your pull request is approved, we will ask you to add your name to the [wall](https://sap1emu.net/Home/Contributors).
 Your name will not appear on GitHub or the wall until the code makes its way to the master branch.  
 
 Once in master, it will take about 5-10 minutes for the Azure App to update and 1-2 minutes for the GitHub Page to update.
