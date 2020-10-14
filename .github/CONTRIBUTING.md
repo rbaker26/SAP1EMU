@@ -11,7 +11,7 @@ The SAP1Emu Project works off of Issue Tickets when deciding what to work on.  A
 * Feature Requests 
 * Project Workflow Items
 
-As these tickets are created or submitted by users, the Dev Team will label and triage the tickets. At any point, feel free to "take ownership" of a ticket by commenting on it or emailing me (rbaker26) regarding you interest in said ticket. Tickets labeled with **Good First Issue** are those which would be easier for a new-comer or are meant to familiarize the user with the code base. 
+As these tickets are created or submitted by users, the Dev Team will label and triage the tickets. At any point, feel free to "take ownership" of a ticket by commenting on it or emailing me (rbaker26) regarding your interest in said ticket. Tickets labeled with **Good First Issue** are those which would be easier for a new-comer or are meant to familiarize the user with the code base. 
 
 Don't see your desired issue? [Open](https://github.com/rbaker26/SAP1EMU/issues/new/choose) a Bug Report or Feature Request.
 
