@@ -36,6 +36,7 @@ namespace SAP1EMU.GUI
             services.AddApplicationInsightsTelemetry();
 
             services.AddSingleton<IDecoder, InstructionDecoder>();
+            services.AddSingleton<IConfiguration>(Configuration);
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddDbContext<Sap1EmuContext>(options =>

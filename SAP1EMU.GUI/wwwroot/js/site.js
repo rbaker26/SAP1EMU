@@ -27,7 +27,6 @@ function readFromFile(type, codeMirror, errorBoxID) {
     input.click();
 }
 
-
 function updateGutter(cm) {
     lineNumber = 1;
 
@@ -51,4 +50,17 @@ function updateGutter(cm) {
             lineNumber++;
         }
     }
+}
+
+function addNumbersToTextArea(textArea) {
+    var lines = $(textArea).val().split('\n');
+
+    for (i = 0; i < lines.length; i++) {
+        console.log(lines[i]);
+        if (lines[i].length > 0 && !lines[i].match(/^\d/)) {
+            lines[i] = lines[i].replace(/^/, (i + 1) + ". ");
+        }
+    }
+
+    $(textArea).val(lines.join("\n"));
 }

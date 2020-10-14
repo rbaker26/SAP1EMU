@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="~/css/site.css" />
 
     <script src="/js/Views/_LayoutView.js" type="text/javascript"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
     @await Html.PartialAsync("_Favicons")
 </head>
@@ -68,7 +69,6 @@
             &copy; 2020 - SAP1EMU.WebApp @typeof(SAP1EMU.GUI.Program).Assembly.GetName().Version - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
