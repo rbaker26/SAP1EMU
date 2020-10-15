@@ -6,7 +6,7 @@ name: Build and deploy ASP.Net Core app to Azure Web App - sap1emu
 on:
   push:
     branches:
-      - master
+      - PROD
 
 jobs:
   build-and-deploy:
