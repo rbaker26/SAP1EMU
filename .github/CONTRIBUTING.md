@@ -37,7 +37,12 @@ Once in PROD, it will take about 5-10 minutes for the Azure App to update and 1-
 
 
 ## Process Diagram
+Click on the picture below to see a detailed flowchart of the process.
+
+
 ![https://raw.githubusercontent.com/rbaker26/SAP1EMU/master/.wiki/flowchart.png](https://raw.githubusercontent.com/rbaker26/SAP1EMU/master/.wiki/flowchart.png)
+
+
 
 ## Building and Running the Project
 This is a .Net Core 3.1 project, so it will run on Windows, macOS and Linux. For Windows and macOS, using Visual Studio is the easiestway to get started on this project. Simply open the SLN file with from within Visual Studio and it will load the project for you.
