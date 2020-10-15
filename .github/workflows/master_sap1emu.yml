@@ -21,7 +21,7 @@ jobs:
         dotnet-version: '3.1.102'
 
     - name: Build with dotnet
-      run: dotnet build --configuration Release --project SAP1EMU.GUI
+      run: dotnet build --configuration Release SAP1EMU.GUI
 
     - name: dotnet publish
       run: dotnet publish -c Release --project SAP1EMU.GUI -o ${{env.DOTNET_ROOT}}/sap1emu_gui
