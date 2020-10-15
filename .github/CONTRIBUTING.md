@@ -31,7 +31,7 @@ If a Coverage Metrics fails, we will consider it on a case-by-case basis.
 
 #### Final Steps 
 Once your pull request is approved, we will ask you to add your name to the [wall](https://sap1emu.net/Home/Contributors).
-Your name will not appear on GitHub until the code makes its way to the master branch. In addidtion, your name will not appear on the wall unill the code makes its way to the PROD branch. 
+Your name will not appear on GitHub until the code makes its way to the master branch. In addition, your name will not appear on the [wall](https://sap1emu.net/Home/Contributors) unill the code makes its way to the PROD branch. 
 
 Once in PROD, it will take about 5-10 minutes for the Azure App to update and 1-2 minutes in master for the GitHub Page to update.
 
@@ -45,22 +45,22 @@ For command-line users (Windows, macOS and Linux) run the following commands fro
 #### Run the GUI Project
 ```bash
 dotnet restore
-dotent build
-dotnet run --project SAP1EMU.GUI 
+dotnet build SAP1EMU.GUI 
+dotnet run --project SAP1EMU.GUI --no-build
 ```
 
 #### Run the CLI Project
 ```bash
 dotnet restore
-dotent build
-dotnet run --project SAP1EMU.CLI
+dotnet build SAP1EMU.CLI
+dotnet run --project SAP1EMU.CLI --no-build
 ```
 
 #### Run Tests
 ```bash
 dotnet restore
 dotent build --configuration release
-dotnet run --project SAP1EMU.CLI --configuration release
+dotnet test --no-build
 ```
 
 When working on the project, any change to a `.cs` file will require the Kestrel Server to be shutdown `Ctrl+c` and the project to be rebuilt and restarted. Changes to `.cshtml` files do not require a rebuild or restart.
