@@ -21,10 +21,10 @@ jobs:
         dotnet-version: '3.1.102'
 
     - name: Build with dotnet
-      run: dotnet build --configuration Release
+      run: dotnet build --configuration Release --project SAP1EMU.GUI
 
     - name: dotnet publish
-      run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+      run: dotnet publish -c Release --project SAP1EMU.GUI -o ${{env.DOTNET_ROOT}}/sap1emu_gui
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
@@ -32,4 +32,4 @@ jobs:
         app-name: 'sap1emu'
         slot-name: 'production'
         publish-profile: ${{ secrets.AZURE_CREDS }}
-        package: ${{env.DOTNET_ROOT}}/myapp 
+        package: ${{env.DOTNET_ROOT}}/sap1emu_gui 
