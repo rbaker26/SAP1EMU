@@ -31,5 +31,5 @@ jobs:
       with:
         app-name: 'sap1emu'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_07be6d4c19a1473484f612df3609978e }}
+        publish-profile: ${{ secrets.AZURE_CREDS }}
         package: ${{env.DOTNET_ROOT}}/myapp 
