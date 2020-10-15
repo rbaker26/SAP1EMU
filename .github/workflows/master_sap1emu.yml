@@ -24,7 +24,7 @@ jobs:
       run: dotnet build --configuration Release SAP1EMU.GUI
 
     - name: dotnet publish
-      run: dotnet publish -c Release --project SAP1EMU.GUI -o ${{env.DOTNET_ROOT}}/sap1emu_gui
+      run: dotnet publish -c Release SAP1EMU.GUI -o ${{env.DOTNET_ROOT}}/sap1emu_gui
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
