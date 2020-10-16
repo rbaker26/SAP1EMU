@@ -31,6 +31,11 @@ namespace SAP1EMU.GUI.Controllers
             return View();
         }
 
+        public IActionResult EmulatorPicker()
+        {
+            return View();
+        }
+
         public IActionResult Assembler()
         {
             return View();
