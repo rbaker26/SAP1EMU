@@ -12,12 +12,21 @@
                 RequestVerificationToken: $('input:hidden[name="__RequestVerificationToken"]').val()
             },
             success: function (data) {
-                alert('Issue with id: ' + data.number + ' has been created! Thank you.');
+                message = 'Issue with id: ' + data.number + ' has been created! Thank you.';
+                $('#toast-message').text(message);
                 clearBugReport();
+                showToast('toast-success');
             },
             error: function (request, status, error) {
-                //Todo: fix this to be more descriptive
-                alert("Something has gone wrong. Please try again or contact us!");
+                if (request.status === 404) { //github was not found
+                    message = "Something has gone wrong. Please try again later or contact us!";
+                    $('#toast-message').text(message);
+                    showToast('toast-error');
+                } else if (request.status === 401) { //credentials are bad
+                    message = "Authentication error. Please contact us!";
+                    $('#toast-message').text(message);
+                    showToast('toast-error');
+                }
             }
         });
     });
@@ -37,12 +46,22 @@ $(function () {
                 RequestVerificationToken: $('input:hidden[name="__RequestVerificationToken"]').val()
             },
             success: function (data) {
-                alert('Feature request issue with id: ' + data.number + ' has been created! Thank you.');
+                message = 'Feature request issue with id: ' + data.number + ' has been created! Thank you.';
+                $('#toast-message').text(message);
                 clearFeatureRequest();
+                showToast('toast-success');
             },
             error: function (request, status, error) {
-                //Todo: fix this to be more descriptive
-                alert("Something has gone wrong. Please try again or contact us!");
+                if (request.status === 404) { //github was not found
+                    //Todo: fix this to be more descriptive
+                    message = "Something has gone wrong. Please try again later or contact us!";
+                    $('#toast-message').text(message);
+                    showToast('toast-error');
+                } else if (request.status === 401) { //credentials are bad
+                    message = "Authentication error. Please contact us!";
+                    $('#toast-message').text(message);
+                    showToast('toast-error');
+                }
             }
         });
     });
@@ -57,4 +76,22 @@ function clearBugReport() {
 function clearFeatureRequest() {
     $('#Title').val('');
     $('#Description').val('');
+}
+
+$(document).ready(function () {
+    $('.toast').toast('hide');
+});
+
+function showToast(mode) {
+    toast = $('.toast');
+
+    if (toast.hasClass('toast-success')) {
+        toast.removeClass('toast-success');
+    } else {
+        toast.removeClass('toast-error');
+    }
+
+    toast.addClass(mode);
+
+    toast.toast('show');
 }

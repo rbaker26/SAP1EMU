@@ -16,6 +16,12 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="wwwroot\img\NewFolder\**" />
+    <Content Remove="wwwroot\img\NewFolder\**" />
+    <EmbeddedResource Remove="wwwroot\img\NewFolder\**" />
+    <None Remove="wwwroot\img\NewFolder\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Remove="InstructionSets.json" />
   </ItemGroup>
   <ItemGroup>

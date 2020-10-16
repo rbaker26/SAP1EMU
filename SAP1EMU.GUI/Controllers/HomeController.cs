@@ -46,16 +46,6 @@ namespace SAP1EMU.GUI.Controllers
             return View();
         }
 
-        public IActionResult ReportBug()
-        {
-            return View();
-        }
-
-        public IActionResult RequestFeature()
-        {
-            return View();
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

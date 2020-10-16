@@ -66,7 +66,11 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - SAP1EMU.WebApp @typeof(SAP1EMU.GUI.Program).Assembly.GetName().Version - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="row">
+                &copy; 2020 - SAP1EMU.WebApp @typeof(SAP1EMU.GUI.Program).Assembly.GetName().Version - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                <div class="col"></div>
+                <div class="col-auto"><a asp-area="" asp-controller="Help" asp-action="Index">Help</a></div>
+            </div>
         </div>
     </footer>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

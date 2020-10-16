@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
+﻿using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SAP1EMU.GUI.Models;
@@ -31,7 +27,7 @@ namespace SAP1EMU.GUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SubmitBugReport([FromForm] BugReport bugReport)
+        public async Task<IActionResult> SubmitBugReport([FromForm] BugReport bugReport)
         {
             Parser uaParser = Parser.GetDefault();
             ClientInfo clientBrowser = uaParser.Parse(Request.Headers["User-Agent"].ToString());
@@ -64,13 +60,17 @@ namespace SAP1EMU.GUI.Controllers
             }
             catch(NotFoundException)
             {
-                return BadRequest();
+                return NotFound();
+            }
+            catch(AuthorizationException)
+            {
+                return Unauthorized();
             }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SubmitFeatureRequest([FromForm] FeatureRequest featureRequest)
+        public async Task<IActionResult> SubmitFeatureRequest([FromForm] FeatureRequest featureRequest)
         {
             featureRequest.SAP1EMUVersion = GetType().Assembly.GetName().Version.ToString();
 
@@ -91,7 +91,11 @@ namespace SAP1EMU.GUI.Controllers
             }
             catch (NotFoundException)
             {
-                return BadRequest();
+                return NotFound();
+            }
+            catch (AuthorizationException)
+            {
+                return Unauthorized();
             }
         }
 
