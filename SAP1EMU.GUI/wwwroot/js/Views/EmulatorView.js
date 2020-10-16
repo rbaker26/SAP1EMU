@@ -20,7 +20,6 @@ window.onload = function () {
     //Check when it updates the DOM so pasting, hitting enter, etc...
     asm_editor.on("update", function (cm) { updateGutter(cm); });
 
-
     ram_dump = CodeMirror.fromTextArea(document.getElementById("ram_dump"), {
         lineNumbers: true,
         matchBrackets: true,
@@ -267,24 +266,22 @@ function updateProgressBar(currentFrame, frameStackLength) {
         $('#frameProgressBar').css("width", "100%");
     }
     else {
-        var frameProgress = (current_frame / frame_stack.length) * 100; 
+        var frameProgress = (current_frame / frame_stack.length) * 100;
         $('#frameProgressBar').css("width", frameProgress + "%");
     }
 }
 
 function changeIntervalTiming(value) {
-
     // keep the time from getting too long
     if (value <= .250) {
         value = .250;
     }
     interval_time = (1 / value) * 500;
 
-    // If we currently have a job in process meaning the code is executing then 
+    // If we currently have a job in process meaning the code is executing then
     //  clear it and change the interval time and start again
     if (job_id != null) {
         clearInterval(job_id);
         job_id = setInterval(frame_advance, interval_time);
     }
 }
-
