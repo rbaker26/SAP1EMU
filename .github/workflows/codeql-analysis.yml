@@ -7,7 +7,7 @@ name: "CodeQL"
 
 on:
   push:
-    branches: [master, v2.0.0-rc, v2.0.1-rc]
+    branches: [master, v3.0.0-rc, v2.0.1-rc]
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [master]
