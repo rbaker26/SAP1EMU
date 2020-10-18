@@ -6,4 +6,4 @@
 
 
 # this is to make github not count the Assembly test files as a part of the code
-*.s -linguist-detectable 
+*.s -linguist-detectable  
