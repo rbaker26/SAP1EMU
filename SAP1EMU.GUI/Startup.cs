@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +30,12 @@ namespace SAP1EMU.GUI
                 // cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 // requires using Microsoft.AspNetCore.Http;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
+                //options.MinimumSameSitePolicy = SameSiteMode.None;
+
+                //Cookie restrictions if we ever do use cookies to store and retrieve from
+                options.MinimumSameSitePolicy = SameSiteMode.Strict;
+                options.HttpOnly = HttpOnlyPolicy.Always;
+                options.Secure = CookieSecurePolicy.Always; 
             });
 
             // The following line enables Application Insights telemetry collection.
