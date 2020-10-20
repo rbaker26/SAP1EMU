@@ -71,12 +71,12 @@ namespace SAP1EMU.Lib.Components
                 result = ia + ib;
 
                 // Set Flags
-                if(result > MAX_RESULT && FlagEnable)
+                if (result > MAX_RESULT && FlagEnable)
                 {
                     Flags.Instance().Clear();
                     Flags.Instance().Overflow = 1;
                 }
-                else if(result == 0 && FlagEnable)
+                else if (result == 0 && FlagEnable)
                 {
                     Flags.Instance().Clear();
                     Flags.Instance().Zero = 1;

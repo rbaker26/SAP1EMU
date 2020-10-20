@@ -18,12 +18,13 @@ namespace SAP1EMU.Lib.Test
             List<string> asm = new List<string>
             {
                 "LDA 0xF",
+                "HLT 0x0",
                 "...",
                 "0xF 0xF" };
             List<string> expected_bin = new List<string>
             {
                 "00001111",
-                "00000000",
+                "11110000",
                 "00000000",
                 "00000000",
                 "00000000",
@@ -239,11 +240,12 @@ namespace SAP1EMU.Lib.Test
         {
             List<string> asm = new List<string>
             {
+                "HLT 0x0",
                 "..."
             };
             List<string> expected_bin = new List<string>
             {
-                "00000000",
+                "11110000",
                 "00000000",
                 "00000000",
                 "00000000",
@@ -274,7 +276,7 @@ namespace SAP1EMU.Lib.Test
         {
             List<string> asm = new List<string>
             {
-                "NOP 0x0",
+                "HLT 0x0",
                 "NOP 0x0",
                 "NOP 0x0",
                 "NOP 0x0",
@@ -293,7 +295,7 @@ namespace SAP1EMU.Lib.Test
             };
             List<string> expected_bin = new List<string>
             {
-                "00000000",
+                "11110000",
                 "00000000",
                 "00000000",
                 "00000000",

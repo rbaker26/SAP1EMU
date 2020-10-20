@@ -113,7 +113,7 @@ namespace SAP1EMU.Engine
             // Since T1-T3 for all of the Intruction is the same,
             // LDA or "0000" will be used as the intruction for all T1-T3's
             clock.IsEnabled = true;
-            
+
             // TODO: Cleanup old code stubs
             // These vars will make sure that the engine will not hang if there is an infinite loop
             // int warning1_loop_counter = 3000;
