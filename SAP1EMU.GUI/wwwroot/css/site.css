@@ -171,3 +171,11 @@ body {
 .tstate-width-correction {
     max-width: 70px;
 }
+
+.toast-success {
+    background-color: lightgreen !important;
+}
+
+.toast-error {
+    background-color: lightcoral !important;
+}

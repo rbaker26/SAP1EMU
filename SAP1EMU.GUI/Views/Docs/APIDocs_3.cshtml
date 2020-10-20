@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "API";
+}
+
+<h1>SAP1Emu API</h1>
+<p class="lead">
+    How to Integrate with our API
+</p>
+<p>
+    This learning module will go over how to integrate your app to our API using common languages.
+</p>
+
+@{ await Html.RenderPartialAsync("_APIDocs_TOC"); }
+
+
+
+<div class="card">
+    <div class="card-header">
+        <h4 class="mb-4">Instruction Sets</h4>
+        <ul class="nav nav-tabs card-header-tabs" id="docTabs">
+            <li class="nav-item">
+                <a data-toggle="tab" class="nav-link active" href="#api-netcore">.NET Core</a>
+            </li>
+            <li class="nav-item">
+                <a data-toggle="tab" class="nav-link" href="#api-java">Java</a>
+            </li>
+            <li class="nav-item">
+                <a data-toggle="tab" class="nav-link" href="#api-python3">Python3</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="tab-content mt-3">
+            <div class="tab-pane active" id="api-netcore" role="tabpanel">
+                net core
+            </div>
+            <div class="tab-pane active" id="api-java" role="tabpanel">
+                java
+            </div>
+            <div class="tab-pane active" id="api-python3" role="tabpanel">
+                python3
+            </div>
+        </div>
+    </div>
+</div>
