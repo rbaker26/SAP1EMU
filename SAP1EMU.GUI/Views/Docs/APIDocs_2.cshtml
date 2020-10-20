@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "API";
+}
+
+<h1>SAP1Emu API</h1>
+<p class="lead">
+    How to Integrate with our API
+</p>
+<p>
+    This learning module will go over how to integrate your app to our API using common languages.
+</p>
+
+@{ await Html.RenderPartialAsync("_APIDocs_TOC"); }
+
+
+<h2>What is the Swagger / OpenAPI Standard?</h2>
+<p>
+    Swagger / OpenAPI is the standard used to describe an API using a JSON or YAML file which can be used to generate
+    client-side code to interact with said API.  The SAP1Emu Project maintains a Swagger Page dedicated to providing 
+    up-to-date JSON specifications.  If you want to use Swagger to build your Client, the JSON file can be found at <a href="">/swagger/v1/swagger.json</a>.
+</p>
+
+
+
+<div class="mt-5">
+    @{ await Html.RenderPartialAsync("_PageNavHelper", new PageNavHelperModel
+        {
+            ControllerName = "Docs",
+            PreviousView = "APIDocs_1",
+            PreviousViewDisplay = "API Overview",
+            NextView = "",
+            NextViewDisplay = ""
+        }
+        );
+    }
+</div>

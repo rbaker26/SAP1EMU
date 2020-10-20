@@ -20,6 +20,14 @@ namespace SAP1EMU.GUI.Controllers
         {
             return View();
         }
+        public IActionResult APIDocs_1()
+        {
+            return View();
+        }
+        public IActionResult APIDocs_2()
+        {
+            return View();
+        }
 
         public IActionResult EightBitProgramming_1()
         {
