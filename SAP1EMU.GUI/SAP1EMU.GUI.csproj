@@ -15,6 +15,16 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="wwwroot\img\NewFolder\**" />
+    <Content Remove="wwwroot\img\NewFolder\**" />
+    <EmbeddedResource Remove="wwwroot\img\NewFolder\**" />
+    <None Remove="wwwroot\img\NewFolder\**" />
+  </ItemGroup>
   <ItemGroup>
     <Content Remove="InstructionSets.json" />
   </ItemGroup>
@@ -30,6 +40,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.jQuery.Unobtrusive.Ajax" Version="3.2.6" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="Octokit" Version="0.48.0" />
+    <PackageReference Include="UAParser" Version="3.1.44" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="electron.manifest.json">
