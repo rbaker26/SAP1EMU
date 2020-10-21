@@ -2,6 +2,13 @@
     ViewData["Title"] = "API";
 }
 
+<script src="/js/CodeMirror/lib/codemirror.js"></script>
+<script src="/js/CodeMirror/mode/python/python.js" type="text/javascript"></script>
+<script src="/js/CodeMirror/mode/clike/clike.js" type="text/javascript"></script>
+<script src="/js/CodeMirror/mode/javascript/javascript.js" type="text/javascript"></script>
+<link href="/js/CodeMirror/lib/codemirror.css" rel="stylesheet" type="text/css" />
+<script src="/js/Views/Docs/APIDocs_3.js" type="text/javascript"></script>
+
 <h1>SAP1Emu API</h1>
 <p class="lead">
     How to Integrate with our API
@@ -13,32 +20,39 @@
 @{ await Html.RenderPartialAsync("_APIDocs_TOC"); }
 
 
-
+<h2>Supported Sets</h2>
+<p>
+    The SAP1Emu Emulator support three different instruction sets for the SAP1. These SetNames must be passed along with the Code for the
+    Emulator or Parser to correctly process the said Code. There is an API call you can make to retrieve the SetNames at
+    <span class="text-muted">GET: /api/Assembler/supported_sets</span>. This GET call will return the SetNames as a list of strings.
+    For more detailed information about this call, please visit the <a href="/swagger/" target="_blank">Swagger Page</a>
+    <br /><br />
+    Below are some code examples for calling this API Function in a couple of common languages and frameworks.
+</p>
 <div class="card">
     <div class="card-header">
-        <h4 class="mb-4">Instruction Sets</h4>
+        <h4 class="mb-4">GET: /api/Assembler/supported_sets</h4>
         <ul class="nav nav-tabs card-header-tabs" id="docTabs">
             <li class="nav-item">
-                <a data-toggle="tab" class="nav-link active" href="#api-netcore">.NET Core</a>
+                <a data-toggle="tab" class="nav-link active" href="">.NET Core</a>
             </li>
             <li class="nav-item">
-                <a data-toggle="tab" class="nav-link" href="#api-java">Java</a>
+                <a data-toggle="tab" class="nav-link" href="">Java</a>
             </li>
             <li class="nav-item">
-                <a data-toggle="tab" class="nav-link" href="#api-python3">Python3</a>
+                <a data-toggle="tab" class="nav-link" href="">Python3</a>
             </li>
         </ul>
     </div>
     <div class="card-body">
-        <div class="tab-content mt-3">
-            <div class="tab-pane active" id="api-netcore" role="tabpanel">
-                net core
+        <div class="row">
+            <div class="col">
+                <h6>Code</h6>
+                @Html.TextArea("API_P3_ISets", null, new { rows = "20", cols = "80", @class = "codebox", id = "API_P3_ISets" })
             </div>
-            <div class="tab-pane active" id="api-java" role="tabpanel">
-                java
-            </div>
-            <div class="tab-pane active" id="api-python3" role="tabpanel">
-                python3
+            <div class="col">
+                <h6>JSON Response</h6>
+                @Html.TextArea("API_P3_ISets_Response", null, new { rows = "20", cols = "80", @class = "codebox", id = "API_P3_ISets_Response" })
             </div>
         </div>
     </div>
