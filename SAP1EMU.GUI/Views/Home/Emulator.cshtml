@@ -19,7 +19,10 @@
 else
 {
     <script>
-        function preloadCode() { /* Empty */ console.log("empty"); }
+        // This needs to be here because the JS file will call this function no matter 
+        //  what the state of the Model is (null or not_null). To avoid a JS error, we 
+        //  need the blank function.
+        function preloadCode() { /* Empty */ }
     </script>
 }
 @{
