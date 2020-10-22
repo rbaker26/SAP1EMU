@@ -1,10 +1,27 @@
-﻿<script src="/js/CodeMirror/lib/codemirror.js"></script>
+﻿@model CodePacket
+
+<script src="/js/CodeMirror/lib/codemirror.js"></script>
 <script src="/js/CodeMirror/mode/gas/gas_sap1.js" type="text/javascript"></script>
 <link href="/js/CodeMirror/lib/codemirror.css" rel="stylesheet" type="text/css" />
 
 <script src="/lib/jquery/dist/jquery.js" type="text/javascript"></script>
 <script src="/js/Views/EmulatorView.js" type="text/javascript"></script>
 
+
+@if (Model != null)
+{
+    <script>
+        function preloadCode() {
+            asm_editor.setValue(@string.Join("\n", Model.CodeList) )
+        }
+    </script>
+}
+else
+{
+    <script>
+        function preloadCode() { /* Empty */ console.log("empty"); }
+    </script>
+}
 @{
     ViewData["Title"] = "Emulator";
 }
