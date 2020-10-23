@@ -25,33 +25,25 @@
 <div class="row">
     <div class="col">
         <h6>Before the macro-expansion</h6>
-        @Html.TextArea("8Bit_P3_Example_Left", null, new { rows = "20", cols = "80", @class = "codebox", id = "8Bit_P3_Example_Left" })
-        <div class="row mt-2">
-            <div class="col"></div>
-            <div class="col-auto">
-                <button class="btn btn-outline-info" data-toggle="modal" data-target="#openInEmulatorFeature">Open in Emulator</button>
-                @{
-                    await Html.RenderPartialAsync("_FeatureNotReadyPartial", new FeatureNotReadyModel()
-                    {
-                        DOM_ID = "openInEmulatorFeature",
-                        GitHubIssueNumber = "106"
-                    }
-                    );
-                }
+        <form asp-controller="Home" asp-action="Emulator" method="post">
+            <textarea name="CodeList" id="8Bit_P3_Example_Left"></textarea>
+            <div class="row mt-2">
+                <div class="col"></div>
+                <div class="col-auto">
+                    <input type="submit" class="btn btn-outline-info" value="Open in Emulator" />
+                </div>
             </div>
-        </div>
+        </form>
     </div>
     <div class="col">
         <h6>After the macro-expansion</h6>
         <form asp-controller="Home" asp-action="Emulator" method="post">
-            @*@Html.TextArea("8Bit_P3_Example_Right", null, new { rows = "20", cols = "80", @class = "codebox", id = "8Bit_P3_Example_Right" })*@
             <textarea name="CodeList" id="8Bit_P3_Example_Right"></textarea>
             <input name="SetName" type="text" value="SAP1EMU" hidden />
             <div class="row mt-2">
                 <div class="col"></div>
                 <div class="col-auto">
-                    <input type="submit" class="btn btn-outline-info" value="Open in Emulator"/>
-                    
+                    <input type="submit" class="btn btn-outline-info" value="Open in Emulator" />
                 </div>
             </div>
         </form>
@@ -80,39 +72,27 @@
 <div class="row">
     <div class="col">
         <h6>Before comments are stripped out</h6>
-        @Html.TextArea("8Bit_P3_Example_Comment_Left", null, new { rows = "20", cols = "80", @class = "codebox", id = "8Bit_P3_Example_Comment_Left" })
-        <div class="row mt-2">
-            <div class="col"></div>
-            <div class="col-auto">
-                <button class="btn btn-outline-info" data-toggle="modal" data-target="#openInEmulatorFeature">Open in Emulator</button>
-                @{
-                    await Html.RenderPartialAsync("_FeatureNotReadyPartial", new FeatureNotReadyModel()
-                    {
-                        DOM_ID = "openInEmulatorFeature",
-                        GitHubIssueNumber = "106"
-                    }
-                    );
-                }
+        <form asp-controller="Home" asp-action="Emulator" method="post">
+            <textarea name="CodeList" id="8Bit_P3_Example_Comment_Left"></textarea>
+            <div class="row mt-2">
+                <div class="col"></div>
+                <div class="col-auto">
+                    <input type="submit" class="btn btn-outline-info" value="Open in Emulator" />
+                </div>
             </div>
-        </div>
+        </form>
     </div>
     <div class="col">
         <h6>After comments are stripped out</h6>
-        @Html.TextArea("8Bit_P3_Example_Comment_Right", null, new { rows = "20", cols = "80", @class = "codebox", id = "8Bit_P3_Example_Comment_Right" })
-        <div class="row mt-2">
-            <div class="col"></div>
-            <div class="col-auto">
-                <button class="btn btn-outline-info" data-toggle="modal" data-target="#openInEmulatorFeature">Open in Emulator</button>
-                @{
-                    await Html.RenderPartialAsync("_FeatureNotReadyPartial", new FeatureNotReadyModel()
-                    {
-                        DOM_ID = "openInEmulatorFeature",
-                        GitHubIssueNumber = "106"
-                    }
-                    );
-                }
+        <form asp-controller="Home" asp-action="Emulator" method="post">
+            <textarea name="CodeList" id="8Bit_P3_Example_Comment_Right"></textarea>
+            <div class="row mt-2">
+                <div class="col"></div>
+                <div class="col-auto">
+                    <input type="submit" class="btn btn-outline-info" value="Open in Emulator" />
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 
@@ -125,6 +105,6 @@
             NextView = "EightBitProgramming_4",
             NextViewDisplay = "Exploring the Binary"
         }
-           );
+              );
     }
 </div>
