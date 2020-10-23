@@ -439,5 +439,70 @@ namespace SAP1EMU.Assembler.Test
         }
 
         // **************************************************************************
+
+        // Test All instruction sets without 16 lines of code ***********************
+
+        [TestMethod]
+        public void Test_Non_16_SAP1()
+        {
+            List<string> asm = new List<string>
+            {
+                "LDA 0xA",
+                "ADD 0xA",
+                "HLT 0x0",
+            };
+            try
+            {
+                Assemble.Parse(asm, "SAP1Emu");
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+                Assert.IsTrue(true);
+            }
+        }
+
+        [TestMethod]
+        public void Test_Non_16_Malvino()
+        {
+            List<string> asm = new List<string>
+            {
+                "LDA 0xA",
+                "ADD 0xA",
+                "HLT 0x0",
+            };
+            try
+            {
+                Assemble.Parse(asm, "Malvino");
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+                Assert.IsTrue(true);
+            }
+        }
+
+        [TestMethod]
+        public void Test_Non_16_Ben_Eater()
+        {
+            List<string> asm = new List<string>
+            {
+                "LDI 0xA",
+                "ADD 0xA",
+                "HLT 0x0",
+            };
+            try
+            {
+                Assemble.Parse(asm, "BenEater");
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+                Assert.IsTrue(true);
+            }
+        }
+
+        // **************************************************************************
+
     }
 }
