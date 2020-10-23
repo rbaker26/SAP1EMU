@@ -103,6 +103,13 @@ namespace SAP1EMU.Assembler
             }
             // *********************************************************************
 
+            //If a program was executed, but didnt fill in every line of RAM then throw an exception. Must have 16 elements!
+            if(binary.Count != 16)
+            {
+                throw new ParseException($"SAP1ASM: Program must have 16 lines.", new ParseException("Use \"NOP 0x0\" for a no-operation command or the \"...\" macro to fill in the rest with NOP 0x0.")); 
+            }
+
+
             return binary;
         }
 
