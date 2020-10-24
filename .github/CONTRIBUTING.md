@@ -24,16 +24,23 @@ To start working on the project, you will need to fork it.  Once forked, create 
 All code changes are done via Pull Request.  When you create a pull-request, a template will populate with all of the required information. Please fill it out completely as it helps us know what we are looking at.  If you don't know which branch to target with your pull request, just set it to master. If need be, someone on the Dev Team will update the branch targeting after it is submitted.  
 
 #### Testing & CI/CD
-The SAP1Emu Project is nearly full CI/CD and has a lot of different testing methods built in. This includes Unit Tests, Integration Tests, Coverage Metrics, Benchmarking, and Security Scanning. Except for Coverage Metrics, all other tests must pass for a pull request to be considered.  If the tests do not pass, don't worry. We are here to help. 
+The SAP1Emu Project is a full CI/CD project and has a lot of different testing methods built in. This includes Unit Tests, Integration Tests, Coverage Metrics, Benchmarking, and Security Scanning. Except for Coverage Metrics, all other tests must pass for a pull request to be considered.  If the tests do not pass, don't worry. We are here to help. 
 
 If a Coverage Metrics fails, we will consider it on a case-by-case basis.  
 
 
 #### Final Steps 
 Once your pull request is approved, we will ask you to add your name to the [wall](https://sap1emu.net/Home/Contributors).
-Your name will not appear on GitHub or the wall until the code makes its way to the master branch.  
+Your name will not appear on GitHub until the code makes its way to the master branch. In addition, your name will not appear on the [wall](https://sap1emu.net/Home/Contributors) unill the code makes its way to the PROD branch. 
 
-Once in master, it will take about 5-10 minutes for the Azure App to update and 1-2 minutes for the GitHub Page to update.
+Once in PROD, it will take about 5-10 minutes for the Azure App to update and 1-2 minutes in master for the GitHub Page to update.
+
+
+## Process Diagram
+Click on the picture below to see a detailed flowchart of the process.
+
+
+![https://raw.githubusercontent.com/rbaker26/SAP1EMU/master/.wiki/flowchart.png](https://raw.githubusercontent.com/rbaker26/SAP1EMU/master/.wiki/flowchart.png)
 
 
 
@@ -45,22 +52,22 @@ For command-line users (Windows, macOS and Linux) run the following commands fro
 #### Run the GUI Project
 ```bash
 dotnet restore
-dotent build
-dotnet run --project SAP1EMU.GUI 
+dotnet build SAP1EMU.GUI 
+dotnet run --project SAP1EMU.GUI --no-build
 ```
 
 #### Run the CLI Project
 ```bash
 dotnet restore
-dotent build
-dotnet run --project SAP1EMU.CLI
+dotnet build SAP1EMU.CLI
+dotnet run --project SAP1EMU.CLI --no-build
 ```
 
 #### Run Tests
 ```bash
 dotnet restore
 dotent build --configuration release
-dotnet run --project SAP1EMU.CLI --configuration release
+dotnet test --no-build
 ```
 
 When working on the project, any change to a `.cs` file will require the Kestrel Server to be shutdown `Ctrl+c` and the project to be rebuilt and restarted. Changes to `.cshtml` files do not require a rebuild or restart.

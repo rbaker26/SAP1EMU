@@ -51,3 +51,15 @@ function updateGutter(cm) {
         }
     }
 }
+
+function addNumbersToTextArea(textArea) {
+    var lines = $(textArea).val().split('\n');
+
+    for (i = 0; i < lines.length; i++) {
+        if (lines[i].length > 0 && !lines[i].match(/^\d/)) {
+            lines[i] = lines[i].replace(/^/, (i + 1) + ". ");
+        }
+    }
+
+    $(textArea).val(lines.join("\n"));
+}

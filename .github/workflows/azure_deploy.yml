@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP.Net Core app to Azure Web App - sap1emu
+name: Azure Deployment
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - PROD
 
 jobs:
-  build-and-deploy:
+  azure-deploy:
     runs-on: ubuntu-latest
 
     steps:

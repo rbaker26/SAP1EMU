@@ -1,0 +1,93 @@
+﻿@{
+    ViewData["Title"] = "API";
+}
+
+<h1>SAP1Emu API</h1>
+<p class="lead">
+    How to Integrate with our API
+</p>
+<p>
+    This learning module will go over how to integrate your app to our API using common languages.
+</p>
+
+@{ await Html.RenderPartialAsync("_APIDocs_TOC"); }
+
+<h2>What is an API?</h2>
+<p>
+    An API, or Application Programming Interface, is an interface with which defines interactions between multiple systems.
+    The SAP1Emu API is what our WebApp uses to interface with our Parsing Engine and Emulators.  Since we already had to build this
+    interface for our WebApp, we also want to open parts of it up to the public. This means students who are already learning
+    about the SAP1 can easly learn how to use an API by writing their own SAP1 App.
+</p>
+
+
+<h2>How do I use an API?</h2>
+<p>
+    One of the great features of APIs is that they are langauge agnostic. This means all different types of programs, regardless of
+    language, can utilize an API.  While we only support documentation for a select few languges, most modern languges will have native
+    or 3rd-party support for calling APIs.
+    <br />
+    <br />
+
+    In addition to using a programming language, you can also call APIs from desktop applications like Postman or from a command-line interface.
+    Due to practical constraints, this learning module will cover calling the SAP1Emu API using the following programming languages and frameworks:
+</p>
+
+<div class="m-5">
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <div class="card border-white text-center">
+                <img class="img-thumbnail border-white" src="~/img/Docs/netcore.svg" alt="Card image" style="height: 100px; width: 100px;">
+                <h3 class="lead">.NET Core</h3>
+            </div>
+        </div>
+        <div class="col-auto">
+            <div class="card border-white text-center">
+                <img class="img-thumbnail border-white" src="~/img/Docs/java.svg" alt="Card image" style="height: 100px; width: 100px;">
+                <h3 class="lead">Java 11</h3>
+                <span class="badge badge-pill badge-secondary">Comming Soon</span>
+            </div>
+        </div>
+        <div class="col-auto">
+            <div class="card border-white text-center">
+                <img class="img-thumbnail border-white" src="~/img/Docs/python3.svg" alt="Card image" style="height: 100px; width: 100px;">
+                <h3 class="lead">Python3</h3>
+                <span class="badge badge-pill badge-secondary">Comming Soon</span>
+            </div>
+        </div>
+        <div class="col-auto">
+            <div class="card border-white text-center">
+                <img class="img-thumbnail border-white" src="~/img/Docs/ruby.svg" alt="Card image" style="height: 100px; width: 100px;">
+                <h3 class="lead">Ruby 2.7</h3>
+                <span class="badge badge-pill badge-secondary">Comming Soon</span>
+            </div>
+        </div>
+        <div class="col-auto">
+            <div class="card border-white text-center">
+                <img class="img-thumbnail border-white" src="~/img/Docs/jquery.svg" alt="Card image" style="height: 100px; width: 100px;">
+                <h3 class="lead">jQuery</h3>
+                <span class="badge badge-pill badge-secondary">Comming Soon</span>
+            </div>
+        </div>
+        <div class="col-auto">
+            <div class="card border-white text-center">
+                <img class="img-thumbnail border-white" src="~/img/Docs/nodejs.svg" alt="Card image" style="height: 100px; width: 100px;">
+                <h3 class="lead">Node.js</h3>
+                <span class="badge badge-pill badge-secondary">Comming Soon</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-5">
+    @{ await Html.RenderPartialAsync("_PageNavHelper", new PageNavHelperModel
+       {
+            ControllerName = "Docs",
+            PreviousView = "",
+            PreviousViewDisplay = "",
+            NextView = "APIDocs_2",
+            NextViewDisplay = "Swagger / OpenAPI"
+       }
+       );
+    }
+</div>

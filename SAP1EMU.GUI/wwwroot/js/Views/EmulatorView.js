@@ -55,7 +55,11 @@ window.onload = function () {
             alert("SAP1EMU ERROR: JSON CONFIG FILE ERROR:\n" + request.responseText);
         }
     });
+
+    // Must be last line of function
+    preloadCode();
 }
+
 
 function initBoard() {
     $('#pc-block').html("0000");
