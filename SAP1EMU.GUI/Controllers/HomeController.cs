@@ -2,7 +2,8 @@
 using Microsoft.Extensions.Logging;
 
 using SAP1EMU.GUI.Models;
-
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 
 namespace SAP1EMU.GUI.Controllers
@@ -10,7 +11,7 @@ namespace SAP1EMU.GUI.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
+        
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -26,9 +27,17 @@ namespace SAP1EMU.GUI.Controllers
             return View();
         }
 
+        [HttpGet]
         public IActionResult Emulator()
         {
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Emulator([FromForm] CodePacket codePacket)
+        {
+            return View(codePacket);
         }
 
         public IActionResult Assembler()
