@@ -12,18 +12,18 @@
                 RequestVerificationToken: $('input:hidden[name="__RequestVerificationToken"]').val()
             },
             success: function (data) {
-                message = 'Issue with id: ' + data.number + ' has been created! Thank you.';
+                message = 'Issue #' + data.number + ' has been created! Thank you.';
                 $('#toast-message').text(message);
                 clearBugReport();
                 showToast('toast-success');
             },
             error: function (request, status, error) {
                 if (request.status === 404) { //github was not found
-                    message = "Something has gone wrong. Please try again later or contact us!";
+                    message = "Something has gone wrong. Please try again later or contact us on GitHub.";
                     $('#toast-message').text(message);
                     showToast('toast-error');
                 } else if (request.status === 401) { //credentials are bad
-                    message = "Authentication error. Please contact us!";
+                    message = "Authentication error. Please contact us on GitHub.";
                     $('#toast-message').text(message);
                     showToast('toast-error');
                 }
@@ -46,7 +46,7 @@ $(function () {
                 RequestVerificationToken: $('input:hidden[name="__RequestVerificationToken"]').val()
             },
             success: function (data) {
-                message = 'Feature request issue with id: ' + data.number + ' has been created! Thank you.';
+                message = 'Feature request #' + data.number + ' has been created! Thank you.';
                 $('#toast-message').text(message);
                 clearFeatureRequest();
                 showToast('toast-success');
@@ -54,11 +54,11 @@ $(function () {
             error: function (request, status, error) {
                 if (request.status === 404) { //github was not found
                     //Todo: fix this to be more descriptive
-                    message = "Something has gone wrong. Please try again later or contact us!";
+                    message = "Something has gone wrong. Please try again later or contact us on GitHub.";
                     $('#toast-message').text(message);
                     showToast('toast-error');
                 } else if (request.status === 401) { //credentials are bad
-                    message = "Authentication error. Please contact us!";
+                    message = "Authentication error. Please contact us on GitHub.";
                     $('#toast-message').text(message);
                     showToast('toast-error');
                 }

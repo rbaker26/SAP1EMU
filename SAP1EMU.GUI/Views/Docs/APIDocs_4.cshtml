@@ -2,6 +2,13 @@
     ViewData["Title"] = "API";
 }
 
+<script src="/js/CodeMirror/lib/codemirror.js"></script>
+<script src="/js/CodeMirror/mode/python/python.js" type="text/javascript"></script>
+<script src="/js/CodeMirror/mode/javascript/javascript.js" type="text/javascript"></script>
+<script src="/js/CodeMirror/mode/clike/clike.js" type="text/javascript"></script>
+<link href="/js/CodeMirror/lib/codemirror.css" rel="stylesheet" type="text/css" />
+<script src="/js/Views/Docs/APIDocs_4.js" type="text/javascript"></script>
+
 <h1>SAP1Emu API</h1>
 <p class="lead">
     How to Integrate with our API
@@ -11,3 +18,65 @@
 </p>
 
 @{ await Html.RenderPartialAsync("_APIDocs_TOC"); }
+
+
+
+
+<h2>Emulator</h2>
+<p>
+    The Emulator API Call takes the same POST Body as the Assembler API Call, but instead of returning a list of strings it returns a list
+    of Frames.  These Frames represent each TState for each instruction. For the SAP1, every instruction will have 6 TStates.  It is
+    good to note that if there is an emulation error, it will return different status code. Make sure to check out the 
+    <a href="/swagger/" target="_blank">Swagger Page</a> for more information.
+    <br />
+    <br />
+    In order to parse correctly, the <code>requestBody</code> JSON must be escaped properly when assigning it directly to a string.
+    If you are using <code>System.Text.Json</code> to create the <code>requestBody</code>, this will be handled automatically.
+</p>
+<div class="card">
+    <div class="card-header">
+        <h4 class="mb-4">POST: /api/Emulator</h4>
+        <ul class="nav nav-tabs card-header-tabs" id="docTabs">
+            <li class="nav-item">
+                <a data-toggle="tab" class="nav-link active" href="">.NET Core</a>
+            </li>
+            <li class="nav-item">
+                <a data-toggle="tab" class="nav-link" href="">Java <span class="badge badge-pill badge-secondary">Comming Soon</span></a>
+            </li>
+            <li class="nav-item">
+                <a data-toggle="tab" class="nav-link" href="">Python3 <span class="badge badge-pill badge-secondary">Comming Soon</span></a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                <h6>Code</h6>
+                @Html.TextArea("API_P3_POST_EMULATE", null, new { rows = "20", cols = "80", @class = "codebox", id = "API_P3_POST_EMULATE" })
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col">
+                <h6>Request Body</h6>
+                @Html.TextArea("API_P3_POST_Body", null, new { rows = "20", cols = "80", @class = "codebox", id = "API_P3_POST_Body" })
+            </div>
+            <div class="col">
+                <h6>JSON Response</h6>
+                @Html.TextArea("API_P3_POST_EMULATE_Response", null, new { rows = "20", cols = "80", @class = "codebox", id = "API_P3_POST_EMULATE_Response" })
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-5">
+    @{ await Html.RenderPartialAsync("_PageNavHelper", new PageNavHelperModel
+        {
+            ControllerName = "Docs",
+            PreviousView = "APIDocs_3",
+            PreviousViewDisplay = "Assembler API",
+            NextView = "",
+            NextViewDisplay = ""
+        }
+             );
+    }
+</div>

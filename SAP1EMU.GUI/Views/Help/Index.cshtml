@@ -1,37 +1,34 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Help";
 }
 
 <h1>Help us improve the site!</h1>
-<h4>Before doing anything here please read the <a asp-controller="Docs" asp-action="Docs">documentation</a> before submitting anything!</h4>
-<hr />
+<h4 class="lead">Please read our <a asp-controller="Docs" asp-action="Docs">Docs</a> before submitting a ticket.</h4>
+<br />
 
-<div class="container">
-    <div class="card-deck">
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <img src="~/img/Help/computer-bug.svg" width="50" class="p-2" />
-                    <h3 class="pt-2">Bug Reports</h3>
-                </div>
-                <p class="card-text">
-                    Found a bug in the application?
-                </p>
-                <button class="btn btn-primary" onclick="location.href='@Url.Action("ReportBug", "Help")'">Report a bug</button>
+<div class="card-deck mt-5">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <img src="~/img/Help/computer-bug.svg" width="50" class="p-2 ml-2" />
+                <h3 class="pt-2">Bug Reports</h3>
             </div>
+            <p class="card-text">
+                Found a bug in the application?
+            </p>
+            <button class="btn btn-primary" onclick="location.href='@Url.Action("ReportBug", "Help")'">Report a bug</button>
         </div>
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <img src="~/img/Help/feature.svg" width="50" class="p-2" />
-                    <h3 class="pt-2">Feature Requests</h3>
-                </div>
-                <p class="card-text">
-                    Thought of features that don't exist on this site?
-                </p>
-                <button class="btn btn-primary" onclick="location.href='@Url.Action("RequestFeature", "Help")'">Tell us your feature</button>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <img src="~/img/Help/feature.svg" width="50" class="p-2 ml-2" />
+                <h3 class="pt-2">Feature Requests</h3>
             </div>
+            <p class="card-text">
+                Thought of features that don't exist on this site?
+            </p>
+            <button class="btn btn-primary" onclick="location.href='@Url.Action("RequestFeature", "Help")'">Tell us your feature</button>
         </div>
     </div>
 </div>
