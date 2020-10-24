@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SAP1EMU.Assembler
 {
@@ -14,5 +12,8 @@ namespace SAP1EMU.Assembler
         {
         }
 
+        private ParseException()
+        {
+        }
     }
 }

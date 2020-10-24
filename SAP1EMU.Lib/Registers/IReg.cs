@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SAP1EMU.Lib.Components;
+﻿using SAP1EMU.Lib.Components;
+
+using System;
 
 namespace SAP1EMU.Lib.Registers
 {
     public class IReg : IObserver<TicTok>
     {
-
         private string RegContent { get; set; } = "00000000";
-
-        private readonly string controlWordMask = "000011000000"; // LI_ EI_
 
         private void Exec(TicTok tictok)
         {
@@ -23,54 +19,45 @@ namespace SAP1EMU.Lib.Registers
             if (cw[5] == '0' & tictok.ClockState == TicTok.State.Tic)
             {
                 // Send A to the WBus
-                Wbus.Instance().Value = RegContent;
-                System.Console.Error.WriteLine($"I Out: {RegContent}");
-
-
+                Wbus.Instance().Value = "0000" + RegContent.Substring(4, 4); //Instruction register only outputs the least significant bits to the WBus
             }
 
             // Active Low, Pull on Tok
             if (cw[4] == '0' && tictok.ClockState == TicTok.State.Tok)
             {
-                // Store Wbus val in A
-                // Only upper 4 bits
-                //string temp = Wbus.Instance().Value.Substring(0, 4);
-                //RegContent = temp + "0000"; // Zero out the lowwer 4 bits
                 RegContent = Wbus.Instance().Value;
-
-                System.Console.Error.WriteLine($"I In : {RegContent}");
-
             }
         }
 
         /// <summary>
-        /// For the real ToString, use the ToString_Fram_use() method
+        /// For the real ToString, use the ToString_Frame_use() method
         /// </summary>
         /// <returns></returns>
         public override string ToString()
         {
             //  I dont know this this is the best place to put this substring command, but it is needed
-            // Currently, 
-            return RegContent.Substring(0,4);
+            // Currently,
+            return RegContent.Substring(0, 4);
         }
+
         #region IObserver Region
+
         private IDisposable unsubscriber;
+
         public virtual void Subscribe(IObservable<TicTok> clock)
         {
             if (clock != null)
                 unsubscriber = clock.Subscribe(this);
         }
 
-
         void IObserver<TicTok>.OnCompleted()
         {
-            Console.WriteLine("The Location Tracker has completed transmitting data to {0}.", "AReg");
             this.Unsubscribe();
         }
 
         void IObserver<TicTok>.OnError(Exception error)
         {
-            Console.WriteLine("{0}: The TicTok cannot be determined.", "AReg");
+            throw error;
         }
 
         void IObserver<TicTok>.OnNext(TicTok value)
@@ -82,17 +69,12 @@ namespace SAP1EMU.Lib.Registers
         {
             unsubscriber.Dispose();
         }
-        #endregion
 
+        #endregion IObserver Region
 
-        public  string ToString_Frame_Use()
+        public string ToString_Frame_Use()
         {
-            return this.RegContent;
+            return (String.IsNullOrEmpty(this.RegContent) ? "0000 0000" : this.RegContent);
         }
     }
-
-
-
-
-
 }

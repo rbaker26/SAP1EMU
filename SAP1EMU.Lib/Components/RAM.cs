@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using SAP1EMU.Lib.Registers;
-using SAP1EMU.Lib.Utilities;
 
 namespace SAP1EMU.Lib.Components
 {
@@ -10,8 +7,6 @@ namespace SAP1EMU.Lib.Components
     {
         private List<string> RamContents = new List<string>();
 
-        // CP EP LM_ CE_ LI_ EI_ LA_ EA SU EU LB_ LO_
-        private readonly string controlWordMask = "000100000000"; // CE_
         private string MARContents { get; set; }
         private string RAM_Register_Content { get; set; } // For ToString()
 
@@ -27,15 +22,16 @@ namespace SAP1EMU.Lib.Components
             {
                 string content = GetWordAt(MARContents);
                 Wbus.Instance().Value = content;
-                System.Console.Error.WriteLine($"R Out: {content}");
-
-
             }
 
-
+            // LR_, Active Low, Pull on Tok
+            if (cw[12] == '0' && tictok.ClockState == TicTok.State.Tok)
+            {
+                string word = Wbus.Instance().Value;
+                SetWordAt(MARContents, word);
+                RAM_Register_Content = word;
+            }
         }
-
-
 
         public void LoadProgram(RAMProgram rp)
         {
@@ -48,15 +44,24 @@ namespace SAP1EMU.Lib.Components
             }
         }
 
-
         public string GetWordAt(string addr)
         {
             int index = (int)(Convert.ToUInt32(addr, 2));
-            if(index < 0 || index > 15)
+            if (index < 0 || index > 15)
             {
                 throw new ArgumentOutOfRangeException($"RAM Index Error - Addr with value {index} not inbetween 0-15");
             }
             return RamContents[index];
+        }
+
+        public void SetWordAt(string addr, string word)
+        {
+            int index = (int)(Convert.ToUInt32(addr, 2));
+            if (index < 0 || index > 15)
+            {
+                throw new ArgumentOutOfRangeException($"RAM Index Error - Addr with value {index} not inbetween 0-15");
+            }
+            RamContents[index] = word;
         }
 
         public void ClearRAM()
@@ -72,23 +77,23 @@ namespace SAP1EMU.Lib.Components
         }
 
         #region IObserver<TicTok> Region
+
         private IDisposable unsubscriber;
+
         public virtual void Subscribe(IObservable<TicTok> clock)
         {
             if (clock != null)
                 unsubscriber = clock.Subscribe(this);
         }
 
-
         void IObserver<TicTok>.OnCompleted()
         {
-            Console.WriteLine("The Location Tracker has completed transmitting data to {0}.", "AReg");
             this.Unsubscribe();
         }
 
         void IObserver<TicTok>.OnError(Exception error)
         {
-            Console.WriteLine("{0}: The TicTok cannot be determined.", "AReg");
+            throw error;
         }
 
         void IObserver<TicTok>.OnNext(TicTok value)
@@ -100,7 +105,8 @@ namespace SAP1EMU.Lib.Components
         {
             unsubscriber.Dispose();
         }
-        #endregion
+
+        #endregion IObserver<TicTok> Region
 
         // For Frame Support
         public List<string> RAMDump() { return RamContents; }
@@ -108,6 +114,11 @@ namespace SAP1EMU.Lib.Components
         public override string ToString()
         {
             return RAM_Register_Content;
+        }
+
+        public string ToString_Frame_Use()
+        {
+            return (String.IsNullOrEmpty(this.RAM_Register_Content) ? "00000000" : this.RAM_Register_Content);
         }
     }
 }

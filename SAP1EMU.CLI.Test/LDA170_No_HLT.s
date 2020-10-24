@@ -1,0 +1,3 @@
+﻿LDA 0xF #this should error bc there is no HLT
+...
+0xA 0xA # see isssue https://github.com/rbaker26/SAP1EMU/issues/57

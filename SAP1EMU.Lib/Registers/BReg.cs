@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SAP1EMU.Lib.Components;
+﻿using SAP1EMU.Lib.Components;
+
+using System;
 
 namespace SAP1EMU.Lib.Registers
 {
@@ -9,8 +8,6 @@ namespace SAP1EMU.Lib.Registers
     {
         private string RegContent { get; set; }
 
-        
-        private readonly string controlWordMask = "000000000010"; // LB_
         private void Exec(TicTok tictok)
         {
             string cw = SEQ.Instance().ControlWord;
@@ -21,51 +18,51 @@ namespace SAP1EMU.Lib.Registers
             // Active Low, Pull on Tok
             if (cw[10] == '0' && tictok.ClockState == TicTok.State.Tok)
             {
-                // Store Wbus val in A
+                // Store Wbus val in B
                 RegContent = Wbus.Instance().Value;
-                System.Console.Error.WriteLine($"B IN : {RegContent}");
-
-
             }
         }
 
-
         #region IObserver Region
+
         private IDisposable unsubscriber;
+
         public virtual void Subscribe(IObservable<TicTok> clock)
         {
             if (clock != null)
                 unsubscriber = clock.Subscribe(this);
         }
 
-
         void IObserver<TicTok>.OnCompleted()
         {
-            Console.WriteLine("The Location Tracker has completed transmitting data to {0}.", "AReg");
             this.Unsubscribe();
         }
 
         void IObserver<TicTok>.OnError(Exception error)
         {
-            Console.WriteLine("{0}: The TicTok cannot be determined.", "AReg");
+            throw error;
         }
 
         void IObserver<TicTok>.OnNext(TicTok value)
         {
             Exec(value);
-        }   
+        }
 
         public virtual void Unsubscribe()
         {
             unsubscriber.Dispose();
         }
-        #endregion
 
-
+        #endregion IObserver Region
 
         public override string ToString()
         {
             return this.RegContent;
+        }
+
+        public string ToString_Frame_Use()
+        {
+            return (String.IsNullOrEmpty(this.RegContent) ? "00000000" : this.RegContent);
         }
     }
 }

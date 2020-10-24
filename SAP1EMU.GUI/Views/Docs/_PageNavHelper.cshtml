@@ -1,0 +1,29 @@
+﻿@model PageNavHelperModel
+
+<div class="row justify-content-between">
+    <div class="col-auto">
+        @{
+            if (!String.IsNullOrEmpty(Model.PreviousView))
+            {
+                <button class="btn btn-primary" onclick="location.href='@Url.Action(Model.PreviousView, Model.ControllerName)'">Previous - @Model.PreviousViewDisplay</button>
+            }
+        }
+    </div>
+    @*<div class="col"></div>*@
+    <div class="col-auto">
+        @{
+            if (!String.IsNullOrEmpty(Model.NextView))
+            {
+                if (Model.IsNewChapter)
+                {
+                    <button class="btn btn-danger" onclick="location.href='@Url.Action(Model.NextView, Model.ControllerName)'">Next - @Model.NextViewDisplay</button>
+                }
+                else
+                {
+                    <button class="btn btn-primary" onclick="location.href='@Url.Action(Model.NextView, Model.ControllerName)'">Next - @Model.NextViewDisplay</button>
+                }
+            }
+
+        }
+    </div>
+</div>

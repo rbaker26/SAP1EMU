@@ -2,10 +2,14 @@
 name: Bug report
 about: Create a report to help us improve
 title: ''
-labels: ''
-assignees: ''
+labels: bug
+assignees: rbaker26
 
 ---
+## Add this Ticket to the "Issue Tracker" Project
+In the right column under _Projects_ 
+ 1. Click the _Setting Icon_
+ 2. Click "Issue Tracker" Button
 
 ## Where was the bug located
  - [x] Assembler CLI

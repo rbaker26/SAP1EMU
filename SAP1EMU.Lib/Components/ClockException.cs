@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SAP1EMU.Lib.Components
 {
@@ -8,5 +6,13 @@ namespace SAP1EMU.Lib.Components
     {
         internal ClockException()
         { }
+
+        public ClockException(string message) : base(message)
+        {
+        }
+
+        public ClockException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
     }
 }

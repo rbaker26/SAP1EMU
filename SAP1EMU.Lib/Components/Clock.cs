@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace SAP1EMU.Lib.Components
 {
@@ -8,7 +7,7 @@ namespace SAP1EMU.Lib.Components
     {
         public bool IsEnabled { get; set; }
 
-        private List<IObserver<TicTok>> observers;
+        private readonly List<IObserver<TicTok>> observers;
 
         public Clock()
         {
@@ -35,8 +34,8 @@ namespace SAP1EMU.Lib.Components
 
         private class Unsubscriber : IDisposable
         {
-            private List<IObserver<TicTok>> _observers;
-            private IObserver<TicTok> _observer;
+            private readonly List<IObserver<TicTok>> _observers;
+            private readonly IObserver<TicTok> _observer;
 
             public Unsubscriber(List<IObserver<TicTok>> observers, IObserver<TicTok> observer)
             {

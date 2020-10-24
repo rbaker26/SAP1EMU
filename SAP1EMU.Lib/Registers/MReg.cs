@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SAP1EMU.Lib.Components;
+﻿using SAP1EMU.Lib.Components;
+
+using System;
 
 namespace SAP1EMU.Lib.Registers
 {
     public class MReg : IObserver<TicTok>
     {
         private string RegContent { get; set; }
-        private readonly string controlWordMask = "001000000000"; // LM_
         private readonly RAM ram;
+
         public MReg(ref RAM ram)
         {
             this.ram = ram;
@@ -25,43 +24,32 @@ namespace SAP1EMU.Lib.Registers
             // Active Low, Pull on Tok
             if (cw[2] == '0' && tictok.ClockState == TicTok.State.Tok)
             {
-                Wbus bus = Wbus.Instance();
                 // Store Wbus val in A
-                RegContent = Wbus.Instance().Value.Substring(4,4);
+                RegContent = Wbus.Instance().Value.Substring(4, 4);
 
                 // Send the MAR data to the RAM
                 ram.IncomingMARData(RegContent);
-                // TODO - likely bug here with this ram pointer bs.
-                // I didnt want to do this, but setting up the observer pattern twice in one object was not working well.
-
-            
-                System.Console.Error.WriteLine($"M In : {RegContent}");
-
             }
-
-
         }
-        
-
 
         #region IObserver Region
+
         private IDisposable unsubscriber;
+
         public virtual void Subscribe(IObservable<TicTok> clock)
         {
             if (clock != null)
                 unsubscriber = clock.Subscribe(this);
         }
 
-
         void IObserver<TicTok>.OnCompleted()
         {
-            Console.WriteLine("The Location Tracker has completed transmitting data to {0}.", "AReg");
             this.Unsubscribe();
         }
 
         void IObserver<TicTok>.OnError(Exception error)
         {
-            Console.WriteLine("{0}: The TicTok cannot be determined.", "AReg");
+            throw error;
         }
 
         void IObserver<TicTok>.OnNext(TicTok value)
@@ -71,16 +59,19 @@ namespace SAP1EMU.Lib.Registers
 
         public virtual void Unsubscribe()
         {
-            unsubscriber.Dispose(); 
+            unsubscriber.Dispose();
         }
-        #endregion
 
-
+        #endregion IObserver Region
 
         public override string ToString()
         {
-            return RegContent;
+            return this.RegContent;
         }
 
+        public string ToString_Frame_Use()
+        {
+            return (String.IsNullOrEmpty(this.RegContent) ? "0000 0000" : this.RegContent);
+        }
     }
 }
