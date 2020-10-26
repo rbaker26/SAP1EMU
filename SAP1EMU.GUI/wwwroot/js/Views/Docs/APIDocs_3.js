@@ -5,6 +5,39 @@ var API_P3_POST_Body;
 var API_P3_POST_ASSEMBLE;
 var API_P3_POST_ASSEMBLE_Response;
 
+var SUPPORTED_SETS_CODE_LISTINGS = {
+    'python3': (
+        "from urllib.request import urlopen\n"+
+        "import json\n"+
+        "uri = \"https://sap1emu.net/api/Assembler/supported_sets\"\n"+
+        "response = urlopen(uri)\n"+
+        "result = response.read()\n"+
+        "sets_list = json.loads(result)\n"),
+};
+
+var ASSEMBLER_CODE_LISTINGS = {
+    'python3': (
+        "from urllib.request import Request, urlopen\n"+
+        "import json\n"+
+        "uri = \"https://sap1emu.net/api/Assembler\"\n"+
+        "request_content = {\n"+
+        "    \"CodeList\": [\n"+
+        "        \"LDA 0xF\",\n"+
+        "        \"ADD 0xE\",\n"+
+        "        \"OUT 0x0\",\n"+
+        "        \"HLT 0x0\",\n"+
+        "        \"...\",\n"+
+        "        \"0x0 0x1\",\n"+
+        "        \"0xF 0xF\"],\n"+
+        "    \"SetName\": \"SAP1EMU\"\n"+
+        "}\n"+
+        "request_body = json.dumps(request_content).encode()\n"+
+        "response = urlopen(Request(uri, method=\"POST\", data=request_body, headers={\"Content-Type\": \"application/json\"}))\n"+
+        "response_body = response.read()\n"+
+        "asm = json.loads(response_body)\n"+
+    ),
+};
+
 
 window.onload = function () {
     // Setup Code Editor Boxes

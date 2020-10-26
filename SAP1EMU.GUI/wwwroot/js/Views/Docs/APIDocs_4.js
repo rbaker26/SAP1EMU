@@ -2,6 +2,29 @@
 var API_P3_POST_EMULATE;
 var API_P3_POST_EMULATE_Response;
 
+var EMULATOR_CODE_LISTINGS = {
+    'python3': (
+        "from urllib.request import Request, urlopen\n"+
+        "import json\n"+
+        "uri = \"https://sap1emu.net/api/Emulator\"\n"+
+        "request_content = {\n"+
+        "    \"CodeList\": [\n"+
+        "        \"LDA 0xF\",\n"+
+        "        \"ADD 0xE\",\n"+
+        "        \"OUT 0x0\",\n"+
+        "        \"HLT 0x0\",\n"+
+        "        \"...\",\n"+
+        "        \"0x0 0x1\",\n"+
+        "        \"0xF 0xF\"],\n"+
+        "    \"SetName\": \"SAP1EMU\"\n"+
+        "}\n"+
+        "request_body = json.dumps(request_content).encode()\n"+
+        "response = urlopen(Request(uri, method=\"POST\", data=request_body, headers={\"Content-Type\": \"application/json\"}))\n"+
+        "response_body = response.read()\n"+
+        "asm = json.loads(response_body)\n"+
+    ),
+};
+
 window.onload = function () {
 
     API_P3_POST_Body = CodeMirror.fromTextArea(document.getElementById("API_P3_POST_Body"), {
