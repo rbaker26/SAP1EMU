@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 
-namespace SAP1EMU.Lib
+namespace SAP1EMU.SAP2.Lib
 {
     public class InstructionDecoder : IDecoder
     {
-        private Dictionary<int, string> _instructions = new Dictionary<int, string>();
-        private string _filename = "InstructionSets.json";
+        private readonly Dictionary<int, string> _instructions = new Dictionary<int, string>();
+        private readonly string _filename = "InstructionSets.json";
 
         public InstructionDecoder()
         {
@@ -17,7 +17,7 @@ namespace SAP1EMU.Lib
 
             foreach (InstructionSet iset in sets)
             {
-                foreach (Instruction i in iset.instructions)
+                foreach (Instruction i in iset.Instructions)
                 {
                     _instructions.Add((i.BinCode, iset.SetName).GetHashCode(), i.OpCode);
                 }

@@ -1,5 +1,4 @@
-﻿using SAP1EMU.Lib.Components;
-using SAP1EMU.SAP2.Lib.Components;
+﻿using SAP1EMU.SAP2.Lib.Components;
 using System;
 
 namespace SAP1EMU.SAP2.Lib.Registers

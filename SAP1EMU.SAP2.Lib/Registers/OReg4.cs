@@ -1,24 +1,21 @@
 ﻿using SAP1EMU.Lib.Components;
-
+using SAP1EMU.SAP2.Lib.Components;
 using System;
 
-namespace SAP1EMU.Lib.Registers
+namespace SAP1EMU.SAP2.Lib.Registers
 {
-    public class OReg : IObserver<TicTok>
+    public class OReg4 : IObserver<TicTok>
     {
         private string RegContent { get; set; }
 
         private void Exec(TicTok tictok)
         {
-            string cw = SEQ.Instance().ControlWord;
-
-            //  TODO - Find a better way of using the mask to get the value
-            //          Currently is using hardcoded magic numbers
+            var cw = SEQ.Instance().ControlWord;
 
             // Active Low, Pull on Tok
-            if (cw[11] == '0' && tictok.ClockState == TicTok.State.Tok)
+            if (string.Equals(cw["L04_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)
             {
-                // Store Wbus val in A
+                // Store Wbus val in Output port 3
                 RegContent = Wbus.Instance().Value;
             }
         }
@@ -57,12 +54,12 @@ namespace SAP1EMU.Lib.Registers
 
         public override string ToString()
         {
-            return this.RegContent;
+            return RegContent;
         }
 
         public string ToString_Frame_Use()
         {
-            return (String.IsNullOrEmpty(this.RegContent) ? "00000000" : this.RegContent);
+            return (string.IsNullOrEmpty(RegContent) ? "00000000" : RegContent);
         }
     }
 }

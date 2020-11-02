@@ -25,7 +25,54 @@ namespace SAP1EMU.SAP2.Lib.Components
             get => _controlWord;
             set
             {
+                //PC
                 ControlWord["CP"] = value[0..1];
+                ControlWord["EP"] = value[1..2];
+                ControlWord["LP_"] = value[2..3];
+
+                //IR
+                ControlWord["LI_"] = value[3..4];
+
+                //Input
+                ControlWord["EIP1"] = value[4..5];
+                ControlWord["EIP2"] = value[5..6];
+
+                //Memory
+                ControlWord["LM_"] = value[6..7];
+                ControlWord["EM_"] = value[7..8];
+
+                ControlWord["LR_"] = value[8..9];
+                ControlWord["ER_"] = value[9..10];
+
+                ControlWord["LMDR_"] = value[10..11];
+                ControlWord["EMDR"] = value[11..12];
+
+                //Registers/Flag/ALU Output
+                ControlWord["LA_"] = value[13..14];
+                ControlWord["EA"] = value[14..15];
+
+                ControlWord["LT_"] = value[15..16];
+                ControlWord["ET"] = value[16..17];
+
+                ControlWord["LB_"] = value[17..18];
+                ControlWord["EB"] = value[18..19];
+
+                ControlWord["LC_"] = value[19..20];
+                ControlWord["EC"] = value[20..21];
+
+                ControlWord["LF"] = value[21..22];
+
+                ControlWord["EU"] = value[22..23];
+
+                //Output
+                ControlWord["L03_"] = value[23..24];
+                ControlWord["L04_"] = value[24..25];
+
+                //ALU
+                ControlWord["ALU"] = value[25..29];
+
+                //Jump
+                ControlWord["JC"] = value[29..]; 
             }
         }
             
@@ -64,10 +111,11 @@ namespace SAP1EMU.SAP2.Lib.Components
             //SupportedCommandsBinTable.Clear();
             ControlTable.Clear();
 
-            foreach (Instruction instruction in iset.instructions)
+            foreach (Instruction instruction in iset.Instructions)
             {
                 //  SupportedCommandsBinTable.Add(instruction.OpCode, instruction.BinCode);
 
+                //TODO::Figure out if this is the TState number and what to do with it
                 for (int i = 0; i < 6; i++)
                 {
                     ControlTable.Add(HashKey(i + 1, instruction.BinCode), instruction.MicroCode[i]);
@@ -85,8 +133,10 @@ namespace SAP1EMU.SAP2.Lib.Components
                 { "EP", "" },    //Enable PC
                 { "LP_", "" },   //Load PC
 
-                { "EP1", "" },   //Enable Input Port 1
-                { "EP2", "" },   //Enable Input Port 2
+                { "LI_", ""},    //Load IR
+
+                { "EIP1", "" },   //Enable Input Port 1
+                { "EIP2", "" },   //Enable Input Port 2
 
                 { "LA_", "" },   //Load Accumulator
                 { "EA", "" },    //Enable Accumulator
@@ -107,9 +157,6 @@ namespace SAP1EMU.SAP2.Lib.Components
                 { "ER_", "" },   //Enable RAM
                 { "LMDR_", "" }, //Load Memory Data Register
                 { "EMDR", "" },  //Enable Memory Data Register
-
-                { "LI_", ""},    //Load IR
-                { "EI_", "" },   //Enable IR
 
                 { "LO3_", "" },  //Load Output port 3
                 { "LO4_", "" },  //Load Output port 4

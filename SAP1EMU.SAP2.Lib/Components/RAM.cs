@@ -1,6 +1,4 @@
-﻿using SAP1EMU.Lib;
-using SAP1EMU.Lib.Components;
-using SAP1EMU.SAP2.Lib.Registers;
+﻿using SAP1EMU.SAP2.Lib.Registers;
 using System;
 using System.Collections.Generic;
 

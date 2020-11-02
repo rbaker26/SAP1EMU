@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SAP1EMU.Lib.Utilities
+namespace SAP1EMU.SAP2.Lib.Utilities
 {
     public static class BinConverter
     {

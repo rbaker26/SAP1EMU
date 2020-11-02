@@ -1,4 +1,4 @@
-﻿namespace SAP1EMU.Lib
+﻿namespace SAP1EMU.SAP2.Lib
 {
     public interface IDecoder
     {

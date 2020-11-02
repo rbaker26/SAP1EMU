@@ -1,8 +1,9 @@
 ﻿using SAP1EMU.Lib.Components;
+using SAP1EMU.SAP2.Lib.Components;
 
 using System;
 
-namespace SAP1EMU.Lib.Registers
+namespace SAP1EMU.SAP2.Lib.Registers
 {
     public class IReg : IObserver<TicTok>
     {
@@ -10,20 +11,17 @@ namespace SAP1EMU.Lib.Registers
 
         private void Exec(TicTok tictok)
         {
-            string cw = SEQ.Instance().ControlWord;
-
-            //  TODO - Find a better way of using the mask to get the value
-            //          Currently is using hardcoded magic numbers
+            var cw = SEQ.Instance().ControlWord;
 
             // Active Low, Push on Tic
-            if (cw[5] == '0' & tictok.ClockState == TicTok.State.Tic)
-            {
-                // Send A to the WBus
-                Wbus.Instance().Value = "0000" + RegContent.Substring(4, 4); //Instruction register only outputs the least significant bits to the WBus
-            }
+            //if (string.Equals(cw["EI_"], "0", StringComparison.Ordinal) & tictok.ClockState == TicTok.State.Tic)
+            //{
+            //    // Send A to the WBus
+            //    Wbus.Instance().Value = "0000" + RegContent.Substring(4, 4); //Instruction register only outputs the least significant bits to the WBus
+            //}
 
             // Active Low, Pull on Tok
-            if (cw[4] == '0' && tictok.ClockState == TicTok.State.Tok)
+            if (string.Equals(cw["LI_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)
             {
                 RegContent = Wbus.Instance().Value;
             }
@@ -36,7 +34,6 @@ namespace SAP1EMU.Lib.Registers
         public override string ToString()
         {
             //  I dont know this this is the best place to put this substring command, but it is needed
-            // Currently,
             return RegContent.Substring(0, 4);
         }
 
@@ -52,7 +49,7 @@ namespace SAP1EMU.Lib.Registers
 
         void IObserver<TicTok>.OnCompleted()
         {
-            this.Unsubscribe();
+            Unsubscribe();
         }
 
         void IObserver<TicTok>.OnError(Exception error)
@@ -74,7 +71,7 @@ namespace SAP1EMU.Lib.Registers
 
         public string ToString_Frame_Use()
         {
-            return (String.IsNullOrEmpty(this.RegContent) ? "0000 0000" : this.RegContent);
+            return string.IsNullOrEmpty(RegContent) ? "0000 0000" : RegContent;
         }
     }
 }

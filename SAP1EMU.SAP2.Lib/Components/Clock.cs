@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SAP1EMU.Lib.Components
+namespace SAP1EMU.SAP2.Lib.Components
 {
     public class Clock : IObservable<TicTok>
     {

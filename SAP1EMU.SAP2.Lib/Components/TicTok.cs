@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SAP1EMU.Lib.Components
+namespace SAP1EMU.SAP2.Lib.Components
 {
     /// <summary>
     /// This will prevent "RaceCases" on the board.

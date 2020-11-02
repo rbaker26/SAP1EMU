@@ -1,8 +1,5 @@
-﻿using SAP1EMU.Lib.Components;
-using SAP1EMU.SAP2.Lib.Components;
+﻿using SAP1EMU.SAP2.Lib.Components;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SAP1EMU.SAP2.Lib.Registers
 {
@@ -21,7 +18,7 @@ namespace SAP1EMU.SAP2.Lib.Registers
         {
             var cw = SEQ.Instance().ControlWord;
 
-            // Active High, Push on Tic
+            // Active Low, Push on Tok
             if (string.Equals(cw["EMDR"], "1", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tic)
             {
                 Wbus.Instance().Value = RegContent;

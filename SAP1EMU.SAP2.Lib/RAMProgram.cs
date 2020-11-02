@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SAP1EMU.Lib
+namespace SAP1EMU.SAP2.Lib
 {
     /// <summary>
     /// This object is used for transfering the program into the Engine.
@@ -15,7 +15,6 @@ namespace SAP1EMU.Lib
 
         private readonly int MAX_RAM_SIZE = 0xFFFF;
 
-        //  Program() { }
         public RAMProgram(List<string> RamContents)
         {
             // Make sure no more than  intructions are entered.

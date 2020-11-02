@@ -1,10 +1,8 @@
-﻿using SAP1EMU.Lib.Registers;
-using SAP1EMU.Lib.Utilities;
-using SAP1EMU.SAP2.Lib.Components;
+﻿using SAP1EMU.SAP2.Lib.Utilities;
 using SAP1EMU.SAP2.Lib.Registers;
 using System;
 
-namespace SAP1EMU.Lib.Components
+namespace SAP1EMU.SAP2.Lib.Components
 {
     public class ALU : IObserver<TicTok>
     {
@@ -106,7 +104,7 @@ namespace SAP1EMU.Lib.Components
 
             if (result == 0)
             {
-                FlagContent += "01";
+                FlagContent = "01";
             }
 
             string val = BinConverter.IntToBin8(result);
