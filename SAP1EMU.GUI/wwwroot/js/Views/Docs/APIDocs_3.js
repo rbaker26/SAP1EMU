@@ -6,14 +6,36 @@ var API_P3_POST_ASSEMBLE;
 var API_P3_POST_ASSEMBLE_Response;
 
 var SUPPORTED_SETS_CODE_LISTINGS = {
-    'python3': (
-        "from urllib.request import urlopen\n"+
-        "import json\n"+
-        "uri = \"https://sap1emu.net/api/Assembler/supported_sets\"\n"+
-        "response = urlopen(uri)\n"+
-        "result = response.read()\n"+
-        "sets_list = json.loads(result)\n"),
-};
+    'python3':
+        "from urllib.request import urlopen\n" +
+        "import json\n" +
+        "uri = \"https://sap1emu.net/api/Assembler/supported_sets\"\n" +
+        "response = urlopen(uri)\n" +
+        "result = response.read()\n" +
+        "sets_list = json.loads(result)\n",
+
+    'java11':
+        "import com.google.gson.Gson;\n\n" +
+        "import java.io.IOException;\n" +
+        "import java.net.URI;\n" +
+        "import java.net.URISyntaxException;\n" +
+        "import java.net.http.HttpClient;\n" +
+        "import java.net.http.HttpRequest;\n" +
+        "import java.net.http.HttpResponse;\n\n" +
+        "public class Main {\n" +
+        "    public static void main(String[] args) {\n" +
+        "        try {\n" +
+        "            HttpClient client = HttpClient.newHttpClient();\n" +
+        "            HttpRequest request = HttpRequest.newBuilder(new URI(\"https://sap1emu.net/api/Assembler/supported_sets\")).build();\n" +
+        "            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());\n" +
+        "            Gson gson = new Gson();\n" +
+        "            String[] instructionSets = gson.fromJson(response.body(), String[].class);\n" +
+        "        } catch (URISyntaxException | IOException | InterruptedException e) {\n" +
+        "            e.printStackTrace();\n" +
+        "        }\n" +
+        "    }\n" +
+        "}"
+}
 
 var ASSEMBLER_CODE_LISTINGS = {
     'python3': (
@@ -34,8 +56,47 @@ var ASSEMBLER_CODE_LISTINGS = {
         "request_body = json.dumps(request_content).encode()\n"+
         "response = urlopen(Request(uri, method=\"POST\", data=request_body, headers={\"Content-Type\": \"application/json\"}))\n"+
         "response_body = response.read()\n"+
-        "asm = json.loads(response_body)\n"+
+        "asm = json.loads(response_body)\n"
     ),
+    'java11': (
+        "import com.google.gson.Gson;\n\n" +
+        "import java.io.IOException;\n" +
+        "import java.net.URI;\n" +
+        "import java.net.URISyntaxException;\n" +
+        "import java.net.http.HttpClient;\n" +
+        "import java.net.http.HttpRequest;\n" +
+        "import java.net.http.HttpResponse;\n\n" +
+        "public class Main {\n" +
+        "    public static void main(String[] args) {\n" +
+        "        try {\n" +
+        "            HttpClient client = HttpClient.newHttpClient();\n" +
+        "            HttpRequest request = HttpRequest.newBuilder(new URI(\"https://sap1emu.net/api/Assembler/\"))\n" +
+        "                    .header(\"Content-Type\", \"application/json\")\n" +
+        "                    .POST(HttpRequest.BodyPublishers.ofString(\n" +
+        "                            \"{\n" +
+        "                                \"\\\"CodeList\\\": [\" +\n" +
+        "                                \"\\\"LDA 0xF\\\",\" +\n" +
+        "                                \"\\\"ADD 0xE\\\",\" +\n" +
+        "                                \"\\\"OUT 0x0\\\",\" +\n" +
+        "                                \"\\\"HLT 0x0\\\",\" +\n" +
+        "                                \"\\\"...\\\",\" +\n" +
+        "                                \"\\\"0x0 0x1\\\",\" +\n" +
+        "                                \"\\\"0xF 0xF\\\"\" +\n" +
+        "                                \"],\" +\n" +
+        "                                \"\\\"SetName\\\": \\\"SAP1EMU\\\"\" +\n" +
+        "                           \"}\"\n" +
+        "                    ))\n" +
+        "                    .build();\n" +
+        "            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());\n" +
+        "            System.out.println(response.body());\n" +
+        "            Gson gson = new Gson();\n" +
+        "            String[] compiledBinary = gson.fromJson(response.body(), String[].class);\n" +
+        "        } catch (URISyntaxException | IOException | InterruptedException e) {\n" +
+        "            e.printStackTrace();\n" +
+        "        }\n" +
+        "    }\n" +
+        "}"
+    )
 };
 
 
