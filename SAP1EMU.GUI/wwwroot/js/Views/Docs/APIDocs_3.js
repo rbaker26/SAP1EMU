@@ -6,15 +6,15 @@ var API_P3_POST_ASSEMBLE;
 var API_P3_POST_ASSEMBLE_Response;
 
 var SUPPORTED_SETS_CODE_LISTINGS = {
-    'python3':
+    'python3': (
         "from urllib.request import urlopen\n" +
         "import json\n" +
         "uri = \"https://sap1emu.net/api/Assembler/supported_sets\"\n" +
         "response = urlopen(uri)\n" +
         "result = response.read()\n" +
-        "sets_list = json.loads(result)\n",
-
-    'java11':
+        "sets_list = json.loads(result)\n"
+    ),
+    'java11': (
         "import com.google.gson.Gson;\n\n" +
         "import java.io.IOException;\n" +
         "import java.net.URI;\n" +
@@ -35,6 +35,7 @@ var SUPPORTED_SETS_CODE_LISTINGS = {
         "        }\n" +
         "    }\n" +
         "}"
+    )
 }
 
 var ASSEMBLER_CODE_LISTINGS = {
