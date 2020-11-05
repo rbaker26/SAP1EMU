@@ -102,7 +102,7 @@ window.onload = function () {
         "{\n " +
         "\tusing (var httpContent = new StringContent(requestBody, Encoding.UTF8, \"application/json\"))\n" +
         "\t{\n" +
-        "\t\tvar response = await httpClient.PostAsync(\"https://sap1emu.net/api/Assembler\", httpContent);\n" +
+        "\t\tvar response = await httpClient.PostAsync(\"https://sap1emu.net/api/Emulator\", httpContent);\n" +
         "\t\tstring responseBody = await response.Content.ReadAsStringAsync();\n" +
         "\t\tList<string> asm = JsonSerializer.Deserialize<List<string>>(responseBody);\n" +
         "\t}\n" +
