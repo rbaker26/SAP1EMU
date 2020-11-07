@@ -5,7 +5,7 @@
         @{
             if (!String.IsNullOrEmpty(Model.PreviousView))
             {
-                <button class="btn btn-primary" onclick="location.href='@Url.Action(Model.PreviousView, Model.ControllerName)'">Previous - @Model.PreviousViewDisplay</button>
+                <a class="btn btn-primary" asp-area="" asp-controller="@Model.ControllerName" asp-action="@Model.PreviousView">Previous - @Model.PreviousViewDisplay</a>
             }
         }
     </div>
@@ -16,11 +16,11 @@
             {
                 if (Model.IsNewChapter)
                 {
-                    <button class="btn btn-danger" onclick="location.href='@Url.Action(Model.NextView, Model.ControllerName)'">Next - @Model.NextViewDisplay</button>
+                    <a class="btn btn-danger" asp-area="" asp-controller="@Model.ControllerName" asp-action="@Model.NextView">Next - @Model.NextViewDisplay</a>
                 }
                 else
                 {
-                    <button class="btn btn-primary" onclick="location.href='@Url.Action(Model.NextView, Model.ControllerName)'">Next - @Model.NextViewDisplay</button>
+                    <a class="btn btn-primary"  asp-area="" asp-controller="@Model.ControllerName" asp-action="@Model.NextView">Next - @Model.NextViewDisplay</a>
                 }
             }
 
