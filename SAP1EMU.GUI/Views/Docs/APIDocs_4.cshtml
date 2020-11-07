@@ -26,25 +26,25 @@
 <p>
     The Emulator API Call takes the same POST Body as the Assembler API Call, but instead of returning a list of strings it returns a list
     of Frames.  These Frames represent each TState for each instruction. For the SAP1, every instruction will have 6 TStates.  It is
-    good to note that if there is an emulation error, it will return different status code. Make sure to check out the 
+    good to note that if there is an emulation error, it will return different status code. Make sure to check out the
     <a href="/swagger/" target="_blank">Swagger Page</a> for more information.
     <br />
     <br />
-    In order to parse correctly, the <code>requestBody</code> JSON must be escaped properly when assigning it directly to a string.
-    If you are using <code>System.Text.Json</code> to create the <code>requestBody</code>, this will be handled automatically.
+    In order to parse correctly, replace <code>$REQUEST_BODY</code> with the JSON string located in the Request Body section.  If you are
+    manually typing the string, make sure to escape the special characters appropriately for your language.
 </p>
 <div class="card">
     <div class="card-header">
-        <h4 class="mb-4">POST: /api/Emulator</h4>
+        <h4 class="mb-4">POST: /api/Emulator/</h4>
         <ul class="nav nav-tabs card-header-tabs" id="docTabs">
             <li class="nav-item">
-                <a data-toggle="tab" class="nav-link active" href="">.NET Core</a>
+                <a data-toggle="tab" class="nav-link active" href=""  onclick="updateCodeBlock('csharp')">.NET Core</a>
             </li>
             <li class="nav-item">
-                <a data-toggle="tab" class="nav-link" href="">Java <span class="badge badge-pill badge-secondary">Comming Soon</span></a>
+                <a data-toggle="tab" class="nav-link" href="" onclick="updateCodeBlock('java11')">Java 11</a>
             </li>
             <li class="nav-item">
-                <a data-toggle="tab" class="nav-link" href="">Python3 <span class="badge badge-pill badge-secondary">Comming Soon</span></a>
+                <a data-toggle="tab" class="nav-link" href="" onclick="updateCodeBlock('python3')">Python3</a>
             </li>
         </ul>
     </div>

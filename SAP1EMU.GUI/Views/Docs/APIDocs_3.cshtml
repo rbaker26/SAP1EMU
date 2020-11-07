@@ -37,23 +37,23 @@
 <p>
     The SAP1Emu Emulator supports three different instruction sets for the SAP1. These SetNames must be passed along with the Code for the
     Emulator or Parser to correctly process the said Code. There is an API call you can make to retrieve the SetNames at
-    <span class="text-muted">GET: /api/Assembler/supported_sets</span>. This GET call will return the SetNames as a list of strings.
+    <span class="text-muted">GET: /api/Assembler/supported_sets/</span>. This GET call will return the SetNames as a list of strings.
     For more detailed information about this call, please visit the <a href="/swagger/" target="_blank">Swagger Page</a>
     <br /><br />
     Below are some code examples for calling this API Function in a couple of common languages and frameworks.
 </p>
 <div class="card">
     <div class="card-header">
-        <h4 class="mb-4">GET: /api/Assembler/supported_sets</h4>
+        <h4 class="mb-4">GET: /api/Assembler/supported_sets/</h4>
         <ul class="nav nav-tabs card-header-tabs" id="docTabs">
             <li class="nav-item">
-                <a data-toggle="tab" class="nav-link active" href="">.NET Core</a>
+                <a data-toggle="tab" class="nav-link active" href="" onclick="updateSupSetsCodeBlock('csharp')">.NET Core</a>
             </li>
             <li class="nav-item">
-                <a data-toggle="tab" class="nav-link" href="">Java <span class="badge badge-pill badge-secondary">Comming Soon</span></a>
+                <a data-toggle="tab" class="nav-link" href="" onclick="updateSupSetsCodeBlock('java11')">Java 11</a>
             </li>
             <li class="nav-item">
-                <a data-toggle="tab" class="nav-link" href="">Python3 <span class="badge badge-pill badge-secondary">Comming Soon</span></a>
+                <a data-toggle="tab" class="nav-link" href="" onclick="updateSupSetsCodeBlock('python3')">Python3</a>
             </li>
         </ul>
     </div>
@@ -79,21 +79,21 @@
     This will allow the user to submit SAP1Emu Assembly and will return the associated binary.
     <br />
     <br />
-    In order to parse correctly, the <code>requestBody</code> JSON must be escaped properly when assigning it directly to a string.
-    If you are using <code>System.Text.Json</code> to create the <code>requestBody</code>, this will be handled automatically.
+    In order to parse correctly, replace <code>$REQUEST_BODY</code> with the JSON string located in the Request Body section.  If you are
+    manually typing the string, make sure to escape the special characters appropriately for your language.
 </p>
 <div class="card">
     <div class="card-header">
-        <h4 class="mb-4">POST: /api/Assembler</h4>
+        <h4 class="mb-4">POST: /api/Assembler/</h4>
         <ul class="nav nav-tabs card-header-tabs" id="docTabs">
             <li class="nav-item">
-                <a data-toggle="tab" class="nav-link active" href="">.NET Core</a>
+                <a data-toggle="tab" class="nav-link active" href="" onclick="updateAssembleCodeBlock('csharp')">.NET Core</a>
             </li>
             <li class="nav-item">
-                <a data-toggle="tab" class="nav-link" href="">Java <span class="badge badge-pill badge-secondary">Comming Soon</span></a>
+                <a data-toggle="tab" class="nav-link" href="" onclick="updateAssembleCodeBlock('java11')">Java 11</a>
             </li>
             <li class="nav-item">
-                <a data-toggle="tab" class="nav-link" href="">Python3 <span class="badge badge-pill badge-secondary">Comming Soon</span></a>
+                <a data-toggle="tab" class="nav-link" href="" onclick="updateAssembleCodeBlock('python3')">Python3</a>
             </li>
         </ul>
     </div>
