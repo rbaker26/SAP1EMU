@@ -6,12 +6,12 @@ var EMULATOR_CODE_LISTINGS = {
     'python3': (
         "from urllib.request import Request, urlopen\n"+
         "import json\n"+
-        "uri = \"https://sap1emu.net/api/Emulator\"\n"+
+        "uri = \"https://sap1emu.net/api/Emulator/\"\n"+
         "request_content = $REQUEST_BODY \n" +
         "request_body = json.dumps(request_content).encode()\n"+
         "response = urlopen(Request(uri, method=\"POST\", data=request_body, headers={\"Content-Type\": \"application/json\"}))\n"+
         "response_body = response.read()\n"+
-        "frameData = json.loads(response_body)\n"
+        "frameData = json.loads(response_body)"
     ),
     'java11': (
         "HttpClient client = HttpClient.newHttpClient();\n" +
@@ -28,7 +28,7 @@ var EMULATOR_CODE_LISTINGS = {
         "{\n " +
         "\tusing (var httpContent = new StringContent( $REQUEST_BODY , Encoding.UTF8, \"application/json\"))\n" +
         "\t{\n" +
-        "\t\tvar response = await httpClient.PostAsync(\"https://sap1emu.net/api/Emulator\", httpContent);\n" +
+        "\t\tvar response = await httpClient.PostAsync(\"https://sap1emu.net/api/Emulator/\", httpContent);\n" +
         "\t\tstring responseBody = await response.Content.ReadAsStringAsync();\n" +
         "\t\tList<Frame> frameData = JsonSerializer.Deserialize<List<Frame>>(responseBody);\n" +
         "\t}\n" +
@@ -80,10 +80,45 @@ window.onload = function () {
     });
 
     API_P3_POST_EMULATE_Response.setValue(
-        "[\n  {\n    \"instruction\": \"???\",\n    \"tState\": 1,\n    \"aReg\": \"00000000\",\n    \"bReg\": \"00000000\",\n    \"iReg\": \"00000000\",\n    \"iRegShort\": \"0000\",\n    \"mReg\": \"0000\",\n    \"oReg\": \"00000000\",\n    \"pc\": \"0000\",\n    \"alu\": \"00000000\",\n    \"seq\": \"01011110001111000\",\n    \"wBus\": \"00000000\",\n    \"raM_Reg\": \"00000000\",\n    \"overflow_Flag\": \"0\",\n    \"underflow_Flag\": \"0\",\n    \"zero_Flag\": \"0\",\n    \"ram\": [\n      \"00000000\",\n      \"11100000\",\n      \"11110000\",\n      \"00000000\",\n      \"00000000\",\n      \"00000000\",\n      \"00000000\",\n      \"00000000\",\n      \"00000000\",\n      \"00000000\",\n      \"00000000\",\n      \"00000000\",\n      \"00000000\",\n      \"00000000\",\n      \"00000000\",\n      \"00000000\"\n\t]\n  },\n  {\n    \"instruction\": \"???\",\n    \"tState\": 2,\n    \"aReg\": \"00000000\",\n    \"bReg\": \"00000000\",\n    \"iReg\": \"00000000\",\n    \"iRegShort\": \"0000\",\n\t\"mReg\": \"0000\",\n\t\"oReg\": \"00000000\",\n\t\"pc\": \"0001\",\n\t\"alu\": \"00000000\",\n\t\"seq\": \"10111110001111000\",\n\t\"wBus\": \"00000000\",\n\t\"raM_Reg\": \"00000000\",\n\t\"overflow_Flag\": \"0\",\n\t\"underflow_Flag\": \"0\",\n\t\"zero_Flag\": \"0\",\n\t\"ram\": [\n      \"00000000\",\n      \"11100000\",\n      \"11110000\",\n      \"00000000\",\n      \"00000000\",\n      \"00000000\",\n      \"00000000\",\n      \"00000000\",\n      \"00000000\",\n      \"00000000\",\n      \"00000000\",\n      \"00000000\",\n      \"00000000\",\n      \"00000000\",\n      \"00000000\",\n      \"00000000\"\n\t]\n  },\n  ...\n]"
+        "[\n  {\n    \"instruction\": \"???\",\n    \"tState\": 1,\n    \"aReg\": \"00000000\",\n"
+        +
+        "    \"bReg\": \"00000000\",\n    \"iReg\": \"00000000\",\n    \"iRegShort\": \"0000\",\n"
+        +
+        "    \"mReg\": \"0000\",\n    \"oReg\": \"00000000\",\n    \"pc\": \"0000\",\n "
+        +
+        "   \"alu\": \"00000000\",\n    \"seq\": \"01011110001111000\",\n    \"wBus\": \"00000000\",\n"
+        +
+        "    \"raM_Reg\": \"00000000\",\n    \"overflow_Flag\": \"0\",\n    \"underflow_Flag\": \"0\",\n"
+        +
+        "    \"zero_Flag\": \"0\",\n    \"ram\": [\n      \"00000000\",\n      \"11100000\",\n      \"11110000\",\n"
+        +
+        "      \"00000000\",\n      \"00000000\",\n      \"00000000\",\n      \"00000000\",\n      \"00000000\",\n"
+        +
+        "      \"00000000\",\n      \"00000000\",\n      \"00000000\",\n      \"00000000\",\n      \"00000000\",\n"
+        +
+        "      \"00000000\",\n      \"00000000\",\n      \"00000000\"\n\t]\n  },\n  {\n    \"instruction\": \"???\",\n"
+        +
+        "    \"tState\": 2,\n    \"aReg\": \"00000000\",\n    \"bReg\": \"00000000\",\n    \"iReg\": \"00000000\",\n"
+        +
+        "    \"iRegShort\": \"0000\",\n\t\"mReg\": \"0000\",\n\t\"oReg\": \"00000000\",\n\t\"pc\": \"0001\",\n"
+        +
+        "\t\"alu\": \"00000000\",\n\t\"seq\": \"10111110001111000\",\n\t\"wBus\": \"00000000\",\n"
+        +
+        "\t\"raM_Reg\": \"00000000\",\n\t\"overflow_Flag\": \"0\",\n\t\"underflow_Flag\": \"0\",\n"
+        +
+        "\t\"zero_Flag\": \"0\",\n"
+        +
+        "\t\"ram\": [\n      \"00000000\",\n      \"11100000\",\n      \"11110000\",\n      \"00000000\",\n"
+        +
+        "      \"00000000\",\n      \"00000000\",\n      \"00000000\",\n      \"00000000\",\n      \"00000000\",\n"
+        +
+        "      \"00000000\",\n      \"00000000\",\n      \"00000000\",\n      \"00000000\",\n      \"00000000\",\n"
+        +
+        "      \"00000000\",\n      \"00000000\"\n\t]\n  },\n  ...\n]"
+
     );
 }
 
-function updatedCodeBlock(lang) {
+function updateCodeBlock(lang) {
     API_P3_POST_EMULATE.setValue(EMULATOR_CODE_LISTINGS[lang]);
 }
