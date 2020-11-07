@@ -53,7 +53,7 @@ window.onload = function () {
         "\t\t\"ADD 0xE\",  \n" +
         "\t\t\"OUT 0x0\",  \n" +
         "\t\t\"HLT 0x0\",  \n" +
-        "\t\t\"...\"       \n" +
+        "\t\t\"...\",      \n" +
         "\t\t\"0x0 0x1\",  \n" +
         "\t\t\"0xF 0xF\",  \n" +
 
