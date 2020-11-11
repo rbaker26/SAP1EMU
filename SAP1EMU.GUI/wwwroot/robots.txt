@@ -1,4 +1,4 @@
 ﻿User-agent: *
 Allow: /
 
-Sitemap: https://localhost:5001/api/sitemap
+Sitemap: https://sap1emu.net/api/sitemap
