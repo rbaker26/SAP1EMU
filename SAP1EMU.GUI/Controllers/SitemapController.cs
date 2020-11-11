@@ -25,7 +25,7 @@ namespace SAP1EMU.GUI.Controllers
             },
             new SitemapNode(Url.Action("Index","Home"))
             {
-                Priority =0.99M
+                Priority =0.9M
             },
             new SitemapNode(Url.Action("About","Home")),
             new SitemapNode(Url.Action("Emulator","Home")),
