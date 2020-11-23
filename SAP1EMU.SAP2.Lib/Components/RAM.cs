@@ -9,7 +9,7 @@ namespace SAP1EMU.SAP2.Lib.Components
         private List<string> RamContents = new List<string>();
 
         private string MARContents { get; set; }
-        public string RegContent { get; private set; } // For ToString()
+        public string RegContent { get; private set; }
 
         private readonly MDR mdrReg;
 
@@ -73,13 +73,12 @@ namespace SAP1EMU.SAP2.Lib.Components
 
         public void ClearRAM()
         {
-            RamContents = null;
             RamContents = new List<string>();
         }
 
-        public void IncomingMARData(string mar_data)
+        public void IncomingMARData(string marData)
         {
-            MARContents = mar_data;
+            MARContents = marData;
             RegContent = GetWordAt(MARContents); // For tostring()
         }
 
@@ -116,7 +115,7 @@ namespace SAP1EMU.SAP2.Lib.Components
         #endregion IObserver<TicTok> Region
 
         // For Frame Support
-        public IList<string> RAMDump() { return RamContents; }
+        public List<string> RAMDump() { return RamContents; }
 
         public override string ToString()
         {

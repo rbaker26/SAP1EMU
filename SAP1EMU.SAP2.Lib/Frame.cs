@@ -45,10 +45,6 @@ namespace SAP1EMU.SAP2.Lib
             this.ALU = alu.ToString();
             this.WBus = wbus_string;
 
-            //this.Overflow_Flag = flags.Overflow.ToString();
-            //this.Underflow_Flag = flags.Underflow.ToString();
-            //this.Zero_Flag = flags.Zero.ToString();
-
             foreach (string s in ramContents)
             {
                 RAM.Add(s);

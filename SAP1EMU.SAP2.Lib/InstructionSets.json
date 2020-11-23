@@ -5,15 +5,21 @@
     "instructions": [
       {
         "OpCode": "ADD B",
-        "BinCode": "1000 0000",
+        "BinCode": "10000000",
         "TStates": 4,
         "AffectsFlags": true,
         "AddressingMode": "Register",
         "Bytes": 1,
         "MicroCode": [
-          "0111000111111010101000110000000",
-          "1011001111111010101000110000000",
-          "0010001011011010101000110000000"
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
         ]
       }
     ]

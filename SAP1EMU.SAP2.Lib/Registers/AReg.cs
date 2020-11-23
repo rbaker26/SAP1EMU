@@ -14,8 +14,8 @@ namespace SAP1EMU.SAP2.Lib.Registers
             // Active Hi, Push on Tic
             if (string.Equals(cw["EA"], "1", StringComparison.Ordinal) & tictok.ClockState == TicTok.State.Tic)
             {
-                // Send A to the WBus
-                Wbus.Instance().Value = RegContent;
+                // Send A to the WBus while checking if we want to output to the bus upper or lower 8 bits
+                Multiplexer.Instance().PassThroughToBus(RegContent, Convert.ToBoolean(cw["UB"]));
             }
 
             // Active Low, Pull on Tok

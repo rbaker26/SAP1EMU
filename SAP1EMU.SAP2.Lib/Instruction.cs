@@ -19,5 +19,6 @@ namespace SAP1EMU.SAP2.Lib
         public AddressingMode AddressingMode { get; set; }
         public int Bytes { get; set; }
         public List<string> MicroCode { get; set; }
+        public List<string>? UpdatedFetchCycleStates { get; set; }
     }
 }

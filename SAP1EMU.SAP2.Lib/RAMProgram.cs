@@ -22,7 +22,7 @@ namespace SAP1EMU.SAP2.Lib
 
             if (count > MAX_RAM_SIZE)
             {
-                throw new ArgumentOutOfRangeException("RAM Overflow - More than 16 lines of code.");
+                throw new ArgumentOutOfRangeException($"RAM Overflow - More than {0xFFFF} lines of code.");
             }
 
             this.RamContents = RamContents;

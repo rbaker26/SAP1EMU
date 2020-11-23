@@ -1,5 +1,4 @@
-﻿using SAP1EMU.Lib.Components;
-using SAP1EMU.SAP2.Lib.Components;
+﻿using SAP1EMU.SAP2.Lib.Components;
 using System;
 
 namespace SAP1EMU.SAP2.Lib.Registers
@@ -16,7 +15,7 @@ namespace SAP1EMU.SAP2.Lib.Registers
             if (string.Equals(cw["EB"], "1", StringComparison.Ordinal) & tictok.ClockState == TicTok.State.Tic)
             {
                 // Send B to the WBus
-                Wbus.Instance().Value = RegContent;
+                Multiplexer.Instance().PassThroughToBus(RegContent, Convert.ToBoolean(cw["UB"]));
             }
 
             // Active Low, Pull on Tok

@@ -19,13 +19,13 @@ namespace SAP1EMU.SAP2.Lib.Registers
             var cw = SEQ.Instance().ControlWord;
 
             // Active Low, Push on Tok
-            if (string.Equals(cw["EMDR"], "1", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tic)
+            if (string.Equals(cw["EMDR"], "1", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)
             {
                 Wbus.Instance().Value = RegContent;
             }
 
             // Active Low, Pull on Tok
-            if (string.Equals(cw["LMDR_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)
+            if (string.Equals(cw["LMDR_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tic)
             {
                 RegContent = ram.RegContent;
             }

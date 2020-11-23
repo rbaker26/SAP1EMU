@@ -1,6 +1,7 @@
 ﻿using SAP1EMU.Lib;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SAP1EMU.SAP2.Lib.Components
 {
@@ -13,6 +14,11 @@ namespace SAP1EMU.SAP2.Lib.Components
         /// Hold all the control words
         /// </summary>
         private readonly Dictionary<int, string> ControlTable = new Dictionary<int, string>();
+
+        private List<Instruction> instructionsThatModifyNextInstruction;
+
+        private List<string> executedInstructions = new List<string>();
+        private string lastInstructionBinary = string.Empty;
 
         /// <summary>
         /// The control word storage location for all registers and components
@@ -72,13 +78,14 @@ namespace SAP1EMU.SAP2.Lib.Components
                 ControlWord["ALU"] = value[25..29];
 
                 //Jump
-                ControlWord["JC"] = value[29..]; 
+                ControlWord["JC"] = value[29..32];
+
+                //Output to upper byte
+                ControlWord["UB"] = value[32..33];
             }
         }
             
         public readonly Dictionary<string, string> ControlWord;
-
-        public readonly Dictionary<string, string> SupportedCommandsBinTable = new Dictionary<string, string>(StringComparer.Ordinal);
 
         //************************************************************************************************************************
 
@@ -89,11 +96,35 @@ namespace SAP1EMU.SAP2.Lib.Components
         /// <param name="TState"></param>
         /// <param name="Instruction"></param>
         /// <returns></returns>
-        public string UpdateControlWordReg(int TState, string Instruction)
+        public void UpdateControlWordReg(int TState, string instructionBinaryCode)
         {
-            int hash = HashKey(TState, Instruction);
+            int hash = HashKey(TState, instructionBinaryCode);
             _controlWord = ControlTable[hash];
-            return _controlWord;
+
+            //Beginning of a new instruction
+            if(TState == 1)
+            {
+                executedInstructions.Add(instructionBinaryCode);
+            }
+
+            //If we have more than 1 we need to keep track of the previous one to see if itll influence this instructions fetch cycle control word
+            if(executedInstructions.Count > 1 && TState <= 3)
+            {
+                lastInstructionBinary = executedInstructions[^2]; //similar to count - 2
+
+                Instruction? instruction = instructionsThatModifyNextInstruction.Find(i => string.Equals(i.BinCode, lastInstructionBinary, StringComparison.Ordinal));
+
+                if (instruction != null && instruction.UpdatedFetchCycleStates != null)
+                {
+                    List<string> updatedMicroCode = instruction.UpdatedFetchCycleStates;
+
+                    //If the code is empty then do nothing to the microcode otherwise modify the control word.
+                    if (!string.IsNullOrEmpty(updatedMicroCode[TState]))
+                    {
+                        _controlWord = updatedMicroCode[TState];
+                    }
+                }
+            }
         }
 
         //************************************************************************************************************************
@@ -101,7 +132,7 @@ namespace SAP1EMU.SAP2.Lib.Components
         //************************************************************************************************************************
         private static int HashKey(int TState, string Instruction)
         {
-            return HashCode.Combine<int, string>(TState, Instruction);
+            return HashCode.Combine(TState, Instruction);
         }
 
         //************************************************************************************************************************
@@ -111,17 +142,17 @@ namespace SAP1EMU.SAP2.Lib.Components
             //SupportedCommandsBinTable.Clear();
             ControlTable.Clear();
 
+            instructionsThatModifyNextInstruction = iset.Instructions.Where(i => i.UpdatedFetchCycleStates != null).ToList();
+
             foreach (Instruction instruction in iset.Instructions)
             {
-                //  SupportedCommandsBinTable.Add(instruction.OpCode, instruction.BinCode);
-
-                //TODO::Figure out if this is the TState number and what to do with it
-                for (int i = 0; i < 6; i++)
+                for (int i = 0; i < instruction.MicroCode.Count; i++)
                 {
                     ControlTable.Add(HashKey(i + 1, instruction.BinCode), instruction.MicroCode[i]);
                 }
             }
-            _instance._controlWord = ControlTable[HashKey(6, "1111")]; // sets the default to a NOP
+
+            _instance._controlWord = ControlTable[HashKey(4, "00000000")]; // sets the default to a NOP
         }
 
         // Singleton Pattern
