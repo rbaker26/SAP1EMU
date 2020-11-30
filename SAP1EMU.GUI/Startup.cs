@@ -9,9 +9,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using SAP1EMU.GUI.Contexts;
 using SAP1EMU.Lib;
+using SAP1EMU.GUI.Hubs;
 using System;
 using System.IO;
 using System.Reflection;
+
 
 namespace SAP1EMU.GUI
 {
@@ -51,6 +53,8 @@ namespace SAP1EMU.GUI
             services.AddDbContext<Sap1EmuContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("sap1emu_db_conn_string")));
 
+            services.AddSignalR();
+
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
@@ -78,7 +82,6 @@ namespace SAP1EMU.GUI
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -136,6 +139,7 @@ namespace SAP1EMU.GUI
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapHub<EmulatorHub>("/emulatorhub");
             });
         }
     }

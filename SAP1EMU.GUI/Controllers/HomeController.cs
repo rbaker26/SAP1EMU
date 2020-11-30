@@ -20,6 +20,7 @@ namespace SAP1EMU.GUI.Controllers
         public IActionResult Index()
         {
             return View();
+
         }
 
         public IActionResult About()
@@ -56,6 +57,11 @@ namespace SAP1EMU.GUI.Controllers
         }
 
         public IActionResult Contributors()
+        {
+            return View();
+        }
+
+        public IActionResult TestSignalR()
         {
             return View();
         }
