@@ -11,12 +11,14 @@ namespace SAP1EMU.SAP2.Lib.Components
         private string MARContents { get; set; }
         public string RegContent { get; private set; }
 
-        private readonly MDR mdrReg;
+        private MDR mdrReg;
 
         private readonly int MIN_RAM_ADDRESS = 0x0800;
         private readonly int MAX_RAM_ADDRESS = 0xFFFF;
 
-        public RAM(ref MDR mdrReg)
+        public RAM() { }
+
+        public void SetRefToMDR(ref MDR mdrReg)
         {
             this.mdrReg = mdrReg;
         }
@@ -26,13 +28,13 @@ namespace SAP1EMU.SAP2.Lib.Components
             var cw = SEQ.Instance().ControlWord;
 
             // Active Low, Push on Tic (Was CE_ didnt make sense i prefer Enable RAM)
-            if (string.Equals(cw["ER_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tic)
+            if (string.Equals(cw["EM_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tic)
             {
                 RegContent = GetWordAt(MARContents);
             }
 
             // Active Low, Pull on Tok
-            if (string.Equals(cw["LR_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)
+            if (string.Equals(cw["LM_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)
             {
                 string word = mdrReg.RegContent;
                 SetWordAt(MARContents, word);
@@ -53,7 +55,7 @@ namespace SAP1EMU.SAP2.Lib.Components
 
         public string GetWordAt(string addr)
         {
-            int index = (int)(Convert.ToUInt32(addr, 2));
+            int index = Convert.ToInt32(addr, 2);
             if (index < MIN_RAM_ADDRESS || index > MAX_RAM_ADDRESS)
             {
                 throw new ArgumentOutOfRangeException($"RAM Index Error - Addr with value {index} is not inbetween the range of {MIN_RAM_ADDRESS}-{MAX_RAM_ADDRESS}");
@@ -63,12 +65,17 @@ namespace SAP1EMU.SAP2.Lib.Components
 
         public void SetWordAt(string addr, string word)
         {
-            int index = (int)(Convert.ToUInt32(addr, 2));
+            int index = Convert.ToInt32(addr, 2);
             if (index < MIN_RAM_ADDRESS || index > MAX_RAM_ADDRESS)
             {
                 throw new ArgumentOutOfRangeException($"RAM Index Error - Addr with value {index} is not inbetween the range of {MIN_RAM_ADDRESS}-{MAX_RAM_ADDRESS}");
             }
             RamContents[index] = word;
+        }
+
+        public void SetWordAtMARAddress(string word)
+        {
+            SetWordAt(MARContents, word);
         }
 
         public void ClearRAM()

@@ -7,9 +7,11 @@ namespace SAP1EMU.SAP2.Lib.Registers
     {
         public string RegContent { get; private set; }
 
-        private readonly RAM ram;
+        private RAM ram;
 
-        public MDR(ref RAM ram)
+        public MDR() { }
+
+        public void SetRefToRAM(ref RAM ram)
         {
             this.ram = ram;
         }
@@ -18,16 +20,30 @@ namespace SAP1EMU.SAP2.Lib.Registers
         {
             var cw = SEQ.Instance().ControlWord;
 
-            // Active Low, Push on Tok
-            if (string.Equals(cw["EMDR"], "1", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)
+            // Both tied to the same signal from ram so when ram is emitting then MDR is changed as well
+            if (string.Equals(cw["EM_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tic)
             {
-                Wbus.Instance().Value = RegContent;
+                RegContent = ram.RegContent;
+            }
+
+            // LM_ is tied to MAR -> RAM so i did LR_ for MDR -> RAM
+            if (string.Equals(cw["LR_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tic)
+            {
+                ram.SetWordAtMARAddress(RegContent);
+            }
+
+            // Active High, Push on Tic
+            if (string.Equals(cw["EMDR"], "1", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tic)
+            {
+                //Wbus.Instance().Value = RegContent;
+                Multiplexer.Instance().PassThroughToBus(RegContent, Convert.ToBoolean(cw["UB"]));
             }
 
             // Active Low, Pull on Tok
-            if (string.Equals(cw["LMDR_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tic)
+            if (string.Equals(cw["LMDR_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)
             {
-                RegContent = ram.RegContent;
+                //RegContent = Wbus.Instance().Value;
+                RegContent = Multiplexer.Instance().PassThroughToRegister(Convert.ToBoolean(cw["UB"]));
             }
         }
 

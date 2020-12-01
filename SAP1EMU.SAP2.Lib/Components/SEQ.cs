@@ -1,5 +1,4 @@
-﻿using SAP1EMU.Lib;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,9 +14,9 @@ namespace SAP1EMU.SAP2.Lib.Components
         /// </summary>
         private readonly Dictionary<int, string> ControlTable = new Dictionary<int, string>();
 
-        private List<Instruction> instructionsThatModifyNextInstruction;
+        private List<Instruction> instructionsThatModifyNextInstruction = new List<Instruction>();
 
-        private List<string> executedInstructions = new List<string>();
+        private readonly List<string> executedInstructions = new List<string>();
         private string lastInstructionBinary = string.Empty;
 
         /// <summary>
@@ -48,40 +47,43 @@ namespace SAP1EMU.SAP2.Lib.Components
                 ControlWord["EM_"] = value[7..8];
 
                 ControlWord["LR_"] = value[8..9];
-                ControlWord["ER_"] = value[9..10];
 
-                ControlWord["LMDR_"] = value[10..11];
-                ControlWord["EMDR"] = value[11..12];
+                ControlWord["LMDR_"] = value[9..10];
+                ControlWord["EMDR"] = value[10..11];
 
                 //Registers/Flag/ALU Output
-                ControlWord["LA_"] = value[13..14];
-                ControlWord["EA"] = value[14..15];
+                ControlWord["LA_"] = value[12..13];
+                ControlWord["EA"] = value[13..14];
 
-                ControlWord["LT_"] = value[15..16];
-                ControlWord["ET"] = value[16..17];
+                ControlWord["LT_"] = value[14..15];
+                ControlWord["ET"] = value[15..16];
 
-                ControlWord["LB_"] = value[17..18];
-                ControlWord["EB"] = value[18..19];
+                ControlWord["LB_"] = value[16..17];
+                ControlWord["EB"] = value[17..18];
 
-                ControlWord["LC_"] = value[19..20];
-                ControlWord["EC"] = value[20..21];
+                ControlWord["LC_"] = value[18..19];
+                ControlWord["EC"] = value[19..29];
 
-                ControlWord["LF"] = value[21..22];
+                ControlWord["LF"] = value[20..21];
 
-                ControlWord["EU"] = value[22..23];
+                ControlWord["EU"] = value[21..22];
 
                 //Output
-                ControlWord["L03_"] = value[23..24];
-                ControlWord["L04_"] = value[24..25];
+                ControlWord["L03_"] = value[22..23];
+                ControlWord["L04_"] = value[23..24];
 
                 //ALU
-                ControlWord["ALU"] = value[25..29];
+                ControlWord["ALU"] = value[24..29];
 
                 //Jump
                 ControlWord["JC"] = value[29..32];
 
                 //Output to upper byte
                 ControlWord["UB"] = value[32..33];
+                ControlWord["CLR"] = value[33..34];
+
+                // Hardcode PC address locations
+                ControlWord["RTNA"] = value[34..35];
             }
         }
             
@@ -182,15 +184,18 @@ namespace SAP1EMU.SAP2.Lib.Components
                 { "ALU", "" },   //ALU Control flags
                 { "JC", "" },    //Jump Control flags
 
-                { "LM_", "" },   //Load MAR
-                { "EM_", "" },   //Enable MAR
-                { "LR_", "" },   //Load RAM
-                { "ER_", "" },   //Enable RAM
+                { "LM_", "" },   //Load RAM (MAR)
+                { "EM_", "" },   //Enable RAM
+                { "LR_", "" },   //Load RAM from MDR
                 { "LMDR_", "" }, //Load Memory Data Register
                 { "EMDR", "" },  //Enable Memory Data Register
 
                 { "LO3_", "" },  //Load Output port 3
                 { "LO4_", "" },  //Load Output port 4
+
+                { "UB", "" },    //take bus upper byte if on or output to bus upper byte
+                { "CLR", "" },
+                { "RTNA", "" }
             };
         }
 

@@ -31,7 +31,7 @@ namespace SAP1EMU.SAP2.Lib
                 throw new Exception($"SAP1EMU: Error reading Instruction Set File: \"{SetName}\", Invalid JSON", e);
             }
 
-            InstructionSet setChoice = sets.Find(x => x.SetName.ToLower().Equals(SetName.ToLower(), StringComparison.Ordinal));
+            InstructionSet? setChoice = sets.Find(x => x.SetName.ToLower().Equals(SetName.ToLower(), StringComparison.Ordinal));
 
             if (setChoice == null || string.IsNullOrEmpty(setChoice.SetName))
             {

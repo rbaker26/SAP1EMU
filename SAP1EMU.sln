@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAP1EMU.GUI.Test", "SAP1EMU
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAP1EMU.SAP2.Lib", "SAP1EMU.SAP2.Lib\SAP1EMU.SAP2.Lib.csproj", "{5C82FB6B-21A2-4D07-A902-A8F7D9C86205}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAP1EMU.SAP2.Engine", "SAP1EMU.SAP2.Engine\SAP1EMU.SAP2.Engine.csproj", "{CEE273CC-6F7F-48BB-9E3F-AB53F2763EEE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,10 @@ Global
 		{5C82FB6B-21A2-4D07-A902-A8F7D9C86205}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C82FB6B-21A2-4D07-A902-A8F7D9C86205}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C82FB6B-21A2-4D07-A902-A8F7D9C86205}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEE273CC-6F7F-48BB-9E3F-AB53F2763EEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEE273CC-6F7F-48BB-9E3F-AB53F2763EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEE273CC-6F7F-48BB-9E3F-AB53F2763EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEE273CC-6F7F-48BB-9E3F-AB53F2763EEE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

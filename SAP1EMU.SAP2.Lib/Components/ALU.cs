@@ -23,6 +23,8 @@ namespace SAP1EMU.SAP2.Lib.Components
             CMA,
             RAL,
             RAR,
+            INR,
+            DEC
         }
 
         public ALU(ref AReg aReg, ref TReg tReg)
@@ -47,7 +49,7 @@ namespace SAP1EMU.SAP2.Lib.Components
             RegContent = Compute(Areg.ToString(), Treg.ToString(), action);
 
             // Active Hi, Push on Tic
-            if (string.Equals(cw["EU"], "1", StringComparison.Ordinal) & tictok.ClockState == TicTok.State.Tic)
+            if (string.Equals(cw["EU"], "1", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tic)
             {
                 Wbus.Instance().Value = RegContent;
             }
@@ -56,13 +58,13 @@ namespace SAP1EMU.SAP2.Lib.Components
         //************************************************************************************************************************
 
         //************************************************************************************************************************
-        public string Compute(string AReg, string BReg, ALUOPType action = ALUOPType.ADD)
+        public string Compute(string AReg, string TReg, ALUOPType action = ALUOPType.ADD)
         {
             const int MAX_RESULT = 255;
             const int MIN_RESULT = 0;
 
             int ia = BinConverter.Bin8ToInt(AReg);
-            int ib = BinConverter.Bin8ToInt(BReg);
+            int ib = BinConverter.Bin8ToInt(TReg);
 
             int result = 0;
 
@@ -93,6 +95,12 @@ namespace SAP1EMU.SAP2.Lib.Components
                 case ALUOPType.RAR:
                     AReg = AReg[^1] + AReg[0..^1];
                     result = BinConverter.Bin8ToInt(AReg);
+                    break;
+                case ALUOPType.INR:
+                    result = ib + 1;
+                    break;
+                case ALUOPType.DEC:
+                    result = ib - 1;
                     break;
             }
 

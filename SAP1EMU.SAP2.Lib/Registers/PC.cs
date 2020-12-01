@@ -29,69 +29,16 @@ namespace SAP1EMU.SAP2.Lib.Registers
             }
 
             // Active Hi, Push on Tic
-            if (string.Equals(cw["EP"], "1", StringComparison.Ordinal) & tictok.ClockState == TicTok.State.Tic)
+            if (string.Equals(cw["EP"], "1", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tic)
             {
                 // Send A to the WBus
                 Wbus.Instance().Value = RegContent;
             }
 
             // Active Low - Broadside Load, Pull
-            if (string.Equals(cw["LP_"], "0", StringComparison.Ordinal) & tictok.ClockState == TicTok.State.Tok)
+            if (string.Equals(cw["LP_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)
             {
-                //string jumpAddress = Wbus.Instance().Value;
-                //string jumpCode = cw["JC"];
-                
-                //if(jumpAddress.Length < 16)
-                //{
-                //    jumpAddress = jumpAddress.PadLeft(16, '0');
-                //}
-
-                //// JMP
-                //if (jumpCode == "000")
-                //{
-                //    RegContent = jumpAddress;
-                //}
-                //// JEQ
-                //else if (jumpCode == "001")
-                //{
-                //    if (flagReg.Zero)
-                //    {
-                //        RegContent = jumpAddress;
-                //    }
-                //}
-                //// JNQ
-                //else if (jumpCode == "010")
-                //{
-                //    if (!flagReg.Zero)
-                //    {
-                //        RegContent = jumpAddress;
-                //    }
-                //}
-                //// JLT
-                //else if (jumpCode == "011")
-                //{
-                //    if (areg.ToString()[0] == '1')
-                //    {
-                //        RegContent = jumpAddress;
-                //    }
-                //}
-                //// JGT
-                //else if (jumpCode == "100")
-                //{
-                //    if (areg.ToString() != "00000000" && areg.ToString()[0] == '0')
-                //    {
-                //        RegContent = jumpAddress;
-                //    }
-                //}
-                //// JIC
-                //else if (jumpCode == "101")
-                //{
-                //    if (flagReg.Signed)
-                //    {
-                //        RegContent = jumpAddress;
-                //    }
-                //}
-
+                RegContent = Wbus.Instance().Value;
             }
         }
 

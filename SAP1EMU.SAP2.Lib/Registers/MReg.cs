@@ -21,7 +21,7 @@ namespace SAP1EMU.SAP2.Lib.Registers
             // Active Low, Pull on Tok
             if (string.Equals(cw["LM_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)
             {
-                // Store Wbus val in A
+                // Store Wbus val in MAR
                 RegContent = Wbus.Instance().Value;
 
                 // Send the MAR data to the RAM

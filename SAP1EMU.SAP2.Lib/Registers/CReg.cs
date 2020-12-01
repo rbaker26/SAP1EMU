@@ -12,7 +12,7 @@ namespace SAP1EMU.SAP2.Lib.Registers
             var cw = SEQ.Instance().ControlWord;
 
             // Active Hi, Push on Tic
-            if (string.Equals(cw["EC"], "1", StringComparison.Ordinal) & tictok.ClockState == TicTok.State.Tic)
+            if (string.Equals(cw["EC"], "1", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tic)
             {
                 // Send C to the WBus
                 Multiplexer.Instance().PassThroughToBus(RegContent, Convert.ToBoolean(cw["UB"]));

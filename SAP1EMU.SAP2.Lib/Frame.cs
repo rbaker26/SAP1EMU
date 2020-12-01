@@ -37,7 +37,7 @@ namespace SAP1EMU.SAP2.Lib
 
             this.AReg = areg.ToString_Frame_Use();
             this.BReg = breg.ToString_Frame_Use();
-            this.IRegShort = ireg.ToString();
+            this.IRegShort = ireg.RegContent;
             this.IReg = ireg.ToString_Frame_Use();  // The real ToString() is in use with a substring in it.  This is needed for proper operation
             this.MReg = mreg.ToString_Frame_Use();
             this.OReg = oreg.ToString_Frame_Use();
@@ -61,8 +61,7 @@ namespace SAP1EMU.SAP2.Lib
 
             if (TState > 3)
             {
-                //Instruction = OpCodeLoader.DecodeInstruction(IReg.Substring(0, 4), SetName); // TODO this is really inifeciant.  Should prob make a service and inject it
-                Instruction = decoder.Decode(IReg.Substring(0, 4), SetName);
+                Instruction = decoder.Decode(IReg, SetName);
             }
             else
             {
