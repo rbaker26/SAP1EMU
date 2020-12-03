@@ -31,6 +31,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAP1EMU.SAP2.Lib", "SAP1EMU
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAP1EMU.SAP2.Engine", "SAP1EMU.SAP2.Engine\SAP1EMU.SAP2.Engine.csproj", "{CEE273CC-6F7F-48BB-9E3F-AB53F2763EEE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAP1EMU.SAP2.Assembler", "SAP1EMU.SAP2.Assembler\SAP1EMU.SAP2.Assembler.csproj", "{C1DA7FDD-0D05-479E-9266-6E7B57BAF14A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAP1EMU.SAP2.Assembler.Test", "SAP1EMU.SAP2.Assembler.Test\SAP1EMU.SAP2.Assembler.Test.csproj", "{9DE8FA31-2B2C-442A-A295-2470637C9334}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -89,6 +93,14 @@ Global
 		{CEE273CC-6F7F-48BB-9E3F-AB53F2763EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CEE273CC-6F7F-48BB-9E3F-AB53F2763EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CEE273CC-6F7F-48BB-9E3F-AB53F2763EEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1DA7FDD-0D05-479E-9266-6E7B57BAF14A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1DA7FDD-0D05-479E-9266-6E7B57BAF14A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1DA7FDD-0D05-479E-9266-6E7B57BAF14A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1DA7FDD-0D05-479E-9266-6E7B57BAF14A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DE8FA31-2B2C-442A-A295-2470637C9334}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DE8FA31-2B2C-442A-A295-2470637C9334}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DE8FA31-2B2C-442A-A295-2470637C9334}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DE8FA31-2B2C-442A-A295-2470637C9334}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -141,7 +141,6 @@ namespace SAP1EMU.SAP2.Lib.Components
 
         public void Load(InstructionSet iset)
         {
-            //SupportedCommandsBinTable.Clear();
             ControlTable.Clear();
 
             instructionsThatModifyNextInstruction = iset.Instructions.Where(i => i.UpdatedFetchCycleStates != null).ToList();
@@ -168,8 +167,8 @@ namespace SAP1EMU.SAP2.Lib.Components
 
                 { "LI_", ""},    //Load IR
 
-                { "EIP1", "" },   //Enable Input Port 1
-                { "EIP2", "" },   //Enable Input Port 2
+                { "EIP1", "" },  //Enable Input Port 1
+                { "EIP2", "" },  //Enable Input Port 2
 
                 { "LA_", "" },   //Load Accumulator
                 { "EA", "" },    //Enable Accumulator
@@ -194,8 +193,8 @@ namespace SAP1EMU.SAP2.Lib.Components
                 { "LO4_", "" },  //Load Output port 4
 
                 { "UB", "" },    //take bus upper byte if on or output to bus upper byte
-                { "CLR", "" },
-                { "RTNA", "" }
+                { "CLR", "" },   //Clear bus value when outputting to bus
+                { "RTNA", "" }   //Return Address => Marks whether to make MAR point to 0xFFFE or 0xFFFF for pc contents in memory
             };
         }
 

@@ -15,14 +15,14 @@ namespace SAP1EMU.SAP2.Lib.Registers
             if (string.Equals(cw["EC"], "1", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tic)
             {
                 // Send C to the WBus
-                Multiplexer.Instance().PassThroughToBus(RegContent, Convert.ToBoolean(cw["UB"]));
+                Multiplexer.Instance().PassThroughToBus(RegContent, Convert.ToBoolean(cw["UB"]), Convert.ToBoolean(cw["CLR"]));
             }
 
             // Active Low, Pull on Tok
             if (string.Equals(cw["LC_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)
             {
                 // Store Wbus val in C
-                RegContent = Wbus.Instance().Value; //Should be length 8
+                RegContent = Wbus.Instance().Value[0..8];
             }
         }
 

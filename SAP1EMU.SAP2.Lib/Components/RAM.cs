@@ -13,8 +13,8 @@ namespace SAP1EMU.SAP2.Lib.Components
 
         private MDR mdrReg;
 
-        private readonly int MIN_RAM_ADDRESS = 0x0800;
-        private readonly int MAX_RAM_ADDRESS = 0xFFFF;
+        private const int MIN_RAM_ADDRESS = 0x0800;
+        private const int MAX_RAM_ADDRESS = 0xFFFF;
 
         public RAM() { }
 

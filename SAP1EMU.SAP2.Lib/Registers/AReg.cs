@@ -15,14 +15,14 @@ namespace SAP1EMU.SAP2.Lib.Registers
             if (string.Equals(cw["EA"], "1", StringComparison.Ordinal) & tictok.ClockState == TicTok.State.Tic)
             {
                 // Send A to the WBus while checking if we want to output to the bus upper or lower 8 bits
-                Multiplexer.Instance().PassThroughToBus(RegContent, Convert.ToBoolean(cw["UB"]));
+                Multiplexer.Instance().PassThroughToBus(RegContent, Convert.ToBoolean(cw["UB"]), Convert.ToBoolean(cw["CLR"]));
             }
 
             // Active Low, Pull on Tok
             if (string.Equals(cw["LA_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)
             {
                 // Store Wbus val in A
-                RegContent = Wbus.Instance().Value; //Should be length 8
+                RegContent = Wbus.Instance().Value[0..8];
             }
         }
 

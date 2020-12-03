@@ -12,17 +12,17 @@ namespace SAP1EMU.SAP2.Lib.Registers
             var cw = SEQ.Instance().ControlWord;
 
             // Active Hi, Push on Tic
-            if (string.Equals(cw["EB"], "1", StringComparison.Ordinal) & tictok.ClockState == TicTok.State.Tic)
+            if (string.Equals(cw["EB"], "1", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tic)
             {
                 // Send B to the WBus
-                Multiplexer.Instance().PassThroughToBus(RegContent, Convert.ToBoolean(cw["UB"]));
+                Multiplexer.Instance().PassThroughToBus(RegContent, Convert.ToBoolean(cw["UB"]), Convert.ToBoolean(cw["CLR"]));
             }
 
             // Active Low, Pull on Tok
             if (string.Equals(cw["LB_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)
             {
                 // Store Wbus val in B
-                RegContent = Wbus.Instance().Value; //Should be length 8
+                RegContent = Wbus.Instance().Value[0..8];
             }
         }
 

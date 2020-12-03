@@ -23,6 +23,172 @@
         ]
       },
       {
+        "OpCode": "ADD C",
+        "BinCode": "10000001",
+        "TStates": 4,
+        "AffectsFlags": true,
+        "AddressingMode": "Register",
+        "Bytes": 1,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "ANA B",
+        "BinCode": "10100000",
+        "TStates": 4,
+        "AffectsFlags": true,
+        "AddressingMode": "Register",
+        "Bytes": 1,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "ANA C",
+        "BinCode": "10100001",
+        "TStates": 4,
+        "AffectsFlags": true,
+        "AddressingMode": "Register",
+        "Bytes": 1,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "ANI",
+        "BinCode": "11100110",
+        "TStates": 7,
+        "AffectsFlags": true,
+        "AddressingMode": "Immediate",
+        "Bytes": 2,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "CALL",
+        "BinCode": "11001101",
+        "TStates": 18,
+        "AffectsFlags": false,
+        "AddressingMode": "Immediate",
+        "Bytes": 3,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "CMA",
+        "BinCode": "00101111",
+        "TStates": 4,
+        "AffectsFlags": false,
+        "AddressingMode": "Implied",
+        "Bytes": 1,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "DCR A",
+        "BinCode": "00111101",
+        "TStates": 4,
+        "AffectsFlags": true,
+        "AddressingMode": "Register",
+        "Bytes": 1,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "DCR B",
+        "BinCode": "00000101",
+        "TStates": 4,
+        "AffectsFlags": true,
+        "AddressingMode": "Register",
+        "Bytes": 1,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "DCR C",
+        "BinCode": "00001101",
+        "TStates": 4,
+        "AffectsFlags": true,
+        "AddressingMode": "Register",
+        "Bytes": 1,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
         "OpCode": "HLT",
         "BinCode": "01110110",
         "TStates": 5,
@@ -32,6 +198,614 @@
         "MicroCode": [
           "",
           "",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "IN",
+        "BinCode": "11011011",
+        "TStates": 10,
+        "AffectsFlags": false,
+        "AddressingMode": "Direct",
+        "Bytes": 2,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "INR A",
+        "BinCode": "00111100",
+        "TStates": 4,
+        "AffectsFlags": true,
+        "AddressingMode": "Register",
+        "Bytes": 1,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "INR B",
+        "BinCode": "00000100",
+        "TStates": 4,
+        "AffectsFlags": true,
+        "AddressingMode": "Register",
+        "Bytes": 1,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "INR C",
+        "BinCode": "00001100",
+        "TStates": 4,
+        "AffectsFlags": true,
+        "AddressingMode": "Register",
+        "Bytes": 1,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "JM",
+        "BinCode": "11111010",
+        "TStates": 10,
+        "AffectsFlags": false,
+        "AddressingMode": "Immediate",
+        "Bytes": 3,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "JMP",
+        "BinCode": "11000011",
+        "TStates": 10,
+        "AffectsFlags": false,
+        "AddressingMode": "Immediate",
+        "Bytes": 3,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "JNZ",
+        "BinCode": "11000010",
+        "TStates": 10,
+        "AffectsFlags": false,
+        "AddressingMode": "Immediate",
+        "Bytes": 3,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "JZ",
+        "BinCode": "11001010",
+        "TStates": 10,
+        "AffectsFlags": false,
+        "AddressingMode": "Immediate",
+        "Bytes": 3,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "LDA",
+        "BinCode": "00111010",
+        "TStates": 13,
+        "AffectsFlags": false,
+        "AddressingMode": "Direct",
+        "Bytes": 3,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "MOV A,B",
+        "BinCode": "01111000",
+        "TStates": 4,
+        "AffectsFlags": false,
+        "AddressingMode": "Register",
+        "Bytes": 1,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "MOV A,C",
+        "BinCode": "01111001",
+        "TStates": 4,
+        "AffectsFlags": false,
+        "AddressingMode": "Register",
+        "Bytes": 1,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "MOV B,A",
+        "BinCode": "01000111",
+        "TStates": 4,
+        "AffectsFlags": false,
+        "AddressingMode": "Register",
+        "Bytes": 1,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "MOV B,C",
+        "BinCode": "01000001",
+        "TStates": 4,
+        "AffectsFlags": false,
+        "AddressingMode": "Register",
+        "Bytes": 1,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "MOV C,A",
+        "BinCode": "01001111",
+        "TStates": 4,
+        "AffectsFlags": false,
+        "AddressingMode": "Register",
+        "Bytes": 1,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "MOV C,B",
+        "BinCode": "01001000",
+        "TStates": 4,
+        "AffectsFlags": false,
+        "AddressingMode": "Register",
+        "Bytes": 1,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "MVI A",
+        "BinCode": "00111110",
+        "TStates": 7,
+        "AffectsFlags": false,
+        "AddressingMode": "Immediate",
+        "Bytes": 2,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "MVI B",
+        "BinCode": "00000110",
+        "TStates": 7,
+        "AffectsFlags": false,
+        "AddressingMode": "Register",
+        "Bytes": 2,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "MVI C",
+        "BinCode": "00001110",
+        "TStates": 7,
+        "AffectsFlags": false,
+        "AddressingMode": "Register",
+        "Bytes": 2,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "NOP",
+        "BinCode": "00000000",
+        "TStates": 4,
+        "AffectsFlags": false,
+        "AddressingMode": "None",
+        "Bytes": 1,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "ORA B",
+        "BinCode": "10110000",
+        "TStates": 4,
+        "AffectsFlags": true,
+        "AddressingMode": "Register",
+        "Bytes": 1,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "ORA C",
+        "BinCode": "10110001",
+        "TStates": 4,
+        "AffectsFlags": true,
+        "AddressingMode": "Register",
+        "Bytes": 1,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "ORI",
+        "BinCode": "11110110",
+        "TStates": 7,
+        "AffectsFlags": true,
+        "AddressingMode": "Immediate",
+        "Bytes": 2,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "OUT",
+        "BinCode": "11010011",
+        "TStates": 10,
+        "AffectsFlags": false,
+        "AddressingMode": "Direct",
+        "Bytes": 2,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "RAL",
+        "BinCode": "00010111",
+        "TStates": 4,
+        "AffectsFlags": false,
+        "AddressingMode": "Implied",
+        "Bytes": 1,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "RAR",
+        "BinCode": "00011111",
+        "TStates": 4,
+        "AffectsFlags": false,
+        "AddressingMode": "Implied",
+        "Bytes": 1,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "RET",
+        "BinCode": "11001001",
+        "TStates": 10,
+        "AffectsFlags": false,
+        "AddressingMode": "Implied",
+        "Bytes": 1,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "STA",
+        "BinCode": "00110010",
+        "TStates": 13,
+        "AffectsFlags": false,
+        "AddressingMode": "Direct",
+        "Bytes": 3,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "SUB B",
+        "BinCode": "10010000",
+        "TStates": 4,
+        "AffectsFlags": true,
+        "AddressingMode": "Register",
+        "Bytes": 1,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "SUB C",
+        "BinCode": "100010001",
+        "TStates": 4,
+        "AffectsFlags": true,
+        "AddressingMode": "Register",
+        "Bytes": 1,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "XRA B",
+        "BinCode": "10101000",
+        "TStates": 4,
+        "AffectsFlags": true,
+        "AddressingMode": "Register",
+        "Bytes": 1,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "XRA C",
+        "BinCode": "10101001",
+        "TStates": 4,
+        "AffectsFlags": true,
+        "AddressingMode": "Register",
+        "Bytes": 1,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "OpCode": "XRI",
+        "BinCode": "11101110",
+        "TStates": 7,
+        "AffectsFlags": true,
+        "AddressingMode": "Immediate",
+        "Bytes": 2,
+        "MicroCode": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "UpdatedFetchCycleStates": [
           "",
           "",
           ""

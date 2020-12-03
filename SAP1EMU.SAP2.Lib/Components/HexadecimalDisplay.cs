@@ -1,11 +1,18 @@
-﻿using SAP1EMU.SAP2.Lib.Components;
-using System;
+﻿using System;
+using SAP1EMU.SAP2.Lib.Registers;
 
-namespace SAP1EMU.SAP2.Lib.Registers
+namespace SAP1EMU.SAP2.Lib.Components
 {
-    public class OReg3 : IObserver<TicTok>
+    public class HexadecimalDisplay : IObserver<TicTok>
     {
-        public string RegContent { get; private set; }
+        public string RegContent { get; set; }
+
+        private readonly OReg3 outputReg;
+
+        public HexadecimalDisplay(ref OReg3 oreg3)
+        {
+            outputReg = oreg3;
+        }
 
         private void Exec(TicTok tictok)
         {
@@ -14,8 +21,8 @@ namespace SAP1EMU.SAP2.Lib.Registers
             // Active Low, Pull on Tok
             if (string.Equals(cw["L03_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)
             {
-                // Store Wbus val in Output port 3
-                RegContent = Wbus.Instance().Value;
+                int value = Convert.ToInt16(outputReg.RegContent);
+                RegContent = value.ToString("X8");
             }
         }
 
@@ -50,15 +57,5 @@ namespace SAP1EMU.SAP2.Lib.Registers
         }
 
         #endregion IObserver Region
-
-        public override string ToString()
-        {
-            return RegContent;
-        }
-
-        public string ToString_Frame_Use()
-        {
-            return (string.IsNullOrEmpty(RegContent) ? "00000000" : RegContent);
-        }
     }
 }

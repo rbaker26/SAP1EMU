@@ -59,6 +59,8 @@ namespace SAP1EMU.SAP2.Engine
             OReg3 oreg3 = new OReg3();
             OReg4 oreg4 = new OReg4();
 
+            HexadecimalDisplay hexadecimalDisplay = new HexadecimalDisplay(ref oreg3);
+
             MDR mdr = new MDR();
             RAM ram = new RAM();
 
@@ -68,7 +70,7 @@ namespace SAP1EMU.SAP2.Engine
             ALU alu = new ALU(ref areg, ref treg);
             Flag flagReg = new Flag(ref alu);
             PC pc = new PC(ref flagReg);
-            MReg mreg = new MReg(ref ram);
+            MAR mreg = new MAR(ref ram);
             SEQ seq = SEQ.Instance();
 
             Wbus.Instance().Value = string.Concat(Enumerable.Repeat('0', 16));
@@ -80,6 +82,7 @@ namespace SAP1EMU.SAP2.Engine
             ireg.Subscribe(clock);
             mreg.Subscribe(clock);
             oreg3.Subscribe(clock);
+            hexadecimalDisplay.Subscribe(clock);
             oreg4.Subscribe(clock);
             pc.Subscribe(clock);
             alu.Subscribe(clock); // ALU must come after A and B

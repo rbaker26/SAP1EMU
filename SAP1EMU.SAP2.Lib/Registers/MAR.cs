@@ -4,12 +4,12 @@ using System;
 
 namespace SAP1EMU.SAP2.Lib.Registers
 {
-    public class MReg : IObserver<TicTok>
+    public class MAR : IObserver<TicTok>
     {
         private string RegContent { get; set; }
         private readonly RAM ram;
 
-        public MReg(ref RAM ram)
+        public MAR(ref RAM ram)
         {
             this.ram = ram;
         }
@@ -17,6 +17,16 @@ namespace SAP1EMU.SAP2.Lib.Registers
         private void Exec(TicTok tictok)
         {
             var cw = SEQ.Instance().ControlWord;
+
+            // PC return address being set
+            if(string.Equals(cw["RTNA"], "0", StringComparison.Ordinal))
+            {
+                RegContent = Convert.ToString(0xFFFE, 2);
+            }
+            else
+            {
+                RegContent = Convert.ToString(0xFFFF, 2);
+            }
 
             // Active Low, Pull on Tok
             if (string.Equals(cw["LM_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)

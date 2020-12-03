@@ -29,7 +29,7 @@ namespace SAP1EMU.SAP2.Lib
 
         public List<string> RAM { get; private set; } // The reason this is here is that the RAM might change if a STA simular command is issued.
 
-        public Frame(string instruction, int TState, AReg areg, BReg breg, IReg ireg, MReg mreg, OReg3 oreg, PC pc, ALU alu, List<string> ramContents, RAM ram, SEQ seq, string wbus_string, Flag flags, IDecoder decoder, string SetName = "SAP1EMU")
+        public Frame(string instruction, int TState, AReg areg, BReg breg, IReg ireg, MAR mreg, OReg3 oreg, PC pc, ALU alu, List<string> ramContents, RAM ram, SEQ seq, string wbus_string, Flag flags, IDecoder decoder, string SetName = "SAP1EMU")
         {
             this.RAM = new List<string>();
 
