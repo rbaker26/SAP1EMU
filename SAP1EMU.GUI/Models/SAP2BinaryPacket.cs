@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace SAP1EMU.GUI.Models
 {
-    public class SAP2CodePacket
+    public class SAP2BinaryPacket
     {
         public int Id { get; set; }
         public Guid EmulationID { get; set; }
