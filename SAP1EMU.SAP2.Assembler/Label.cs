@@ -1,5 +1,4 @@
-﻿using System;
-namespace SAP1EMU.SAP2.Assembler
+﻿namespace SAP1EMU.SAP2.Assembler
 {
     public class Label
     {
@@ -8,7 +7,7 @@ namespace SAP1EMU.SAP2.Assembler
 
         public bool IsLabelValid()
         {
-            return (Name.Length >= 1 && Name.Length <= 6) && char.IsDigit(Name[0]);
+            return (Name.Length >= 1 && Name.Length <= 6) && char.IsLetter(Name[0]);
         }
     }
 }

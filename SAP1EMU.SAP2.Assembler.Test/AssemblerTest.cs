@@ -24,12 +24,22 @@ namespace SAP1EMU.SAP2.Assembler.Test
 
             List<string> expected_bin = new List<string>
             {
-                ""
+                "00111110",
+                "00000101",
+                "11000010",
+                "00000100",
+                "00000000",
+                "00000000",
+                "11010011",
+                "00000011",
+                "01110110"
             };
 
             List<string> compiled_bin = Assemble.Parse(asm);
 
-            for (int i = 0; i <= 15; i++)
+            Assert.AreEqual(expected_bin.Count, compiled_bin.Count);
+
+            for (int i = 0; i < compiled_bin.Count; i++)
             {
                 Assert.AreEqual(expected_bin[i], compiled_bin[i]);
             }
@@ -49,14 +59,47 @@ namespace SAP1EMU.SAP2.Assembler.Test
 
             List<string> expected_bin = new List<string>
             {
-                ""
+                "00111110",
+                "00000101",
+                "11000010",
+                "00000100",
+                "00000000",
+                "00000000",
+                "11010011",
+                "00000011",
+                "01110110"
             };
 
             List<string> compiled_bin = Assemble.Parse(asm);
 
-            for (int i = 0; i <= 15; i++)
+            Assert.AreEqual(expected_bin.Count, compiled_bin.Count);
+
+            for (int i = 0; i < compiled_bin.Count; i++)
             {
                 Assert.AreEqual(expected_bin[i], compiled_bin[i]);
+            }
+        }
+
+        [TestMethod]
+        public void TestParseList_Valid_Code_With_Label_Decl_Forgotten()
+        {
+            List<string> asm = new List<string>
+            {
+                "MVI A,0x5",
+                "JNZ LABEL",
+                "NOP",
+                "OUT 0x3",
+                "HLT"
+            };
+
+            try
+            {
+                _ = Assemble.Parse(asm);
+                Assert.Fail();
+            }
+            catch(ParseException e)
+            {
+                Assert.IsTrue(true);
             }
         }
 
@@ -332,7 +375,7 @@ namespace SAP1EMU.SAP2.Assembler.Test
         //    }
         //}
 
-        //#endregion Assembler Parsing Test - Valid Code Section
+        #endregion Assembler Parsing Test - Valid Code Section
 
         //#region Assembler Parsing Test - Invaild Code Section
 

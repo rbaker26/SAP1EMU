@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace SAP1EMU.SAP2.Lib
 {
@@ -18,24 +19,33 @@ namespace SAP1EMU.SAP2.Lib
             }
             catch (Exception e)
             {
-                throw new Exception($"SAP1EMU: Error reading Instruction Set File: \"{jsonFile}\" ", e);
+                throw new Exception($"SAP2EMU: Error reading Instruction Set File: \"{jsonFile}\" ", e);
             }
 
             List<InstructionSet> sets;
             try
             {
-                sets = JsonSerializer.Deserialize<List<InstructionSet>>(json);
+                JsonSerializerOptions options = new JsonSerializerOptions
+                {
+                    Converters =
+                    {
+                        new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+                    },
+
+                };
+
+                sets = JsonSerializer.Deserialize<List<InstructionSet>>(json, options);
             }
             catch (Exception e)
             {
-                throw new Exception($"SAP1EMU: Error reading Instruction Set File: \"{SetName}\", Invalid JSON", e);
+                throw new Exception($"SAP2EMU: Error reading Instruction Set File: \"{SetName}\", Invalid JSON", e);
             }
 
             InstructionSet? setChoice = sets.Find(x => x.SetName.ToLower().Equals(SetName.ToLower(), StringComparison.Ordinal));
 
             if (setChoice == null || string.IsNullOrEmpty(setChoice.SetName))
             {
-                throw new Exception($"SAP1EMU: Instruction Set \"{SetName}\" does not exist");
+                throw new Exception($"SAP2EMU: Instruction Set \"{SetName}\" does not exist");
             }
 
             return setChoice;
@@ -50,17 +60,26 @@ namespace SAP1EMU.SAP2.Lib
             }
             catch (Exception e)
             {
-                throw new Exception($"SAP1EMU: Error reading Instruction Set File: \"{jsonFile}\" ", e);
+                throw new Exception($"SAP2EMU: Error reading Instruction Set File: \"{jsonFile}\" ", e);
             }
 
             List<InstructionSet> sets;
             try
             {
-                sets = JsonSerializer.Deserialize<List<InstructionSet>>(json);
+                JsonSerializerOptions options = new JsonSerializerOptions
+                {
+                    Converters =
+                    {
+                        new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+                    },
+
+                };
+
+                sets = JsonSerializer.Deserialize<List<InstructionSet>>(json, options);
             }
             catch (Exception e)
             {
-                throw new Exception($"SAP1EMU: Error reading Instruction Set File: Invalid JSON", e);
+                throw new Exception($"SAP2EMU: Error reading Instruction Set File: Invalid JSON", e);
             }
             List<string> names = new List<string>();
 

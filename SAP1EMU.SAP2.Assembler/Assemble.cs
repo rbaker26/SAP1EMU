@@ -35,7 +35,7 @@ namespace SAP1EMU.SAP2.Assembler
             labels = unchecked_assembly.Where(line => line.Contains(':'))
                 .Select((line, index) => new Label
                 {
-                    LineNumber = ++index,
+                    LineNumber = unchecked_assembly.IndexOf(line) + 1,
                     Name = line.Trim().Substring(0, line.IndexOf(':'))
                 }
             ).ToList();
@@ -92,12 +92,17 @@ namespace SAP1EMU.SAP2.Assembler
                     int index = 0;
                     bool instructionComplete = false;
 
+                    if (line.Contains(':'))
+                    {
+                        index = line.IndexOf(':') + 1;
+                    }
+
                     // Instructions are character representations and if they have
                     // numbers then we are at the data portion. Should always complete
                     // as the code has been validated previously.
                     while (!instructionComplete && index < line.Length)
                     {
-                        if(char.IsDigit(line[index]))
+                        if(iset.Instructions.Any(i => i.OpCode.Equals(instructionString.ToString().Trim().ToUpper())))
                         {
                             instructionComplete = true;
                         }
@@ -117,7 +122,7 @@ namespace SAP1EMU.SAP2.Assembler
                     // We must convert data to binary for 2 and 3 byte instructions only
                     if(instruction.Bytes > 1)
                     {
-                        string value = line[index..];
+                        string value = line[index..].Trim();
 
                         // If we have JXX Label
                         if (labels.Any(l => l.Name.Equals(value)))
@@ -126,15 +131,16 @@ namespace SAP1EMU.SAP2.Assembler
                             value = label.LineNumber.ToString();
                         }
 
-                        int data = Convert.ToInt16(value);
+                        int data = Convert.ToInt16(value, 16);
                         string binaryRepresentation = Convert.ToString(data, 2);
 
-                        // 16 or 24 length
-                        binaryRepresentation = binaryRepresentation.PadLeft(sizeof(byte) * instruction.Bytes);
+                        // 8 or 16 length
+                        binaryRepresentation = binaryRepresentation.PadLeft(8 * (instruction.Bytes - 1), '0');
+                        int position = binaryRepresentation.Length == 8 ? 0 : 8;
 
-                        for(int i = 1, position = 0; i < instruction.Bytes; i++, position += 8)
+                        for(int i = 1; i < instruction.Bytes; i++, position -= 8)
                         {
-                            binary.Add(binaryRepresentation.Substring(position, 8));
+                            binary.Add(string.Join("", binaryRepresentation.Skip(position).Take(8)));
                         }
                     }
                 }
@@ -158,6 +164,9 @@ namespace SAP1EMU.SAP2.Assembler
             bool dot_macro_used = false;
             bool contains_hlt = false;
 
+            // HLT is a special case that cannot be included in this but it is a non data instruction
+            string[] nonDataInstructions = { "CMA", "NOP", "RAL", "RAR", "RET"};
+
             int line_number = 1;
             foreach (string line in unchecked_assembly)
             {
@@ -166,63 +175,106 @@ namespace SAP1EMU.SAP2.Assembler
                     // If a line contains a label we must check if its valid
                     if(labels.Count > 0 && line.Contains(':'))
                     {
-                        if (!labels[line_number - 1].IsLabelValid())
+                        Label label = labels.Where(l => l.LineNumber == line_number - 1).FirstOrDefault();
+                        if (label != null && !label.IsLabelValid())
                         {
-                            throw new ParseException($"SAP2ASM: Label is invalid (line: {line_number}.", new ParseException("Make sure a label starts with a char and is between a length of 1 to 6 characters.");
+                            throw new ParseException($"SAP2ASM: Label is invalid (line: {line_number}.", new ParseException("Make sure a label starts with a char and is between a length of 1 to 6 characters."));
                         }
                     }
 
-                    string[] nibbles = line.Split(' ', 2);
+                    StringBuilder instructionString = new StringBuilder();
+                    int index = 0;
+                    bool instructionComplete = false;
 
-                    if (nibbles.Length == 0)
+                    if(line.Contains(':'))
                     {
-                        throw new ParseException($"SAP1ASM: Line cannot be blank (line: {line_number}).", new ParseException("Use \"NOP\" for a no-operation command"));
+                        index = line.IndexOf(':') + 1;
+                    }
+                    
+                    // Instructions are character representations and if they have
+                    // numbers then we are at the data portion. Should always complete
+                    // as the code has been validated previously.
+                    while (!instructionComplete && index < line.Length)
+                    {
+                        if (iset.Instructions.Any(i => i.OpCode.Equals(instructionString.ToString().Trim().ToUpper())))
+                        {
+                            instructionComplete = true;
+                        }
+                        else
+                        {
+                            instructionString.Append(line[index]);
+                            index++;
+                        }
                     }
 
-                    string instruction = nibbles[0];
-                    if(instruction.ToUpper() == "HLT")
+                    Instruction instruction = iset.Instructions.FirstOrDefault(i => i.OpCode.Equals(instructionString.ToString().Trim().ToUpper()));
+
+                    if (string.IsNullOrEmpty(line))
+                    {
+                        throw new ParseException($"SAP2ASM: Line cannot be blank (line: {line_number}).", new ParseException("Use \"NOP\" for a no-operation command"));
+                    }
+
+                    if (instruction == null)
+                    {
+                        throw new ParseException($"SAP2ASM: invalid intruction on line {line_number}.", new ParseException($"\"{instruction}\" is not a recognized instruction"));
+                    }
+
+                    // Check against instructions that have no data following them
+                    if (nonDataInstructions.Contains(instruction.OpCode))
+                    {
+                        continue;
+                    }
+                    
+                    if (instruction.OpCode == "HLT")
                     {
                         contains_hlt = true;
-                    }
-                    if (nibbles.Length < 2)
-                    {
-                        throw new ParseException($"SAP1ASM: No lower nibble detected (line: {line_number}).", new ParseException($"\"{instruction}\" must be paired with a valid address in the range of 0x0 - 0xF"));
-                    }
-                    string addr = nibbles[1];
-
-                    // Check Intruction
-                    if (instruction.Length != 3)
-                    {
-                        throw new ParseException($"SAP1ASM: invalid intruction on line {line_number}.", new ParseException($"\"{instruction}\" is not a recognized instruction"));
+                        continue;
                     }
 
-                    if (!InstructionValidator.IsValidInstruction(instruction.ToUpper(), iset))         // Check if is valid instruction
+                    //Check the validity of the instructions and their data
+                    string value = line[index..].Trim();
+
+                    //Check Jump addresses and check if labels exist to jump too
+                    int data = 0;
+                    try
                     {
-                        if (!Regex.IsMatch(instruction, "^0[xX][0-9a-fA-F]$"))               // Make sure it isnt data
+                        data = Convert.ToInt16(value, 16);
+                    }
+                    catch(FormatException) //data is a label possibly
+                    {
+                        // There are no records of this label used
+                        if (!labels.Any(l => l.Name.Equals(value)))
                         {
-                            throw new ParseException($"SAP1ASM: invalid intruction on line {line_number}.", new ParseException($"\"{instruction}\" is not a recognized instruction or valid data"));
+                            throw new ParseException($"SAP2ASM: There are no labels with that name.", new ParseException($"In order to use this label for jumping you must declare \"{value}:\" in the front of the line where you would like to jump"));
                         }
                     }
 
-                    // Check Address
-                    if (addr.Length != 3)                                               // should be no more than 3
+                    if (!labels.Any(l => l.Name.Equals(value)) && !Regex.IsMatch(value, "^0[xX][0-9a-fA-F]$"))
                     {
-                        throw new ParseException($"SAP1ASM: invalid address on line {line_number}.", new ParseException($"\"{addr}\" is not of the form \"0xX\""));
-                    }
-                    if (!Regex.IsMatch(addr, "^0[xX][0-9a-fA-F]$"))     // should be of the form 0xX
-                    {
-                        throw new ParseException($"SAP1ASM: invalid address on line {line_number}.", new ParseException($"\"{addr}\" is not of the form \"0xX\""));
-                    }
-                    int hex_addr = (int)(Convert.ToUInt32(addr.Substring(2, 1), 16));
-                    if (hex_addr < 0 || hex_addr >= 16)                                // must tbe between 0-15
-                    {
-                        throw new ParseException($"SAP1ASM: address out of range on line {line_number}.", new ParseException($"\"{addr}\" must be betweeen 0x0 and 0xF"));
+                        throw new ParseException($"SAP2ASM: invalid address on line {line_number}.", new ParseException($"\"{value}\" is not of the form \"0xX\""));
                     }
 
-                    if (line.Contains("..."))
-                    {
-                        throw new ParseException($"SAP1ASM: invalid use of \"...\" on line {line_number}.", new ParseException($"\"{line}\" must only contain \"...\" with no extra charecters or spaces"));
 
+                    // Check immediate value instructions(uses byte or addresses) to be in the range of their respective  bytes
+                    if (instruction.Bytes == 3 && data < 0 || data > 65536)
+                    {
+                        throw new ParseException($"SAP2ASM: address out of range on line {line_number}.", new ParseException($"\"{data}\" must be betweeen 0x0 and 0xFFFF"));
+                    }
+                    else if (instruction.Bytes == 2)
+                    {
+                        // IN and OUT are special occasionals as they only have 2 options IN has 1 or 2 and OUT has 3 or 4
+                        if (instruction.OpCode == "IN" && (data < 1 || data > 2))
+                        {
+                            throw new ParseException($"SAP2ASM: port number for input is out of range on line {line_number}.", new ParseException($"\"{data}\" must be either 0x1 or 0x2"));
+                        }
+                        else if (instruction.OpCode == "OUT" && (data < 3 || data > 4))
+                        {
+                            throw new ParseException($"SAP2ASM: port number for output is out of range on line {line_number}.", new ParseException($"\"{data}\" must be either 0x3 or 0x4"));
+                        }
+                        else if(data < 0 || data > 256)
+                        {
+                            throw new ParseException($"SAP2ASM: byte value out of range on line {line_number}.", new ParseException($"\"{data}\" must be betweeen 0x0 and 0xFF"));
+                        }
                     }
                 }
                 else
@@ -233,7 +285,7 @@ namespace SAP1EMU.SAP2.Assembler
                     }
                     else
                     {
-                        throw new ParseException($"SAP1ASM: invalid use of \"...\" {line_number}.", new ParseException($"\"{line}\" must only contain once instance of \"...\" in the program"));
+                        throw new ParseException($"SAP2ASM: invalid use of \"...\" {line_number}.", new ParseException($"\"{line}\" must only contain once instance of \"...\" in the program"));
                     }
                 }
 
@@ -243,7 +295,7 @@ namespace SAP1EMU.SAP2.Assembler
             // If the code does not contain a HLT instruction
             if(!contains_hlt)
             {
-                throw new ParseException($"SAP1ASM: program does not contain an endpoint.", new ParseException($"\"HLT\" must be present in the program at least once"));
+                throw new ParseException($"SAP2ASM: program does not contain an endpoint.", new ParseException($"\"HLT\" must be present in the program at least once"));
             }
 
             return true;

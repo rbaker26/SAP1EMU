@@ -1,8 +1,8 @@
 [
   {
-    "SetName": "Mavlino",
+    "SetName": "Malvino",
     "SetDescription": "The full intruction set for the SAP1Emu Project.",
-    "instructions": [
+    "Instructions": [
       {
         "OpCode": "ADD B",
         "BinCode": "10000000",
@@ -215,11 +215,6 @@
           "",
           "",
           ""
-        ],
-        "UpdatedFetchCycleStates": [
-          "",
-          "",
-          ""
         ]
       },
       {
@@ -367,11 +362,6 @@
           "",
           "",
           ""
-        ],
-        "UpdatedFetchCycleStates": [
-          "",
-          "",
-          ""
         ]
       },
       {
@@ -383,11 +373,6 @@
         "Bytes": 1,
         "MicroCode": [
           "",
-          "",
-          "",
-          ""
-        ],
-        "UpdatedFetchCycleStates": [
           "",
           "",
           ""
@@ -405,11 +390,6 @@
           "",
           "",
           ""
-        ],
-        "UpdatedFetchCycleStates": [
-          "",
-          "",
-          ""
         ]
       },
       {
@@ -421,11 +401,6 @@
         "Bytes": 1,
         "MicroCode": [
           "",
-          "",
-          "",
-          ""
-        ],
-        "UpdatedFetchCycleStates": [
           "",
           "",
           ""
@@ -443,11 +418,6 @@
           "",
           "",
           ""
-        ],
-        "UpdatedFetchCycleStates": [
-          "",
-          "",
-          ""
         ]
       },
       {
@@ -459,11 +429,6 @@
         "Bytes": 1,
         "MicroCode": [
           "",
-          "",
-          "",
-          ""
-        ],
-        "UpdatedFetchCycleStates": [
           "",
           "",
           ""
@@ -481,15 +446,10 @@
           "",
           "",
           ""
-        ],
-        "UpdatedFetchCycleStates": [
-          "",
-          "",
-          ""
         ]
       },
       {
-        "OpCode": "MVI A",
+        "OpCode": "MVI A,",
         "BinCode": "00111110",
         "TStates": 7,
         "AffectsFlags": false,
@@ -508,7 +468,7 @@
         ]
       },
       {
-        "OpCode": "MVI B",
+        "OpCode": "MVI B,",
         "BinCode": "00000110",
         "TStates": 7,
         "AffectsFlags": false,
@@ -527,7 +487,7 @@
         ]
       },
       {
-        "OpCode": "MVI C",
+        "OpCode": "MVI C,",
         "BinCode": "00001110",
         "TStates": 7,
         "AffectsFlags": false,
@@ -554,11 +514,6 @@
         "Bytes": 1,
         "MicroCode": [
           "",
-          "",
-          "",
-          ""
-        ],
-        "UpdatedFetchCycleStates": [
           "",
           "",
           ""
@@ -633,11 +588,6 @@
           "",
           "",
           ""
-        ],
-        "UpdatedFetchCycleStates": [
-          "",
-          "",
-          ""
         ]
       },
       {
@@ -706,11 +656,6 @@
         "Bytes": 3,
         "MicroCode": [
           "",
-          "",
-          "",
-          ""
-        ],
-        "UpdatedFetchCycleStates": [
           "",
           "",
           ""

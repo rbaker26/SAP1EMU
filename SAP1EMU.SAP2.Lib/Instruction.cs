@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace SAP1EMU.SAP2.Lib
 {
@@ -7,6 +8,7 @@ namespace SAP1EMU.SAP2.Lib
         Register,
         Immediate,
         Direct,
+        Implied,
         None,
     }
 
