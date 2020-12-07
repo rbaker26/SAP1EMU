@@ -263,11 +263,11 @@ namespace SAP1EMU.SAP2.Assembler
                     else if (instruction.Bytes == 2)
                     {
                         // IN and OUT are special occasionals as they only have 2 options IN has 1 or 2 and OUT has 3 or 4
-                        if (instruction.OpCode == "IN" && (data < 1 || data > 2))
+                        if (instruction.OpCode.Equals("IN") && (data < 1 || data > 2))
                         {
                             throw new ParseException($"SAP2ASM: port number for input is out of range on line {line_number}.", new ParseException($"\"{data}\" must be either 0x1 or 0x2"));
                         }
-                        else if (instruction.OpCode == "OUT" && (data < 3 || data > 4))
+                        else if (instruction.OpCode.Equals("OUT") && (data < 3 || data > 4))
                         {
                             throw new ParseException($"SAP2ASM: port number for output is out of range on line {line_number}.", new ParseException($"\"{data}\" must be either 0x3 or 0x4"));
                         }

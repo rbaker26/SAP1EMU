@@ -682,7 +682,7 @@
       },
       {
         "OpCode": "SUB C",
-        "BinCode": "100010001",
+        "BinCode": "10010001",
         "TStates": 4,
         "AffectsFlags": true,
         "AddressingMode": "Register",

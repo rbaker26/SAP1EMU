@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace SAP1EMU.SAP2.Lib
 {
@@ -13,7 +14,17 @@ namespace SAP1EMU.SAP2.Lib
         public InstructionDecoder()
         {
             string json = File.ReadAllText(_filename);
-            List<InstructionSet> sets = JsonSerializer.Deserialize<List<InstructionSet>>(json);
+
+            JsonSerializerOptions options = new JsonSerializerOptions
+            {
+                Converters =
+                    {
+                        new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+                    },
+
+            };
+
+            List<InstructionSet> sets = JsonSerializer.Deserialize<List<InstructionSet>>(json, options);
 
             foreach (InstructionSet iset in sets)
             {

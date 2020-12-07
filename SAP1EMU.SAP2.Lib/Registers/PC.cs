@@ -10,6 +10,8 @@ namespace SAP1EMU.SAP2.Lib.Registers
         private readonly Flag flagReg;
         private string RegContent { get; set; }
 
+        public bool WontJump { get; set; }
+
         public PC(ref Flag flagReg)
         {
             RegContent = string.Concat(Enumerable.Repeat('0', 16));
@@ -39,6 +41,20 @@ namespace SAP1EMU.SAP2.Lib.Registers
             if (string.Equals(cw["LP_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)
             {
                 RegContent = Wbus.Instance().Value;
+
+                string jumpType = cw["JC"];
+
+                WontJump = jumpType switch
+                {
+                    "001" => true,
+                    "010" => true,
+                    "011" => true,
+                    "100" => true,
+                    "101" => true,
+                    "110" => true,
+                    "111" => true,
+                    _ => false
+                };
             }
         }
 

@@ -158,6 +158,12 @@ namespace SAP1EMU.SAP2.Engine
                     loop_counter++;
                 }
 
+                // TODO implement this
+                if(pc.WontJump)
+                {
+                    currentInstruction.TStates = 7;
+                }
+
                 // TODO -> figure out what to do when jumps take 7
                 if (TState < currentInstruction.TStates)
                 {
