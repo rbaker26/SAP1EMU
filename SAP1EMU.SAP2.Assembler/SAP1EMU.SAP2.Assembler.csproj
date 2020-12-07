@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SAP1EMU.SAP2.Engine\SAP1EMU.SAP2.Engine.csproj" />
+    <ProjectReference Include="..\SAP1EMU.SAP2.Lib\SAP1EMU.SAP2.Lib.csproj" />
+  </ItemGroup>
+</Project>
