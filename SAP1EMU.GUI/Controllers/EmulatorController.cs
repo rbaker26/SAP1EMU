@@ -64,7 +64,7 @@ namespace SAP1EMU.GUI.Controllers
                 // TODO: Dispatch to seperate thread (Dont think ef core is thread safe)
                 try
                 {
-                    await _sap1EmuContext.AddAsync(new CodeSubmit
+                    _sap1EmuContext.Add(new CodeSubmit
                     {
                         code = emulatorPacket.CodeList.Aggregate("", (current, s) => current + (s + ",")),
                         submitted_at = DateTime.Now
