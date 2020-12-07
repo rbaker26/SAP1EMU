@@ -7,9 +7,7 @@ using SAP1EMU.GUI.Hubs;
 using SAP1EMU.GUI.Models;
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 
 namespace SAP1EMU.GUI.Controllers
@@ -43,16 +41,37 @@ namespace SAP1EMU.GUI.Controllers
         [HttpPost("StartEmulation")]
         public IActionResult StartEmulation([FromBody] SAP2CodePacket sap2CodePacket)
         {
-            var session = _sap1EmuContext.EmulationSessionMaps
-                .AsNoTracking()
-                .Single(esm => esm.EmulationID == sap2CodePacket.EmulationID);
-            if(session == null)
+            EmulationSessionMap session = null;
+            try
             {
-                return NotFound(sap2CodePacket.EmulationID);
+                session = _sap1EmuContext.EmulationSessionMaps
+                    .AsNoTracking()
+                    .Single(esm => esm.EmulationID == sap2CodePacket.EmulationID);
+            }
+            catch (InvalidOperationException)
+            {
+                return BadRequest(sap2CodePacket.EmulationID);
             }
             
+
+            // This will save the plain code
+            _sap1EmuContext.Add<SAP2CodePacket>(sap2CodePacket);
+
+            // Assemble 
+
+            // Save Binary
+
+
+            _sap1EmuContext.SaveChangesAsync(); // Might have to switch to sync
+
+            // RunEmulatorAsync
             return Ok();
         }
 
+        [HttpPost("ResumeEmulation")]
+        public IActionResult ResumeEmulation([FromBody] string input)
+        {
+            return Ok();
+        }
     }
 }

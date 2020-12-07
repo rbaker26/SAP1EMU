@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SAP1EMU.GUI.Contexts;
 
 namespace SAP1EMU.GUI.Migrations
 {
     [DbContext(typeof(Sap1EmuContext))]
-    partial class Sap1EmuContextModelSnapshot : ModelSnapshot
+    [Migration("20201204061524_AddedBinaryTable_v2")]
+    partial class AddedBinaryTable_v2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,7 +76,12 @@ namespace SAP1EMU.GUI.Migrations
                     b.Property<Guid>("EmulationID")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int?>("EmulationSessionMapId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("EmulationSessionMapId");
 
                     b.ToTable("SAP2BinaryStore");
                 });
@@ -92,9 +99,28 @@ namespace SAP1EMU.GUI.Migrations
                     b.Property<Guid>("EmulationID")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int?>("EmulationSessionMapId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("EmulationSessionMapId");
+
                     b.ToTable("SAP2CodeStore");
+                });
+
+            modelBuilder.Entity("SAP1EMU.GUI.Models.SAP2BinaryPacket", b =>
+                {
+                    b.HasOne("SAP1EMU.GUI.Models.EmulationSessionMap", "EmulationSessionMap")
+                        .WithMany()
+                        .HasForeignKey("EmulationSessionMapId");
+                });
+
+            modelBuilder.Entity("SAP1EMU.GUI.Models.SAP2CodePacket", b =>
+                {
+                    b.HasOne("SAP1EMU.GUI.Models.EmulationSessionMap", "EmulationSessionMap")
+                        .WithMany()
+                        .HasForeignKey("EmulationSessionMapId");
                 });
 #pragma warning restore 612, 618
         }
