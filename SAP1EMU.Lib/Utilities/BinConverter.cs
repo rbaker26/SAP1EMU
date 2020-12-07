@@ -29,29 +29,6 @@ namespace SAP1EMU.Lib.Utilities
 
         //************************************************************************************************************************
         /// <summary>
-        /// Converts a integer into a 16-bit binary string.
-        /// </summary>
-        /// <param name="i"></param>
-        /// <returns></returns>
-        public static string IntToBin16(int i)
-        {
-            string val = Convert.ToString(i, 2);
-            if (val.Length <= 16)
-            {
-                val = val.PadLeft(16, '0');
-            }
-            else
-            {
-                val = val.Substring(val.Length - 16, 16);
-            }
-
-            return val;
-        }
-
-        //************************************************************************************************************************
-
-        //************************************************************************************************************************
-        /// <summary>
         /// Converts a 8-bit binary string into an int
         /// </summary>
         /// <param name="s"></param>
