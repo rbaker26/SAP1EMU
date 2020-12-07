@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 namespace SAP1EMU.SAP2.Lib.Test
 {
-    [TestClass]
-    public class ProgramTest
-    {
+    //[TestClass]
+    //public class ProgramTest
+    //{
     //    [TestMethod]
     //    public void TestCtorReg()
     //    {
