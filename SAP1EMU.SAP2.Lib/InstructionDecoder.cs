@@ -9,7 +9,7 @@ namespace SAP1EMU.SAP2.Lib
     public class InstructionDecoder : IDecoder
     {
         private readonly Dictionary<int, string> _instructions = new Dictionary<int, string>();
-        private readonly string _filename = "InstructionSets.json";
+        private readonly string _filename = "SAP2InstructionSets.json";
 
         public InstructionDecoder()
         {
