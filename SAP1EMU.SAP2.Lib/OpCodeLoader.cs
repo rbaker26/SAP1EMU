@@ -8,7 +8,7 @@ namespace SAP1EMU.SAP2.Lib
 {
     public class OpCodeLoader
     {
-        private const string jsonFile = "InstructionSets.json";
+        private const string jsonFile = "SAP2InstructionSets.json";
 
         public static InstructionSet GetSet(string SetName)
         {

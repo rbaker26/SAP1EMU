@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using SAP1EMU.GUI.Contexts;
 using SAP1EMU.GUI.Hubs;
 using SAP1EMU.GUI.Models;
+using SAP1EMU.SAP2.Assembler;
 
 using System;
 using System.Linq;
@@ -58,9 +59,14 @@ namespace SAP1EMU.GUI.Controllers
             _sap1EmuContext.Add<SAP2CodePacket>(sap2CodePacket);
 
             // Assemble 
+            SAP2BinaryPacket sap2BinaryPacket = new SAP2BinaryPacket()
+            {
+                EmulationID = sap2CodePacket.EmulationID,
+                Code = Assemble.Parse((System.Collections.Generic.List<string>)sap2CodePacket.Code)
+            };
 
             // Save Binary
-
+            _sap1EmuContext.Add(sap2BinaryPacket);
 
             _sap1EmuContext.SaveChangesAsync(); // Might have to switch to sync
 
