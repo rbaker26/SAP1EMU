@@ -12,5 +12,6 @@ namespace SAP1EMU.GUI.Contexts
         }
 
         public DbSet<CodeSubmit> CodeStore { get; set; }
+        public DbSet<SAP1ErrorLog> SAP1ErrorLog { get; set; }
     }
 }
