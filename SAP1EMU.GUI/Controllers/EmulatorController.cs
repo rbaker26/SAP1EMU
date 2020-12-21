@@ -52,8 +52,18 @@ namespace SAP1EMU.GUI.Controllers
         [HttpPost]
         public async Task<ActionResult> PostAsync([FromBody] EmulatorPacket emulatorPacket)
         {
+            // TODO: Dispatch to seperate thread
+            var temp = _sap1EmuContext.Add<CodeSubmit>(new CodeSubmit
+            {
+                EmulationId = Guid.NewGuid(),
+                code = emulatorPacket.CodeList.Aggregate("", (current, s) => current + (s + ",")),
+                submitted_at = DateTime.Now,
+                Status = EmulationStatus.Pending
+            });
+            await _sap1EmuContext.SaveChangesAsync();
             try
             {
+
                 List<string> compiled_binary = Assemble.Parse(emulatorPacket.CodeList, emulatorPacket.SetName);
                 RAMProgram rmp = new RAMProgram(compiled_binary);
 
@@ -61,47 +71,85 @@ namespace SAP1EMU.GUI.Controllers
                 engine.Init(rmp, _decoder, emulatorPacket.SetName);
                 engine.Run();
 
-                // TODO: Dispatch to seperate thread
-                try
-                {
-                    _sap1EmuContext.Add<CodeSubmit>(new CodeSubmit
-                    {
-                        code = emulatorPacket.CodeList.Aggregate("", (current, s) => current + (s + ",")),
-                        submitted_at = DateTime.Now
-                    });
-                    await _sap1EmuContext.SaveChangesAsync();
-                }
-                catch (Exception)
-                {
-                    // TODO: Log DB Error
-                }
+                _sap1EmuContext.CodeStore.First
+                    (
+                        code => code.EmulationId == temp.Entity.EmulationId
+                    ).Status = EmulationStatus.Success;    
+                await _sap1EmuContext.SaveChangesAsync();
+
 
                 return Ok(engine.FrameStack());
             }
             catch(ParseException pe)
             {
+                _sap1EmuContext.CodeStore.First
+                   (
+                       code => code.EmulationId == temp.Entity.EmulationId
+                   ).Status = EmulationStatus.ParseError;
+
                 if (pe.InnerException != null)
                 {
+                    _sap1EmuContext.SAP1ErrorLog.Add(new SAP1ErrorLog()
+                    {
+                        EmulationID = temp.Entity.EmulationId,
+                        Error = (pe.Message + " " + pe.InnerException.Message)
+                    });
+                    await _sap1EmuContext.SaveChangesAsync();
                     return BadRequest(pe.Message + " " + pe.InnerException.Message);
                 }
                 else
                 {
+                    _sap1EmuContext.SAP1ErrorLog.Add(new SAP1ErrorLog()
+                    {
+                        EmulationID = temp.Entity.EmulationId,
+                        Error = pe.Message
+                    });
+                    await _sap1EmuContext.SaveChangesAsync();
                     return BadRequest(pe.Message);
                 }
             }
             catch(EngineRuntimeException ere)
             {
+                _sap1EmuContext.CodeStore.First
+                   (
+                       code => code.EmulationId == temp.Entity.EmulationId
+                   ).Status = EmulationStatus.EngineError;
+                await _sap1EmuContext.SaveChangesAsync();
+
                 if (ere.InnerException != null)
                 {
+                    _sap1EmuContext.SAP1ErrorLog.Add(new SAP1ErrorLog()
+                    {
+                        EmulationID = temp.Entity.EmulationId,
+                        Error = (ere.Message + " " + ere.InnerException.Message)
+                    });
+                    await _sap1EmuContext.SaveChangesAsync();
                     return BadRequest(ere.Message + " " + ere.InnerException.Message);
                 }
                 else
                 {
+                    _sap1EmuContext.SAP1ErrorLog.Add(new SAP1ErrorLog()
+                    {
+                        EmulationID = temp.Entity.EmulationId,
+                        Error = (ere.Message)
+                    });
+                    await _sap1EmuContext.SaveChangesAsync();
                     return BadRequest(ere.Message);
                 }
             }
             catch (Exception e)
             {
+                _sap1EmuContext.CodeStore.First
+                   (
+                       code => code.EmulationId == temp.Entity.EmulationId
+                   ).Status = EmulationStatus.UnknownError;
+                _sap1EmuContext.SAP1ErrorLog.Add(new SAP1ErrorLog()
+                {
+                    EmulationID = temp.Entity.EmulationId,
+                    Error = "Unknown Error"
+                });
+                await _sap1EmuContext.SaveChangesAsync();
+
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
