@@ -15,7 +15,8 @@ namespace SAP1EMU.GUI.Controllers
     public class SitemapController : ControllerBase
     {
 
-        public ActionResult Index()
+        [HttpGet]
+        public ActionResult Get()
         {
             List<SitemapNode> nodes = new List<SitemapNode>
         {
