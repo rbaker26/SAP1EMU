@@ -15,7 +15,7 @@ namespace SAP1EMU.SAP2.Lib.Registers
             // Active Low, Pull on Tok
             if (string.Equals(cw["LI_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)
             {
-                RegContent = Wbus.Instance().Value;
+                RegContent = Wbus.Instance().Value[8..];
             }
         }
 

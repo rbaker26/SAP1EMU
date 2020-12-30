@@ -16,6 +16,34 @@ namespace SAP1EMU.SAP2.Assembler.Test
             List<string> asm = new List<string>
             {
                 "MVI A,0x5",
+                "MOV B,A",
+                "HLT"
+            };
+
+            List<string> expected_bin = new List<string>
+            {
+                "00111110",
+                "00000101",
+                "01000111",
+                "01110110"
+            };
+
+            List<string> compiled_bin = Assemble.Parse(asm);
+
+            Assert.AreEqual(expected_bin.Count, compiled_bin.Count);
+
+            for (int i = 0; i < compiled_bin.Count; i++)
+            {
+                Assert.AreEqual(expected_bin[i], compiled_bin[i]);
+            }
+        }
+
+        [TestMethod]
+        public void TestParseList_Valid_Code_2()
+        {
+            List<string> asm = new List<string>
+            {
+                "MVI A,0x5",
                 "JNZ 0x4",
                 "NOP",
                 "OUT 0x3",
@@ -46,7 +74,7 @@ namespace SAP1EMU.SAP2.Assembler.Test
         }
 
         [TestMethod]
-        public void TestParseList_Valid_Code_With_Labels()
+        public void TestParseList_Valid_Code_2_With_Labels()
         {
             List<string> asm = new List<string>
             {
@@ -91,13 +119,12 @@ namespace SAP1EMU.SAP2.Assembler.Test
                 "OUT 0x3",
                 "HLT"
             };
-
             try
             {
                 _ = Assemble.Parse(asm);
                 Assert.Fail();
             }
-            catch(ParseException e)
+            catch (ParseException)
             {
                 Assert.IsTrue(true);
             }

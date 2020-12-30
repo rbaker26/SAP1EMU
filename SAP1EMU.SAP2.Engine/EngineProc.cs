@@ -70,7 +70,7 @@ namespace SAP1EMU.SAP2.Engine
             ALU alu = new ALU(ref areg, ref treg);
             Flag flagReg = new Flag(ref alu);
             PC pc = new PC(ref flagReg);
-            MAR mreg = new MAR(ref ram);
+            MAR mar = new MAR(ref ram);
             SEQ seq = SEQ.Instance();
 
             Wbus.Instance().Value = string.Concat(Enumerable.Repeat('0', 16));
@@ -80,7 +80,7 @@ namespace SAP1EMU.SAP2.Engine
             breg.Subscribe(clock);
             creg.Subscribe(clock);
             ireg.Subscribe(clock);
-            mreg.Subscribe(clock);
+            mar.Subscribe(clock);
             oreg3.Subscribe(clock);
             hexadecimalDisplay.Subscribe(clock);
             oreg4.Subscribe(clock);
@@ -109,10 +109,10 @@ namespace SAP1EMU.SAP2.Engine
             int TState = 1;
 
             // A basic empty instruction state with 3 TStates since on the 4th the instruction
-            // will be known and set.
+            // will be known and set to a new object reference.
             Instruction currentInstruction = new Instruction()
             {
-                TStates = 3
+                TStates = 4 // Since by 4 TStates it should know what instruction it is on
             };
 
             while (clock.IsEnabled)
@@ -129,7 +129,7 @@ namespace SAP1EMU.SAP2.Engine
                 // Log the Instruction
                 if (TState == 4)
                 {
-                    currentInstruction = InstructionSet.Instructions.FirstOrDefault(x => x.BinCode.Equals(ireg.ToString()));
+                    currentInstruction = InstructionSet.Instructions.FirstOrDefault(i => i.BinCode.Equals(ireg.RegContent));
                     string iname = currentInstruction.OpCode;
                     int operandVal = Convert.ToInt32(ireg.RegContent, 2);
                     string hexOperand = "0x" + operandVal.ToString("X");
@@ -140,7 +140,11 @@ namespace SAP1EMU.SAP2.Engine
                 clock.SendTicTok(tictok);
                 tictok.ToggleClockState();
 
-                tempFrame = new Frame(ireg.RegContent, TState, areg, breg, ireg, mreg, oreg3, pc, alu, ram.RAMDump(), ram, seq, Wbus.Instance().ToString(), flagReg, _decoder, InstructionSet.SetName);
+                tempFrame = new Frame(currentInstruction, TState, port1, port2, pc, mar, ram,
+                                      ram.RAMDump(), mdr, ireg, SEQ.Instance(),
+                                      Wbus.Instance().Value, areg, alu, flagReg,
+                                      treg, breg, creg, oreg3, oreg4, hexadecimalDisplay);
+
                 _FrameStack.Add(tempFrame);
 
                 // HLT 
@@ -158,13 +162,11 @@ namespace SAP1EMU.SAP2.Engine
                     loop_counter++;
                 }
 
-                // TODO implement this
                 if(pc.WontJump)
                 {
                     currentInstruction.TStates = 7;
                 }
 
-                // TODO -> figure out what to do when jumps take 7
                 if (TState < currentInstruction.TStates)
                 {
                     TState++;
@@ -194,7 +196,7 @@ namespace SAP1EMU.SAP2.Engine
         {
             if (_FrameStack.Count != 0)
             {
-                return _FrameStack[_FrameStack.Count - 1];
+                return _FrameStack[^1];
             }
             else
             {

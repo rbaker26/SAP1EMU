@@ -29,7 +29,7 @@ namespace SAP1EMU.SAP2.Assembler
             unchecked_assembly.RemoveAll(s => Regex.IsMatch(s, "^\\s*$"));
 
             // Remove Newline Comments
-            unchecked_assembly.RemoveAll(s => s.Trim().First() == '#');
+            unchecked_assembly.RemoveAll(s => s.Trim().First().Equals('#'));
 
             // Find and store info on all labels
             labels = unchecked_assembly.Where(line => line.Contains(':'))
@@ -65,7 +65,7 @@ namespace SAP1EMU.SAP2.Assembler
             // based on line numbers.
             foreach (Label label in labels)
             {
-                unchecked_assembly[label.LineNumber - 1] = Regex.Replace(unchecked_assembly[label.LineNumber - 1], @"\s*\w{1,6}:", "").Trim();
+                unchecked_assembly[label.LineNumber - 1] = Regex.Replace(unchecked_assembly[label.LineNumber - 1], "\\s*\\w{1,6}:", "").Trim();
             }
 
             // *********************************************************************
@@ -124,7 +124,7 @@ namespace SAP1EMU.SAP2.Assembler
                     {
                         string value = line[index..].Trim();
 
-                        // If we have JXX Label
+                        // If we have JXX Label then sub the label for its respective line number in the code
                         if (labels.Any(l => l.Name.Equals(value)))
                         {
                             Label label = labels.First(l => l.Name.Equals(value));
@@ -138,6 +138,7 @@ namespace SAP1EMU.SAP2.Assembler
                         binaryRepresentation = binaryRepresentation.PadLeft(8 * (instruction.Bytes - 1), '0');
                         int position = binaryRepresentation.Length == 8 ? 0 : 8;
 
+                        // Add from right to left
                         for(int i = 1; i < instruction.Bytes; i++, position -= 8)
                         {
                             binary.Add(string.Join("", binaryRepresentation.Skip(position).Take(8)));
@@ -149,11 +150,11 @@ namespace SAP1EMU.SAP2.Assembler
             }
             // *********************************************************************
 
-            //If a program was executed, but didnt fill in every line of RAM then throw an exception. Must have 16 elements!
-            //if(binary.Count != 16)
-            //{
-            //    throw new ParseException($"SAP1ASM: Program must have 16 lines.", new ParseException("Use \"NOP 0x0\" for a no-operation command or the \"...\" macro to fill in the rest with NOP 0x0.")); 
-            //}
+            // If a program contains way too many instructions
+            if (binary.Count > 0xFFFF) //(65,535)
+            {
+                throw new ParseException($"SAP2ASM: Program contains too many lines of code.", new ParseException("The SAP2 can only contain up to 65,535 lines of code."));
+            }
 
 
             return binary;
@@ -165,7 +166,7 @@ namespace SAP1EMU.SAP2.Assembler
             bool contains_hlt = false;
 
             // HLT is a special case that cannot be included in this but it is a non data instruction
-            string[] nonDataInstructions = { "CMA", "NOP", "RAL", "RAR", "RET"};
+            string[] nonDataInstructions = { "CMA", "NOP", "RAL", "RAR", "RET", "MOV A,B", "MOV A,C", "MOV B,A", "MOV B,C", "MOV C,A", "MOV C,B"};
 
             int line_number = 1;
             foreach (string line in unchecked_assembly)
@@ -224,17 +225,18 @@ namespace SAP1EMU.SAP2.Assembler
                     {
                         continue;
                     }
-                    
+
+                    // Special case 
                     if (instruction.OpCode == "HLT")
                     {
                         contains_hlt = true;
                         continue;
                     }
 
-                    //Check the validity of the instructions and their data
+                    // Check the validity of the instructions and their data
                     string value = line[index..].Trim();
 
-                    //Check Jump addresses and check if labels exist to jump too
+                    // Check Jump addresses and check if labels exist to jump too
                     int data = 0;
                     try
                     {

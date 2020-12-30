@@ -9,7 +9,7 @@ namespace SAP1EMU.SAP2.Lib.Components
         private List<string> RamContents = new List<string>();
 
         private string MARContents { get; set; }
-        public string RegContent { get; private set; }
+        public string RegContent { get; private set; } = "00000000";
 
         private MDR mdrReg;
 
@@ -55,21 +55,21 @@ namespace SAP1EMU.SAP2.Lib.Components
 
         public string GetWordAt(string addr)
         {
-            int index = Convert.ToInt32(addr, 2);
-            if (index < MIN_RAM_ADDRESS || index > MAX_RAM_ADDRESS)
-            {
-                throw new ArgumentOutOfRangeException($"RAM Index Error - Addr with value {index} is not inbetween the range of {MIN_RAM_ADDRESS}-{MAX_RAM_ADDRESS}");
-            }
+            int index = Convert.ToInt32(addr, 2); // Needs to be from 0x0800 to 0xFFFF
+            //if (index < MIN_RAM_ADDRESS || index > MAX_RAM_ADDRESS)
+            //{
+            //    throw new ArgumentOutOfRangeException($"RAM Index Error - Addr with value {index} is not inbetween the range of {MIN_RAM_ADDRESS}-{MAX_RAM_ADDRESS}");
+            //}
             return RamContents[index];
         }
 
         public void SetWordAt(string addr, string word)
         {
             int index = Convert.ToInt32(addr, 2);
-            if (index < MIN_RAM_ADDRESS || index > MAX_RAM_ADDRESS)
-            {
-                throw new ArgumentOutOfRangeException($"RAM Index Error - Addr with value {index} is not inbetween the range of {MIN_RAM_ADDRESS}-{MAX_RAM_ADDRESS}");
-            }
+            //if (index < MIN_RAM_ADDRESS || index > MAX_RAM_ADDRESS)
+            //{
+            //    throw new ArgumentOutOfRangeException($"RAM Index Error - Addr with value {index} is not inbetween the range of {MIN_RAM_ADDRESS}-{MAX_RAM_ADDRESS}");
+            //}
             RamContents[index] = word;
         }
 

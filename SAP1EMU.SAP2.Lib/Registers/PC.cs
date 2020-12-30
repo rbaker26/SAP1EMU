@@ -8,7 +8,7 @@ namespace SAP1EMU.SAP2.Lib.Registers
     public class PC : IObserver<TicTok>
     {
         private readonly Flag flagReg;
-        private string RegContent { get; set; }
+        public string RegContent { get; private set; }
 
         public bool WontJump { get; set; }
 
@@ -33,7 +33,7 @@ namespace SAP1EMU.SAP2.Lib.Registers
             // Active Hi, Push on Tic
             if (string.Equals(cw["EP"], "1", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tic)
             {
-                // Send A to the WBus
+                // Send PC to the WBus
                 Wbus.Instance().Value = RegContent;
             }
 
@@ -46,7 +46,7 @@ namespace SAP1EMU.SAP2.Lib.Registers
 
                 WontJump = jumpType switch
                 {
-                    "001" => true,
+                    "001" => !flagReg.Signed,
                     "010" => true,
                     "011" => true,
                     "100" => true,

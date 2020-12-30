@@ -15,7 +15,7 @@ namespace SAP1EMU.SAP2.Lib.Registers
             if (string.Equals(cw["EC"], "1", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tic)
             {
                 // Send C to the WBus
-                Multiplexer.Instance().PassThroughToBus(RegContent, Convert.ToBoolean(cw["UB"]), Convert.ToBoolean(cw["CLR"]));
+                Multiplexer.Instance().PassThroughToBus(RegContent, Convert.ToBoolean(Convert.ToInt16(cw["UB"])), Convert.ToBoolean(Convert.ToInt16(cw["CLR"])));
             }
 
             // Active Low, Pull on Tok

@@ -1,4 +1,5 @@
 ﻿using SAP1EMU.SAP2.Lib.Components;
+using SAP1EMU.SAP2.Lib.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,7 +9,9 @@ namespace SAP1EMU.SAP2.Lib.Registers
     public class Flag : IObserver<TicTok>
     {
         private readonly ALU aluReg;
-        private string RegContent { get; set; }
+
+        //SZ-AC-P-C Flags ('-' is unused bits)
+        public string RegContent { get; private set; }
 
         public Flag(ref ALU aluReg)
         {
@@ -25,11 +28,26 @@ namespace SAP1EMU.SAP2.Lib.Registers
             get => Convert.ToBoolean(RegContent[1]);
         }
 
+        public bool Parity
+        {
+            get => Convert.ToBoolean(RegContent[5]);
+        }
+
+        public bool Carry
+        {
+            get => Convert.ToBoolean(RegContent[7]);
+        }
+
+        public bool AuxiliaryCarry
+        {
+            get => Convert.ToBoolean(RegContent[3]);
+        }
+
         private void Exec(TicTok tictok)
         {
             var cw = SEQ.Instance().ControlWord;
 
-            if(string.Equals(cw["LF"], "1", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tic)
+            if(cw["LF"].IsActiveHigh() && tictok.ClockState == TicTok.State.Tic)
             {
                 RegContent = aluReg.FlagContent;
             } 

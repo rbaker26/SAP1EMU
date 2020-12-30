@@ -139,7 +139,7 @@ namespace SAP1EMU.Engine
                 // Log the Instruction
                 if (TState == 4)
                 {
-                    string iname = InstructionSet.instructions.Find(x => x.BinCode.Equals(ireg.ToString())).OpCode;
+                    string iname = InstructionSet.Instructions.Find(x => x.BinCode.Equals(ireg.ToString())).OpCode;
                     int operandVal = Convert.ToInt32(ireg.ToString_Frame_Use().Substring(4, 4), 2);
                     string hexOperand = "0x" + operandVal.ToString("X");
                     //    Log.Information($"SAP1Emu: Instruction: {iname}, Operand: {hexOperand}");

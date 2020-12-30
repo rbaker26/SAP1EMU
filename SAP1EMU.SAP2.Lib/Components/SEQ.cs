@@ -25,11 +25,14 @@ namespace SAP1EMU.SAP2.Lib.Components
         /// CP EP LM_ CE_ LI_ EI_ LA_ EA SU EU LB_ LO_ |  LR_ LP_ | 0bXXX (Jump Code)
         /// </para>
         /// </summary>
-        private string _controlWord 
+        private string _controlWord = "";
+        private string _controlWordSignals 
         {
-            get => _controlWord;
+            get { return _controlWord; }
             set
             {
+                _controlWord = value;
+
                 //PC
                 ControlWord["CP"] = value[0..1];
                 ControlWord["EP"] = value[1..2];
@@ -52,38 +55,38 @@ namespace SAP1EMU.SAP2.Lib.Components
                 ControlWord["EMDR"] = value[10..11];
 
                 //Registers/Flag/ALU Output
-                ControlWord["LA_"] = value[12..13];
-                ControlWord["EA"] = value[13..14];
+                ControlWord["LA_"] = value[11..12];
+                ControlWord["EA"] = value[12..13];
 
-                ControlWord["LT_"] = value[14..15];
-                ControlWord["ET"] = value[15..16];
+                ControlWord["LT_"] = value[13..14];
+                ControlWord["ET"] = value[14..15];
 
-                ControlWord["LB_"] = value[16..17];
-                ControlWord["EB"] = value[17..18];
+                ControlWord["LB_"] = value[15..16];
+                ControlWord["EB"] = value[16..17];
 
-                ControlWord["LC_"] = value[18..19];
-                ControlWord["EC"] = value[19..29];
+                ControlWord["LC_"] = value[17..18];
+                ControlWord["EC"] = value[18..19];
 
-                ControlWord["LF"] = value[20..21];
+                ControlWord["LF"] = value[19..20];
 
-                ControlWord["EU"] = value[21..22];
+                ControlWord["EU"] = value[20..21];
 
                 //Output
-                ControlWord["L03_"] = value[22..23];
-                ControlWord["L04_"] = value[23..24];
+                ControlWord["L03_"] = value[21..22];
+                ControlWord["L04_"] = value[22..23];
 
                 //ALU
-                ControlWord["ALU"] = value[24..29];
+                ControlWord["ALU"] = value[23..28];
 
                 //Jump
-                ControlWord["JC"] = value[29..32];
+                ControlWord["JC"] = value[28..31];
 
                 //Output to upper byte
-                ControlWord["UB"] = value[32..33];
-                ControlWord["CLR"] = value[33..34];
+                ControlWord["UB"] = value[31..32];
+                ControlWord["CLR"] = value[32..33];
 
                 // Hardcode PC address locations
-                ControlWord["RTNA"] = value[34..35];
+                ControlWord["RTNA"] = value[33..34];
             }
         }
             
@@ -101,10 +104,10 @@ namespace SAP1EMU.SAP2.Lib.Components
         public void UpdateControlWordReg(int TState, string instructionBinaryCode)
         {
             int hash = HashKey(TState, instructionBinaryCode);
-            _controlWord = ControlTable[hash];
+            _controlWordSignals = ControlTable[hash];
 
             //Beginning of a new instruction
-            if(TState == 1)
+            if (TState == 1)
             {
                 executedInstructions.Add(instructionBinaryCode);
             }
@@ -114,7 +117,7 @@ namespace SAP1EMU.SAP2.Lib.Components
             {
                 lastInstructionBinary = executedInstructions[^2]; //similar to count - 2
 
-                Instruction? instruction = instructionsThatModifyNextInstruction.Find(i => string.Equals(i.BinCode, lastInstructionBinary, StringComparison.Ordinal));
+                Instruction? instruction = instructionsThatModifyNextInstruction.FirstOrDefault(i => i.BinCode.Equals(lastInstructionBinary, StringComparison.Ordinal));
 
                 if (instruction != null && instruction.UpdatedFetchCycleStates != null)
                 {
@@ -123,7 +126,7 @@ namespace SAP1EMU.SAP2.Lib.Components
                     //If the code is empty then do nothing to the microcode otherwise modify the control word.
                     if (!string.IsNullOrEmpty(updatedMicroCode[TState]))
                     {
-                        _controlWord = updatedMicroCode[TState];
+                        _controlWordSignals = updatedMicroCode[TState];
                     }
                 }
             }
@@ -153,7 +156,7 @@ namespace SAP1EMU.SAP2.Lib.Components
                 }
             }
 
-            _instance._controlWord = ControlTable[HashKey(4, "00000000")]; // sets the default to a NOP
+            _instance._controlWordSignals = ControlTable[HashKey(4, "00000000")]; // sets the default to a NOP
         }
 
         // Singleton Pattern
@@ -161,40 +164,41 @@ namespace SAP1EMU.SAP2.Lib.Components
         {
             ControlWord = new Dictionary<string, string>(StringComparer.Ordinal)
             {
-                { "CP", "" },    //Increment PC
-                { "EP", "" },    //Enable PC
-                { "LP_", "" },   //Load PC
+                { "CP", "0" },    //Increment PC
+                { "EP", "0" },    //Enable PC
+                { "LP_", "1" },   //Load PC
 
-                { "LI_", ""},    //Load IR
+                { "LI_", "1"},    //Load IR
 
-                { "EIP1", "" },  //Enable Input Port 1
-                { "EIP2", "" },  //Enable Input Port 2
+                { "EIP1", "0" },  //Enable Input Port 1
+                { "EIP2", "0" },  //Enable Input Port 2
 
-                { "LA_", "" },   //Load Accumulator
-                { "EA", "" },    //Enable Accumulator
-                { "LT_", "" },   //Load Temp
-                { "ET", "" },    //Enable Temp
-                { "LB_", "" },   //Load B
-                { "EB", ""},     //Enable B
-                { "LC_", "" },   //Load C
-                { "EC", "" },    //Enable C
-                { "LF", ""},     //Load flag
-                { "EU", "" },    //Enable ALU
-                { "ALU", "" },   //ALU Control flags
-                { "JC", "" },    //Jump Control flags
+                { "LM_", "1" },   //Load RAM (MAR)
+                { "EM_", "1" },   //Enable RAM
+                { "LR_", "1" },   //Load RAM from MDR
+                { "LMDR_", "1" }, //Load Memory Data Register
+                { "EMDR", "0" },  //Enable Memory Data Register
 
-                { "LM_", "" },   //Load RAM (MAR)
-                { "EM_", "" },   //Enable RAM
-                { "LR_", "" },   //Load RAM from MDR
-                { "LMDR_", "" }, //Load Memory Data Register
-                { "EMDR", "" },  //Enable Memory Data Register
+                { "LA_", "1" },   //Load Accumulator
+                { "EA", "0" },    //Enable Accumulator
+                { "LT_", "1" },   //Load Temp
+                { "ET", "0" },    //Enable Temp
+                { "LB_", "1" },   //Load B
+                { "EB", "0"},     //Enable B
+                { "LC_", "1" },   //Load C
+                { "EC", "0" },    //Enable C
+                { "LF", "0"},     //Load flag
+                { "EU", "0" },    //Enable ALU
 
-                { "LO3_", "" },  //Load Output port 3
-                { "LO4_", "" },  //Load Output port 4
+                { "LO3_", "1" },  //Load Output port 3
+                { "LO4_", "1" },  //Load Output port 4
 
-                { "UB", "" },    //take bus upper byte if on or output to bus upper byte
-                { "CLR", "" },   //Clear bus value when outputting to bus
-                { "RTNA", "" }   //Return Address => Marks whether to make MAR point to 0xFFFE or 0xFFFF for pc contents in memory
+                { "ALU", "00000" },   //ALU Control flags
+                { "JC", "000" },    //Jump Control flags
+
+                { "UB", "0" },    //take bus upper byte if on or output to bus upper byte
+                { "CLR", "0" },   //Clear bus value when outputting to bus
+                { "RTNA", "0" }   //Return Address => Marks whether to make MAR point to 0xFFFE or 0xFFFF for pc contents in memory
             };
         }
 
@@ -211,7 +215,7 @@ namespace SAP1EMU.SAP2.Lib.Components
 
         public override string ToString()
         {
-            return _controlWord;
+            return _controlWordSignals;
         }
     }
 }

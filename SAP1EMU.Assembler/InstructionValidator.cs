@@ -14,7 +14,7 @@ namespace SAP1EMU.Assembler
             }
             try
             {
-                return !string.IsNullOrEmpty(iset.instructions.Find(x => x.OpCode.ToLower().Equals(instruction.ToLower())).OpCode);
+                return !string.IsNullOrEmpty(iset.Instructions.Find(x => x.OpCode.ToLower().Equals(instruction.ToLower())).OpCode);
             }
             catch (NullReferenceException)
             {
@@ -28,7 +28,7 @@ namespace SAP1EMU.Assembler
             {
                 return "0000";
             }
-            return iset.instructions.Find(x => x.OpCode.ToLower().Equals(instruction.ToLower())).BinCode;
+            return iset.Instructions.Find(x => x.OpCode.ToLower().Equals(instruction.ToLower())).BinCode;
         }
     }
 }
