@@ -101,9 +101,17 @@ namespace SAP1EMU.SAP2.Lib.Components
         /// <param name="TState"></param>
         /// <param name="Instruction"></param>
         /// <returns></returns>
-        public void UpdateControlWordReg(int TState, string instructionBinaryCode)
+        public void UpdateControlWordReg(int TState, string instructionBinaryCode, bool isInstruction = true)
         {
             int hash = HashKey(TState, instructionBinaryCode);
+
+            // Its the data portion of the instruction that comes after it
+            // Every line of data does not have to be an instruction
+            if(!isInstruction)
+            {
+                return;
+            }
+
             _controlWordSignals = ControlTable[hash];
 
             //Beginning of a new instruction

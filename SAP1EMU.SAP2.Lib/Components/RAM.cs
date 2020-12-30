@@ -36,9 +36,9 @@ namespace SAP1EMU.SAP2.Lib.Components
             // Active Low, Pull on Tok
             if (string.Equals(cw["LM_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)
             {
-                string word = mdrReg.RegContent;
-                SetWordAt(MARContents, word);
-                RegContent = word;
+                //string word = mdrReg.RegContent;
+                //SetWordAt(MARContents, word);
+                //RegContent = word;
             }
         }
 

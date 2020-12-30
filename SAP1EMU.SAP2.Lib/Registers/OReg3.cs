@@ -5,7 +5,7 @@ namespace SAP1EMU.SAP2.Lib.Registers
 {
     public class OReg3 : IObserver<TicTok>
     {
-        public string RegContent { get; private set; }
+        public string RegContent { get; private set; } = "00000000";
 
         private void Exec(TicTok tictok)
         {

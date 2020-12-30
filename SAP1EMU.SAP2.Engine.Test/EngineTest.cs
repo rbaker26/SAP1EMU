@@ -30,7 +30,7 @@ namespace SAP1EMU.Engine.Test
         [TestMethod]
         public void Test_MVI_MOV_PROG_1()
         {
-            string expectedResult = "00000001";
+            string expectedResult = "00000000";
             List<string> program = new List<string>()
             {
                 "00111110",
@@ -47,6 +47,8 @@ namespace SAP1EMU.Engine.Test
             engine.Run();
 
             string output = engine.GetOutputReg();
+
+            var frames = engine.FrameStack();
 
             Assert.AreEqual(expectedResult, output);
         }

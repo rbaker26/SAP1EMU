@@ -115,24 +115,34 @@ namespace SAP1EMU.SAP2.Engine
                 TStates = 4 // Since by 4 TStates it should know what instruction it is on
             };
 
+            bool isInstruction = true;
+            int bytesRemaining = 0;
+
             while (clock.IsEnabled)
             {
+                // Log the Instruction
+                if (TState == 4 && bytesRemaining == 0)
+                {
+                    currentInstruction = InstructionSet.Instructions.FirstOrDefault(i => i.BinCode.Equals(ireg.RegContent));
+                    isInstruction = currentInstruction != null;
+                    bytesRemaining = currentInstruction?.Bytes - 1 ?? 0;
+                    string iname = currentInstruction?.OpCode ?? "DATA";
+                    int operandVal = Convert.ToInt32(ireg.RegContent, 2);
+                    string hexOperand = "0x" + operandVal.ToString("X");
+                }
+                else if(TState == 4 && bytesRemaining > 0)
+                {
+                    isInstruction = false;
+                    bytesRemaining -= 1;
+                }
+
                 if (TState <= 3)
                 {
                     seq.UpdateControlWordReg(TState, "00000000");
                 }
                 else
                 {
-                    seq.UpdateControlWordReg(TState, ireg.RegContent);
-                }
-
-                // Log the Instruction
-                if (TState == 4)
-                {
-                    currentInstruction = InstructionSet.Instructions.FirstOrDefault(i => i.BinCode.Equals(ireg.RegContent));
-                    string iname = currentInstruction.OpCode;
-                    int operandVal = Convert.ToInt32(ireg.RegContent, 2);
-                    string hexOperand = "0x" + operandVal.ToString("X");
+                    seq.UpdateControlWordReg(TState, ireg.RegContent, isInstruction);
                 }
 
                 clock.SendTicTok(tictok);
@@ -148,7 +158,7 @@ namespace SAP1EMU.SAP2.Engine
                 _FrameStack.Add(tempFrame);
 
                 // HLT 
-                if (ireg.ToString() == "01110110" && TState == 5)
+                if (ireg.RegContent.Equals("01110110", StringComparison.Ordinal) && TState == 5)
                 {
                     clock.IsEnabled = false;
                 }
