@@ -29,5 +29,5 @@ jobs:
       with:
         app-name: 'sap1emu'
         slot-name: 'test'
-        publish-profile: ${{ secrets.AZURE_CREDS }}
+        publish-profile: ${{ secrets.AZURE_TEST_SLOT_CREDS }}
         package: ${{env.DOTNET_ROOT}}/sap1emu_gui 
