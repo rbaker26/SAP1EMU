@@ -7,10 +7,25 @@ name: Selenium Integration Testing
 on: [pull_request]
 
 jobs:
-  azure-deploy:
+  azure-deploy-test:
     runs-on: ubuntu-latest
+    
 
     steps:
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
+    - name: Boot Test Deployment Slot
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.0.72
+        inlineScript: |   
+          az webapp start --name sap1emu/test --resource-group sap1emu-rg
+          
+          
+    - name: Checkout Code from Repo   
     - uses: actions/checkout@master
 
     - name: Set up .NET Core
@@ -18,10 +33,10 @@ jobs:
       with:
         dotnet-version: '3.1.102'
 
-    - name: Build with dotnet
+    - name: Build with .NET Core
       run: dotnet build --configuration Release SAP1EMU.GUI
 
-    - name: dotnet publish
+    - name: Publish Build
       run: dotnet publish -c Release SAP1EMU.GUI -o ${{env.DOTNET_ROOT}}/sap1emu_gui
 
     - name: Deploy to Azure Web App
