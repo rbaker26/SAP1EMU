@@ -61,6 +61,11 @@ namespace SAP1EMU.GUI.Controllers
             return View();
         }
 
+        public IActionResult SAP2()
+        {
+            return View();
+        }
+
         public IActionResult TestSignalR()
         {
             return View();
