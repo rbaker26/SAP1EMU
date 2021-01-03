@@ -15,7 +15,7 @@ jobs:
     - name: Azure Login
       uses: azure/login@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        creds: ${{ secrets.AZURE_CLI_TEST_SLOT_CREDS }}
         
     - name: Boot Test Deployment Slot
       uses: azure/CLI@v1
