@@ -13,9 +13,21 @@ namespace SAP1EMU.GUI.Test
     public class AutomatedUITests : IDisposable
     {
         private readonly IWebDriver _driver;
+        private string BaseUrl;
         public AutomatedUITests()
         {
-            _driver = new ChromeDriver();
+            ChromeOptions chromeOptions = new ChromeOptions();
+            _driver = new ChromeDriver(chromeOptions);
+            if(Environment.GetEnvironmentVariable("IsDeploymentSlotTest") == "true")
+            {
+                BaseUrl = "http://test.sap1emu.net/";
+                chromeOptions.AddArgument("--headless");
+            }
+            else
+            {
+                BaseUrl = "https://localhost:5001/";
+            }
+            _driver = new ChromeDriver(chromeOptions);
         }
 
 
@@ -23,7 +35,7 @@ namespace SAP1EMU.GUI.Test
         public void Load_Home_Page()
         {
             _driver.Navigate()
-                .GoToUrl("https://localhost:5001/");
+                .GoToUrl(BaseUrl);
             var pageText = _driver.FindElement(By.CssSelector(".display-4")).Text;
             Assert.Equal("Welcome to the SAP1Emu Project", pageText);
         }
@@ -32,18 +44,17 @@ namespace SAP1EMU.GUI.Test
         public void Navigate_To_About_Page()
         {
             _driver.Navigate()
-                .GoToUrl("https://localhost:5001/");
+                .GoToUrl(BaseUrl);
             _driver.FindElement(By.LinkText("About")).Click();
             var pageText = _driver.FindElement(By.TagName("h2")).Text;
             Assert.Contains("About this Project", pageText);
         }
 
-
         [Fact]
         public void Navigate_To_Author_GitHub()
         {
             _driver.Navigate()
-                .GoToUrl("https://localhost:5001/");
+                .GoToUrl(BaseUrl);
             _driver.FindElement(By.LinkText("About")).Click();
 
             // Nav to GitHub Profile
@@ -52,14 +63,10 @@ namespace SAP1EMU.GUI.Test
             Assert.Contains("rbaker26", _driver.Title);
         }
 
-
         public void Dispose()
         {
             _driver.Quit();
             _driver.Dispose();
         }
-
-
-
     }
 }
