@@ -44,3 +44,10 @@ jobs:
         slot-name: 'test' 
         publish-profile: ${{ secrets.AZURE_TEST_SLOT_CREDS }}
         package: ${{env.DOTNET_ROOT}}/sap1emu_gui 
+      
+    - name : Shutdown Test Deployment SLot
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.0.72
+        inlineScript: |   
+          az webapp stop --name sap1emu --slot test --resource-group sap1emu-rg      
