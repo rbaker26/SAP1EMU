@@ -22,7 +22,7 @@ jobs:
       with:
         azcliversion: 2.0.72
         inlineScript: |   
-          az webapp start --name sap1emu/test --resource-group sap1emu-rg
+          az webapp start --name sap1emu --slot test --resource-group sap1emu-rg
             
     - uses: actions/checkout@master
 
