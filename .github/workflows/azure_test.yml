@@ -1,0 +1,53 @@
+  
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Selenium Integration Testing
+
+on: [pull_request]
+
+jobs:
+  azure-deploy-test:
+    runs-on: ubuntu-latest
+    
+
+    steps:
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CLI_TEST_SLOT_CREDS }}
+        
+    - name: Boot Test Deployment Slot
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.0.72
+        inlineScript: |   
+          az webapp start --name sap1emu --slot test --resource-group sap1emu-rg
+            
+    - uses: actions/checkout@master
+
+    - name: Set up .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.1.102'
+
+    - name: Build with .NET Core
+      run: dotnet build --configuration Release SAP1EMU.GUI
+
+    - name: Publish Build
+      run: dotnet publish -c Release SAP1EMU.GUI -o ${{env.DOTNET_ROOT}}/sap1emu_gui
+
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'sap1emu'
+        slot-name: 'test' 
+        publish-profile: ${{ secrets.AZURE_TEST_SLOT_CREDS }}
+        package: ${{env.DOTNET_ROOT}}/sap1emu_gui 
+      
+    - name : Shutdown Test Deployment SLot
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.0.72
+        inlineScript: |   
+          az webapp stop --name sap1emu --slot test --resource-group sap1emu-rg      
