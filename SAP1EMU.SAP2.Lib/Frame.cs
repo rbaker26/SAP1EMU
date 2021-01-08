@@ -62,12 +62,18 @@ namespace SAP1EMU.SAP2.Lib
 
             this.AReg = areg.ToString_Frame_Use();
             this.BReg = breg.ToString_Frame_Use();
+            this.CReg = creg.ToString_Frame_Use();
+            this.TReg = treg.ToString_Frame_Use();
             this.IReg = ireg.ToString_Frame_Use();  // The real ToString() is in use with a substring in it.  This is needed for proper operation
             this.MAR = mar.ToString_Frame_Use();
-            this.OReg3 = oreg3.ToString_Frame_Use();
+            this.MDR = mdr.RegContent;
+            
             this.PC = pc.RegContent;
             this.ALU = alu.ToString();
             this.WBus = wbus_string;
+
+            this.OReg3 = oreg3.ToString_Frame_Use();
+            this.OReg4 = oreg4.ToString_Frame_Use();
             this.HexadecimalDisplay = hexadecimalDisplay.RegContent;
 
             this.RAM = ramContents;
@@ -144,9 +150,9 @@ namespace SAP1EMU.SAP2.Lib
             }
 
             tw.WriteLine($"************************************************************");//60
-            tw.WriteLine($"* Instruction: ${InstructionData.OpCode}     TState: {TState}".PadRight(59) + "*");
+            tw.WriteLine($"* Instruction: {InstructionData.OpCode}     TState: {TState}".PadRight(59) + "*");
             tw.WriteLine("************************************************************");
-            tw.WriteLine($"* Input Port 1: {Input_Port_1}       A Register:    {AReg}   *");
+            tw.WriteLine($"* Input Port 1: {Input_Port_1}       A Register:    {AReg}".PadRight(59) + "*");
             tw.WriteLine($"* Input Port 2: {Input_Port_2}       ALU:    {ALU}       Flags: {Flags} *");
             tw.WriteLine($"* PC:         {PC}              Temp Register:      {TReg}".PadRight(59) + "*");
             tw.WriteLine($"* MAR:        {MAR}              B Register:      {BReg}".PadRight(59) + "*");

@@ -4,6 +4,7 @@ using SAP1EMU.SAP2.Lib.Registers;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace SAP1EMU.SAP2.Engine
@@ -12,6 +13,7 @@ namespace SAP1EMU.SAP2.Engine
     {
         private string OutputReg = "";
         private readonly List<Frame> _FrameStack = new List<Frame>();
+        private List<string> _RAMDump = new List<string>();
         private RAMProgram Program { get; set; } = new RAMProgram(new List<string>());
         private InstructionSet InstructionSet { get; set; } = new InstructionSet();
         private const string DefaultInstructionSetName = "Malvino";
@@ -56,18 +58,20 @@ namespace SAP1EMU.SAP2.Engine
 
             IPort1 port1 = new IPort1();
             IPort2 port2 = new IPort2();
-            OReg3 oreg3 = new OReg3();
-            OReg4 oreg4 = new OReg4();
-
-            HexadecimalDisplay hexadecimalDisplay = new HexadecimalDisplay(ref oreg3);
-
+            
             MDR mdr = new MDR();
             RAM ram = new RAM();
 
             mdr.SetRefToRAM(ref ram);
-            ram.SetRefToMDR(ref mdr);
 
             ALU alu = new ALU(ref areg, ref treg);
+
+            areg.SetALUReference(ref alu);
+
+            OReg3 oreg3 = new OReg3(ref alu);
+            OReg4 oreg4 = new OReg4(ref alu);
+            HexadecimalDisplay hexadecimalDisplay = new HexadecimalDisplay(ref oreg3);
+
             Flag flagReg = new Flag(ref alu);
             PC pc = new PC(ref flagReg);
             MAR mar = new MAR(ref ram);
@@ -81,13 +85,15 @@ namespace SAP1EMU.SAP2.Engine
             creg.Subscribe(clock);
             ireg.Subscribe(clock);
             mar.Subscribe(clock);
+            
+            pc.Subscribe(clock);
+            alu.Subscribe(clock); // ALU must come after A and T
+            ram.Subscribe(clock);
+            mdr.Subscribe(clock);
+
             oreg3.Subscribe(clock);
             hexadecimalDisplay.Subscribe(clock);
             oreg4.Subscribe(clock);
-            pc.Subscribe(clock);
-            alu.Subscribe(clock); // ALU must come after A and B
-            ram.Subscribe(clock);
-            mdr.Subscribe(clock);
 
             // Load the program into the RAM
             ram.LoadProgram(Program);
@@ -112,28 +118,23 @@ namespace SAP1EMU.SAP2.Engine
             // will be known and set to a new object reference.
             Instruction currentInstruction = new Instruction()
             {
+                OpCode = "???",
                 TStates = 4 // Since by 4 TStates it should know what instruction it is on
             };
 
-            bool isInstruction = true;
-            int bytesRemaining = 0;
+            List<string> controlWords = new List<string>();
 
             while (clock.IsEnabled)
             {
                 // Log the Instruction
-                if (TState == 4 && bytesRemaining == 0)
+                if (TState == 4)
                 {
                     currentInstruction = InstructionSet.Instructions.FirstOrDefault(i => i.BinCode.Equals(ireg.RegContent));
-                    isInstruction = currentInstruction != null;
-                    bytesRemaining = currentInstruction?.Bytes - 1 ?? 0;
-                    string iname = currentInstruction?.OpCode ?? "DATA";
+                    seq.LoadBackupControlWords(currentInstruction.MicroCode);
+
+                    string iname = currentInstruction.OpCode;
                     int operandVal = Convert.ToInt32(ireg.RegContent, 2);
                     string hexOperand = "0x" + operandVal.ToString("X");
-                }
-                else if(TState == 4 && bytesRemaining > 0)
-                {
-                    isInstruction = false;
-                    bytesRemaining -= 1;
                 }
 
                 if (TState <= 3)
@@ -142,13 +143,16 @@ namespace SAP1EMU.SAP2.Engine
                 }
                 else
                 {
-                    seq.UpdateControlWordReg(TState, ireg.RegContent, isInstruction);
+                    seq.UpdateControlWordReg(TState, ireg.RegContent);
                 }
 
                 clock.SendTicTok(tictok);
                 tictok.ToggleClockState();
                 clock.SendTicTok(tictok);
                 tictok.ToggleClockState();
+
+                Debug.WriteLine(alu);
+                Debug.WriteLine(TState);
 
                 tempFrame = new Frame(currentInstruction, TState, port1, port2, pc, mar, ram,
                                       ram.RAMDump(), mdr, ireg, SEQ.Instance(),
@@ -161,6 +165,8 @@ namespace SAP1EMU.SAP2.Engine
                 if (ireg.RegContent.Equals("01110110", StringComparison.Ordinal) && TState == 5)
                 {
                     clock.IsEnabled = false;
+
+                    _RAMDump = ram.RAMDump();
                 }
 
                 if (loop_counter >= max_loop_count)
@@ -184,6 +190,11 @@ namespace SAP1EMU.SAP2.Engine
                 else
                 {
                     TState = 1;
+                    currentInstruction = new Instruction()
+                    {
+                        OpCode = "???",
+                        TStates = 4 // Since by 4 TStates it should know what instruction it is on
+                    };
                 }
             }
 
@@ -202,7 +213,7 @@ namespace SAP1EMU.SAP2.Engine
             return _FrameStack;
         }
 
-        public Frame FinalFrame()
+        public Frame? FinalFrame()
         {
             if (_FrameStack.Count != 0)
             {
@@ -217,6 +228,11 @@ namespace SAP1EMU.SAP2.Engine
         public string GetOutputReg()
         {
             return OutputReg;
+        }
+
+        public List<string> GetRAMContents()
+        {
+            return _RAMDump;
         }
 
         // *************************************************************************

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace SAP1EMU.SAP2.Lib.Components
@@ -18,6 +19,8 @@ namespace SAP1EMU.SAP2.Lib.Components
 
         private readonly List<string> executedInstructions = new List<string>();
         private string lastInstructionBinary = string.Empty;
+
+        private List<string> backupControlWords = new List<string>();
 
         /// <summary>
         /// The control word storage location for all registers and components
@@ -72,27 +75,25 @@ namespace SAP1EMU.SAP2.Lib.Components
                 ControlWord["EU"] = value[20..21];
 
                 //Output
-                ControlWord["L03_"] = value[21..22];
-                ControlWord["L04_"] = value[22..23];
+                ControlWord["LO_"] = value[21..22]; //21-22 are the index to remove
 
                 //ALU
-                ControlWord["ALU"] = value[23..28];
+                ControlWord["ALU"] = value[22..27];
 
                 //Jump
-                ControlWord["JC"] = value[28..31];
+                ControlWord["JC"] = value[27..30];
 
                 //Output to upper byte
-                ControlWord["UB"] = value[31..32];
-                ControlWord["CLR"] = value[32..33];
+                ControlWord["UB"] = value[30..31];
+                ControlWord["CLR"] = value[31..32];
 
                 // Hardcode PC address locations
-                ControlWord["RTNA"] = value[33..34];
+                ControlWord["RTNA"] = value[32..33];
             }
         }
             
         public readonly Dictionary<string, string> ControlWord;
 
-        //************************************************************************************************************************
 
         //************************************************************************************************************************
         /// <summary>
@@ -101,21 +102,22 @@ namespace SAP1EMU.SAP2.Lib.Components
         /// <param name="TState"></param>
         /// <param name="Instruction"></param>
         /// <returns></returns>
-        public void UpdateControlWordReg(int TState, string instructionBinaryCode, bool isInstruction = true)
+        public void UpdateControlWordReg(int TState, string instructionBinaryCode)
         {
             int hash = HashKey(TState, instructionBinaryCode);
 
-            // Its the data portion of the instruction that comes after it
-            // Every line of data does not have to be an instruction
-            if(!isInstruction)
+            if(TState <= 3 && ControlTable.ContainsKey(hash))
             {
-                return;
+                _controlWordSignals = ControlTable[hash];
             }
+            else
+            {
+                _controlWordSignals = backupControlWords[TState - 1];
+            }
+                        
 
-            _controlWordSignals = ControlTable[hash];
-
-            //Beginning of a new instruction
-            if (TState == 1)
+            //Beginning of a new instruction since we decoded it
+            if (TState == 4)
             {
                 executedInstructions.Add(instructionBinaryCode);
             }
@@ -123,7 +125,7 @@ namespace SAP1EMU.SAP2.Lib.Components
             //If we have more than 1 we need to keep track of the previous one to see if itll influence this instructions fetch cycle control word
             if(executedInstructions.Count > 1 && TState <= 3)
             {
-                lastInstructionBinary = executedInstructions[^2]; //similar to count - 2
+                lastInstructionBinary = executedInstructions[^1];
 
                 Instruction? instruction = instructionsThatModifyNextInstruction.FirstOrDefault(i => i.BinCode.Equals(lastInstructionBinary, StringComparison.Ordinal));
 
@@ -132,23 +134,24 @@ namespace SAP1EMU.SAP2.Lib.Components
                     List<string> updatedMicroCode = instruction.UpdatedFetchCycleStates;
 
                     //If the code is empty then do nothing to the microcode otherwise modify the control word.
-                    if (!string.IsNullOrEmpty(updatedMicroCode[TState]))
+                    if (!string.IsNullOrEmpty(updatedMicroCode[TState - 1]))
                     {
-                        _controlWordSignals = updatedMicroCode[TState];
+                        _controlWordSignals = updatedMicroCode[TState - 1];
                     }
                 }
             }
         }
 
-        //************************************************************************************************************************
+        public void LoadBackupControlWords(List<string> controlWords)
+        {
+            backupControlWords = controlWords;
+        }
 
         //************************************************************************************************************************
         private static int HashKey(int TState, string Instruction)
         {
             return HashCode.Combine(TState, Instruction);
         }
-
-        //************************************************************************************************************************
 
         public void Load(InstructionSet iset)
         {
@@ -169,7 +172,7 @@ namespace SAP1EMU.SAP2.Lib.Components
 
         // Singleton Pattern
         private SEQ()
-        {
+        {  
             ControlWord = new Dictionary<string, string>(StringComparer.Ordinal)
             {
                 { "CP", "0" },    //Increment PC
@@ -198,8 +201,7 @@ namespace SAP1EMU.SAP2.Lib.Components
                 { "LF", "0"},     //Load flag
                 { "EU", "0" },    //Enable ALU
 
-                { "LO3_", "1" },  //Load Output port 3
-                { "LO4_", "1" },  //Load Output port 4
+                { "LO_", "1" },  //Load Output 
 
                 { "ALU", "00000" },   //ALU Control flags
                 { "JC", "000" },    //Jump Control flags

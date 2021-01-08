@@ -36,7 +36,7 @@ namespace SAP1EMU.SAP2.Lib.Test
                     Assert.IsTrue(RamContentsResults[i] == RamContentsData[i], $"At index {i}, RamContentsResults != RamContentsData");
                 }
                 // Make sure the end of the program is padded with 0's
-                for (int i = RamContentsData.Count; i < 0xFFFF; i++)
+                for (int i = RamContentsData.Count; i < RamContentsResults.Count; i++)
                 {
                     Assert.IsTrue(RamContentsResults[i] == "00000000");
                 }

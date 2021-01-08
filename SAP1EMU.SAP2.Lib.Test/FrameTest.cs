@@ -26,18 +26,20 @@ namespace SAP1EMU.SAP2.Lib.Test
 
             IPort1 port1 = new IPort1();
             IPort2 port2 = new IPort2();
-            OReg3 oreg3 = new OReg3();
-            OReg4 oreg4 = new OReg4();
-
-            HexadecimalDisplay hexadecimalDisplay = new HexadecimalDisplay(ref oreg3);
-
+            
             MDR mdr = new MDR();
             RAM ram = new RAM();
 
             mdr.SetRefToRAM(ref ram);
-            ram.SetRefToMDR(ref mdr);
 
             ALU alu = new ALU(ref areg, ref treg);
+
+            OReg3 oreg3 = new OReg3(ref alu);
+            OReg4 oreg4 = new OReg4(ref alu);
+
+            HexadecimalDisplay hexadecimalDisplay = new HexadecimalDisplay(ref oreg3);
+
+
             Flag flagReg = new Flag(ref alu);
             PC pc = new PC(ref flagReg);
             MAR mar = new MAR(ref ram);

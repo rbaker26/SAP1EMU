@@ -5,7 +5,7 @@ namespace SAP1EMU.SAP2.Lib.Registers
 {
     public class BReg : IObserver<TicTok>
     {
-        private string RegContent { get; set; }
+        private string RegContent { get; set; } = "00000000";
 
         private void Exec(TicTok tictok)
         {
@@ -22,7 +22,7 @@ namespace SAP1EMU.SAP2.Lib.Registers
             if (string.Equals(cw["LB_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)
             {
                 // Store Wbus val in B
-                RegContent = Wbus.Instance().Value[0..8];
+                RegContent = Wbus.Instance().Value[8..];
             }
         }
 

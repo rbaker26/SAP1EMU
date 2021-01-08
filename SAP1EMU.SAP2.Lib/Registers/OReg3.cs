@@ -1,4 +1,5 @@
 ﻿using SAP1EMU.SAP2.Lib.Components;
+using SAP1EMU.SAP2.Lib.Utilities;
 using System;
 
 namespace SAP1EMU.SAP2.Lib.Registers
@@ -7,15 +8,24 @@ namespace SAP1EMU.SAP2.Lib.Registers
     {
         public string RegContent { get; private set; } = "00000000";
 
+        private ALU alu { get; set; }
+
+        public OReg3(ref ALU alu)
+        {
+            this.alu = alu;
+        }
+
         private void Exec(TicTok tictok)
         {
             var cw = SEQ.Instance().ControlWord;
 
+            string aluResult = alu.RegContent;
+
             // Active Low, Pull on Tok
-            if (string.Equals(cw["L03_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)
+            if (aluResult[^1].Equals('1') && string.Equals(cw["LO_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)
             {
                 // Store Wbus val in Output port 3
-                RegContent = Wbus.Instance().Value;
+                RegContent = Wbus.Instance().Value[8..];
             }
         }
 

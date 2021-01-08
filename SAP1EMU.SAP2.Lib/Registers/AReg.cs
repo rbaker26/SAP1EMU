@@ -5,7 +5,14 @@ namespace SAP1EMU.SAP2.Lib.Registers
 {
     public class AReg : IObserver<TicTok>
     {
-        private string RegContent { get; set; }
+        private string RegContent { get; set; } = "00000000";
+
+        private ALU alu;
+
+        public void SetALUReference(ref ALU alu)
+        {
+            this.alu = alu;
+        }
 
         private void Exec(TicTok tictok)
         {
@@ -21,9 +28,25 @@ namespace SAP1EMU.SAP2.Lib.Registers
             // Active Low, Pull on Tok
             if (string.Equals(cw["LA_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)
             {
+                // Special logic so we dont have immediate feedback when ALU -> A happens on the updated fetch cycle
+                // Only applies to A Register
+                if(string.Equals(cw["EU"], "1", StringComparison.Ordinal))
+                {
+                    return;
+                }
+
                 // Store Wbus val in A
-                RegContent = Wbus.Instance().Value[0..8];
+                RegContent = Wbus.Instance().Value[8..];
             }
+
+            // Special logic so we dont have immediate feedback when ALU -> A happens on the updated fetch cycle
+            // Only applies to A Register
+            if (string.Equals(cw["EU"], "1", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tic)
+            {
+                // Store ALU in A
+                RegContent = alu.RegContent;
+            }
+
         }
 
         #region IObserver Region
