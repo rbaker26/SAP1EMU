@@ -1,4 +1,9 @@
-﻿<script src="/js/CodeMirror/lib/codemirror.js"></script>
+﻿@{
+    ViewData["Title"] = "SAP2";
+}
+
+
+<script src="/js/CodeMirror/lib/codemirror.js"></script>
 <script src="/js/CodeMirror/mode/gas/gas_sap1.js" type="text/javascript"></script>
 <link href="/js/CodeMirror/lib/codemirror.css" rel="stylesheet" type="text/css" />
 
@@ -73,6 +78,13 @@
                 </div>
             </div>
 
+            <div>
+                <h4>Input</h4>
+                <input type="text" class="input-group" />
+                <br />
+                <button class="btn btn-secondary">Read Input</button>
+
+            </div>
 
 
 
@@ -92,65 +104,67 @@
 
             <div class="row">
                 <div class="col pr-2">
-                    <div class="alert alert-secondary"><h6>Program Counter</h6><pre class="mb-0 pb-0" id="pc-block"></pre></div>
+                    <div class="alert alert-secondary mb-2"><b>Program Counter</b><span class="m-0 ml-3 p-0" id="areg-block">0000 0000  0000 0000</span></div>
 
                     <div class="row">
                         <div class="col pr-0 mr-0">
-                            <div class="alert alert-secondary"><h6>IPort 1</h6><pre class="mb-0 pb-0" id="mar-block"></pre></div>
+                            <div class="alert alert-secondary mb-2"><b>IPort 1</b><span class="m-0 ml-3 p-0" id="areg-block">0000 0000</span></div>
                         </div>
                         <div class="col pl-0 ml-1">
-                            <div class="alert alert-secondary"><h6>IPort 2</h6><pre class="mb-0 pb-0" id="ram-block"></pre></div>
+                            <div class="alert alert-secondary mb-2"><b>IPort 2</b><span class="m-0 ml-3 p-0" id="areg-block">0000 0000</span></div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col pr-0 mr-0">
-                            <div class="alert alert-secondary"><h6>Output 1</h6><pre class="mb-0 pb-0" id="mar-block"></pre></div>
+                            <div class="alert alert-secondary mb-2"><b>OPort 1</b><span class="m-0 ml-3 p-0" id="areg-block">0000 0000</span></div>
                         </div>
                         <div class="col pl-0 ml-1">
-                            <div class="alert alert-secondary"><h6>Output 2</h6><pre class="mb-0 pb-0" id="ram-block"></pre></div>
+                            <div class="alert alert-secondary mb-2"><b>OPort 2</b><span class="m-0 ml-3 p-0" id="areg-block">0000 0000</span></div>
                         </div>
                     </div>
-                    <div class="alert alert-secondary"><h6>Display</h6><pre class="mb-0 pb-0" id="dis-block"></pre></div>
+                    <div class="alert alert-secondary mb-2"><b>Display</b><span class="m-0 ml-3 p-0" id="areg-block">0</span></div>
 
-                    <div class="alert alert-secondary pr-0"><h6>Instruction Register</h6><pre class="mb-0 pb-0" id="ireg-block"></pre></div>
-                    <div class="alert alert-secondary"><h6>Sequencer</h6><pre class="mb-0 pb-0" id="seq-block"></pre></div>
-                    <div class="alert alert-secondary"><h6>Flags</h6><pre class="mb-0 pb-0" id="seq-block"></pre></div>
+                    <div class="alert alert-secondary mb-2"><b>Instruction Register</b><span class="m-0 ml-3 p-0" id="areg-block">0000 0000</span></div>
+                    <div class="alert alert-secondary mb-2"><b>Sequencer</b><p class="m-0 p-0" id="areg-block">0111 0001 1101 0101 0100 0100 0000 0001 0000</p></div>
+                    <div class="alert alert-secondary mb-2"><b>Flags</b><span class="m-0 ml-3 p-0" id="areg-block">SF&emsp;ZF&emsp;CF&emsp;UF</span></div>
+
                 </div>
                 <div class="col-auto d-flex  px-1">
                     <div class="alert alert-secondary flex-fill">
-                        <h6>WBus</h6><pre id="wbus-block">0x00 0x00</pre>
+                        <b>WBus</b><pre id="wbus-block">0x00 0x00</pre>
                     </div>
                 </div>
                 <div class="col pl-2">
-                    <div class="alert alert-secondary"><h6>ALU</h6><pre class="mb-0 pb-0" id="pc-block"></pre></div>
+
+                    <div class="alert alert-secondary  mb-3"><b>ALU</b><span class="m-0 ml-3 p-0" id="areg-block">0000 0000</span></div>
 
                     <div class="row">
 
                         <div class="col-2 mr-0 mb-3 pr-0">
-                            <div class="alert alert-secondary" style="height: 100%;"><h6>MUX</h6><pre class="mb-0 pb-0" id="areg-block"> </pre></div>
+                            <div class="alert alert-secondary" style="height: 100%;"><b>&nbsp;&nbsp;&nbsp;MUX</b><pre class="mb-0 pb-0" id="areg-block"> </pre></div>
                         </div>
                         <div class="col ml-0 pl-0">
                             <div class="row ml-0">
                                 <div class="col pr-0 mr-0">
-                                    <div class="alert alert-secondary mb-1"><h6>A Reg</h6><pre class="m-0 p-0" id="areg-block"></pre></div>
+                                    <div class="alert alert-secondary mb-2"><b>A Reg</b><span class="m-0 ml-3 p-0" id="areg-block">0x00</span></div>
                                 </div>
                                 <div class="col pl-0 ml-1">
-                                    <div class="alert alert-secondary mb-1"><h6>T Reg</h6><pre class="m-0 p-0" id="areg-block"></pre></div>
+                                    <div class="alert alert-secondary mb-2"><b>T Reg</b><span class="m-0 ml-3 p-0" id="areg-block">0x00</span></div>
                                 </div>
                             </div>
                             <div class="row ml-0">
                                 <div class="col">
-                                    <div class="alert alert-secondary mb-1"><h6>B Reg</h6><pre class="m-0 p-0" id="areg-block"></pre></div>
+                                    <div class="alert alert-secondary mb-2"><b>B Reg</b><span class="m-0 ml-3 p-0" id="areg-block">0000 0000</span></div>
                                 </div>
                             </div>
                             <div class="row ml-0">
                                 <div class="col">
-                                    <div class="alert alert-secondary mb-1"><h6>C Reg</h6><pre class="m-0 p-0" id="areg-block"></pre></div>
+                                    <div class="alert alert-secondary mb-2"><b>C Reg</b><span class="m-0 ml-3 p-0" id="areg-block">0000 0000</span></div>
                                 </div>
                             </div>
                             <div class="row ml-0">
                                 <div class="col">
-                                    <div class="alert alert-secondary"><h6>MDR</h6><pre class="m-0 p-0" id="areg-block"></pre></div>
+                                    <div class="alert alert-secondary mb-3"><b>MDR</b><span class="m-0 ml-3 p-0" id="areg-block">0000 0000</span></div>
                                 </div>
                             </div>
                         </div>
@@ -158,9 +172,9 @@
 
 
                     </div>
-                    <div class="alert alert-secondary"><h6>RAM</h6><pre class="mb-0 pb-0" id="areg-block"></pre></div>
+                    <div class="alert alert-secondary mb-2"><b>RAM</b><span class="m-0 ml-3 p-0" id="areg-block">0000 0000  0000 0000</span></div>
 
-                    <div class="alert alert-secondary"><h6>MAR</h6><pre class="mb-0 pb-0" id="alu-block"></pre></div>
+                    <div class="alert alert-secondary"><b>MAR</b><span class="m-0 ml-3 p-0" id="areg-block">0000 0000  0000 0000</span></div>
                 </div>
                 <div class="col-auto">
                     <h5>RAM</h5>
