@@ -77,18 +77,17 @@
                     </div>
                 </div>
             </div>
-
             <div>
                 <h4>Input</h4>
                 <input type="text" class="input-group" />
                 <br />
                 <button class="btn btn-secondary">Read Input</button>
             </div>
-
-
-
-
-            <code class="emulator-out" id="emulator-out"><br /></code>
+            <br />
+            <div>
+                <h4>Errors</h4>
+                <input type="text" class="input-group emulator-out" id="emulator-out" readonly/>
+            </div>
         </div>
     </div>
 </div>
@@ -193,7 +192,13 @@
                                 <b>Flags</b>
                             </div>
                             <div class="col-auto pl-0">
-                                <span id="areg-block">SF&emsp;ZF&emsp;CF&emsp;UF</span>
+                                <div class="row">
+                                    <div class="col mx-1"><b class="text-secondary">SF</b></div>
+                                    <div class="col mx-1"><b class="text-success">ZF</b></div>
+                                    <div class="col mx-1"><b class="text-secondary">CF</b></div>
+                                    <div class="col mx-1"><b class="text-secondary">UF</b></div>
+                                </div>
+                                @*<span id="areg-block">SF&emsp;ZF&emsp;CF&emsp;UF</span>*@
                             </div>
                         </div>
                     </div>
@@ -336,5 +341,4 @@
             </div>
         </div>
     </div>
-
 </div>
