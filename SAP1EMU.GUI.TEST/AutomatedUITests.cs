@@ -19,7 +19,6 @@ namespace SAP1EMU.GUI.Test
             ChromeOptions chromeOptions = new ChromeOptions();
             //_driver = new ChromeDriver(chromeOptions);
             Console.WriteLine("123132132132456465465***********************************************");
-            throw new Exception("FDJHKDSHJFKJSDKJFSDK");
 
             if (Environment.GetEnvironmentVariable("IsDeploymentSlotTest") == "true")
             {
