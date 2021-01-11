@@ -20,6 +20,7 @@ namespace SAP1EMU.GUI.Test
             _driver = new ChromeDriver(chromeOptions);
             if(Environment.GetEnvironmentVariable("IsDeploymentSlotTest") == "true")
             {
+                throw new Exception("FDJHKDSHJFKJSDKJFSDK");
                 BaseUrl = "http://test.sap1emu.net/";
                 chromeOptions.AddArgument("--headless");                // No GUI 
                 chromeOptions.AddArgument("--disable-dev-shm-usage");   // overcome limited resource problems
