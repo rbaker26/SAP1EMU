@@ -35,7 +35,7 @@ jobs:
       run: dotnet build --configuration Release SAP1EMU.GUI
 
     - name: Publish Build
-      run: dotnet publish -c Release SAP1EMU.GUI -o ${{env.DOTNET_ROOT}}/sap1emu_gui
+      run: dotnet publish -c Release SAP1EMU.GUI -o ${{env.DOTNET_ROOT}}/sap1emu_gui_test
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
@@ -43,7 +43,7 @@ jobs:
         app-name: 'sap1emu'
         slot-name: 'test' 
         publish-profile: ${{ secrets.AZURE_TEST_SLOT_CREDS }}
-        package: ${{env.DOTNET_ROOT}}/sap1emu_gui 
+        package: ${{env.DOTNET_ROOT}}/sap1emu_gui_test
     
     - name: Run Selenium Tests
       env:
@@ -51,7 +51,8 @@ jobs:
       run: dotnet test SAP1EMU.GUI.TEST 
       
            
-    - name : Shutdown Test Deployment SLot
+    - name : Shutdown Test Deployment Slot
+      if: ${{ always() }}
       uses: azure/CLI@v1
       with:
         azcliversion: 2.0.72
