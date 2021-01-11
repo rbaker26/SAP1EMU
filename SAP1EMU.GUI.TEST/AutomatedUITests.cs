@@ -80,10 +80,10 @@ namespace SAP1EMU.GUI.Test
                 var pageText = _driver.FindElement(By.TagName("h2")).Text;
                 Assert.Contains("About this Project", pageText);
             }
-            catch(Xunit.Sdk.NotEqualException nee)
+            catch(Xunit.Sdk.ContainsException ce)
             {
                 Console.Error.Write(":\t Failed\n");
-                throw nee;
+                throw ce;
             }
             Console.Write(":\t Passed\n");
         }
@@ -104,10 +104,10 @@ namespace SAP1EMU.GUI.Test
 
                 Assert.Contains("rbaker26", _driver.Title);
             }
-            catch (Xunit.Sdk.NotEqualException nee)
+            catch (Xunit.Sdk.ContainsException ce)
             {
                 Console.Error.Write(":\t Failed\n");
-                throw nee;
+                throw ce;
             }
             Console.Write(":\t Passed\n");
         }
@@ -124,10 +124,10 @@ namespace SAP1EMU.GUI.Test
 
                 Assert.Contains("SAP1Emu API", title);
             }
-            catch (Xunit.Sdk.NotEqualException nee)
+            catch (Xunit.Sdk.ContainsException ce)
             {
                 Console.Error.Write(":\t Failed\n");
-                throw nee;
+                throw ce;
             }
             Console.Write(":\t Passed\n");
         }
