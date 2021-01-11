@@ -65,7 +65,7 @@ namespace SAP1EMU.GUI.Test
             // Nav to GitHub Profile
             _driver.FindElement(By.CssSelector(".card")).FindElement(By.LinkText("Follow")).Click();
             _driver.SwitchTo().Window(_driver.WindowHandles[1]);
-            Assert.Contains("rbaker26", _driver.Title);
+            Assert.Contains("rbaker000", _driver.Title);
 
         }
 
