@@ -26,12 +26,6 @@ namespace SAP1EMU.GUI.Controllers
             _hubContext = hubContext;
         }
 
-        // TODO - Remove this after testing
-        public IActionResult Index()
-        {
-            return View();
-        }
-
 
         [HttpGet("GetEmulationID")]
         public IActionResult GetEmulationID()

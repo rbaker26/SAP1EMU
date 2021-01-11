@@ -29,7 +29,9 @@ namespace SAP1EMU.GUI.Test
                 }
                 else
                 {
-                    BaseUrl = "https://localhost:5001/";
+                    //BaseUrl = "https://localhost:5001/";
+                    BaseUrl = "http://test.sap1emu.net/";
+
                 }
 
                 _driver = new ChromeDriver(chromeOptions);
@@ -94,6 +96,9 @@ namespace SAP1EMU.GUI.Test
                 Console.Write(TEST_NAME);
 
                 _driver.Navigate().GoToUrl(BaseUrl);
+                _driver.Navigate().GoToUrl(BaseUrl);
+                _driver.FindElement(By.LinkText("About")).Click();
+
                 _driver.FindElement(By.CssSelector(".card")).FindElement(By.LinkText("Follow")).Click();
                 _driver.SwitchTo().Window(_driver.WindowHandles[1]);
 
