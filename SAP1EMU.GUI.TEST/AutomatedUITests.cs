@@ -25,7 +25,6 @@ namespace SAP1EMU.GUI.Test
                 Console.WriteLine("123132132132456465465$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
 
                 BaseUrl = "http://test.sap1emu.net/";
-                chromeOptions.AddArgument("--headless");                // No GUI 
                 chromeOptions.AddArgument("--disable-dev-shm-usage");   // overcome limited resource problems
                 chromeOptions.AddArgument("--no-sandbox");              // Bypass OS security model
                 chromeOptions.AddArgument("--remote-debugging-port=9222");
