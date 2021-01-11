@@ -33,9 +33,6 @@ jobs:
       with:
         dotnet-version: '3.1.102'
 
-    - name: Build with .NET Core
-      run: dotnet build --configuration Release SAP1EMU.GUI
-
     - name: Publish Build
       run: dotnet publish -c Release SAP1EMU.GUI -o ${{env.DOTNET_ROOT}}/sap1emu_gui_test
 
@@ -51,7 +48,13 @@ jobs:
     - name: Wait for site to deploy
       uses: jakejarvis/wait-action@master
       with:
-        time: '120s'
+        time: '60s'
+        
+    - name: Prewarm Instance
+      uses: wei/wget@v1
+      with:
+        args: http://test.sap1emu.net      
+        
 
     - name: Run Selenium Tests
       env:
