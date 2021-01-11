@@ -17,11 +17,14 @@ namespace SAP1EMU.GUI.Test
         public AutomatedUITests()
         {
             ChromeOptions chromeOptions = new ChromeOptions();
-            _driver = new ChromeDriver(chromeOptions);
+            //_driver = new ChromeDriver(chromeOptions);
+            Console.WriteLine("123132132132456465465***********************************************");
             throw new Exception("FDJHKDSHJFKJSDKJFSDK");
 
             if (Environment.GetEnvironmentVariable("IsDeploymentSlotTest") == "true")
             {
+                Console.WriteLine("123132132132456465465$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+
                 BaseUrl = "http://test.sap1emu.net/";
                 chromeOptions.AddArgument("--headless");                // No GUI 
                 chromeOptions.AddArgument("--disable-dev-shm-usage");   // overcome limited resource problems
@@ -30,6 +33,8 @@ namespace SAP1EMU.GUI.Test
             }
             else
             {
+                Console.WriteLine("123132132132456465465&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+
                 //BaseUrl = "https://localhost:5001/";
                 BaseUrl = "http://test.sap1emu.net/";
             }
