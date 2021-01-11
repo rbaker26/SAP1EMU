@@ -21,11 +21,13 @@ namespace SAP1EMU.GUI.Test
             if(Environment.GetEnvironmentVariable("IsDeploymentSlotTest") == "true")
             {
                 BaseUrl = "http://test.sap1emu.net/";
-                chromeOptions.AddArgument("--headless");
+                chromeOptions.AddArgument("--headless");   // No GUI 
+                chromeOptions.AddArgument("--no-sandbox"); // Bypass OS security model
             }
             else
             {
-                BaseUrl = "https://localhost:5001/";
+                //BaseUrl = "https://localhost:5001/";
+                BaseUrl = "http://test.sap1emu.net/";
             }
             _driver = new ChromeDriver(chromeOptions);
         }
