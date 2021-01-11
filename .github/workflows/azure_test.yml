@@ -44,7 +44,13 @@ jobs:
         slot-name: 'test' 
         publish-profile: ${{ secrets.AZURE_TEST_SLOT_CREDS }}
         package: ${{env.DOTNET_ROOT}}/sap1emu_gui_test
-    
+        
+        
+    - name: Wait for site to deploy
+      uses: jakejarvis/wait-action@master
+      with:
+        time: '120s'
+
     - name: Run Selenium Tests
       env:
         IsDeploymentSlotTest: true
