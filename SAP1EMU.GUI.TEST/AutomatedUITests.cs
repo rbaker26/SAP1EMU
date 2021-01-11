@@ -16,7 +16,7 @@ namespace SAP1EMU.GUI.Test
         private static string BaseUrl;
         public AutomatedUITests()
         {
-            if(_driver != null)
+            if(_driver == null)
             {
                 ChromeOptions chromeOptions = new ChromeOptions();
                 //_driver = new ChromeDriver(chromeOptions);
