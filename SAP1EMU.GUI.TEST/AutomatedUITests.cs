@@ -24,6 +24,7 @@ namespace SAP1EMU.GUI.Test
                 chromeOptions.AddArgument("--headless");                // No GUI 
                 chromeOptions.AddArgument("--disable-dev-shm-usage");   // overcome limited resource problems
                 chromeOptions.AddArgument("--no-sandbox");              // Bypass OS security model
+                chromeOptions.AddArgument("--remote-debugging-port=9222");
             }
             else
             {
