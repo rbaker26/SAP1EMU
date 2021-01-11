@@ -53,28 +53,28 @@ namespace SAP1EMU.GUI.Test
             Assert.Equal("Welcome to the SAP1Emu Project", pageText);
         }
 
-        //[Fact]
-        //public void Navigate_To_About_Page()
-        //{
-        //    _driver.Navigate()
-        //        .GoToUrl(BaseUrl);
-        //    _driver.FindElement(By.LinkText("About")).Click();
-        //    var pageText = _driver.FindElement(By.TagName("h2")).Text;
-        //    Assert.Contains("About this Project", pageText);
-        //}
+        [Fact]
+        public void Navigate_To_About_Page()
+        {
+            _driver.Navigate()
+                .GoToUrl(BaseUrl);
+            _driver.FindElement(By.LinkText("About")).Click();
+            var pageText = _driver.FindElement(By.TagName("h2")).Text;
+            Assert.Contains("About this Project", pageText);
+        }
 
-        //[Fact]
-        //public void Navigate_To_Author_GitHub()
-        //{
-        //    _driver.Navigate()
-        //        .GoToUrl(BaseUrl);
-        //    _driver.FindElement(By.LinkText("About")).Click();
+        [Fact]
+        public void Navigate_To_Author_GitHub()
+        {
+            _driver.Navigate()
+                .GoToUrl(BaseUrl);
+            _driver.FindElement(By.LinkText("About")).Click();
 
-        //    // Nav to GitHub Profile
-        //    _driver.FindElement(By.CssSelector(".card")).FindElement(By.LinkText("Follow")).Click();
-        //    _driver.SwitchTo().Window(_driver.WindowHandles[1]);
-        //    Assert.Contains("rbaker26", _driver.Title);
-        //}
+            // Nav to GitHub Profile
+            _driver.FindElement(By.CssSelector(".card")).FindElement(By.LinkText("Follow")).Click();
+            _driver.SwitchTo().Window(_driver.WindowHandles[1]);
+            Assert.Contains("rbaker26", _driver.Title);
+        }
 
         public void Dispose()
         {
