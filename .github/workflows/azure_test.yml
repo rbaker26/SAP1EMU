@@ -23,19 +23,18 @@ jobs:
         azcliversion: 2.0.72
         inlineScript: |   
           az webapp start --name sap1emu --slot test --resource-group sap1emu-rg
-            
-    - uses: actions/checkout@master
+   
+   
+    - name: Checkout Master
+      uses: actions/checkout@master
 
     - name: Set up .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '3.1.102'
 
-    - name: Build with .NET Core
-      run: dotnet build --configuration Release SAP1EMU.GUI
-
     - name: Publish Build
-      run: dotnet publish -c Release SAP1EMU.GUI -o ${{env.DOTNET_ROOT}}/sap1emu_gui
+      run: dotnet publish -c Release SAP1EMU.GUI -o ${{env.DOTNET_ROOT}}/sap1emu_gui_test
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
@@ -43,9 +42,27 @@ jobs:
         app-name: 'sap1emu'
         slot-name: 'test' 
         publish-profile: ${{ secrets.AZURE_TEST_SLOT_CREDS }}
-        package: ${{env.DOTNET_ROOT}}/sap1emu_gui 
+        package: ${{env.DOTNET_ROOT}}/sap1emu_gui_test
+        
+        
+    - name: Wait for site to deploy
+      uses: jakejarvis/wait-action@master
+      with:
+        time: '30s'
+        
+    - name: Prewarm Instance
+      uses: wei/wget@v1
+      with:
+        args: http://test.sap1emu.net      
+
+    - name: Run Selenium Tests
+      env:
+        IsDeploymentSlotTest: true
+      run: dotnet test SAP1EMU.GUI.TEST 
       
-    - name : Shutdown Test Deployment SLot
+           
+    - name : Shutdown Test Deployment Slot
+      if: ${{ always() }}
       uses: azure/CLI@v1
       with:
         azcliversion: 2.0.72
