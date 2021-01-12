@@ -58,10 +58,10 @@ namespace SAP1EMU.GUI.Test
                 var pageText = _driver.FindElement(By.CssSelector(".display-4")).Text;
                 Assert.Equal("Welcome to the SAP1Emu Project", pageText);
             }
-            catch(Xunit.Sdk.NotEqualException nee)
+            catch(Exception)
             {
                 Console.Error.Write(":\t Failed\n");
-                throw nee;
+                throw;
             }
             Console.Write(":\t Passed\n");
         }
@@ -79,10 +79,10 @@ namespace SAP1EMU.GUI.Test
                 var pageText = _driver.FindElement(By.TagName("h2")).Text;
                 Assert.Contains("About this Project", pageText);
             }
-            catch(Xunit.Sdk.ContainsException ce)
+            catch (Exception)
             {
                 Console.Error.Write(":\t Failed\n");
-                throw ce;
+                throw;
             }
             Console.Write(":\t Passed\n");
         }
@@ -108,10 +108,10 @@ namespace SAP1EMU.GUI.Test
                 _driver.Close();
                 _driver.SwitchTo().Window(_driver.WindowHandles[0]);
             }
-            catch (Xunit.Sdk.ContainsException ce)
+            catch (Exception)
             {
                 Console.Error.Write(":\t Failed\n");
-                throw ce;
+                throw;
             }
             Console.Write(":\t Passed\n");
         }
@@ -124,16 +124,16 @@ namespace SAP1EMU.GUI.Test
                 Console.Write(TEST_NAME);
 
                 _driver.Navigate().GoToUrl(BaseUrl + "/swagger/");
-                Thread.Sleep(100);
+                Thread.Sleep(500);
                 var title = _driver.FindElement(By.ClassName("title")).Text;
                 
 
                 Assert.Contains("SAP1Emu API", title);
             }
-            catch (Xunit.Sdk.ContainsException ce)
+            catch (Exception)
             {
                 Console.Error.Write(":\t Failed\n");
-                throw ce;
+                throw;
             }
             Console.Write(":\t Passed\n");
         }
