@@ -48,6 +48,21 @@ namespace SAP1EMU.SAP2.Lib.Utilities
             return val;
         }
 
+        public static string IntToBinary(int value, int length)
+        {
+            string val = Convert.ToString(value, 2);
+            if (val.Length <= length)
+            {
+                val = val.PadLeft(length, '0');
+            }
+            else
+            {
+                val = val.Substring(val.Length - length, length);
+            }
+
+            return val;
+        }
+
         //************************************************************************************************************************
 
         //************************************************************************************************************************

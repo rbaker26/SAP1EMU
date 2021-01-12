@@ -1,7 +1,7 @@
 ﻿using SAP1EMU.SAP2.Lib.Utilities;
 using SAP1EMU.SAP2.Lib.Registers;
 using System;
-using System.Diagnostics;
+using System.Linq;
 
 namespace SAP1EMU.SAP2.Lib.Components
 {
@@ -9,7 +9,7 @@ namespace SAP1EMU.SAP2.Lib.Components
     {
         public string RegContent { get; set; }
 
-        public string FlagContent { get; private set; }
+        public int FlagContent { get; private set; } = 0;
 
         private AReg Areg { get; set; }
         private TReg Treg { get; set; }
@@ -70,6 +70,8 @@ namespace SAP1EMU.SAP2.Lib.Components
 
             int result = 0;
 
+            FlagContent = (int)FlagResult.None;
+
             switch (action)
             {
                 case ALUOPType.ADD:
@@ -110,14 +112,24 @@ namespace SAP1EMU.SAP2.Lib.Components
             }
 
             //Check to see if a flag needs to be set
-            if (result > MAX_RESULT || result < MIN_RESULT)
+            if (result < MIN_RESULT)
             {
-                FlagContent = "10";
+                FlagContent = (int)FlagResult.Sign;
+            }
+
+            if (result > MAX_RESULT)
+            {
+                FlagContent = (int)FlagResult.Carry;
             }
 
             if (result == 0)
             {
-                FlagContent = "01";
+                FlagContent = (int)FlagResult.Zero;
+            }
+
+            if (BinConverter.IntToBinary(result, 8).Count(c => c.Equals('1')) % 2 == 0)
+            {
+                FlagContent |= (int)FlagResult.Parity;
             }
 
             string val = BinConverter.IntToBin8(result);

@@ -41,7 +41,7 @@ namespace SAP1EMU.SAP2.Lib.Registers
 
             // Special logic so we dont have immediate feedback when ALU -> A happens on the updated fetch cycle
             // Only applies to A Register
-            if (string.Equals(cw["EU"], "1", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tic)
+            if (string.Equals(cw["LA_"], "0", StringComparison.Ordinal) && string.Equals(cw["EU"], "1", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tic)
             {
                 // Store ALU in A
                 RegContent = alu.RegContent;

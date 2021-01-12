@@ -44,7 +44,7 @@ namespace SAP1EMU.SAP2.Assembler.Test
             List<string> asm = new List<string>
             {
                 "MVI A,0x5",
-                "JNZ 0x4",
+                "JNZ 0x6",
                 "NOP",
                 "OUT 0x3",
                 "HLT"
@@ -55,7 +55,7 @@ namespace SAP1EMU.SAP2.Assembler.Test
                 "00111110",
                 "00000101",
                 "11000010",
-                "00000100",
+                "00000110",
                 "00000000",
                 "00000000",
                 "11010011",
@@ -90,7 +90,7 @@ namespace SAP1EMU.SAP2.Assembler.Test
                 "00111110",
                 "00000101",
                 "11000010",
-                "00000100",
+                "00000110",
                 "00000000",
                 "00000000",
                 "11010011",

@@ -67,6 +67,8 @@ namespace SAP1EMU.SAP2.Engine
             ALU alu = new ALU(ref areg, ref treg);
 
             areg.SetALUReference(ref alu);
+            breg.SetALUReference(ref alu);
+            creg.SetALUReference(ref alu);
 
             OReg3 oreg3 = new OReg3(ref alu);
             OReg4 oreg4 = new OReg4(ref alu);
@@ -88,9 +90,10 @@ namespace SAP1EMU.SAP2.Engine
             
             pc.Subscribe(clock);
             alu.Subscribe(clock); // ALU must come after A and T
+            flagReg.Subscribe(clock);
             ram.Subscribe(clock);
             mdr.Subscribe(clock);
-
+            
             oreg3.Subscribe(clock);
             hexadecimalDisplay.Subscribe(clock);
             oreg4.Subscribe(clock);
@@ -123,6 +126,7 @@ namespace SAP1EMU.SAP2.Engine
             };
 
             List<string> controlWords = new List<string>();
+            bool? didntJump = null;
 
             while (clock.IsEnabled)
             {
@@ -139,7 +143,7 @@ namespace SAP1EMU.SAP2.Engine
 
                 if (TState <= 3)
                 {
-                    seq.UpdateControlWordReg(TState, "00000000");
+                    seq.UpdateControlWordReg(TState, "00000000", didntJump);
                 }
                 else
                 {
@@ -150,9 +154,6 @@ namespace SAP1EMU.SAP2.Engine
                 tictok.ToggleClockState();
                 clock.SendTicTok(tictok);
                 tictok.ToggleClockState();
-
-                Debug.WriteLine(alu);
-                Debug.WriteLine(TState);
 
                 tempFrame = new Frame(currentInstruction, TState, port1, port2, pc, mar, ram,
                                       ram.RAMDump(), mdr, ireg, SEQ.Instance(),
@@ -178,9 +179,17 @@ namespace SAP1EMU.SAP2.Engine
                     loop_counter++;
                 }
 
-                if(pc.WontJump)
+                if(TState == 7 && currentInstruction.OpCode.StartsWith('J'))
                 {
-                    currentInstruction.TStates = 7;
+                    pc.CheckForJumpCondition();
+
+                    // PC is going to jump so do not let it fetch the next byte and immediately endx
+                    if(!pc.WontJump)
+                    {
+                        currentInstruction.TStates = 7;
+                        didntJump = true;
+                    }
+                    
                 }
 
                 if (TState < currentInstruction.TStates)

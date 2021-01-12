@@ -7,6 +7,13 @@ namespace SAP1EMU.SAP2.Lib.Registers
     {
         private string RegContent { get; set; } = "00000000";
 
+        private ALU alu;
+
+        public void SetALUReference(ref ALU alu)
+        {
+            this.alu = alu;
+        }
+
         private void Exec(TicTok tictok)
         {
             var cw = SEQ.Instance().ControlWord;
@@ -21,8 +28,19 @@ namespace SAP1EMU.SAP2.Lib.Registers
             // Active Low, Pull on Tok
             if (string.Equals(cw["LC_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)
             {
+                if (string.Equals(cw["EU"], "1", StringComparison.Ordinal))
+                {
+                    return;
+                }
+
                 // Store Wbus val in C
                 RegContent = Wbus.Instance().Value[8..];
+            }
+
+            if (string.Equals(cw["LC_"], "0", StringComparison.Ordinal) && string.Equals(cw["EU"], "1", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tic)
+            {
+                // Store ALU in A
+                RegContent = alu.RegContent;
             }
         }
 

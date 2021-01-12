@@ -102,7 +102,7 @@ namespace SAP1EMU.SAP2.Lib.Components
         /// <param name="TState"></param>
         /// <param name="Instruction"></param>
         /// <returns></returns>
-        public void UpdateControlWordReg(int TState, string instructionBinaryCode)
+        public void UpdateControlWordReg(int TState, string instructionBinaryCode, bool? didntJump = false)
         {
             int hash = HashKey(TState, instructionBinaryCode);
 
@@ -123,8 +123,14 @@ namespace SAP1EMU.SAP2.Lib.Components
             }
 
             //If we have more than 1 we need to keep track of the previous one to see if itll influence this instructions fetch cycle control word
-            if(executedInstructions.Count > 1 && TState <= 3)
+            if (executedInstructions.Count > 1 && TState <= 3)
             {
+                if (didntJump ?? false)
+                {
+                    didntJump = null;
+                    return;
+                }
+
                 lastInstructionBinary = executedInstructions[^1];
 
                 Instruction? instruction = instructionsThatModifyNextInstruction.FirstOrDefault(i => i.BinCode.Equals(lastInstructionBinary, StringComparison.Ordinal));

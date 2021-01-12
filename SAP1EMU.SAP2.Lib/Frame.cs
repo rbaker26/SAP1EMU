@@ -160,6 +160,7 @@ namespace SAP1EMU.SAP2.Lib
             tw.WriteLine($"* MDR:        {MDR}           Output Register 3: {OReg3}      Display:    {HexadecimalDisplay}".PadRight(59) + "*");
             tw.WriteLine($"* I Register: {IReg}          Output Register 4: {OReg4}".PadRight(59) + "*");
             tw.WriteLine($"* Sequencer:  {SEQ}      ".PadRight(59) + "*");
+            tw.WriteLine($"* BUS:  {WBus}      ".PadRight(59) + "*");
             tw.WriteLine($"************************************************************");
             tw.WriteLine($"* Output Unsigned: {unsigned_ouput}".PadRight(59) + "*");
             tw.WriteLine($"* Output Signed:   {signed_output}".PadRight(59) + "*");

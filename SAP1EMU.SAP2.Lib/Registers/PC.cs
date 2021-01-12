@@ -41,21 +41,26 @@ namespace SAP1EMU.SAP2.Lib.Registers
             if (string.Equals(cw["LP_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)
             {
                 RegContent = Wbus.Instance().Value;
-
-                string jumpType = cw["JC"];
-
-                WontJump = jumpType switch
-                {
-                    "001" => !flagReg.Signed,
-                    "010" => true,
-                    "011" => true,
-                    "100" => true,
-                    "101" => true,
-                    "110" => true,
-                    "111" => true,
-                    _ => false
-                };
             }
+        }
+
+        public void CheckForJumpCondition()
+        {
+            var cw = SEQ.Instance().ControlWord;
+
+            string jumpType = cw["JC"];
+
+            WontJump = jumpType switch
+            {
+                "001" => flagReg.Signed,
+                "010" => flagReg.Zero,
+                "011" => !flagReg.Zero,
+                "100" => true,
+                "101" => true,
+                "110" => true,
+                "111" => true,
+                _ => true
+            };
         }
 
         #region IObserver Region
