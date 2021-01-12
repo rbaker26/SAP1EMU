@@ -2,8 +2,7 @@
 using OpenQA.Selenium.Chrome;
 
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading;
 
 using Xunit;
 
@@ -12,44 +11,131 @@ namespace SAP1EMU.GUI.Test
     // All of these tests will start from the Index Page
     public class AutomatedUITests : IDisposable
     {
-        private readonly IWebDriver _driver;
+        private static IWebDriver _driver = null;
+        private static string BaseUrl;
         public AutomatedUITests()
         {
-            _driver = new ChromeDriver();
+            if(_driver == null)
+            {
+                ChromeOptions chromeOptions = new ChromeOptions();
+
+                if (Environment.GetEnvironmentVariable("IsDeploymentSlotTest") == "true")
+                {
+                    BaseUrl = "http://test.sap1emu.net/";
+                    chromeOptions.AddArgument("--headless");                // No GUI 
+                    chromeOptions.AddArgument("--disable-dev-shm-usage");   // overcome limited resource problems
+                    chromeOptions.AddArgument("--no-sandbox");              // Bypass OS security model
+                }
+                else
+                {
+                    //BaseUrl = "https://localhost:5001/";
+                    BaseUrl = "http://test.sap1emu.net/";
+
+                }
+
+                _driver = new ChromeDriver(chromeOptions);
+            }
         }
 
 
         [Fact]
-        public void Load_Home_Page()
+        public void ChromeTests()
         {
-            _driver.Navigate()
-                .GoToUrl("https://localhost:5001/");
-            var pageText = _driver.FindElement(By.CssSelector(".display-4")).Text;
-            Assert.Equal("Welcome to the SAP1Emu Project", pageText);
+            Load_Home_Page();
+            Load_About_Page();
+            Load_GitHub_Profile();
+            Load_Swagger_Index();
         }
 
-        [Fact]
-        public void Navigate_To_About_Page()
+        private void Load_Home_Page()
         {
-            _driver.Navigate()
-                .GoToUrl("https://localhost:5001/");
-            _driver.FindElement(By.LinkText("About")).Click();
-            var pageText = _driver.FindElement(By.TagName("h2")).Text;
-            Assert.Contains("About this Project", pageText);
+            string TEST_NAME = "Load_Home_Page";
+            try
+            {
+                Console.Write(TEST_NAME);
+                _driver.Navigate().GoToUrl(BaseUrl);
+
+                var pageText = _driver.FindElement(By.CssSelector(".display-4")).Text;
+                Assert.Equal("Welcome to the SAP1Emu Project", pageText);
+            }
+            catch(Exception)
+            {
+                Console.Error.Write(":\t Failed\n");
+                throw;
+            }
+            Console.Write(":\t Passed\n");
         }
 
-
-        [Fact]
-        public void Navigate_To_Author_GitHub()
+        private void Load_About_Page()
         {
-            _driver.Navigate()
-                .GoToUrl("https://localhost:5001/");
-            _driver.FindElement(By.LinkText("About")).Click();
+            string TEST_NAME = "Load_About_Page";
+            try
+            {
+                Console.Write(TEST_NAME);
 
-            // Nav to GitHub Profile
-            _driver.FindElement(By.CssSelector(".card")).FindElement(By.LinkText("Follow")).Click();
-            _driver.SwitchTo().Window(_driver.WindowHandles[1]);
-            Assert.Contains("rbaker26", _driver.Title);
+                _driver.Navigate().GoToUrl(BaseUrl);
+                _driver.FindElement(By.LinkText("About")).Click();
+
+                var pageText = _driver.FindElement(By.TagName("h2")).Text;
+                Assert.Contains("About this Project", pageText);
+            }
+            catch (Exception)
+            {
+                Console.Error.Write(":\t Failed\n");
+                throw;
+            }
+            Console.Write(":\t Passed\n");
+        }
+
+        private void Load_GitHub_Profile()
+        {
+            string TEST_NAME = "Load_GitHub_Profile";
+            try
+            {
+                Console.Write(TEST_NAME);
+
+                _driver.Navigate().GoToUrl(BaseUrl);
+                _driver.Navigate().GoToUrl(BaseUrl);
+                _driver.FindElement(By.LinkText("About")).Click();
+
+                _driver.FindElement(By.CssSelector(".card")).FindElement(By.LinkText("Follow")).Click();
+                _driver.SwitchTo().Window(_driver.WindowHandles[1]);
+
+                Assert.Contains("rbaker26", _driver.Title);
+
+                // Cleanup extra tab
+                _driver.SwitchTo().Window(_driver.WindowHandles[1]);
+                _driver.Close();
+                _driver.SwitchTo().Window(_driver.WindowHandles[0]);
+            }
+            catch (Exception)
+            {
+                Console.Error.Write(":\t Failed\n");
+                throw;
+            }
+            Console.Write(":\t Passed\n");
+        }
+
+        private void Load_Swagger_Index()
+        {
+            string TEST_NAME = "Load_Swagger_Index";
+            try
+            {
+                Console.Write(TEST_NAME);
+
+                _driver.Navigate().GoToUrl(BaseUrl + "/swagger/");
+                Thread.Sleep(500);
+                var title = _driver.FindElement(By.ClassName("title")).Text;
+                
+
+                Assert.Contains("SAP1Emu API", title);
+            }
+            catch (Exception)
+            {
+                Console.Error.Write(":\t Failed\n");
+                throw;
+            }
+            Console.Write(":\t Passed\n");
         }
 
 
@@ -58,8 +144,5 @@ namespace SAP1EMU.GUI.Test
             _driver.Quit();
             _driver.Dispose();
         }
-
-
-
     }
 }
