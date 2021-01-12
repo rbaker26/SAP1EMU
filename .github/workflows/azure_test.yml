@@ -48,17 +48,12 @@ jobs:
     - name: Wait for site to deploy
       uses: jakejarvis/wait-action@master
       with:
-        time: '60s'
+        time: '30s'
         
     - name: Prewarm Instance
       uses: wei/wget@v1
       with:
         args: http://test.sap1emu.net      
-        
-    - name: Setup dotnet 5.0
-      uses: actions/setup-dotnet@v1
-      with:
-          dotnet-version: '5.0.0'
 
     - name: Run Selenium Tests
       env:
