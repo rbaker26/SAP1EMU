@@ -144,6 +144,12 @@ namespace SAP1EMU.SAP2.Engine
                 if (TState <= 3)
                 {
                     seq.UpdateControlWordReg(TState, "00000000", didntJump);
+
+                    if(didntJump ?? false)
+                    {
+                        pc.SkipByte();
+                        didntJump = null;
+                    }
                 }
                 else
                 {

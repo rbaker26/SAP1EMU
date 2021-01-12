@@ -127,7 +127,6 @@ namespace SAP1EMU.SAP2.Lib.Components
             {
                 if (didntJump ?? false)
                 {
-                    didntJump = null;
                     return;
                 }
 

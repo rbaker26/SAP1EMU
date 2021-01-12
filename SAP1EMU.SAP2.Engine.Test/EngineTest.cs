@@ -1514,7 +1514,7 @@ namespace SAP1EMU.Engine.Test
         [TestMethod]
         public void Test_JM_PROG_2()
         {
-            string expectedResult = "01001001";
+            string expectedResult = "01010101";
 
             List<string> program = new List<string>()
             {

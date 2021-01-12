@@ -63,6 +63,14 @@ namespace SAP1EMU.SAP2.Lib.Registers
             };
         }
 
+        public void SkipByte()
+        {
+            // Add one to skip the other byte because it does and i dont wanna deal with it any other way
+            int count = BinConverter.Bin8ToInt(RegContent);
+            count++;
+            RegContent = BinConverter.IntToBin16(count);
+        }
+
         #region IObserver Region
 
         private IDisposable unsubscriber;
