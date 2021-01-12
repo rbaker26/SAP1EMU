@@ -55,6 +55,10 @@ jobs:
       with:
         args: http://test.sap1emu.net      
         
+    - name: Setup dotnet 5.0
+      uses: actions/setup-dotnet@v1
+      with:
+          dotnet-version: '5.0.0'
 
     - name: Run Selenium Tests
       env:
