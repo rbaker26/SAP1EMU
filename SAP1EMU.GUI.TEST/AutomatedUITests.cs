@@ -2,8 +2,7 @@
 using OpenQA.Selenium.Chrome;
 
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading;
 
 using Xunit;
 
@@ -103,6 +102,11 @@ namespace SAP1EMU.GUI.Test
                 _driver.SwitchTo().Window(_driver.WindowHandles[1]);
 
                 Assert.Contains("rbaker26", _driver.Title);
+
+                // Cleanup extra tab
+                _driver.SwitchTo().Window(_driver.WindowHandles[1]);
+                _driver.Close();
+                _driver.SwitchTo().Window(_driver.WindowHandles[0]);
             }
             catch (Xunit.Sdk.ContainsException ce)
             {
@@ -119,8 +123,10 @@ namespace SAP1EMU.GUI.Test
             {
                 Console.Write(TEST_NAME);
 
-                _driver.Navigate().GoToUrl(BaseUrl + "/swagger/index.html");
-                var title = _driver.FindElement(By.CssSelector(".title")).Text;
+                _driver.Navigate().GoToUrl(BaseUrl + "/swagger/");
+                Thread.Sleep(100);
+                var title = _driver.FindElement(By.ClassName("title")).Text;
+                
 
                 Assert.Contains("SAP1Emu API", title);
             }
