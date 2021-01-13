@@ -52,9 +52,9 @@ namespace SAP1EMU.SAP2.Lib.Registers
 
             WontJump = jumpType switch
             {
-                "001" => flagReg.Signed,
-                "010" => flagReg.Zero,
-                "011" => !flagReg.Zero,
+                "001" => flagReg.Signed, //JM
+                "010" => flagReg.Zero,   //JNZ
+                "011" => !flagReg.Zero,  //JZ
                 "100" => true,
                 "101" => true,
                 "110" => true,

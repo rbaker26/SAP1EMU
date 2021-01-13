@@ -119,7 +119,7 @@ namespace SAP1EMU.SAP2.Lib.Components
 
             if (result > MAX_RESULT)
             {
-                FlagContent = (int)FlagResult.Carry;
+                FlagContent |= (int)FlagResult.Carry;
             }
 
             if (result == 0)

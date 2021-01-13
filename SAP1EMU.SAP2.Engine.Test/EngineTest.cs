@@ -1555,6 +1555,247 @@ namespace SAP1EMU.Engine.Test
             Assert.AreEqual(expectedResult, actualOutput);
         }
 
+        // Test_JZ **********************************************************
+        /// <summary>
+        /// This will run the following program
+        ///
+        /// 0x0 MVI A,0xAF
+        /// 0x1 MVI B,0xAF
+        /// 0x2 MVI C,0x4
+        /// 0x3 SUB B
+        /// 0x4 JZ 0xC
+        /// 0x5 XRA B
+        /// 0x6 XRA C
+        /// 0x7 OUT 0x3
+        /// 0x8 HLT
+        ///
+        /// The expected result is OReg: 10110000
+        /// </summary>
+        [TestMethod]
+        public void Test_JZ_PROG_1()
+        {
+            string expectedResult = "00000000";
+
+            List<string> program = new List<string>()
+            {
+                "00111110",
+                "10101111",
+                "00000110",
+                "10101111",
+                "00001110",
+                "00000100",
+                "10010000",
+                "11001010",
+                "00001100",
+                "00000000",
+                "10101000",
+                "10101001",
+                "11010011",
+                "00000011",
+                "01110110"
+            };
+
+            EngineProc engine = new EngineProc();
+
+            RAMProgram rp = new RAMProgram(program);
+
+            engine.Init(rp, _decoder);
+            engine.Run();
+
+            var actualOutput = engine.GetOutputReg();
+
+            using (StreamWriter file = new StreamWriter("JZ_PROG_1_FRAMES.txt"))
+            {
+                foreach (var frame in engine.FrameStack())
+                {
+                    file.WriteLine(frame);
+                }
+            }
+
+            Assert.AreEqual(expectedResult, actualOutput);
+        }
+
+        // Test_JZ **********************************************************
+        /// <summary>
+        /// This will run the following program
+        ///
+        /// 0x0 MVI A,0xAF
+        /// 0x1 MVI B,0xE2
+        /// 0x2 MVI C,0x4
+        /// 0x3 ADD C
+        /// 0x4 JZ 0xC
+        /// 0x5 XRA B
+        /// 0x6 XRA C
+        /// 0x7 OUT 0x3
+        /// 0x8 HLT
+        ///
+        /// The expected result is OReg: 10110000
+        /// </summary>
+        [TestMethod]
+        public void Test_JZ_PROG_2()
+        {
+            string expectedResult = "01010101";
+
+            List<string> program = new List<string>()
+            {
+                "00111110",
+                "10101111",
+                "00000110",
+                "11100010",
+                "00001110",
+                "00000100",
+                "10000001",
+                "11001010",
+                "00001100",
+                "00000000",
+                "10101000",
+                "10101001",
+                "11010011",
+                "00000011",
+                "01110110"
+            };
+
+            EngineProc engine = new EngineProc();
+
+            RAMProgram rp = new RAMProgram(program);
+
+            engine.Init(rp, _decoder);
+            engine.Run();
+
+            var actualOutput = engine.GetOutputReg();
+
+            using (StreamWriter file = new StreamWriter("JZ_PROG_2_FRAMES.txt"))
+            {
+                foreach (var frame in engine.FrameStack())
+                {
+                    file.WriteLine(frame);
+                }
+            }
+
+            Assert.AreEqual(expectedResult, actualOutput);
+        }
+
+        // Test_JNZ **********************************************************
+        /// <summary>
+        /// This will run the following program
+        ///
+        /// 0x0 MVI A,0xAF
+        /// 0x1 MVI B,0xE2
+        /// 0x2 MVI C,0x4
+        /// 0x3 ADD C
+        /// 0x4 JNZ 0xC
+        /// 0x5 XRA B
+        /// 0x6 XRA C
+        /// 0x7 OUT 0x3
+        /// 0x8 HLT
+        ///
+        /// The expected result is OReg: 10110011
+        /// </summary>
+        [TestMethod]
+        public void Test_JNZ_PROG_1()
+        {
+            string expectedResult = "10110011";
+
+            List<string> program = new List<string>()
+            {
+                "00111110",
+                "10101111",
+                "00000110",
+                "11100010",
+                "00001110",
+                "00000100",
+                "10000001",
+                "11000010",
+                "00001100",
+                "00000000",
+                "10101000",
+                "10101001",
+                "11010011",
+                "00000011",
+                "01110110"
+            };
+
+            EngineProc engine = new EngineProc();
+
+            RAMProgram rp = new RAMProgram(program);
+
+            engine.Init(rp, _decoder);
+            engine.Run();
+
+            var actualOutput = engine.GetOutputReg();
+
+            using (StreamWriter file = new StreamWriter("JNZ_PROG_1_FRAMES.txt"))
+            {
+                foreach (var frame in engine.FrameStack())
+                {
+                    file.WriteLine(frame);
+                }
+            }
+
+            Assert.AreEqual(expectedResult, actualOutput);
+        }
+
+        // Test_JNZ **********************************************************
+        /// <summary>
+        /// This will run the following program
+        ///
+        /// 0x0 MVI A,0xAF
+        /// 0x1 MVI B,0xAF
+        /// 0x2 MVI C,0x4
+        /// 0x3 SUB B
+        /// 0x4 JNZ 0xC
+        /// 0x5 XRA B
+        /// 0x6 XRA C
+        /// 0x7 OUT 0x3
+        /// 0x8 HLT
+        ///
+        /// The expected result is OReg: 10101011
+        /// </summary>
+        [TestMethod]
+        public void Test_JNZ_PROG_2()
+        {
+            string expectedResult = "10101011";
+
+            List<string> program = new List<string>()
+            {
+                "00111110",
+                "10101111",
+                "00000110",
+                "10101111",
+                "00001110",
+                "00000100",
+                "10010000",
+                "11000010",
+                "00001100",
+                "00000000",
+                "10101000",
+                "10101001",
+                "11010011",
+                "00000011",
+                "01110110"
+            };
+
+            EngineProc engine = new EngineProc();
+
+            RAMProgram rp = new RAMProgram(program);
+
+            engine.Init(rp, _decoder);
+            engine.Run();
+
+            var actualOutput = engine.GetOutputReg();
+
+            using (StreamWriter file = new StreamWriter("JNZ_PROG_2_FRAMES.txt"))
+            {
+                foreach (var frame in engine.FrameStack())
+                {
+                    file.WriteLine(frame);
+                }
+            }
+
+            Assert.AreEqual(expectedResult, actualOutput);
+        }
+
+
         #endregion
     }
 }

@@ -126,7 +126,7 @@ namespace SAP1EMU.SAP2.Lib.Components
             if (executedInstructions.Count > 1 && TState <= 3)
             {
                 if (didntJump ?? false)
-                {
+                { 
                     return;
                 }
 
