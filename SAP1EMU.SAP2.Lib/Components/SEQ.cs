@@ -89,6 +89,7 @@ namespace SAP1EMU.SAP2.Lib.Components
 
                 // Hardcode PC address locations
                 ControlWord["RTNA"] = value[32..33];
+                ControlWord["CALL"] = value[33..34];
             }
         }
             
@@ -213,7 +214,8 @@ namespace SAP1EMU.SAP2.Lib.Components
 
                 { "UB", "0" },    //take bus upper byte if on or output to bus upper byte
                 { "CLR", "0" },   //Clear bus value when outputting to bus
-                { "RTNA", "0" }   //Return Address => Marks whether to make MAR point to 0xFFFE or 0xFFFF for pc contents in memory
+                { "RTNA", "0" },   //Return Address => Marks whether to make MAR point to 0xFFFE or 0xFFFF for pc contents in memory
+                { "CALL", "0" }
             };
         }
 

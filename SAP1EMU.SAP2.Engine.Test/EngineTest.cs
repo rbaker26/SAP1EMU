@@ -1795,6 +1795,111 @@ namespace SAP1EMU.Engine.Test
             Assert.AreEqual(expectedResult, actualOutput);
         }
 
+        #endregion
+
+        #region CALL and RET
+
+        // Test_CALL/RET **********************************************************
+        /// <summary>
+        /// This will run the following program
+        ///
+        /// 0x0 MVI A,0xAF
+        /// 0x1 CALL LABEL
+        /// 0x2 NOP
+        /// 0x3 HLT
+        /// ...
+        /// 0x50 LABEL: OUT 0x3
+        /// 0x51 RET
+        ///
+        /// The expected result is OReg: 10101011
+        /// </summary>
+        [TestMethod]
+        public void Test_CALL_AND_RET_PROG_1()
+        {
+            string expectedResult = "10101111";
+            string pcLowerByte = "00000101";
+            string pcUpperByte = "00000000";
+
+            List<string> program = new List<string>()
+            {
+                "00111110",
+                "10101111",
+                "11001101",
+                "00110010",
+                "00000000",
+                "00000000",
+                "01110110",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "00000000",
+                "11010011",
+                "00000011",
+                "11001001"
+            };
+
+            EngineProc engine = new EngineProc();
+
+            RAMProgram rp = new RAMProgram(program);
+
+            engine.Init(rp, _decoder);
+            engine.Run();
+
+            var actualOutput = engine.GetOutputReg();
+            var ram = engine.GetRAMContents();
+
+            using (StreamWriter file = new StreamWriter("CALL_RET_PROG_1_FRAMES.txt"))
+            {
+                foreach (var frame in engine.FrameStack())
+                {
+                    file.WriteLine(frame);
+                }
+            }
+
+            Assert.AreEqual(ram[^2], pcLowerByte, "Lower byte of PC doesn't match."); //Check 0xFFFE
+            Assert.AreEqual(ram[^1], pcUpperByte, "Upper byte of PC doesn't match."); //Check 0xFFFF
+
+            Assert.AreEqual(expectedResult, actualOutput); //Check PC to confirm it jumped 
+        }
 
         #endregion
     }

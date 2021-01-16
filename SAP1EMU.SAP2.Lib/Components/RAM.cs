@@ -74,6 +74,11 @@ namespace SAP1EMU.SAP2.Lib.Components
             RegContent = GetWordAt(MARContents); // For tostring()
         }
 
+        public void SetMARContent(string value)
+        {
+            MARContents = value;
+        }
+
         #region IObserver<TicTok> Region
 
         private IDisposable unsubscriber;
