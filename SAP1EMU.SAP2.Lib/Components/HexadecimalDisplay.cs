@@ -5,7 +5,7 @@ namespace SAP1EMU.SAP2.Lib.Components
 {
     public class HexadecimalDisplay : IObserver<TicTok>
     {
-        public string RegContent { get; set; } = "0";
+        public string RegContent { get; set; } = "00";
 
         private readonly OReg3 outputReg;
 
@@ -18,13 +18,11 @@ namespace SAP1EMU.SAP2.Lib.Components
         {
             var cw = SEQ.Instance().ControlWord;
 
-            var busValue = Wbus.Instance().Value;
-
             // Active Low, Pull on Tok
-            if (busValue[^1].Equals(1) && string.Equals(cw["L0_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)
+            if (string.Equals(cw["LO_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)
             {
-                int value = Convert.ToInt16(outputReg.RegContent);
-                RegContent = value.ToString("X8");
+                int value = Convert.ToInt16(outputReg.RegContent, 2);
+                RegContent = value.ToString("X2");
             }
         }
 

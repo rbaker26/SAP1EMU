@@ -122,7 +122,7 @@ namespace SAP1EMU.SAP2.Lib
                 OReg3 = "00000000";
             }
             tw.WriteLine($"************************************************************");//60
-            tw.WriteLine($"* Output: {OReg3}".PadRight(59) + "*");
+            tw.WriteLine($"* Output: {OReg3}".PadRight(47) + "*");
             tw.WriteLine("************************************************************");
 
             tw.Flush();
@@ -149,22 +149,22 @@ namespace SAP1EMU.SAP2.Lib
                 }
             }
 
-            tw.WriteLine($"************************************************************");//60
-            tw.WriteLine($"* Instruction: {InstructionData.OpCode}     TState: {TState}".PadRight(59) + "*");
-            tw.WriteLine("************************************************************");
-            tw.WriteLine($"* Input Port 1: {Input_Port_1}       A Register:    {AReg}".PadRight(59) + "*");
-            tw.WriteLine($"* Input Port 2: {Input_Port_2}       ALU:    {ALU}       Flags: {Flags} *");
-            tw.WriteLine($"* PC:         {PC}              Temp Register:      {TReg}".PadRight(59) + "*");
-            tw.WriteLine($"* MAR:        {MAR}              B Register:      {BReg}".PadRight(59) + "*");
-            tw.WriteLine($"* RAM:        {RAM_Reg}          C Register:      {CReg}".PadRight(59) + "*");
-            tw.WriteLine($"* MDR:        {MDR}           Output Register 3: {OReg3}      Display:    {HexadecimalDisplay}".PadRight(59) + "*");
-            tw.WriteLine($"* I Register: {IReg}          Output Register 4: {OReg4}".PadRight(59) + "*");
-            tw.WriteLine($"* Sequencer:  {SEQ}      ".PadRight(59) + "*");
-            tw.WriteLine($"* BUS:  {WBus}      ".PadRight(59) + "*");
-            tw.WriteLine($"************************************************************");
-            tw.WriteLine($"* Output Unsigned: {unsigned_ouput}".PadRight(59) + "*");
-            tw.WriteLine($"* Output Signed:   {signed_output}".PadRight(59) + "*");
-            tw.WriteLine($"************************************************************");
+            tw.WriteLine($"***********************************************************************************");//82
+            tw.WriteLine($"* Instruction: {InstructionData.OpCode}     TState: {TState}".PadRight(82) + "*");
+            tw.WriteLine($"***********************************************************************************");
+            tw.WriteLine($"* Input 1:    {Input_Port_1}".PadRight(35) + $"A Register:    {AReg}".PadRight(47) + "*");
+            tw.WriteLine($"* Input 2:    {Input_Port_2}".PadRight(35) + $"ALU:           {ALU}     Flags:   {Flags}".PadRight(47) + "*");
+            tw.WriteLine($"* PC:         {PC}".PadRight(35)           + $"Temp Register: {TReg}".PadRight(47) + "*");
+            tw.WriteLine($"* MAR:        {MAR}".PadRight(35)          + $"B Register:    {BReg}".PadRight(47) + "*");
+            tw.WriteLine($"* RAM:        {RAM_Reg}".PadRight(35)      + $"C Register:    {CReg}".PadRight(47) + "*");
+            tw.WriteLine($"* MDR:        {MDR}".PadRight(35)          + $"Output 3:      {OReg3}     Display: 0x{HexadecimalDisplay}".PadRight(47) + "*");
+            tw.WriteLine($"* I Register: {IReg}".PadRight(35)         + $"Output 4:      {OReg4}".PadRight(47) + "*");
+            tw.WriteLine($"* Sequencer:  {SEQ}       ".PadRight(82) + "*");
+            tw.WriteLine($"* BUS:        {WBus}      ".PadRight(82) + "*");
+            tw.WriteLine($"***********************************************************************************");
+            tw.WriteLine($"* Output Unsigned: {unsigned_ouput}".PadRight(82) + "*");
+            tw.WriteLine($"* Output Signed:   {signed_output}".PadRight(82) + "*");
+            tw.WriteLine($"***********************************************************************************");
 
             tw.Flush();
             return sb.ToString();

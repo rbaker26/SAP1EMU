@@ -19,7 +19,7 @@ namespace SAP1EMU.SAP2.Lib.Registers
         private readonly ALU aluReg;
 
         //SZ-AC-P-C Flags ('-' is unused bits)
-        public string RegContent { get; private set; }
+        public string RegContent { get; private set; } = "00000000";
         public FlagResult flags;
 
         public Flag(ref ALU aluReg)
