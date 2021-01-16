@@ -178,8 +178,7 @@ namespace SAP1EMU.SAP2.Engine
 
                 if (loop_counter >= max_loop_count)
                 {
-                    clock.IsEnabled = false;
-                    //throw new EngineRuntimeException("Engine Error: Infinite Loop Detected");
+                    throw new EngineRuntimeException("Engine Error: Infinite Loop Detected");
                 }
                 else
                 {
