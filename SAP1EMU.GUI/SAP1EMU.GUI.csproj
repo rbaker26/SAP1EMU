@@ -64,6 +64,12 @@
     <ProjectReference Include="..\SAP1EMU.Engine\SAP1EMU.Engine.csproj" />
     <ProjectReference Include="..\SAP1EMU.Lib\SAP1EMU.Lib.csproj" />
     <ProjectReference Include="..\SAP1EMU.SAP2.Assembler\SAP1EMU.SAP2.Assembler.csproj" />
+    <ProjectReference Include="..\SAP1EMU.SAP2.Lib\SAP1EMU.SAP2.Lib.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\SAP1EMU.SAP2.Engine\SAP1EMU.SAP2.Engine.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Migrations\" />

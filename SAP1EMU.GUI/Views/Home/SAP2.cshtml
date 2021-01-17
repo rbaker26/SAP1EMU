@@ -1,41 +1,23 @@
-﻿@model CodePacket
+@{
+    ViewData["Title"] = "SAP2";
+}
+
 
 <script src="/js/CodeMirror/lib/codemirror.js"></script>
 <script src="/js/CodeMirror/mode/gas/gas_sap1.js" type="text/javascript"></script>
 <link href="/js/CodeMirror/lib/codemirror.css" rel="stylesheet" type="text/css" />
 
 <script src="/lib/jquery/dist/jquery.js" type="text/javascript"></script>
-<script src="/js/Views/EmulatorView.js" type="text/javascript"></script>
+<script src="/js/Views/SAP2View.js" type="text/javascript"></script>
 
+<h1>SAP-2 Emulator</h1>
 
-@if (Model != null)
-{
-    <script>
-        function preloadCode() {
-            asm_editor.setValue(@string.Join("\n", Model.CodeList) )
-        }
-    </script>
-}
-else
-{
-    <script>
-        // This needs to be here because the JS file will call this function no matter 
-        //  what the state of the Model is (null or not_null). To avoid a JS error, we 
-        //  need the blank function.
-        function preloadCode() { /* Empty */ }
-    </script>
-}
-@{
-    ViewData["Title"] = "SAP2 Emulator";
-}
-
-<h1>Emulator</h1>
 
 <div class="card-deck">
 
     <div class="card">
         <div class="card-header">
-            <h4>Assembly</h4>
+            <h4>Assembly Editor</h4>
         </div>
 
         <div class="card-body">
@@ -43,12 +25,18 @@ else
                 <div class="col editor">
                     @Html.TextArea("CodeList", null, new { rows = "20", cols = "80", @class = "codebox", id = "asm_code" })
                 </div>
-                <div class="col-auto">
-                    @Html.TextArea("ram_dump", null, new { rows = "16", cols = "20", @class = "codebox", id = "ram_dump" })
-                </div>
+
             </div>
 
-            <div class="form-row mt-4">
+
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h4>Emulator Controller</h4>
+        </div>
+        <div class="card-body">
+            <div class="form-row">
                 <div class="form-group mx-2">
                     <label for="langs">Instruction Set</label>
                     <select id="langs" class="form-control"></select>
@@ -57,17 +45,9 @@ else
                     <button id="loadFile" onclick="getFromFile()" class="btn btn-light mt-auto">Load from File</button>
                 </div>
                 <div class="form-group mx-2 d-flex align-items-center">
-                    <button id="loadRAM" class="btn btn-light mt-auto" onclick="LoadIntoRAM()">Load into RAM</button>
+                    <button id="loadRAM" class="btn btn-light mt-auto" onclick="LoadIntoRAM()">Compile</button>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div class="card">
-        <div class="card-header">
-            <h4>SAP1</h4>
-        </div>
-        <div class="card-body">
             <div class="row mb-0">
                 <div class="col-auto mr-0">
                     <button class="btn" id="back-button" onclick="back_button_onclick()"><img src="~/img/skip_previous-24px.svg " /></button>
@@ -97,64 +77,267 @@ else
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col pr-2">
-                    <div class="alert alert-secondary"><h6>Program Counter</h6><pre class="mb-0 pb-0" id="pc-block"></pre></div>
-                    <div class="alert alert-secondary"><h6>MAR</h6><pre class="mb-0 pb-0" id="mar-block"></pre></div>
-                    <div class="alert alert-secondary"><h6>RAM</h6><pre class="mb-0 pb-0" id="ram-block"></pre></div>
-                    <div class="alert alert-secondary pr-0"><h6>Instruction Register</h6><pre class="mb-0 pb-0" id="ireg-block"></pre></div>
-                    <div class="alert alert-secondary"><h6>Sequencer</h6><pre class="mb-0 pb-0" id="seq-block"></pre></div>
-                </div>
-                <div class="col-auto d-flex  px-1">
-                    <div class="alert alert-secondary flex-fill">
-                        <h6>WBus</h6><pre id="wbus-block"></pre>
-                    </div>
-                </div>
-                <div class="col pl-2">
-                    <div class="alert alert-secondary"><h6>A Register</h6><pre class="mb-0 pb-0" id="areg-block"> </pre></div>
-                    <div class="alert alert-secondary"><h6>ALU</h6><pre class="mb-0 pb-0" id="alu-block"></pre></div>
-                    <div class="alert alert-secondary"><h6>B Register</h6><pre class="mb-0 pb-0" id="breg-block"></pre></div>
-                    <div class="alert alert-secondary"><h6>Output Register</h6><pre class="mb-0 pb-0" id="oreg-block"></pre></div>
-                    <div class="alert alert-secondary"><h6>Display</h6><pre class="mb-0 pb-0" id="dis-block"></pre></div>
-                </div>
+            <div>
+                <h4>Input</h4>
+                <input type="text" class="input-group" />
+                <br />
+                <button class="btn btn-secondary">Read Input</button>
             </div>
-            <div class="row">
-                <div class="col">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="carry-flag">Carry</span>
-                        </div>
-                        <input type="text" class="form-control input-disabled-correct-background" value="0" aria-label="Carry Flag" aria-describedby="carry-flag" id="carryFlagBox" disabled>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="underflow-flag">Underflow</span>
-                        </div>
-                        <input type="text" class="form-control input-disabled-correct-background" value="0" aria-label="Underflow Flag" aria-describedby="underflow-flag" id="underflowFlagBox" disabled>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="zero-flag">Zero</span>
-                        </div>
-                        <input type="text" class="form-control input-disabled-correct-background" value="0" aria-label="Zero Flag" aria-describedby="zero-flag" id="zeroFlagBox" disabled>
-                    </div>
-                </div>
+            <br />
+            <div>
+                <h4>Errors</h4>
+                <input type="text" class="input-group emulator-out" id="emulator-out" readonly />
             </div>
         </div>
     </div>
 </div>
 
 <div class="card-deck mt-4">
+
     <div class="card">
         <div class="card-header">
-            <h4>Emulator Errors</h4>
+            <h4>SAP-2</h4>
         </div>
         <div class="card-body">
-            <code class="emulator-out" id="emulator-out"><br /></code>
+
+            <div class="row">
+                <div class="col pr-2 pb-0 pt-1">
+                    <div class="alert alert-secondary mb-2">
+                        <div class="row justify-content-between">
+                            <div class="col pr-0">
+                                <b>Program Counter</b>
+                            </div>
+                            <div class="col-auto pl-0">
+                                <span class="m-0 ml-3 p-0" id="areg-block">0000 0000 0000 0000</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col pr-0 mr-0">
+                            <div class="alert alert-secondary mb-2">
+                                <div class="row justify-content-between">
+                                    <div class="col pr-0">
+                                        <b>IPort 1</b>
+                                    </div>
+                                    <div class="col-auto pl-0">
+                                        <span id="areg-block">0000 0000</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col pl-0 ml-1">
+                            <div class="alert alert-secondary mb-2">
+                                <div class="row justify-content-between">
+                                    <div class="col pr-0">
+                                        <b>IPort 2</b>
+                                    </div>
+                                    <div class="col-auto pl-0">
+                                        <span id="areg-block">0000 0000</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col pr-0 mr-0">
+                            <div class="alert alert-secondary mb-2">
+                                <div class="row justify-content-between">
+                                    <div class="col pr-0">
+                                        <b>OPort 1</b>
+                                    </div>
+                                    <div class="col-auto pl-0">
+                                        <span id="areg-block">0000 0000</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col pl-0 ml-1">
+                            <div class="alert alert-secondary mb-2">
+                                <div class="row justify-content-between">
+                                    <div class="col pr-0">
+                                        <b>OPort 2</b>
+                                    </div>
+                                    <div class="col-auto pl-0">
+                                        <span id="areg-block">0000 0000</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert alert-secondary mb-2">
+                        <div class="row justify-content-between">
+                            <div class="col pr-0">
+                                <b>Display</b>
+                            </div>
+                            <div class="col-auto pl-0">
+                                <span id="areg-block">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-secondary mb-2">
+                        <div class="row justify-content-between">
+                            <div class="col pr-0">
+                                <b>Instruction Register</b>
+                            </div>
+                            <div class="col-auto pl-0">
+                                <span id="areg-block">0000 0000</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert alert-secondary mb-2"><b>Sequencer</b><p class="m-0 p-0" id="areg-block">0111 0001 1101 0101 0100 0100 0000 0001 0000</p></div>
+                    <div class="alert alert-secondary mb-0">
+                        <div class="row justify-content-between">
+                            <div class="col pr-0">
+                                <b>Flags</b>
+                            </div>
+                            <div class="col-auto pl-0">
+                                <div class="row">
+                                    <div class="col mx-1"><b class="text-secondary">SF</b></div>
+                                    <div class="col mx-1"><b class="text-success">ZF</b></div>
+                                    <div class="col mx-1"><b class="text-secondary">CF</b></div>
+                                    <div class="col mx-1"><b class="text-secondary">UF</b></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto d-flex px-1 pb-0 pt-1">
+                    <div class="alert alert-secondary mb-0">
+                        <div class="row justify-content-center">
+                            <b>WBus</b>
+                        </div>
+                        <div class="row justify-content-center px-2">
+                            <span id="wbus-block">0x00 0x00</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col pl-2 pt-1">
+                    <div class="alert alert-secondary  mb-3">
+                        <div class="row justify-content-between">
+                            <div class="col pr-0">
+                                <b>ALU</b>
+                            </div>
+                            <div class="col-auto pl-0">
+                                <span id="areg-block">0000 0000</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2 mr-0 mb-3 pr-0">
+                            <div class="alert alert-secondary" style="height: 100%;">
+                                <div class="row align-items-center py-5">
+                                    <div class="col align-self-center pt-2">
+                                        <div class="row justify-content-center">
+                                            <b>M</b>
+                                        </div>
+                                        <div class="row justify-content-center">
+                                            <b>U</b>
+                                        </div>
+                                        <div class="row justify-content-center">
+                                            <b>X</b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col ml-0 pl-0">
+                            <div class="row ml-0">
+                                <div class="col pr-0 mr-0">
+                                    <div class="alert alert-secondary mb-2">
+                                        <div class="row justify-content-between">
+                                            <div class="col pr-0">
+                                                <b>A Reg</b>
+                                            </div>
+                                            <div class="col-auto pl-0">
+                                                <span id="areg-block">0x00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col pl-0 ml-1">
+                                    <div class="alert alert-secondary mb-2">
+                                        <div class="row justify-content-between">
+                                            <div class="col pr-0">
+                                                <b>T Reg</b>
+                                            </div>
+                                            <div class="col-auto pl-0">
+                                                <span id="areg-block">0x00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row ml-0">
+                                <div class="col">
+                                    <div class="alert alert-secondary mb-2">
+                                        <div class="row justify-content-between">
+                                            <div class="col pr-0">
+                                                <b>B Reg</b>
+                                            </div>
+                                            <div class="col-auto pl-0">
+                                                <span id="areg-block">0000 0000</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row ml-0">
+                                <div class="col">
+                                    <div class="alert alert-secondary mb-2">
+                                        <div class="row justify-content-between">
+                                            <div class="col pr-0">
+                                                <b>C Reg</b>
+                                            </div>
+                                            <div class="col-auto pl-0">
+                                                <span id="areg-block">0000 0000</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row ml-0">
+                                <div class="col">
+                                    <div class="alert alert-secondary mb-3">
+                                        <div class="row justify-content-between">
+                                            <div class="col pr-0">
+                                                <b>MDR</b>
+                                            </div>
+                                            <div class="col-auto pl-0">
+                                                <span id="areg-block">0000 0000</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert alert-secondary mb-3">
+                        <div class="row justify-content-between">
+                            <div class="col pr-0">
+                                <b>RAM</b>
+                            </div>
+                            <div class="col-auto pl-0">
+                                <span id="areg-block">0000 0000</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert alert-secondary mb-0">
+                        <div class="row justify-content-between">
+                            <div class="col pr-0">
+                                <b>MAR</b>
+                            </div>
+                            <div class="col-auto pl-0">
+                                <span id="areg-block">0000 0000 0000 0000</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <h6 class="mb-1">RAM</h6>
+                    @Html.TextArea("ram_dump", null, new { rows = "16", cols = "20", @class = "codebox", id = "ram_dump" })
+                </div>
+            </div>
         </div>
     </div>
 </div>

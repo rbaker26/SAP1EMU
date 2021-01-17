@@ -6,10 +6,11 @@ using SAP1EMU.GUI.Contexts;
 using SAP1EMU.GUI.Hubs;
 using SAP1EMU.GUI.Models;
 using SAP1EMU.SAP2.Assembler;
-
+using SAP1EMU.SAP2.Lib;
 using System;
 using System.Linq;
-
+using System.Collections.Generic;
+using SAP1EMU.SAP2.Engine;
 
 namespace SAP1EMU.GUI.Controllers
 {
@@ -19,17 +20,13 @@ namespace SAP1EMU.GUI.Controllers
     {
         private Sap1EmuContext _sap1EmuContext { get; set; }
         private readonly IHubContext<EmulatorHub> _hubContext;
+        private readonly IDecoder _decoder;
 
-        public SAP2Controller(Sap1EmuContext sap1EmuContext, IHubContext<EmulatorHub> hubContext)
+        public SAP2Controller(Sap1EmuContext sap1EmuContext, IHubContext<EmulatorHub> hubContext, IDecoder decoder)
         {
             _sap1EmuContext = sap1EmuContext;
             _hubContext = hubContext;
-        }
-
-        // TODO - Remove this after testing
-        public IActionResult Index()
-        {
-            return View();
+            _decoder = decoder;
         }
 
 
@@ -62,7 +59,8 @@ namespace SAP1EMU.GUI.Controllers
             SAP2BinaryPacket sap2BinaryPacket = new SAP2BinaryPacket()
             {
                 EmulationID = sap2CodePacket.EmulationID,
-                Code = Assemble.Parse((System.Collections.Generic.List<string>)sap2CodePacket.Code)
+                Code = Assemble.Parse((List<string>)sap2CodePacket.Code),
+                SetName = sap2CodePacket.SetName
             };
 
             // Save Binary
@@ -71,7 +69,13 @@ namespace SAP1EMU.GUI.Controllers
             _sap1EmuContext.SaveChangesAsync(); // Might have to switch to sync
 
             // RunEmulatorAsync
-            return Ok();
+            RAMProgram rmp = new RAMProgram((List<string>)sap2CodePacket.Code);
+
+            EngineProc engine = new EngineProc();
+            engine.Init(rmp, _decoder, sap2BinaryPacket.SetName);
+            engine.Run();
+
+            return Ok(engine.FrameStack());
         }
 
         [HttpPost("ResumeEmulation")]
