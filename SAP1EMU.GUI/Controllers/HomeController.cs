@@ -2,12 +2,11 @@
 using Microsoft.Extensions.Logging;
 
 using SAP1EMU.GUI.Models;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 
 namespace SAP1EMU.GUI.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -30,6 +29,18 @@ namespace SAP1EMU.GUI.Controllers
 
         [HttpGet]
         public IActionResult Emulator()
+        {
+            return View("EmulatorPicker");
+        }
+
+        [Route("/Emulator/SAP1")]
+        public IActionResult SAP1()
+        {
+            return View();
+        }
+
+        [Route("/Emulator/SAP2")]
+        public IActionResult SAP2()
         {
             return View();
         }

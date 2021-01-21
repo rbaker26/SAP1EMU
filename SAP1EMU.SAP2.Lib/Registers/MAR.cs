@@ -18,14 +18,19 @@ namespace SAP1EMU.SAP2.Lib.Registers
         {
             var cw = SEQ.Instance().ControlWord;
 
-            // PC return address being set
-            if(string.Equals(cw["RTNA"], "0", StringComparison.Ordinal))
+            if(string.Equals(cw["CALL"], "1", StringComparison.Ordinal))
             {
-                RegContent = Convert.ToString(0xFFFE, 2);
-            }
-            else
-            {
-                RegContent = Convert.ToString(0xFFFF, 2);
+                // PC return address being set
+                if (string.Equals(cw["RTNA"], "0", StringComparison.Ordinal))
+                {
+                    RegContent = Convert.ToString(0xFFFE - 0x0800 - 1, 2);
+                    ram.SetMARContent(RegContent);
+                }
+                else
+                {
+                    RegContent = Convert.ToString(0xFFFF - 0x0800 - 1, 2);
+                    ram.SetMARContent(RegContent);
+                }
             }
 
             // Active Low, Pull on Tok

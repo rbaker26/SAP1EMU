@@ -179,3 +179,12 @@ body {
 .toast-error {
     background-color: lightcoral !important;
 }
+
+.zoom {
+    transition: transform .2s;
+}
+
+.zoom:hover {
+    transform: scale(1.2);
+}
+

@@ -5,7 +5,14 @@ namespace SAP1EMU.SAP2.Lib.Registers
 {
     public class CReg : IObserver<TicTok>
     {
-        private string RegContent { get; set; }
+        private string RegContent { get; set; } = "00000000";
+
+        private ALU alu;
+
+        public void SetALUReference(ref ALU alu)
+        {
+            this.alu = alu;
+        }
 
         private void Exec(TicTok tictok)
         {
@@ -15,14 +22,25 @@ namespace SAP1EMU.SAP2.Lib.Registers
             if (string.Equals(cw["EC"], "1", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tic)
             {
                 // Send C to the WBus
-                Multiplexer.Instance().PassThroughToBus(RegContent, Convert.ToBoolean(cw["UB"]), Convert.ToBoolean(cw["CLR"]));
+                Multiplexer.Instance().PassThroughToBus(RegContent, Convert.ToBoolean(Convert.ToInt16(cw["UB"])), Convert.ToBoolean(Convert.ToInt16(cw["CLR"])));
             }
 
             // Active Low, Pull on Tok
             if (string.Equals(cw["LC_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)
             {
+                if (string.Equals(cw["EU"], "1", StringComparison.Ordinal))
+                {
+                    return;
+                }
+
                 // Store Wbus val in C
-                RegContent = Wbus.Instance().Value[0..8];
+                RegContent = Wbus.Instance().Value[8..];
+            }
+
+            if (string.Equals(cw["LC_"], "0", StringComparison.Ordinal) && string.Equals(cw["EU"], "1", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tic)
+            {
+                // Store ALU in A
+                RegContent = alu.RegContent;
             }
         }
 

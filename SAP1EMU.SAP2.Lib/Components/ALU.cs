@@ -1,14 +1,15 @@
 ﻿using SAP1EMU.SAP2.Lib.Utilities;
 using SAP1EMU.SAP2.Lib.Registers;
 using System;
+using System.Linq;
 
 namespace SAP1EMU.SAP2.Lib.Components
 {
     public class ALU : IObserver<TicTok>
     {
-        private string RegContent { get; set; }
+        public string RegContent { get; set; }
 
-        public string FlagContent { get; private set; }
+        public int FlagContent { get; private set; } = 0;
 
         private AReg Areg { get; set; }
         private TReg Treg { get; set; }
@@ -24,7 +25,8 @@ namespace SAP1EMU.SAP2.Lib.Components
             RAL,
             RAR,
             INR,
-            DEC
+            DEC,
+            OUT
         }
 
         public ALU(ref AReg aReg, ref TReg tReg)
@@ -51,7 +53,7 @@ namespace SAP1EMU.SAP2.Lib.Components
             // Active Hi, Push on Tic
             if (string.Equals(cw["EU"], "1", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tic)
             {
-                Wbus.Instance().Value = RegContent;
+                Multiplexer.Instance().PassThroughToBus(RegContent, Convert.ToBoolean(Convert.ToInt16(cw["UB"])), Convert.ToBoolean(Convert.ToInt16(cw["CLR"])));
             }
         }
 
@@ -67,6 +69,8 @@ namespace SAP1EMU.SAP2.Lib.Components
             int ib = BinConverter.Bin8ToInt(TReg);
 
             int result = 0;
+
+            FlagContent = (int)FlagResult.None;
 
             switch (action)
             {
@@ -102,17 +106,30 @@ namespace SAP1EMU.SAP2.Lib.Components
                 case ALUOPType.DEC:
                     result = ib - 1;
                     break;
+                case ALUOPType.OUT:
+                    result = ib & 1; //Check if byte is 3
+                    break;
             }
 
             //Check to see if a flag needs to be set
-            if (result > MAX_RESULT || result < MIN_RESULT)
+            if (result < MIN_RESULT)
             {
-                FlagContent = "10";
+                FlagContent = (int)FlagResult.Sign;
+            }
+
+            if (result > MAX_RESULT)
+            {
+                FlagContent |= (int)FlagResult.Carry;
             }
 
             if (result == 0)
             {
-                FlagContent = "01";
+                FlagContent = (int)FlagResult.Zero;
+            }
+
+            if (BinConverter.IntToBinary(result, 8).Count(c => c.Equals('1')) % 2 == 0)
+            {
+                FlagContent |= (int)FlagResult.Parity;
             }
 
             string val = BinConverter.IntToBin8(result);

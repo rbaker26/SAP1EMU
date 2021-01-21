@@ -9,19 +9,12 @@ namespace SAP1EMU.SAP2.Lib.Components
         private List<string> RamContents = new List<string>();
 
         private string MARContents { get; set; }
-        public string RegContent { get; private set; }
-
-        private MDR mdrReg;
+        public string RegContent { get; private set; } = "00000000";
 
         private const int MIN_RAM_ADDRESS = 0x0800;
         private const int MAX_RAM_ADDRESS = 0xFFFF;
 
         public RAM() { }
-
-        public void SetRefToMDR(ref MDR mdrReg)
-        {
-            this.mdrReg = mdrReg;
-        }
 
         private void Exec(TicTok tictok)
         {
@@ -31,14 +24,6 @@ namespace SAP1EMU.SAP2.Lib.Components
             if (string.Equals(cw["EM_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tic)
             {
                 RegContent = GetWordAt(MARContents);
-            }
-
-            // Active Low, Pull on Tok
-            if (string.Equals(cw["LM_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)
-            {
-                string word = mdrReg.RegContent;
-                SetWordAt(MARContents, word);
-                RegContent = word;
             }
         }
 
@@ -55,21 +40,21 @@ namespace SAP1EMU.SAP2.Lib.Components
 
         public string GetWordAt(string addr)
         {
-            int index = Convert.ToInt32(addr, 2);
-            if (index < MIN_RAM_ADDRESS || index > MAX_RAM_ADDRESS)
-            {
-                throw new ArgumentOutOfRangeException($"RAM Index Error - Addr with value {index} is not inbetween the range of {MIN_RAM_ADDRESS}-{MAX_RAM_ADDRESS}");
-            }
+            int index = Convert.ToInt32(addr, 2); // Needs to be from 0x0800 to 0xFFFF
+            //if (index < MIN_RAM_ADDRESS || index > MAX_RAM_ADDRESS)
+            //{
+            //    throw new ArgumentOutOfRangeException($"RAM Index Error - Addr with value {index} is not inbetween the range of {MIN_RAM_ADDRESS}-{MAX_RAM_ADDRESS}");
+            //}
             return RamContents[index];
         }
 
         public void SetWordAt(string addr, string word)
         {
             int index = Convert.ToInt32(addr, 2);
-            if (index < MIN_RAM_ADDRESS || index > MAX_RAM_ADDRESS)
-            {
-                throw new ArgumentOutOfRangeException($"RAM Index Error - Addr with value {index} is not inbetween the range of {MIN_RAM_ADDRESS}-{MAX_RAM_ADDRESS}");
-            }
+            //if (index < MIN_RAM_ADDRESS || index > MAX_RAM_ADDRESS)
+            //{
+            //    throw new ArgumentOutOfRangeException($"RAM Index Error - Addr with value {index} is not inbetween the range of {MIN_RAM_ADDRESS}-{MAX_RAM_ADDRESS}");
+            //}
             RamContents[index] = word;
         }
 
@@ -87,6 +72,11 @@ namespace SAP1EMU.SAP2.Lib.Components
         {
             MARContents = marData;
             RegContent = GetWordAt(MARContents); // For tostring()
+        }
+
+        public void SetMARContent(string value)
+        {
+            MARContents = value;
         }
 
         #region IObserver<TicTok> Region

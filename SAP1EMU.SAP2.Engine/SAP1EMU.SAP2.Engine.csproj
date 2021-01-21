@@ -6,12 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="SAP2InstructionSets.json">
+    <Content Include="..\SAP1EMU.SAP2.Lib\SAP2InstructionSets.json" Link="SAP2InstructionSets.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="SAP2InstructionSets.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

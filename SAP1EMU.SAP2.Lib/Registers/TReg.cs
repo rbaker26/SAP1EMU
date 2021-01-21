@@ -5,7 +5,7 @@ namespace SAP1EMU.SAP2.Lib.Registers
 {
     public class TReg : IObserver<TicTok>
     {
-        private string RegContent { get; set; }
+        private string RegContent { get; set; } = "00000000";
 
         private void Exec(TicTok tictok)
         {
@@ -15,14 +15,14 @@ namespace SAP1EMU.SAP2.Lib.Registers
             if (string.Equals(cw["ET"], "1", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tic)
             {
                 // Send Temp to the WBus
-                Multiplexer.Instance().PassThroughToBus(RegContent, Convert.ToBoolean(cw["UB"]), Convert.ToBoolean(cw["CLR"]));
+                Multiplexer.Instance().PassThroughToBus(RegContent, Convert.ToBoolean(Convert.ToInt16(cw["UB"])), Convert.ToBoolean(Convert.ToInt16(cw["CLR"])));
             }
 
             // Active Low, Pull on Tok
             if (string.Equals(cw["LT_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)
             {
                 // Store Wbus val in Temp
-                RegContent = Wbus.Instance().Value[0..8];
+                RegContent = Wbus.Instance().Value[8..];
             }
         }
 

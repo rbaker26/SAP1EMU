@@ -5,7 +5,7 @@ namespace SAP1EMU.SAP2.Lib.Registers
 {
     public class MDR : IObserver<TicTok>
     {
-        public string RegContent { get; private set; }
+        public string RegContent { get; private set; } = "00000000";
 
         private RAM ram;
 
@@ -36,14 +36,14 @@ namespace SAP1EMU.SAP2.Lib.Registers
             if (string.Equals(cw["EMDR"], "1", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tic)
             {
                 //Wbus.Instance().Value = RegContent;
-                Multiplexer.Instance().PassThroughToBus(RegContent, Convert.ToBoolean(cw["UB"]), Convert.ToBoolean(cw["CLR"]));
+                Multiplexer.Instance().PassThroughToBus(RegContent, Convert.ToBoolean(Convert.ToInt16(cw["UB"])), Convert.ToBoolean(Convert.ToInt16(cw["CLR"])));
             }
 
             // Active Low, Pull on Tok
             if (string.Equals(cw["LMDR_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)
             {
                 //RegContent = Wbus.Instance().Value;
-                RegContent = Multiplexer.Instance().PassThroughToRegister(Convert.ToBoolean(cw["UB"]));
+                RegContent = Multiplexer.Instance().PassThroughToRegister(Convert.ToBoolean(Convert.ToInt16(cw["UB"])));
             }
         }
 

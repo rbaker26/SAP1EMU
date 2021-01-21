@@ -11,5 +11,6 @@ namespace SAP1EMU.GUI.Models
         public int Id { get; set; }
         public Guid EmulationID { get; set; }
         public IEnumerable<string> Code { get; set; }
+        public string SetName { get; set; }
     }
 }

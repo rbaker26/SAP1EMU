@@ -13,7 +13,8 @@ namespace SAP1EMU.SAP2.Lib
     {
         public List<string> RamContents { get; }
 
-        private readonly int MAX_RAM_SIZE = 0xFFFF;
+        private const int MIN_RAM_ADDRESS = 0x0800;
+        private readonly int MAX_RAM_SIZE = 0xFFFF - MIN_RAM_ADDRESS;
 
         public RAMProgram(List<string> RamContents)
         {
@@ -22,7 +23,7 @@ namespace SAP1EMU.SAP2.Lib
 
             if (count > MAX_RAM_SIZE)
             {
-                throw new ArgumentOutOfRangeException($"RAM Overflow - More than {0xFFFF} lines of code.");
+                throw new ArgumentOutOfRangeException($"RAM Overflow - More than {MAX_RAM_SIZE} lines of code.");
             }
 
             this.RamContents = RamContents;

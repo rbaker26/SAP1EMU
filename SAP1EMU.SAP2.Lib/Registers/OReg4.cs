@@ -1,21 +1,31 @@
 ﻿using SAP1EMU.SAP2.Lib.Components;
+using SAP1EMU.SAP2.Lib.Utilities;
 using System;
 
 namespace SAP1EMU.SAP2.Lib.Registers
 {
     public class OReg4 : IObserver<TicTok>
     {
-        private string RegContent { get; set; }
+        private string RegContent { get; set; } = "00000000";
+
+        private ALU alu { get; set; }
+
+        public OReg4(ref ALU alu)
+        {
+            this.alu = alu;
+        }
 
         private void Exec(TicTok tictok)
         {
             var cw = SEQ.Instance().ControlWord;
 
+            string aluResult = alu.RegContent;
+
             // Active Low, Pull on Tok
-            if (string.Equals(cw["L04_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)
+            if (aluResult[^1].Equals('0') && string.Equals(cw["LO_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)
             {
-                // Store Wbus val in Output port 3
-                RegContent = Wbus.Instance().Value;
+                // Store Wbus val in Output port 4
+                RegContent = Wbus.Instance().Value[8..];
             }
         }
 

@@ -18,9 +18,9 @@ namespace SAP1EMU.SAP2.Lib
             JsonSerializerOptions options = new JsonSerializerOptions
             {
                 Converters =
-                    {
-                        new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
-                    },
+                {
+                    new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+                },
 
             };
 

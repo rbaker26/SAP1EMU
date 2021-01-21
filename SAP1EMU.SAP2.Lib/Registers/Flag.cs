@@ -1,37 +1,66 @@
 ﻿using SAP1EMU.SAP2.Lib.Components;
+using SAP1EMU.SAP2.Lib.Utilities;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SAP1EMU.SAP2.Lib.Registers
 {
+    public enum FlagResult
+    {
+        None = 0,
+        Carry = 1,
+        Parity = 4,
+        AuxiliaryCarry = 16,
+        Zero = 64,
+        Sign = 128
+    }
+
     public class Flag : IObserver<TicTok>
     {
         private readonly ALU aluReg;
-        private string RegContent { get; set; }
+
+        //SZ-AC-P-C Flags ('-' is unused bits)
+        public string RegContent { get; private set; } = "00000000";
+        public FlagResult flags;
 
         public Flag(ref ALU aluReg)
         {
             this.aluReg = aluReg;
+            flags = FlagResult.None;
         }
 
         public bool Signed
         {
-            get => Convert.ToBoolean(RegContent[0]);
+            get => flags.HasFlag(FlagResult.Sign);
         }
 
         public bool Zero
         {
-            get => Convert.ToBoolean(RegContent[1]);
+            get => flags.HasFlag(FlagResult.Zero);
+        }
+
+        public bool Parity
+        {
+            get => flags.HasFlag(FlagResult.Parity);
+        }
+
+        public bool Carry
+        {
+            get => flags.HasFlag(FlagResult.Carry);
+        }
+
+        public bool AuxiliaryCarry
+        {
+            get => flags.HasFlag(FlagResult.AuxiliaryCarry);
         }
 
         private void Exec(TicTok tictok)
         {
             var cw = SEQ.Instance().ControlWord;
 
-            if(string.Equals(cw["LF"], "1", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tic)
+            if(cw["LF"].IsActiveHigh() && tictok.ClockState == TicTok.State.Tok)
             {
-                RegContent = aluReg.FlagContent;
+                RegContent = BinConverter.IntToBinary(aluReg.FlagContent, 8);
+                flags = (FlagResult)Convert.ToInt16(RegContent, 2);
             } 
         }
 

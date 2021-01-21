@@ -37,6 +37,9 @@ window.onload = function () {
     $.ajax({
         url: "../api/Assembler/supported_sets",
         type: "GET",
+        data: {
+            "Emulator": "SAP1"
+        },
         success: function (data) {
             var selectDOM = document.getElementById("langs");
             var options = data;

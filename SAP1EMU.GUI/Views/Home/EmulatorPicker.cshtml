@@ -5,46 +5,24 @@
 <div class="text-center">
     <h1 class="display-4">Choose an Emulator</h1>
 </div>
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
+ 
 <div class="mt-5">
     <div class="row justify-content-center">
         <div class="col-auto">
-            <div class="card border-white text-center">
-                <a href='@Url.Action("Emulator", "Home")'>
+            <div class="card border-white text-center zoom">
+                <a href='@Url.Action("SAP1", "Emulator")'>
                     <img class="img-thumbnail border-white" src="~/img/EmulatorPicker/8bit.png" alt="Card image" style="height: 150px; width: 150px;">
                 </a>
                 <h3 class="lead">SAP1</h3>
             </div>
         </div>
         <div class="col-auto">
-            <div class="card border-white text-center">
-                <a href="#" @*href='@Url.Action("Emulator", "SAP2")'*@>
+            <div class="card border-white text-center zoom">
+                <a href='@Url.Action("SAP2", "Emulator")'>
                     <img class="img-thumbnail border-white" src="~/img/EmulatorPicker/16bit.png" alt="Card image" style="height: 150px; width: 150px;">
                 </a>
                 <h3 class="lead">SAP2</h3>
-                <span class="badge badge-pill badge-info">Comming Soon</span>
-
             </div>
         </div>
-        @*<div class="col-auto">
-            <div class="card border-white text-center">
-                <a href='@Url.Action("Emulator", "SAP2")'>
-                    <img class="img-thumbnail border-white" src="~/img/EmulatorPicker/8086.png" alt="Card image" style="height: 150px; width: 150px;">
-                </a>
-                <h3 class="lead">8086</h3>
-            </div>
-        </div>*@
     </div>
 </div>

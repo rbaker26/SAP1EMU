@@ -6,8 +6,10 @@
 
         public void PassThroughToBus(string bits, bool isUpperByte = false, bool clearByte = true)
         {
+            string test = Wbus.Instance().Value[8..];
+
             // If we want solely the 8 bit value to go out on bus and get rid of the other bytes value in bus
-            if(clearByte)
+            if (clearByte)
             {
                 if(isUpperByte)
                 {

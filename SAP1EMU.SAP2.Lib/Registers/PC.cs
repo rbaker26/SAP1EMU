@@ -8,7 +8,7 @@ namespace SAP1EMU.SAP2.Lib.Registers
     public class PC : IObserver<TicTok>
     {
         private readonly Flag flagReg;
-        private string RegContent { get; set; }
+        public string RegContent { get; private set; }
 
         public bool WontJump { get; set; }
 
@@ -33,7 +33,7 @@ namespace SAP1EMU.SAP2.Lib.Registers
             // Active Hi, Push on Tic
             if (string.Equals(cw["EP"], "1", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tic)
             {
-                // Send A to the WBus
+                // Send PC to the WBus
                 Wbus.Instance().Value = RegContent;
             }
 
@@ -41,21 +41,34 @@ namespace SAP1EMU.SAP2.Lib.Registers
             if (string.Equals(cw["LP_"], "0", StringComparison.Ordinal) && tictok.ClockState == TicTok.State.Tok)
             {
                 RegContent = Wbus.Instance().Value;
-
-                string jumpType = cw["JC"];
-
-                WontJump = jumpType switch
-                {
-                    "001" => true,
-                    "010" => true,
-                    "011" => true,
-                    "100" => true,
-                    "101" => true,
-                    "110" => true,
-                    "111" => true,
-                    _ => false
-                };
             }
+        }
+
+        public void CheckForJumpCondition()
+        {
+            var cw = SEQ.Instance().ControlWord;
+
+            string jumpType = cw["JC"];
+
+            WontJump = jumpType switch
+            {
+                "001" => flagReg.Signed, //JM
+                "010" => flagReg.Zero,   //JNZ
+                "011" => !flagReg.Zero,  //JZ
+                "100" => true,
+                "101" => true,
+                "110" => true,
+                "111" => true,
+                _ => true
+            };
+        }
+
+        public void SkipByte()
+        {
+            // Add one to skip the other byte because it does and i dont wanna deal with it any other way
+            int count = BinConverter.Bin8ToInt(RegContent);
+            count++;
+            RegContent = BinConverter.IntToBin16(count);
         }
 
         #region IObserver Region

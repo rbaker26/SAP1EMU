@@ -13,10 +13,14 @@ namespace SAP1EMU.SAP2.Assembler
     {
         private const string DefaultInstructionSetName = "Malvino";
 
-        private static List<Label> labels = new List<Label>();
+        private static readonly List<Label> labels = new List<Label>();
+        private static Dictionary<string, int> labelDictionary = new Dictionary<string, int>();
 
         public static List<string> Parse(List<string> unchecked_assembly, string InstructionSetName = DefaultInstructionSetName)
         {
+            labels.Clear();
+            labelDictionary.Clear();
+
             // Get Instruction Set
             InstructionSet iset = OpCodeLoader.GetSet(InstructionSetName);
 
@@ -29,16 +33,7 @@ namespace SAP1EMU.SAP2.Assembler
             unchecked_assembly.RemoveAll(s => Regex.IsMatch(s, "^\\s*$"));
 
             // Remove Newline Comments
-            unchecked_assembly.RemoveAll(s => s.Trim().First() == '#');
-
-            // Find and store info on all labels
-            labels = unchecked_assembly.Where(line => line.Contains(':'))
-                .Select((line, index) => new Label
-                {
-                    LineNumber = unchecked_assembly.IndexOf(line) + 1,
-                    Name = line.Trim().Substring(0, line.IndexOf(':'))
-                }
-            ).ToList();
+            unchecked_assembly.RemoveAll(s => s.Trim().First().Equals('#'));
 
             for (int i = 0; i < unchecked_assembly.Count; i++)
             {
@@ -50,6 +45,16 @@ namespace SAP1EMU.SAP2.Assembler
             
                 // Remove Inline Comments
                 unchecked_assembly[i] = Regex.Replace(unchecked_assembly[i], "\\s*#.*$", "");
+
+                // Update Label addresses
+                if(unchecked_assembly[i].Contains(':'))
+                {
+                    labels.Add(new Label
+                    {
+                        Name = unchecked_assembly[i].Trim().Substring(0, unchecked_assembly[i].IndexOf(':')),
+                        LineNumber = i
+                    });
+                }
             }
 
 
@@ -63,10 +68,10 @@ namespace SAP1EMU.SAP2.Assembler
             // Get rid of the labels to make it easier for conversion into binary
             // They are no longer needed anyway since we store the number they become
             // based on line numbers.
-            foreach (Label label in labels)
-            {
-                unchecked_assembly[label.LineNumber - 1] = Regex.Replace(unchecked_assembly[label.LineNumber - 1], @"\s*\w{1,6}:", "").Trim();
-            }
+            //foreach (Label label in labels)
+            //{
+            //    unchecked_assembly[label.Address - 1] = Regex.Replace(unchecked_assembly[label.Address - 1], "\\s*\\w{1,6}:", "").Trim();
+            //}
 
             // *********************************************************************
             // Assemble
@@ -76,6 +81,8 @@ namespace SAP1EMU.SAP2.Assembler
             int lines_of_asm = unchecked_assembly.Count;
 
             int current_line_number = 0;
+            int index;
+
             foreach (string line in unchecked_assembly)
             {
                 if (line == "...")
@@ -89,11 +96,12 @@ namespace SAP1EMU.SAP2.Assembler
                 else
                 {
                     StringBuilder instructionString = new StringBuilder();
-                    int index = 0;
+                    index = 0;
                     bool instructionComplete = false;
 
                     if (line.Contains(':'))
                     {
+                        labelDictionary.Add(line[0..line.IndexOf(':')], binary.Count);
                         index = line.IndexOf(':') + 1;
                     }
 
@@ -124,23 +132,34 @@ namespace SAP1EMU.SAP2.Assembler
                     {
                         string value = line[index..].Trim();
 
-                        // If we have JXX Label
+                        // If we have JXX Label then sub the label for its respective line number in the code
                         if (labels.Any(l => l.Name.Equals(value)))
                         {
                             Label label = labels.First(l => l.Name.Equals(value));
-                            value = label.LineNumber.ToString();
+                            //value = label.Address.ToString();
                         }
 
-                        int data = Convert.ToInt16(value, 16);
-                        string binaryRepresentation = Convert.ToString(data, 2);
+                        bool isInt = int.TryParse(value[2..], out int data);
 
-                        // 8 or 16 length
-                        binaryRepresentation = binaryRepresentation.PadLeft(8 * (instruction.Bytes - 1), '0');
-                        int position = binaryRepresentation.Length == 8 ? 0 : 8;
-
-                        for(int i = 1; i < instruction.Bytes; i++, position -= 8)
+                        if(!isInt)
                         {
-                            binary.Add(string.Join("", binaryRepresentation.Skip(position).Take(8)));
+                            binary.Add(value);
+                            binary.Add(value);
+                        }
+                        else
+                        {
+                            //int data = Convert.ToInt16(value, 16);
+                            string binaryRepresentation = Convert.ToString(data, 2);
+
+                            // start at 0 or 8 length
+                            binaryRepresentation = binaryRepresentation.PadLeft(8 * (instruction.Bytes - 1), '0');
+                            int position = binaryRepresentation.Length == 8 ? 0 : 8;
+
+                            // Add from right to left
+                            for (int i = 1; i < instruction.Bytes; i++, position -= 8)
+                            {
+                                binary.Add(string.Join("", binaryRepresentation.Skip(position).Take(8)));
+                            }
                         }
                     }
                 }
@@ -149,11 +168,27 @@ namespace SAP1EMU.SAP2.Assembler
             }
             // *********************************************************************
 
-            //If a program was executed, but didnt fill in every line of RAM then throw an exception. Must have 16 elements!
-            //if(binary.Count != 16)
-            //{
-            //    throw new ParseException($"SAP1ASM: Program must have 16 lines.", new ParseException("Use \"NOP 0x0\" for a no-operation command or the \"...\" macro to fill in the rest with NOP 0x0.")); 
-            //}
+            for(int i = 0; i < binary.Count; i++)
+            {
+                if (labelDictionary.ContainsKey(binary[i]))
+                {
+                    int value = labelDictionary[binary[i]];
+
+                    string bits = BinConverter.IntToBin16(value);
+
+                    int firstByte = BinConverter.Bin8ToInt(bits[8..]);
+                    int secondByte = BinConverter.Bin8ToInt(bits[0..8]);
+
+                    binary[i] = BinConverter.IntToBinary(firstByte, 8);
+                    binary[++i] = BinConverter.IntToBinary(secondByte, 8);
+                }
+            }
+
+            // If a program contains way too many instructions
+            if (binary.Count > (0xFFFF - 0x0800))
+            {
+                throw new ParseException($"SAP2ASM: Program contains too many lines of code.", new ParseException("The SAP2 can only contain up to 65,535 lines of code."));
+            }
 
 
             return binary;
@@ -165,7 +200,7 @@ namespace SAP1EMU.SAP2.Assembler
             bool contains_hlt = false;
 
             // HLT is a special case that cannot be included in this but it is a non data instruction
-            string[] nonDataInstructions = { "CMA", "NOP", "RAL", "RAR", "RET"};
+            string[] nonDataInstructions = { "CMA", "NOP", "RAL", "RAR", "RET", "MOV A,B", "MOV A,C", "MOV B,A", "MOV B,C", "MOV C,A", "MOV C,B"};
 
             int line_number = 1;
             foreach (string line in unchecked_assembly)
@@ -224,17 +259,18 @@ namespace SAP1EMU.SAP2.Assembler
                     {
                         continue;
                     }
-                    
+
+                    // Special case 
                     if (instruction.OpCode == "HLT")
                     {
                         contains_hlt = true;
                         continue;
                     }
 
-                    //Check the validity of the instructions and their data
+                    // Check the validity of the instructions and their data
                     string value = line[index..].Trim();
 
-                    //Check Jump addresses and check if labels exist to jump too
+                    // Check Jump addresses and check if labels exist to jump too
                     int data = 0;
                     try
                     {
