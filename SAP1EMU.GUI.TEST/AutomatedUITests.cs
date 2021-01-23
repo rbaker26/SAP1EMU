@@ -124,7 +124,7 @@ namespace SAP1EMU.GUI.Test
                 Console.Write(TEST_NAME);
 
                 _driver.Navigate().GoToUrl(BaseUrl + "/swagger/");
-                Thread.Sleep(500);
+                Thread.Sleep(1500);
                 var title = _driver.FindElement(By.ClassName("title")).Text;
                 
 
