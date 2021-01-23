@@ -1,28 +1,57 @@
 ﻿@{
     ViewData["Title"] = "Emulator";
 }
-
+<style>
+    .link-unstyled, .link-unstyled:link, .link-unstyled:hover {
+        color: inherit;
+        text-decoration: inherit;
+    }
+</style>
 <div class="text-center">
     <h1 class="display-4">Choose an Emulator</h1>
 </div>
- 
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
 <div class="mt-5">
     <div class="row justify-content-center">
-        <div class="col-auto">
-            <div class="card border-white text-center zoom">
-                <a href='@Url.Action("SAP1", "Emulator")'>
-                    <img class="img-thumbnail border-white" src="~/img/EmulatorPicker/8bit.png" alt="Card image" style="height: 150px; width: 150px;">
-                </a>
-                <h3 class="lead">SAP1</h3>
-            </div>
+        <div class="col-auto border border-secondary rounded shadow py-4 m-3 zoom">
+            <a href='@Url.Action("SAP1", "Emulator")' class="link-unstyled">
+                <div class="card border-0 text-center justify-content-center">
+                    <img class="img-thumbnail border-0 mb-2" src="~/img/EmulatorPicker/8bit.png" alt="Card image" style="height: 170px; width: 170px;">
+                    <h3 class="lead">SAP-1</h3>
+                    <p class="mb-0 mt-2">Learn Assembly Basics</p>
+                </div>
+            </a>
         </div>
-        <div class="col-auto">
-            <div class="card border-white text-center zoom">
-                <a href='@Url.Action("SAP2", "Emulator")'>
-                    <img class="img-thumbnail border-white" src="~/img/EmulatorPicker/16bit.png" alt="Card image" style="height: 150px; width: 150px;">
-                </a>
-                <h3 class="lead">SAP2</h3>
-            </div>
+        <div class="col-auto border border-secondary rounded shadow py-4 m-3 zoom">
+            <a href='@Url.Action("SAP2", "Emulator")' class="link-unstyled">
+                <div class="card border-0 text-center">
+                    <img class="img-thumbnail border-0 mb-2" src="~/img/EmulatorPicker/16bit.png" alt="Card image" style="height: 170px; width: 170px;">
+                    <h3 class="lead">SAP-2</h3>
+                    <p class="mb-0 mt-2"></p>
+                    <span class="badge badge-pill badge-info mt-2">Comming Soon - Beta</span>
+                </div>
+            </a>
         </div>
+        @*<div class="col-auto border border-secondary rounded shadow py-4 m-3 zoom">
+                <a href='@Url.Action("Emulator", "SAP2")' class="link-unstyled">
+                    <div class="card border-0 text-center">
+                        <img class="img-thumbnail border-0 mb-2" src="~/img/EmulatorPicker/8086.png" alt="Card image" style="height: 150px; width: 150px;">
+                        <h3 class="lead">SAP-3 / 8086</h3>
+                        <span class="badge badge-pill badge-info mt-2">Comming Soon</span>
+                    </div>
+                </a>
+            </div>*@
     </div>
 </div>
