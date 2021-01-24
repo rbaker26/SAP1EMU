@@ -4,7 +4,7 @@
 
 <script src="~/js/Views/AboutView.js" type="text/javascript"></script>
 
-<div class="jumbotron">
+<div class="jumbotron border rounded shadow pb-5 pt-4">
     <h1 class="display-4">Welcome to the SAP1Emu Project!</h1>
     <p class="lead">The only open-source, multiplatform SAP1 Computer Emulator.</p>
     <hr class="my-4">
@@ -58,7 +58,7 @@
             </p>
         </div>
 
-        <div class="col-4">
+        <div class="col-4 mb-5">
             @{ await Html.RenderPartialAsync("_GitHubProfilePartial", GitHubProfileModel.GetProfile("rbaker26").Result); }
         </div>
     </div>

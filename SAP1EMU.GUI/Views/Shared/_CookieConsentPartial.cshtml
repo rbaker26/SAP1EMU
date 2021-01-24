@@ -8,12 +8,18 @@
 
 @if (showBanner)
 {
-    <div id="cookieConsent" class="alert alert-info alert-dismissible fade show" role="alert">
-        We use cookies on our website to give you the most relevant experience by remembering your preferences and repeat visits. <br /> By clicking “Accept”, you consent to the use of ALL the cookies. <a asp-controller="Home" asp-action="Privacy">Learn More</a>.
-        <button type="button" class="accept-policy close mt-2" data-dismiss="alert" aria-label="Close" data-cookie-string="@cookieString">
-            <span aria-hidden="true">Accept</span>
-        </button>
-    </div>
+<div id="cookieConsent" class="alert alert-info alert-dismissible fade show shadow" role="alert">
+    <h5>We Use Cookies</h5>
+    We use cookies and other tracking technologies to improve your browsing experience on our website,
+    to show you personalized content, to analyze our website traffic,
+    and to understand where our visitors are coming from.
+
+    <br /> By clicking “Accept” or continuing use of this site, you agree to our <a asp-controller="Home" asp-action="Privacy">Privacy Policy</a>.
+
+    <button type="button" class="accept-policy close mt-1" data-dismiss="alert" aria-label="Close" data-cookie-string="@cookieString">
+        <span aria-hidden="true">Accept</span>
+    </button>
+</div>
     <script>
         (function () {
             var button = document.querySelector("#cookieConsent button[data-cookie-string]");
