@@ -154,7 +154,7 @@ function LoadIntoRAM() {
     //console.log(jsonData);
 
     $.ajax({
-        url: "../api/Emulator",
+        url: "../api/emulator/sap1/emulate",
         type: "POST",
         contentType: 'application/json; charset=UTF-8',
         data: jsonData,

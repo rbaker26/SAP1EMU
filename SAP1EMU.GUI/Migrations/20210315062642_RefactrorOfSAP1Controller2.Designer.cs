@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SAP1EMU.GUI.Contexts;
 
 namespace SAP1EMU.GUI.Migrations
 {
     [DbContext(typeof(Sap1EmuContext))]
-    partial class Sap1EmuContextModelSnapshot : ModelSnapshot
+    [Migration("20210315062642_RefactrorOfSAP1Controller2")]
+    partial class RefactrorOfSAP1Controller2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,10 +64,12 @@ namespace SAP1EMU.GUI.Migrations
                     b.Property<DateTime>("SessionStart")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("StatusId")
+                    b.Property<int?>("StatusId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("StatusId");
 
                     b.ToTable("EmulationSessionMaps");
                 });
@@ -165,51 +169,6 @@ namespace SAP1EMU.GUI.Migrations
                     b.ToTable("SAP2CodeStore");
                 });
 
-            modelBuilder.Entity("SAP1EMU.Data.Lib.Security.Threat", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Threats");
-                });
-
-            modelBuilder.Entity("SAP1EMU.Data.Lib.Security.ThreatLog", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ClientIpAddress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("QueryString")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ThreatContent")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("ThreatIdentifier")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("ThreatTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Url")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ThreatLogs");
-                });
-
             modelBuilder.Entity("SAP1EMU.Data.Lib.Status", b =>
                 {
                     b.Property<int>("Id")
@@ -223,6 +182,13 @@ namespace SAP1EMU.GUI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Status");
+                });
+
+            modelBuilder.Entity("SAP1EMU.Data.Lib.EmulationSessionMap", b =>
+                {
+                    b.HasOne("SAP1EMU.Data.Lib.Status", "Status")
+                        .WithMany()
+                        .HasForeignKey("StatusId");
                 });
 
             modelBuilder.Entity("SAP1EMU.Data.Lib.InstructionSet", b =>

@@ -13,7 +13,7 @@ using SAP1EMU.GUI.Hubs;
 using System;
 using System.IO;
 using System.Reflection;
-
+using SAP1EMU.GUI.Middleware;
 
 namespace SAP1EMU.GUI
 {
@@ -118,6 +118,7 @@ namespace SAP1EMU.GUI
             });
 
             app.UseHttpsRedirection();
+            app.UseAntiXssMiddleware();
             app.UseStaticFiles();
             app.UseCookiePolicy();
 

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SAP1EMU.GUI.Contexts;
 
 namespace SAP1EMU.GUI.Migrations
 {
     [DbContext(typeof(Sap1EmuContext))]
-    partial class Sap1EmuContextModelSnapshot : ModelSnapshot
+    [Migration("20210317074006_AddedThreatTracking4")]
+    partial class AddedThreatTracking4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

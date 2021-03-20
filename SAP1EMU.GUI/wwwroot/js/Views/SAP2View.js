@@ -150,11 +150,30 @@ function LoadIntoRAM() {
     var asm_code = asm_editor.getValue().split('\n');
     var langChoice = document.getElementById("langs").value;
 
-    jsonData = JSON.stringify({ CodeList: asm_code, SetName: langChoice });
+
+    var emulationId = null;
+    $.ajax({
+        url: "../api/SAP2/GetEmulationID",
+        type: "GET",
+        async: false,
+        cache: false,
+        success: function (data) {
+            emulationId = data;
+            return data;
+        },
+        error: function (request, status, error) {
+            $('#emulator-out').html(request.responseText);
+            return null;
+        }
+    })
+
+    jsonData = JSON.stringify({ EmulationID: emulationId, Code: asm_code, SetName: langChoice });
+
 
     $.ajax({
         url: "../api/SAP2/StartEmulation",
         type: "POST",
+        cache: false,
         contentType: 'application/json; charset=UTF-8',
         data: jsonData,
         success: function (data) {

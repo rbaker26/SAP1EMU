@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SAP1EMU.Assembler\SAP1EMU.Assembler.csproj" />
+    <ProjectReference Include="..\SAP1EMU.Data\SAP1EMU.Data.csproj" />
     <ProjectReference Include="..\SAP1EMU.Engine\SAP1EMU.Engine.csproj" />
     <ProjectReference Include="..\SAP1EMU.Lib\SAP1EMU.Lib.csproj" />
     <ProjectReference Include="..\SAP1EMU.SAP2.Assembler\SAP1EMU.SAP2.Assembler.csproj" />
