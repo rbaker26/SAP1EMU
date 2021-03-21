@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace SAP1EMU.GUI.Controllers
 {
@@ -43,7 +44,7 @@ namespace SAP1EMU.GUI.Controllers
             _instructionSets = _sap1EmuContext.InstructionSets
                 .Where(InstructionSet => InstructionSet.EmulatorId == _emulatorId)
                 .ToDictionary(x=> x.Name, x=> x.Id);
-        }        
+        }
 
 
         /// <summary>
@@ -54,27 +55,62 @@ namespace SAP1EMU.GUI.Controllers
         /// <response code="200">Returns a list of emulation frames</response>
         /// <response code="400">Code contained syntax errors or sets does not exist</response> 
         /// <response code="500">Server Error. Contact Network Admin</response> 
+        /// <remarks>
+        /// Sample Request:
+        /// 
+        ///     POST /emulate
+        ///     {
+        ///         "CodeList": [
+        ///             "LDA 0xF",
+        ///             "STA 0xE",
+        ///             "OUT 0x0",
+        ///             "HLT 0x0",
+        ///             "...",
+        ///             "0xA 0xA"
+        ///         ],
+        ///         "SetName": "SAP1Emu"
+        ///     }
+        /// </remarks>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPost("emulate")]
         public ActionResult Post([FromBody] EmulatorPacket emulatorPacket)
         {
-            var session = _sap1EmuContext.Add<EmulationSessionMap>(new EmulationSessionMap
+            EntityEntry<EmulationSessionMap> session;
+            try
             {
-                EmulationID = Guid.NewGuid(),
-                ConnectionID = null,
-                SessionStart = DateTime.UtcNow,
-                EmulatorId = _emulatorId,
-                StatusId = StatusFactory.GetStatus(StatusType.Pending).Id,
-                InstructionSetId = _instructionSets[emulatorPacket.SetName]
-            }); 
-            _sap1EmuContext.Add(new CodeSubmission()
+                session = _sap1EmuContext.Add<EmulationSessionMap>(new EmulationSessionMap
+                {
+                    EmulationID = Guid.NewGuid(),
+                    ConnectionID = null,
+                    SessionStart = DateTime.UtcNow,
+                    EmulatorId = _emulatorId,
+                    StatusId = StatusFactory.GetStatus(StatusType.Pending).Id,
+                    InstructionSetId = _instructionSets[emulatorPacket.SetName]
+                });
+                _sap1EmuContext.Add(new CodeSubmission()
+                {
+                    EmulationID = session.Entity.EmulationID,
+                    Code = emulatorPacket.CodeList,
+                });
+                _sap1EmuContext.SaveChanges();
+            }
+            catch(KeyNotFoundException)
             {
-                EmulationID = session.Entity.EmulationID,
-                Code = emulatorPacket.CodeList,
-            });
-            _sap1EmuContext.SaveChanges();
+                return BadRequest(
+                    // TODO: Set Type to supported_sets url
+                    new ProblemDetails()
+                    {
+                        Status = StatusCodes.Status400BadRequest,
+                        Type = "",
+                        Title = "Invalid SetName...",
+                        Detail = $"The Instruction Set `{emulatorPacket.SetName}` does not exist.",
+                        Instance = HttpContext.Request.Path
+                    }
+                );
+            }
+
 
             try
             {

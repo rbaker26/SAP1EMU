@@ -18,6 +18,7 @@ namespace SAP1EMU.GUI.Controllers
     [ApiController]
     public class SAP2EmulatorController : Controller
     {
+        #region Private Fields & Object Definitions 
         private Sap1EmuContext _sap1EmuContext { get; set; }
         private int _emulatorId { get; set; }
         private Dictionary<string, int> _instructionSets { get; set; }
@@ -25,6 +26,7 @@ namespace SAP1EMU.GUI.Controllers
 
         private readonly IHubContext<EmulatorHub> _hubContext;
         private readonly IDecoder _decoder;
+        #endregion
 
         public SAP2EmulatorController(Sap1EmuContext sap1EmuContext, IHubContext<EmulatorHub> hubContext, IDecoder decoder)
         {
@@ -39,7 +41,7 @@ namespace SAP1EMU.GUI.Controllers
         }
 
 
-        [HttpGet("id")]
+        [HttpGet("session/create")]
         public IActionResult GetEmulationID()
         {
             Guid newSessionId = Guid.NewGuid();
@@ -48,12 +50,14 @@ namespace SAP1EMU.GUI.Controllers
                 EmulationID = newSessionId,
                 ConnectionID = null,
                 SessionStart = DateTime.UtcNow,
+                StatusId = (int)StatusType.Pending
             });
             _sap1EmuContext.SaveChangesAsync(); // Might have to switch to sync
 
             return Ok(newSessionId);
         }
 
+        
         [HttpPost("emulate")]
         public IActionResult StartEmulation([FromBody] SAP2CodePacket sap2CodePacket)
         {
@@ -69,6 +73,37 @@ namespace SAP1EMU.GUI.Controllers
                 return BadRequest(sap2CodePacket.EmulationID);
             }
             
+
+            if(session.StatusId != (int)StatusType.Pending)
+            {
+                string message = string.Empty;
+                switch ((StatusType)session.StatusId)
+                {
+                    case StatusType.Ok:
+                        message = "Emulation Complete: Please use 'GET: /session/{id}/recall' instead";
+                        break;
+                    case StatusType.ParsingError:
+                    case StatusType.EmulationError:
+                    case StatusType.SystemError:
+                        message = "Emulation Errored: Please create new session";
+                        break;
+                    case StatusType.InProgress:
+                        message = "Emulation In Progress: Please use 'POST: /{id}/resume' instead";
+                        break;
+                    default:
+                        message = "Unknown Host Error";
+                        break;
+                }
+
+                return BadRequest(
+                    new
+                    {
+                        EmulationID = sap2CodePacket.EmulationID,
+                        Status = StatusFactory.GetStatus((StatusType)session.StatusId),
+                        Message = message
+                    }
+                );
+            }
 
             // This will save the plain code
             _sap1EmuContext.Add<SAP2CodePacket>(sap2CodePacket);
@@ -88,7 +123,7 @@ namespace SAP1EMU.GUI.Controllers
             _sap1EmuContext.SaveChangesAsync(); // Might have to switch to sync
 
             // RunEmulatorAsync
-            RAMProgram rmp = new RAMProgram((List<string>)sap2CodePacket.Code);
+            RAMProgram rmp = new RAMProgram((List<string>)sap2BinaryPacket.Code);
 
             EngineProc engine = new EngineProc();
             engine.Init(rmp, _decoder, sap2BinaryPacket.SetName);
@@ -98,9 +133,16 @@ namespace SAP1EMU.GUI.Controllers
         }
 
         [HttpPost("{id}/resume")]
-        public IActionResult ResumeEmulation([FromBody] string input)
+        public IActionResult ResumeEmulation(Guid id, [FromBody] string input)
         {
-            return Ok();
+            return Ok(id);
+        }
+
+
+        [HttpGet("session/{id}/recall")]
+        public IActionResult RecallSessionHistory(Guid id)
+        {
+            return Ok(id);
         }
     }
 }

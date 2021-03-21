@@ -10,8 +10,9 @@ using SimpleMvcSitemap;
 
 namespace SAP1EMU.GUI.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class SitemapController : ControllerBase
     {
         [HttpGet]

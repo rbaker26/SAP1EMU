@@ -44,7 +44,7 @@
     <PackageReference Include="Octokit" Version="0.48.0" />
     <PackageReference Include="SimpleMvcSitemap" Version="4.0.0" />
     <PackageReference Include="UAParser" Version="3.1.44" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.1" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="electron.manifest.json">

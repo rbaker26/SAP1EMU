@@ -34,6 +34,12 @@ namespace SAP1EMU.Data.Lib
                         Id = (int)StatusType.EmulationError,
                         Description = "Emulation Error"
                     };
+                case StatusType.InProgress:
+                    return new Status()
+                    {
+                        Id = (int)StatusType.InProgress,
+                        Description = "In Progress"
+                    };
                 default:
                     return new Status()
                     {

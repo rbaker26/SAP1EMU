@@ -63,12 +63,12 @@ namespace SAP1EMU.GUI
                 {
                     Version = "v1",
                     Title = "SAP1Emu API",
-                    Description = "The SAP1Emu API for Emulating and Assembly SAP1Emu Assembly",
+                    Description = "The SAP1Emu API for Emulating and Assembling SAP1Emu Assembly",
                     //TermsOfService = new Uri("https://example.com/terms"),
                     Contact = new OpenApiContact
                     {
                         Name = "SAP1Emu Project GitHub Page",
-                        Email = string.Empty,
+                        Email = "support@sap2emu.net",
                         Url = new Uri("https://github.com/rbaker26/SAP1EMU"),
                     },
                     License = new OpenApiLicense
@@ -95,7 +95,6 @@ namespace SAP1EMU.GUI
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
@@ -130,7 +129,7 @@ namespace SAP1EMU.GUI
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "SAP1Emu API v2");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "SAP1Emu API v3");
             });
 
 

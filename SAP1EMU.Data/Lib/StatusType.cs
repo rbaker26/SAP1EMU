@@ -10,6 +10,7 @@ namespace SAP1EMU.Data.Lib
         ParsingError = 2,
         EmulationError = 3,
         SystemError = 4,
-        Pending = 5
+        Pending = 5,
+        InProgress = 6
     }
 }
