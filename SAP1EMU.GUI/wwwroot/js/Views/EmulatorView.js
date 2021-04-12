@@ -3,7 +3,6 @@ var ram_dump;
 var frame_stack;
 var interval_slider;
 var interval_time = 500;
-//var playerInstance;
 
 window.onload = function () {
     interval_slider = document.getElementById("formControlRange");
@@ -35,7 +34,7 @@ window.onload = function () {
 
     // Setup ComboBox
     $.ajax({
-        url: "../api/Assembler/supported_sets",
+        url: "../api/assembler/supported_sets",
         type: "GET",
         data: {
             "Emulator": "SAP1"
@@ -60,6 +59,7 @@ window.onload = function () {
     });
 
     // Must be last line of function
+    // TODO: Is this still used?
     preloadCode();
 }
 

@@ -3,7 +3,6 @@ var ram_dump;
 var frame_stack;
 var interval_slider;
 var interval_time = 500;
-//var playerInstance;
 
 const ConvertBase = {
     bin2dec: s => parseInt(s, 2).toString(10),
@@ -45,7 +44,7 @@ window.onload = function () {
 
     // Setup ComboBox
     $.ajax({
-        url: "../api/Assembler/supported_sets",
+        url: "../api/assembler/supported_sets",
         type: "GET",
         data: {
             "Emulator": "SAP2"
@@ -68,9 +67,6 @@ window.onload = function () {
             alert("SAP1EMU ERROR: JSON CONFIG FILE ERROR:\n" + request.responseText);
         }
     });
-
-    // Must be last line of function
-    //preloadCode();
 }
 
 
@@ -89,6 +85,22 @@ function initBoard() {
     //$('#carryFlagBox').html("0");
     //$('#underflowFlagBox').html("0");
     //$('#zeroFlagBox').html("0");
+    $('#ireg-block').html('0000 0000');
+    $('#seq-block').html('0111 0001 1101 0101 0100 0100 0000 0001 0000'); 
+
+
+
+    $('#wbus-block').html('0x00 0x00');
+    $('#alu-block').html('0000 0000');
+
+    $('#areg-block').html('0x00');
+    $('#breg-block').html('0000 0000');
+
+    $('#ram-block').html('0000 0000');
+    $('#mar-block').html('0000 0000 0000 0000');
+    
+
+
 }
 
 function updateBoard(frame) {
