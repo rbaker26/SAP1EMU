@@ -44,7 +44,7 @@ namespace SAP1EMU.GUI.Controllers
             new SitemapNode(Url.Action("APIDocs_3","Docs")),
             new SitemapNode(Url.Action("APIDocs_4","Docs")),
             new SitemapNode(Url.Action("","Help")),
-            new SitemapNode(Url.Action("","swagger")),
+            //new SitemapNode(Url.Action("","swagger")),
 
 
 

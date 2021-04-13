@@ -22,7 +22,7 @@ namespace SAP1EMU.SAP2.Lib
 
         public string MAR { get; private set; } = "0000 0000 0000 0000";
         public string RAM_Reg { get; private set; } = "0000 0000 0000 0000";
-        public List<string> RAM { get; private set; } // The reason this is here is that the RAM might change if a STA simular command is issued.
+        public List<string> RAM { get; private set; } // The reason this is here is that the RAM might change if a STA simulator command is issued.
         public string MDR { get; private set; } = "0000 0000";
 
         public string IReg { get; private set; } = "0000 0000";
@@ -36,11 +36,7 @@ namespace SAP1EMU.SAP2.Lib
         public string AReg { get; private set; } = "0000 0000";
 
         public string ALU { get; private set; } = "0000 0000";
-        public string Flags { get; private set; } = "0000 0000";
-        public string Overflow_Flag { get; private set; } = "0";
-        public string Underflow_Flag { get; private set; } = "0";
-        public string Zero_Flag { get; private set; } = "0";
-
+        public string Flags { get; private set; } = "00000000";
         public string TReg { get; private set; } = "0000 0000";
         public string BReg { get; private set; } = "0000 0000";
         public string CReg { get; private set; } = "0000 0000";

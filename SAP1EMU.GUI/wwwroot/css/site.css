@@ -187,3 +187,20 @@ body {
     .zoom:hover {
         transform: scale(1.2);
     }
+    
+.bottom-padding {
+    padding-bottom: 50px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 0 2px;
+    transition: background-size .3s;
+}
+
+nav ul li a:hover, a:focus {
+    background-size: 100% 2px;
+}

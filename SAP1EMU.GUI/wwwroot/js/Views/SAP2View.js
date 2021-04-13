@@ -14,6 +14,15 @@ const ConvertBase = {
     hex2dec: s => parseInt(s, 16).toString(10)
 };
 
+const FlagResults = {
+    None: 0,
+    Carry: 1,
+    Parity: 4,
+    AuxiliaryCarry: 16,
+    Zero: 64,
+    Sign: 128
+}
+
 
 window.onload = function () {
     interval_slider = document.getElementById("formControlRange");
@@ -36,7 +45,7 @@ window.onload = function () {
         mode: { name: "gas_sap1", architecture: "x86" },
         readOnly: true,
         firstLineNumber: 0,
-        lineNumberFormatter: function (line) { return "0x" + line.toString(16).toLocaleUpperCase(); },
+        lineNumberFormatter: function (line) { return "0x" + (line + 2048).toString(16).toLocaleUpperCase(); },
     });
 
     initRam();
@@ -130,7 +139,7 @@ function initRam() {
     // Init RAM Box
     var ram_string = "";
 
-    for (var i = 0; i < 15; i++) {
+    for (var i = 0; i < 0xFFFF - 0x0800; i++) {
         ram_string += "0000 0000\n";
     }
     ram_string += "0000 0000";
