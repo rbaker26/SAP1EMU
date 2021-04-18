@@ -11,7 +11,7 @@
 })(function (CodeMirror) {
     "use strict";
 
-    CodeMirror.defineMode("gas_sap1", function (_config, parserConfig) {
+    CodeMirror.defineMode("gas_sap2", function (_config, parserConfig) {
         'use strict';
 
         // If an architecture is specified, its initialization function may
@@ -36,28 +36,70 @@
 
         var registers = {};
         
+        const sap2Variables = [
+            'add b',
+            'add c',
+            'ana b',
+            'ana c',
+            'ani',
+            'call',
+            'cma',
+            'dcr a',
+            'dcr b',
+            'dcr c',
+            'inr a',
+            'inr b',
+            'inr c',
+            'lda',
+            'mov a,b',
+            'mov a,c',
+            'mov b,a',
+            'mov b,c',
+            'mov c,a',
+            'mov c,b',
+            'ora b',
+            'ora c',
+            'ori',
+            'ral',
+            'rar',
+            'sta',
+            'sub b',
+            'sub c',
+            'xra b',
+            'xra c',
+            'xri'
+        ];
+        
+        const sap2Keywords = [
+            'jm',
+            'jmp',
+            'jnz',
+            'jz',
+        ];
+        
+        const sap2Builtin = [
+            'in',
+            'out',
+            'hlt',
+            'ret'
+        ];
+        
         function x86(_parserConfig) {
             lineCommentStartSymbol = "#";
 
-            // The Memory Referenced Instructions
-            registers.lda = "variable-3";
-            registers.ldb = "variable-3";
-            registers.add = "variable-3";
-            registers.sub = "variable-3";
-            registers.sta = "variable-3";
-            registers.ldi = "variable-3";
+            for (const variable of sap2Variables) {
+                registers[variable] = "variable-3";
+            }
 
-            // The Value Regerenced Instructions
-            registers.jmp = "keyword";
-            registers.jeq = "keyword";
-            registers.jnq = "keyword";
-            registers.jlt = "keyword";
-            registers.jgt = "keyword";
-            registers.jic = "keyword";
+            for (const variable of sap2Keywords) {
+                registers[variable] = "keyword";
+            }
 
-            // The Null Referenced Intstructions
-            registers.out = "builtin";
-            registers.hlt = "builtin";
+            for (const variable of sap2Builtin) {
+                registers[variable] = "builtin";
+            }
+            
+            console.log(registers);
         }
 
         // Not Used
@@ -121,14 +163,7 @@
                 }
 
                 var style, cur, ch = stream.next();
-
-                //if (ch === "/") {
-                //    if (stream.eat("*")) {
-                //        state.tokenize = clikeComment;
-                //        return clikeComment(stream, state);
-                //    }
-                //}
-
+                
                 if (ch === lineCommentStartSymbol) {
                     stream.skipToEnd();
                     return "comment";
@@ -145,11 +180,11 @@
                 }
 
                 if (ch === '{') {
-                    return "braket";
+                    return "bracket";
                 }
 
                 if (ch === '}') {
-                    return "braket";
+                    return "bracket";
                 }
 
                 if (/\d/.test(ch)) {
@@ -163,13 +198,21 @@
 
                 if (/\w/.test(ch)) {
                     // Checks for ... macro
-                    // I orginally wanted to colorize ..., but the dots were so small you couldn't even tell
-                    // To change the color in the future, edit the return in IF-statment below
+                    // I originally wanted to colorize ..., but the dots were so small you couldn't even tell
+                    // To change the color in the future, edit the return in IF-statement below
                     if (ch === "." && stream.eat(".") && stream.eat(".")) {
                         return "variable";
                     }
                     stream.eatWhile(/\w/);
                     cur = stream.current().toLowerCase();
+                    
+                    for(const variable of sap2Variables) {
+                        if(variable.includes(cur) && variable.includes(' ')) {
+                            cur = stream.string.toLowerCase().trim();
+                            break;
+                        }
+                    }
+                    
                     style = registers[cur];
                     return style || null;
                 }

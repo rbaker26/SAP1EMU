@@ -30,7 +30,7 @@ window.onload = function () {
     asm_editor = CodeMirror.fromTextArea(document.getElementById("asm_code"), {
         lineNumbers: true,
         matchBrackets: true,
-        mode: { name: "gas_sap1", architecture: "x86" },
+        mode: { name: "gas_sap2", architecture: "x86" },
     });
 
     //Check when the user is typing
@@ -42,11 +42,13 @@ window.onload = function () {
     ram_dump = CodeMirror.fromTextArea(document.getElementById("ram_dump"), {
         lineNumbers: true,
         matchBrackets: true,
-        mode: { name: "gas_sap1", architecture: "x86" },
+        mode: { name: "gas_sap2", architecture: "x86" },
         readOnly: true,
         firstLineNumber: 0,
-        lineNumberFormatter: function (line) { return "0x" + (line + 2048).toString(16).toLocaleUpperCase(); },
+        lineNumberFormatter: function (line) { return "0x" + (line + 2048).toString(16).padStart(4, '0').toLocaleUpperCase(); },
     });
+    
+    initPage();
 
     initRam();
     initBoard();
@@ -82,6 +84,9 @@ window.onload = function () {
     //preloadCode();
 }
 
+function initPage() {
+    $('#compilingBtn').hide();
+}
 
 function initBoard() {
     //$('#pc-block').html("0000");
@@ -172,6 +177,9 @@ function resetBoard(frame) {
 }
 
 function LoadIntoRAM() {
+    $('#compileBtn').hide();
+    $('#compilingBtn').show();
+    
     var asm_code = asm_editor.getValue().split('\n');
     var langChoice = document.getElementById("langs").value;
 
@@ -188,6 +196,10 @@ function LoadIntoRAM() {
         },
         error: function (request, status, error) {
             $('#emulator-out').html(request.responseText);
+
+            $('#compilingBtn').hide();
+            $('#compileBtn').show();
+            
             return null;
         }
     })
@@ -203,10 +215,13 @@ function LoadIntoRAM() {
         data: jsonData,
         success: function (data) {
             console.log(data);
+            
+            $('#compilingBtn').hide();
+            $('#compileBtn').show();
 
             $('#emulator-out').html('<br />'); // clear the error msg box
             frame_stack = data;
-            first_frame = frame_stack[15];
+            var first_frame = frame_stack[15];
 
             updateBoard(first_frame);
 
@@ -217,6 +232,9 @@ function LoadIntoRAM() {
         error: function (request, status, error) {
             initRam();
             $('#emulator-out').html(request.responseText);
+
+            $('#compilingBtn').hide();
+            $('#compileBtn').show();
         }
     });
 

@@ -3,7 +3,7 @@
 }
 
 <script src="/js/CodeMirror/lib/codemirror.js"></script>
-<script src="/js/CodeMirror/mode/gas/gas_sap1.js" type="text/javascript"></script>
+<script src="/js/CodeMirror/mode/gas/gas_sap2.js" type="text/javascript"></script>
 <link href="/js/CodeMirror/lib/codemirror.css" rel="stylesheet" type="text/css" />
 
 <script src="/lib/jquery/dist/jquery.js" type="text/javascript"></script>
@@ -31,10 +31,14 @@
 					<select id="langs" class="form-control"></select>
 				</div>
 				<div class="form-group mx-2 d-flex align-items-center">
-					<button id="loadFile" onclick="getFromFile()" class="btn btn-light mt-auto">Load from File</button>
+					<button id="loadFile" onclick="getFromFile()" class="btn btn-outline-primary mt-auto">Load from File</button>
 				</div>
 				<div class="form-group mx-2 d-flex align-items-center">
-					<button id="loadRAM" class="btn btn-light mt-auto" onclick="LoadIntoRAM()">Compile</button>
+					<button id="compileBtn" class="btn btn-outline-primary mt-auto" onclick="LoadIntoRAM()">Compile</button>
+					<button id="compilingBtn" class="btn btn-primary active mt-auto">
+						<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span class="visually-hidden">Compiling...</span>
+					</button>
 				</div>
 			</div>
 			<div class="row mb-0">
@@ -58,20 +62,21 @@
 			<div class="row mt-0 mb-3">
 				<div class="col">
 					<div class="progress" style="height: 5px;">
-						<div class="progress-bar" role="progressbar" id="frameProgressBar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+						<div class="progress-bar" role="progressbar" id="frameProgressBar" style="width: 0;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
 					</div>
 				</div>
 			</div>
 			<div>
 				<h4>Input</h4>
-				<input type="text" class="input-group" />
+				<input type="text" class="input-group form-control" readonly/>
 				<br/>
-				<button class="btn btn-secondary">Read Input</button>
+				<button class="btn btn-outline-secondary" disabled>Read Input</button>
 			</div>
 			<br/>
 			<div>
 				<h4>Errors</h4>
-				<input type="text" class="input-group emulator-out" id="emulator-out" readonly/> </div>
+				<input type="text" class="input-group emulator-errors form-control readonly-textedit" id="emulator-out" readonly/> 
+			</div>
 		</div>
 	</div>
 </div>
@@ -211,7 +216,8 @@
 					</div>
 				</div>
 				<div class="col-auto">
-					<h6 class="mb-1">RAM</h6> @Html.TextArea("ram_dump", null, new {rows = "65535", cols = "20", @class = "codebox", id = "ram_dump"}) </div>
+					<h6 class="mb-1">RAM</h6> @Html.TextArea("ram_dump", null, new {rows = "63487", cols = "20", @class = "codebox", id = "ram_dump"}) 
+				</div>
 			</div>
 		</div>
 	</div>

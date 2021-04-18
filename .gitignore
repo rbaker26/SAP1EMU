@@ -367,6 +367,8 @@ MigrationBackup/
 **/.idea/**/dynamic.xml
 
 # Rider
+.idea/
+
 # Rider auto-generates .iml files, and contentModel.xml
 **/.idea/**/*.iml
 **/.idea/**/contentModel.xml
