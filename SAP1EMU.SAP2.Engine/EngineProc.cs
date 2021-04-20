@@ -13,7 +13,7 @@ namespace SAP1EMU.SAP2.Engine
     {
         private string OutputReg = "";
         private readonly List<Frame> _FrameStack = new List<Frame>();
-        private List<string> _RAMDump = new List<string>();
+        private Dictionary<int,string> _RAMDump = new Dictionary<int, string>();
         private RAMProgram Program { get; set; } = new RAMProgram(new List<string>());
         private InstructionSet InstructionSet { get; set; } = new InstructionSet();
         private const string DefaultInstructionSetName = "Malvino";
@@ -124,8 +124,7 @@ namespace SAP1EMU.SAP2.Engine
                 OpCode = "???",
                 TStates = 4 // Since by 4 TStates it should know what instruction it is on
             };
-
-            List<string> controlWords = new List<string>();
+            
             bool? didntJump = null;
 
             while (clock.IsEnabled)
@@ -136,9 +135,9 @@ namespace SAP1EMU.SAP2.Engine
                     currentInstruction = InstructionSet.Instructions.FirstOrDefault(i => i.BinCode.Equals(ireg.RegContent));
                     seq.LoadBackupControlWords(currentInstruction.MicroCode);
 
-                    string iname = currentInstruction.OpCode;
-                    int operandVal = Convert.ToInt32(ireg.RegContent, 2);
-                    string hexOperand = "0x" + operandVal.ToString("X");
+                    // string iname = currentInstruction.OpCode;
+                    // int operandVal = Convert.ToInt32(ireg.RegContent, 2);
+                    // string hexOperand = "0x" + operandVal.ToString("X");
                 }
 
                 if (TState <= 3)
@@ -245,7 +244,7 @@ namespace SAP1EMU.SAP2.Engine
             return OutputReg;
         }
 
-        public List<string> GetRAMContents()
+        public Dictionary<int, string> GetRAMContents()
         {
             return _RAMDump;
         }

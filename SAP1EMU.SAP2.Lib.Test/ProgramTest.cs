@@ -15,7 +15,7 @@ namespace SAP1EMU.SAP2.Lib.Test
             // Test 2
             try
             {
-                List<string> RamContentsData = new List<string>
+                var ramContentsData = new List<string>()
                 {
                     "10101010",
                     "01010101",
@@ -23,22 +23,22 @@ namespace SAP1EMU.SAP2.Lib.Test
                     "01010101",
                     "10101010",
                     "01010101",
-                    "10101010"
+                    "10101010" 
                 };
 
-                RAMProgram program = new RAMProgram(RamContentsData);
+                var program = new RAMProgram(ramContentsData);
 
-                List<string> RamContentsResults = program.RamContents;
+                var ramContentsResults = program.RAMContents;
 
                 // Make sure the program copied correctly
-                for (int i = 0; i < RamContentsData.Count; i++)
+                for (int i = 0x0800; i < ramContentsData.Count; i++)
                 {
-                    Assert.IsTrue(RamContentsResults[i] == RamContentsData[i], $"At index {i}, RamContentsResults != RamContentsData");
+                    Assert.IsTrue(ramContentsResults[i] == ramContentsData[i], $"At index {i}, RamContentsResults != RamContentsData");
                 }
                 // Make sure the end of the program is padded with 0's
-                for (int i = RamContentsData.Count; i < RamContentsResults.Count; i++)
+                for (int i = ramContentsData.Count; i < ramContentsResults.Count; i++)
                 {
-                    Assert.IsTrue(RamContentsResults[i] == "00000000");
+                    Assert.IsTrue(ramContentsResults[i] == "00000000");
                 }
             }
             catch (ArgumentOutOfRangeException e)
@@ -52,16 +52,16 @@ namespace SAP1EMU.SAP2.Lib.Test
         {
             try
             {
-                Random random = new Random();
-                List<string> RamContentsData = new List<string>();
+                Random random = new Random(); 
+                var ramContentsData = new List<string>();
 
                 // Just fill up ram with random data for the heck of it
                 for (int i = 0; i <= 0xFFFF; i++)
                 {
-                    RamContentsData.Add(string.Join("", Convert.ToString(random.Next(), 2).PadLeft(8).Take(8)));
+                    ramContentsData.Add(string.Join("", Convert.ToString(random.Next(), 2).PadLeft(8).Take(8)));
                 }
 
-                RAMProgram program = new RAMProgram(RamContentsData);
+                RAMProgram program = new RAMProgram(ramContentsData);
 
                 Assert.Fail("Ctor did not catch overflow");
             }

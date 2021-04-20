@@ -223,7 +223,7 @@ namespace SAP1EMU.Engine.Test
         /// This will run the following program
         ///
         /// 0x0 MVI A,0x5
-        /// 0x1 STA 0x0080
+        /// 0x1 STA 0x1000
         /// 0x2 HLT
         ///
         /// The expected result is OReg: 00000101
@@ -232,15 +232,15 @@ namespace SAP1EMU.Engine.Test
         public void Test_STA_PROG_1()
         {
             string expectedResult = "00000101";
-            int addressChanged = 0x0080;
+            int addressChanged = 0x1000;
 
             List<string> program = new List<string>()
             {
                 "00111110",
                 "00000101",
                 "00110010",
-                "10000000",
                 "00000000",
+                "00010000",
                 "01110110"
             };
 
@@ -1895,8 +1895,8 @@ namespace SAP1EMU.Engine.Test
                 }
             }
 
-            Assert.AreEqual(ram[^2], pcLowerByte, "Lower byte of PC doesn't match."); //Check 0xFFFE
-            Assert.AreEqual(ram[^1], pcUpperByte, "Upper byte of PC doesn't match."); //Check 0xFFFF
+            Assert.AreEqual(ram[0xFFFE], pcLowerByte, "Lower byte of PC doesn't match."); //Check 0xFFFE
+            Assert.AreEqual(ram[0xFFFF], pcUpperByte, "Upper byte of PC doesn't match."); //Check 0xFFFF
 
             Assert.AreEqual(expectedResult, actualOutput); //Check PC to confirm it jumped 
         }

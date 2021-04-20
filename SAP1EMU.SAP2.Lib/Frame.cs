@@ -22,7 +22,7 @@ namespace SAP1EMU.SAP2.Lib
 
         public string MAR { get; private set; } = "0000 0000 0000 0000";
         public string RAM_Reg { get; private set; } = "0000 0000 0000 0000";
-        public List<string> RAM { get; private set; } // The reason this is here is that the RAM might change if a STA simulator command is issued.
+        public Dictionary<int, string> RAM { get; private set; } // The reason this is here is that the RAM might change if a STA simulator command is issued.
         public string MDR { get; private set; } = "0000 0000";
 
         public string IReg { get; private set; } = "0000 0000";
@@ -48,7 +48,7 @@ namespace SAP1EMU.SAP2.Lib
         
 
         public Frame(Instruction instruction, int TState, IPort1 ip1, IPort2 ip2, PC pc, MAR mar, RAM ram,
-                     List<string> ramContents, MDR mdr, IReg ireg, SEQ seq, string wbus_string,
+                     Dictionary<int, string> ramContents, MDR mdr, IReg ireg, SEQ seq, string wbus_string,
                      AReg areg, ALU alu, Flag flagReg, TReg treg, BReg breg, CReg creg,
                      OReg3 oreg3, OReg4 oreg4, HexadecimalDisplay hexadecimalDisplay)
         {

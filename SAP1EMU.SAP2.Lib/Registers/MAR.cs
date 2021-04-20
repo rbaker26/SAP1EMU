@@ -23,12 +23,12 @@ namespace SAP1EMU.SAP2.Lib.Registers
                 // PC return address being set
                 if (string.Equals(cw["RTNA"], "0", StringComparison.Ordinal))
                 {
-                    RegContent = Convert.ToString(0xFFFE - 0x0800 - 1, 2);
+                    RegContent = Convert.ToString(0xFFFE - 0x0800, 2);
                     ram.SetMARContent(RegContent);
                 }
                 else
                 {
-                    RegContent = Convert.ToString(0xFFFF - 0x0800 - 1, 2);
+                    RegContent = Convert.ToString(0xFFFF - 0x0800, 2);
                     ram.SetMARContent(RegContent);
                 }
             }

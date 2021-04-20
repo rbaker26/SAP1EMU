@@ -18,6 +18,8 @@ namespace SAP1EMU.SAP2.Lib.Components
         private List<Instruction> instructionsThatModifyNextInstruction = new List<Instruction>();
 
         private readonly List<string> executedInstructions = new List<string>();
+        public Instruction currentInstruction { get; private set; } = new Instruction();
+        private InstructionSet _instructionSet;
         private string lastInstructionBinary = string.Empty;
 
         private List<string> backupControlWords = new List<string>();
@@ -121,6 +123,7 @@ namespace SAP1EMU.SAP2.Lib.Components
             if (TState == 4)
             {
                 executedInstructions.Add(instructionBinaryCode);
+                currentInstruction = _instructionSet.Instructions.First(i => i.BinCode.Equals(instructionBinaryCode, StringComparison.Ordinal));
             }
 
             //If we have more than 1 we need to keep track of the previous one to see if itll influence this instructions fetch cycle control word
@@ -174,6 +177,7 @@ namespace SAP1EMU.SAP2.Lib.Components
             }
 
             _instance._controlWordSignals = ControlTable[HashKey(4, "00000000")]; // sets the default to a NOP
+            _instructionSet = iset;
         }
 
         // Singleton Pattern
