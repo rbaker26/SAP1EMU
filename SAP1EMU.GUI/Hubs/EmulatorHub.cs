@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 
 using SAP1EMU.GUI.Contexts;
-using SAP1EMU.GUI.Models;
+using SAP1EMU.Data.Lib;
 
 using System;
 using System.Threading.Tasks;

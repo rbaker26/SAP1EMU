@@ -6,7 +6,7 @@ var EMULATOR_CODE_LISTINGS = {
     'python3': (
         "from urllib.request import Request, urlopen\n"+
         "import json\n"+
-        "uri = \"https://sap1emu.net/api/Emulator/\"\n"+
+        "uri = \"https://sap1emu.net/api/emulator/sap1/emulate/\"\n"+
         "request_content = $REQUEST_BODY \n" +
         "request_body = json.dumps(request_content).encode()\n"+
         "response = urlopen(Request(uri, method=\"POST\", data=request_body, headers={\"Content-Type\": \"application/json\"}))\n"+
@@ -15,7 +15,7 @@ var EMULATOR_CODE_LISTINGS = {
     ),
     'java11': (
         "HttpClient client = HttpClient.newHttpClient();\n" +
-        "HttpRequest request = HttpRequest.newBuilder(new URI(\"https://sap1emu.net/api/Emulator/\"))\n" +
+        "HttpRequest request = HttpRequest.newBuilder(new URI(\"https://sap1emu.net/api/emulator/sap1/emulate/\"))\n" +
         "        .header(\"Content-Type\", \"application/json\")\n" +
         "        .POST(HttpRequest.BodyPublishers.ofString( $REQUEST_BODY ))\n" +
         "        .build();\n" +
@@ -28,7 +28,7 @@ var EMULATOR_CODE_LISTINGS = {
         "{\n " +
         "\tusing (var httpContent = new StringContent( $REQUEST_BODY , Encoding.UTF8, \"application/json\"))\n" +
         "\t{\n" +
-        "\t\tvar response = await httpClient.PostAsync(\"https://sap1emu.net/api/Emulator/\", httpContent);\n" +
+        "\t\tvar response = await httpClient.PostAsync(\"https://sap1emu.net/api/emulator/sap1/emulate/\", httpContent);\n" +
         "\t\tstring responseBody = await response.Content.ReadAsStringAsync();\n" +
         "\t\tList<Frame> frameData = JsonSerializer.Deserialize<List<Frame>>(responseBody);\n" +
         "\t}\n" +

@@ -14,7 +14,7 @@ using System.ComponentModel.DataAnnotations;
 namespace SAP1EMU.GUI.Controllers
 {
     
-    [Route("api/[controller]")]
+    [Route("api/assembler")]
     [ApiController]
     public class AssemblerController : ControllerBase
     {

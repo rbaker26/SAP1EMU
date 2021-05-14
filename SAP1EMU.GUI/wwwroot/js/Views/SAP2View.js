@@ -5,6 +5,25 @@ var interval_slider;
 var interval_time = 500;
 //var playerInstance;
 
+const ConvertBase = {
+    bin2dec: s => parseInt(s, 2).toString(10),
+    bin2hex: s => parseInt(s, 2).toString(16),
+    dec2bin: s => parseInt(s, 10).toString(2),
+    dec2hex: s => parseInt(s, 10).toString(16),
+    hex2bin: s => parseInt(s, 16).toString(2),
+    hex2dec: s => parseInt(s, 16).toString(10)
+};
+
+const FlagResults = {
+    None: 0,
+    Carry: 1,
+    Parity: 4,
+    AuxiliaryCarry: 16,
+    Zero: 64,
+    Sign: 128
+}
+
+
 window.onload = function () {
     interval_slider = document.getElementById("formControlRange");
 
@@ -26,7 +45,7 @@ window.onload = function () {
         mode: { name: "gas_sap1", architecture: "x86" },
         readOnly: true,
         firstLineNumber: 0,
-        lineNumberFormatter: function (line) { return "0x" + line.toString(16).toLocaleUpperCase(); },
+        lineNumberFormatter: function (line) { return "0x" + (line + 2048).toString(16).toLocaleUpperCase(); },
     });
 
     initRam();
@@ -60,7 +79,7 @@ window.onload = function () {
     });
 
     // Must be last line of function
-    preloadCode();
+    //preloadCode();
 }
 
 
@@ -82,39 +101,45 @@ function initBoard() {
 }
 
 function updateBoard(frame) {
-    //$('#pc-block').html(frame.pc);
-    //$('#wbus-block').html(frame.wBus.match(/.{1,4}/g).join(' '));
-    //$('#areg-block').html(frame.aReg.match(/.{1,4}/g).join(' '));
-    //$('#mar-block').html(frame.mReg.match(/.{1,4}/g).join(' '));
-    //$('#alu-block').html(frame.alu.match(/.{1,4}/g).join(' '));
-    //$('#ram-block').html(frame.raM_Reg.match(/.{1,4}/g).join(' '));
-    //$('#breg-block').html(frame.bReg.match(/.{1,4}/g).join(' '));
-    //$('#ireg-block').html(frame.iReg.match(/.{1,4}/g).join(' '));
+    $('#pc-block').html(frame.pc);
+
+    var wbusUpperTemp = '0x' + ConvertBase.bin2hex(frame.wBus.substring(0, 8)).padStart(2, '0');
+    var wbusLowerTemp = '0x' + ConvertBase.bin2hex(frame.wBus.substring(8)).padStart(2, '0');
+
+    $('#wbus-block').html(wbusUpperTemp + ' ' + wbusLowerTemp);
+    $('#areg-block').html(frame.aReg.match(/.{1,4}/g).join(' '));
+    $('#mar-block').html(frame.mar.match(/.{1,4}/g).join(' '));
+    $('#alu-block').html(frame.alu.match(/.{1,4}/g).join(' '));
+    $('#ram-block').html(frame.raM_Reg.match(/.{1,4}/g).join(' '));
+    $('#breg-block').html(frame.bReg.match(/.{1,4}/g).join(' '));
+    $('#ireg-block').html(frame.iReg.match(/.{1,4}/g).join(' '));
     //$('#oreg-block').html(frame.oReg.match(/.{1,4}/g).join(' '));
-    //$('#seq-block').html(frame.seq.substring(0, 14).match(/.{1,4}/g).join(' ')); // TODO This substring should be handled at the API level, not the UI level
+
+    var tempSeq = frame.seq.padEnd(36, '0');
+    $('#seq-block').html(tempSeq.match(/.{1,4}/g).join(' ')); // TODO This substring should be handled at the API level, not the UI level
     //$('#carryFlagBox').val(frame.overflow_Flag);
     //$('#underflowFlagBox').val(frame.underflow_Flag);
     //$('#zeroFlagBox').val(frame.zero_Flag);
 
-    //var posVal = parseInt(frame.oReg, 2);
-    //var negVal = posVal;
+    var posVal = parseInt(frame.oReg, 2);
+    var negVal = posVal;
 
-    //if (posVal > 127) {
-    //    negVal = (-1) * (256 - posVal);
-    //}
-    //var displayString = "" + posVal;
-    //if (negVal < 0) {
-    //    displayString += " " + negVal;
-    //}
+    if (posVal > 127) {
+        negVal = (-1) * (256 - posVal);
+    }
+    var displayString = "" + posVal;
+    if (negVal < 0) {
+        displayString += " " + negVal;
+    }
 
-    //$('#dis-block').html(displayString);
+    $('#dis-block').html(displayString);
 }
 
 function initRam() {
     // Init RAM Box
     var ram_string = "";
 
-    for (var i = 0; i < 15; i++) {
+    for (var i = 0; i < 0xFFFF - 0x0800; i++) {
         ram_string += "0000 0000\n";
     }
     ram_string += "0000 0000";
@@ -135,7 +160,7 @@ function loadRam(ram) {
 }
 
 function resetBoard(frame) {
-    //updateBoard(frame);
+    updateBoard(frame);
 
     ////Change the instruction and tstate to default state
     //$('#instruction-box').text("???");
@@ -150,22 +175,42 @@ function LoadIntoRAM() {
     var asm_code = asm_editor.getValue().split('\n');
     var langChoice = document.getElementById("langs").value;
 
-    jsonData = JSON.stringify({ CodeList: asm_code, SetName: langChoice });
+
+    var emulationId = null;
+    $.ajax({
+        url: "../api/emulator/sap2/session/create",
+        type: "GET",
+        async: false,
+        cache: false,
+        success: function (data) {
+            emulationId = data;
+            return data;
+        },
+        error: function (request, status, error) {
+            $('#emulator-out').html(request.responseText);
+            return null;
+        }
+    })
+
+    jsonData = JSON.stringify({ EmulationID: emulationId, Code: asm_code, SetName: langChoice });
+
 
     $.ajax({
-        url: "../api/SAP2/StartEmulation",
+        url: "../api/emulator/sap2/emulate",
         type: "POST",
+        cache: false,
         contentType: 'application/json; charset=UTF-8',
         data: jsonData,
         success: function (data) {
+            console.log(data);
+
             $('#emulator-out').html('<br />'); // clear the error msg box
-
             frame_stack = data;
-            first_frame = frame_stack[0];
+            first_frame = frame_stack[15];
 
-            resetBoard(first_frame);
+            updateBoard(first_frame);
 
-            loadRam(first_frame.ram);
+            //loadRam(first_frame.ram);
 
             return data;
         },
@@ -291,3 +336,4 @@ function changeIntervalTiming(value) {
     //    job_id = setInterval(frame_advance, interval_time);
     //}
 }
+

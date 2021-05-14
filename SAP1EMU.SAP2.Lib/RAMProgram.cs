@@ -11,6 +11,7 @@ namespace SAP1EMU.SAP2.Lib
     /// </summary>
     public class RAMProgram
     {
+        // TODO: Update this to a dictionary model to it is not using 0xFFFF strings 
         public List<string> RamContents { get; }
 
         private const int MIN_RAM_ADDRESS = 0x0800;

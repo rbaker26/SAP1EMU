@@ -104,11 +104,10 @@ namespace SAP1EMU.Assembler
             // *********************************************************************
 
             //If a program was executed, but didnt fill in every line of RAM then throw an exception. Must have 16 elements!
-            if(binary.Count != 16)
+            if (binary.Count != 16)
             {
-                throw new ParseException($"SAP1ASM: Program must have 16 lines.", new ParseException("Use \"NOP 0x0\" for a no-operation command or the \"...\" macro to fill in the rest with NOP 0x0.")); 
+                throw new ParseException($"SAP1ASM: Program must have 16 lines.", new ParseException("Use \"NOP 0x0\" for a no-operation command or the \"...\" macro to fill in the rest with NOP 0x0."));
             }
-
 
             return binary;
         }
@@ -131,7 +130,7 @@ namespace SAP1EMU.Assembler
                     }
 
                     string instruction = nibbles[0];
-                    if(instruction.ToUpper() == "HLT")
+                    if (instruction.ToUpper() == "HLT")
                     {
                         contains_hlt = true;
                     }
@@ -173,7 +172,6 @@ namespace SAP1EMU.Assembler
                     if (line.Contains("..."))
                     {
                         throw new ParseException($"SAP1ASM: invalid use of \"...\" on line {line_number}.", new ParseException($"\"{line}\" must only contain \"...\" with no extra charecters or spaces"));
-
                     }
                 }
                 else
@@ -192,7 +190,7 @@ namespace SAP1EMU.Assembler
             }
 
             // If the code does not contain a HLT instruction
-            if(!contains_hlt)
+            if (!contains_hlt)
             {
                 throw new ParseException($"SAP1ASM: program does not contain an endpoint.", new ParseException($"\"HLT\" must be present in the program at least once"));
             }
