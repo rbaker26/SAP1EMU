@@ -45,11 +45,18 @@ namespace SAP1EMU.GUI.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("/Emulator/SAP1")]
         [ValidateAntiForgeryToken]
-        public IActionResult Emulator([FromForm] CodePacket codePacket)
+        public IActionResult SAP1_PreloadCode([FromForm] CodePacket codePacket)
         {
-            return View(codePacket);
+            return View("SAP1", codePacket);
+        }
+
+        [HttpPost("/Emulator/SAP2")]
+        [ValidateAntiForgeryToken]
+        public IActionResult SAP2_PreloadCode([FromForm] CodePacket codePacket)
+        {
+            return View("SAP2", codePacket);
         }
 
         public IActionResult EmulatorPicker()

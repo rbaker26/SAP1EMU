@@ -3,7 +3,6 @@ var ram_dump;
 var frame_stack;
 var interval_slider;
 var interval_time = 500;
-//var playerInstance;
 
 const ConvertBase = {
     bin2dec: s => parseInt(s, 2).toString(10),
@@ -32,6 +31,7 @@ window.onload = function () {
         matchBrackets: true,
         mode: { name: "gas_sap1", architecture: "x86" },
     });
+    asm_editor.setSize("100%", 300);
 
     //Check when the user is typing
     asm_editor.on("change", function (cm, obj) { updateGutter(cm); });
@@ -47,36 +47,40 @@ window.onload = function () {
         firstLineNumber: 0,
         lineNumberFormatter: function (line) { return "0x" + (line + 2048).toString(16).toLocaleUpperCase(); },
     });
+    ram_dump.setSize("100%", 437);
+
 
     initRam();
     initBoard();
     setControlButtonsDisabled(true);
 
+    // Don't need a combo box here. Only one set supported right now.
+    // No Plans for future sets at the moment.
     // Setup ComboBox
-    $.ajax({
-        url: "../api/Assembler/supported_sets",
-        type: "GET",
-        data: {
-            "Emulator": "SAP2"
-        },
-        success: function (data) {
-            var selectDOM = document.getElementById("langs");
-            var options = data;
+    //$.ajax({
+    //    url: "../api/Assembler/supported_sets",
+    //    type: "GET",
+    //    data: {
+    //        "Emulator": "SAP2"
+    //    },
+    //    success: function (data) {
+    //        var selectDOM = document.getElementById("langs");
+    //        var options = data;
 
-            for (var i = 0; i < options.length; i++) {
-                var opt = options[i];
+    //        for (var i = 0; i < options.length; i++) {
+    //            var opt = options[i];
 
-                var elem = document.createElement("option");
-                elem.text = opt;
-                elem.value = opt;
+    //            var elem = document.createElement("option");
+    //            elem.text = opt;
+    //            elem.value = opt;
 
-                selectDOM.add(elem);
-            }
-        },
-        error: function (request, status, error) {
-            alert("SAP1EMU ERROR: JSON CONFIG FILE ERROR:\n" + request.responseText);
-        }
-    });
+    //            selectDOM.add(elem);
+    //        }
+    //    },
+    //    error: function (request, status, error) {
+    //        alert("SAP1EMU ERROR: JSON CONFIG FILE ERROR:\n" + request.responseText);
+    //    }
+    //});
 
     // Must be last line of function
     //preloadCode();
@@ -101,22 +105,34 @@ function initBoard() {
 }
 
 function updateBoard(frame) {
-    $('#pc-block').html(frame.pc);
+
+    
+    
+    $('#pc-block').html(frame.pc.match(/.{1,4}/g).join(' '));
+    $('#iport2-block').html(frame.input_Port_1.match(/.{1,4}/g).join(' '));
+    $('#iport2-block').html(frame.input_Port_2.match(/.{1,4}/g).join(' '));
+    $('#mar-block').html(frame.mar.match(/.{1,4}/g).join(' '));
+    $('#ram-block').html(frame.raM_Reg.match(/.{1,4}/g).join(' '));
+    $('#mdr-block').html(frame.mar.match(/.{1,4}/g).join(' '));
+    $('#ireg-block').html(frame.iReg.match(/.{1,4}/g).join(' '));
+    var tempSeq = frame.seq.padEnd(36, '0');
+    $('#seq-block').html(tempSeq.match(/.{1,4}/g).join(' '));
+
 
     var wbusUpperTemp = '0x' + ConvertBase.bin2hex(frame.wBus.substring(0, 8)).padStart(2, '0');
     var wbusLowerTemp = '0x' + ConvertBase.bin2hex(frame.wBus.substring(8)).padStart(2, '0');
-
     $('#wbus-block').html(wbusUpperTemp + ' ' + wbusLowerTemp);
-    $('#areg-block').html(frame.aReg.match(/.{1,4}/g).join(' '));
-    $('#mar-block').html(frame.mar.match(/.{1,4}/g).join(' '));
-    $('#alu-block').html(frame.alu.match(/.{1,4}/g).join(' '));
-    $('#ram-block').html(frame.raM_Reg.match(/.{1,4}/g).join(' '));
-    $('#breg-block').html(frame.bReg.match(/.{1,4}/g).join(' '));
-    $('#ireg-block').html(frame.iReg.match(/.{1,4}/g).join(' '));
-    //$('#oreg-block').html(frame.oReg.match(/.{1,4}/g).join(' '));
 
-    var tempSeq = frame.seq.padEnd(36, '0');
-    $('#seq-block').html(tempSeq.match(/.{1,4}/g).join(' ')); // TODO This substring should be handled at the API level, not the UI level
+
+    $('#areg-block').html(frame.aReg.match(/.{1,4}/g).join(' '));
+    $('#alu-block').html(frame.alu.match(/.{1,4}/g).join(' '));
+    $('#treg-block').html(frame.tReg.match(/.{1,4}/g).join(' '));
+    $('#breg-block').html(frame.bReg.match(/.{1,4}/g).join(' '));
+    $('#creg-block').html(frame.cReg.match(/.{1,4}/g).join(' '));
+    $('#oport1-block').html(frame.oReg3.match(/.{1,4}/g).join(' '));
+    $('#oport2-block').html(frame.oReg4.match(/.{1,4}/g).join(' '));
+
+
     //$('#carryFlagBox').val(frame.overflow_Flag);
     //$('#underflowFlagBox').val(frame.underflow_Flag);
     //$('#zeroFlagBox').val(frame.zero_Flag);
@@ -173,7 +189,7 @@ function resetBoard(frame) {
 
 function LoadIntoRAM() {
     var asm_code = asm_editor.getValue().split('\n');
-    var langChoice = document.getElementById("langs").value;
+    var langChoice = "Malvino"; // document.getElementById("langs").value;
 
 
     var emulationId = null;
@@ -226,24 +242,24 @@ function LoadIntoRAM() {
 var job_id = null;
 var justPaused = false;
 function play_button_onclick() {
-    //if (job_id == null) {
-    //    $("#play-pause-img").attr("src", "/img/pause-24px.svg");
-    //    job_id = setInterval(frame_advance, interval_time);
+    if (job_id == null) {
+        $("#play-pause-img").attr("src", "/img/pause-24px.svg");
+        job_id = setInterval(frame_advance, interval_time);
 
-    //    // Disable back and next
-    //    $("#back-button").prop('disabled', true);
-    //    $("#next-button").prop('disabled', true);
-    //}
-    //else {
-    //    justPaused = true;
-    //    clearInterval(job_id);
-    //    job_id = null;
-    //    $("#play-pause-img").attr("src", "/img/play_arrow-24px.svg");
+        // Disable back and next
+        $("#back-button").prop('disabled', true);
+        $("#next-button").prop('disabled', true);
+    }
+    else {
+        justPaused = true;
+        clearInterval(job_id);
+        job_id = null;
+        $("#play-pause-img").attr("src", "/img/play_arrow-24px.svg");
 
-    //    // Enable back and next
-    //    $("#back-button").prop('disabled', false);
-    //    $("#next-button").prop('disabled', false);
-    //}
+        // Enable back and next
+        $("#back-button").prop('disabled', false);
+        $("#next-button").prop('disabled', false);
+    }
 }
 
 function back_button_onclick() {
@@ -265,23 +281,23 @@ function reset_button_onclick() {
 
 var current_frame = 0;
 function frame_advance() {
-    //if (current_frame < frame_stack.length - 1) {
-    //    current_frame++;
-    //    updateBoard(frame_stack[current_frame]);
-    //    loadRam(frame_stack[current_frame].ram);
-    //    $("#instruction-box").text(frame_stack[current_frame].instruction);
-    //    $("#tstate-box").val('T' + frame_stack[current_frame].tState);
+    if (current_frame < frame_stack.length - 1) {
+        current_frame++;
+        updateBoard(frame_stack[current_frame]);
+        loadRam(frame_stack[current_frame].ram);
+        $("#instruction-box").text(frame_stack[current_frame].instruction);
+        $("#tstate-box").val('T' + frame_stack[current_frame].tState);
 
-    //    // Update Progress Bar
-    //    updateProgressBar(current_frame, frame_stack.length);
-    //}
-    //else {
-    //    $('#frameProgressBar').css("width", "100%");
-    //    clearInterval(job_id);
-    //    job_id = null;
-    //}
+        // Update Progress Bar
+        updateProgressBar(current_frame, frame_stack.length);
+    }
+    else {
+        $('#frameProgressBar').css("width", "100%");
+        clearInterval(job_id);
+        job_id = null;
+    }
 
-    ////console.log(frame_stack[current_frame]);
+    console.log(frame_stack[current_frame]);
 }
 
 function frame_reverse() {
