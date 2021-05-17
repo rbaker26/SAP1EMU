@@ -53,6 +53,10 @@ namespace SAP1EMU.SAP2.Lib
                      OReg3 oreg3, OReg4 oreg4, HexadecimalDisplay hexadecimalDisplay)
         {
             InstructionData = instruction;
+            if(InstructionData.OpCode.Contains(','))
+            {
+                InstructionData.OpCode = InstructionData.OpCode.Replace(",", string.Empty);
+            }
 
             this.TState = TState;
 

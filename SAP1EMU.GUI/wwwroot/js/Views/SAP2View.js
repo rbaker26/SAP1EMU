@@ -54,34 +54,6 @@ window.onload = function () {
     initBoard();
     setControlButtonsDisabled(true);
 
-    // Don't need a combo box here. Only one set supported right now.
-    // No Plans for future sets at the moment.
-    // Setup ComboBox
-    //$.ajax({
-    //    url: "../api/Assembler/supported_sets",
-    //    type: "GET",
-    //    data: {
-    //        "Emulator": "SAP2"
-    //    },
-    //    success: function (data) {
-    //        var selectDOM = document.getElementById("langs");
-    //        var options = data;
-
-    //        for (var i = 0; i < options.length; i++) {
-    //            var opt = options[i];
-
-    //            var elem = document.createElement("option");
-    //            elem.text = opt;
-    //            elem.value = opt;
-
-    //            selectDOM.add(elem);
-    //        }
-    //    },
-    //    error: function (request, status, error) {
-    //        alert("SAP1EMU ERROR: JSON CONFIG FILE ERROR:\n" + request.responseText);
-    //    }
-    //});
-
     // Must be last line of function
     //preloadCode();
 }
@@ -203,10 +175,10 @@ function LoadIntoRAM() {
             return data;
         },
         error: function (request, status, error) {
-            $('#emulator-out').html(request.responseText);
+            $('#emulator-out').html(request.responseJSON.message);
             return null;
         }
-    })
+    });
 
     jsonData = JSON.stringify({ EmulationID: emulationId, Code: asm_code, SetName: langChoice });
 
@@ -221,6 +193,8 @@ function LoadIntoRAM() {
             console.log(data);
 
             $('#emulator-out').html(''); // clear the error msg box
+            hideErrorAlertBadge();
+            
             frame_stack = data;
             first_frame = frame_stack[15];
 
@@ -331,28 +305,28 @@ function setControlButtonsDisabled(isDisabled) {
 }
 
 function updateProgressBar(currentFrame, frameStackLength) {
-    //if (currentFrame == frameStackLength - 1) {
-    //    $('#frameProgressBar').css("width", "100%");
-    //}
-    //else {
-    //    var frameProgress = (current_frame / frame_stack.length) * 100;
-    //    $('#frameProgressBar').css("width", frameProgress + "%");
-    //}
+    if (currentFrame == frameStackLength - 1) {
+        $('#frameProgressBar').css("width", "100%");
+    }
+    else {
+        var frameProgress = (current_frame / frame_stack.length) * 100;
+        $('#frameProgressBar').css("width", frameProgress + "%");
+    }
 }
 
 function changeIntervalTiming(value) {
-    //// keep the time from getting too long
-    //if (value <= .250) {
-    //    value = .250;
-    //}
-    //interval_time = (1 / value) * 500;
+    // keep the time from getting too long
+    if (value <= .250) {
+        value = .250;
+    }
+    interval_time = (1 / value) * 500;
 
-    //// If we currently have a job in process meaning the code is executing then
-    ////  clear it and change the interval time and start again
-    //if (job_id != null) {
-    //    clearInterval(job_id);
-    //    job_id = setInterval(frame_advance, interval_time);
-    //}
+    // If we currently have a job in process meaning the code is executing then
+    //  clear it and change the interval time and start again
+    if (job_id != null) {
+        clearInterval(job_id);
+        job_id = setInterval(frame_advance, interval_time);
+    }
 }
 
 function hideErrorAlertBadge() {
