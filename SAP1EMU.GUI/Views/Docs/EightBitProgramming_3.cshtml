@@ -26,6 +26,7 @@
     <div class="col">
         <h6>Before the macro-expansion</h6>
         <form asp-controller="Emulator" asp-action="SAP1" method="post">
+            <input type="text" name="SetName" value="SAP1EMU" hidden />
             <textarea name="CodeList" id="8Bit_P3_Example_Left"></textarea>
             <div class="row mt-2">
                 <div class="col"></div>
@@ -38,8 +39,8 @@
     <div class="col">
         <h6>After the macro-expansion</h6>
         <form asp-controller="Emulator" asp-action="SAP1" method="post">
+            <input type="text" name="SetName" value="SAP1EMU" hidden />
             <textarea name="CodeList" id="8Bit_P3_Example_Right"></textarea>
-            <input name="SetName" type="text" value="SAP1EMU" hidden />
             <div class="row mt-2">
                 <div class="col"></div>
                 <div class="col-auto">
@@ -72,6 +73,7 @@
 <div class="row">
     <div class="col">
         <h6>Before comments are stripped out</h6>
+        <input type="text" name="SetName" value="SAP1EMU" hidden />
         <form asp-controller="Emulator" asp-action="SAP1" method="post">
             <textarea name="CodeList" id="8Bit_P3_Example_Comment_Left"></textarea>
             <div class="row mt-2">
