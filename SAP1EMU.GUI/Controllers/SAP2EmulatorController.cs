@@ -37,6 +37,7 @@ namespace SAP1EMU.GUI.Controllers
             _emulatorId = _sap1EmuContext.Emulators.Single(Emulator => Emulator.Name == "SAP2").Id;
             _instructionSets = _sap1EmuContext.InstructionSets
                 .Where(InstructionSet => InstructionSet.EmulatorId == _emulatorId)
+                .AsNoTracking()
                 .ToDictionary(x => x.Name, x => x.Id);
         }
 

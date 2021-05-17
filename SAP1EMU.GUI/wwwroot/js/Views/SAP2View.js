@@ -109,8 +109,8 @@ function updateBoard(frame) {
     
     
     $('#pc-block').html(frame.pc.match(/.{1,4}/g).join(' '));
-    $('#iport2-block').html(frame.input_Port_1.match(/.{1,4}/g).join(' '));
-    $('#iport2-block').html(frame.input_Port_2.match(/.{1,4}/g).join(' '));
+    $('#iport2-block').html(frame.iPort1.match(/.{1,4}/g).join(' '));
+    $('#iport2-block').html(frame.iPort1.match(/.{1,4}/g).join(' '));
     $('#mar-block').html(frame.mar.match(/.{1,4}/g).join(' '));
     $('#ram-block').html(frame.raM_Reg.match(/.{1,4}/g).join(' '));
     $('#mdr-block').html(frame.mar.match(/.{1,4}/g).join(' '));
@@ -129,8 +129,8 @@ function updateBoard(frame) {
     $('#treg-block').html(frame.tReg.match(/.{1,4}/g).join(' '));
     $('#breg-block').html(frame.bReg.match(/.{1,4}/g).join(' '));
     $('#creg-block').html(frame.cReg.match(/.{1,4}/g).join(' '));
-    $('#oport1-block').html(frame.oReg3.match(/.{1,4}/g).join(' '));
-    $('#oport2-block').html(frame.oReg4.match(/.{1,4}/g).join(' '));
+    $('#oport1-block').html(frame.oPort1.match(/.{1,4}/g).join(' '));
+    $('#oport2-block').html(frame.oPort2.match(/.{1,4}/g).join(' '));
 
 
     //$('#carryFlagBox').val(frame.overflow_Flag);
@@ -220,7 +220,7 @@ function LoadIntoRAM() {
         success: function (data) {
             console.log(data);
 
-            $('#emulator-out').html('<br />'); // clear the error msg box
+            $('#emulator-out').html(''); // clear the error msg box
             frame_stack = data;
             first_frame = frame_stack[15];
 
@@ -232,7 +232,9 @@ function LoadIntoRAM() {
         },
         error: function (request, status, error) {
             initRam();
-            $('#emulator-out').html(request.responseText);
+            console.log(request);
+            $("#error-alert-badge").show();
+            $('#emulator-out').html(request.responseJSON.message);
         }
     });
 
@@ -353,3 +355,6 @@ function changeIntervalTiming(value) {
     //}
 }
 
+function hideErrorAlertBadge() {
+    $("#error-alert-badge").hide();
+}
