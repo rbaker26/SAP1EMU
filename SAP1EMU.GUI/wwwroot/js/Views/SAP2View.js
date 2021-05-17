@@ -88,7 +88,7 @@ function updateBoard(frame) {
     $('#mdr-block').html(frame.mar.match(/.{1,4}/g).join(' '));
     $('#ireg-block').html(frame.iReg.match(/.{1,4}/g).join(' '));
     var tempSeq = frame.seq.padEnd(36, '0');
-    $('#seq-block').html(tempSeq.match(/.{1,4}/g).join(' '));
+    $('#seq-block').html(tempSeq.match(/.{1,8}/g).join(' '));
 
 
     var wbusUpperTemp = '0x' + ConvertBase.bin2hex(frame.wBus.substring(0, 8)).padStart(2, '0');
@@ -200,7 +200,7 @@ function LoadIntoRAM() {
 
             updateBoard(first_frame);
 
-            //loadRam(first_frame.ram);
+            loadRam(first_frame.ram);
 
             return data;
         },
@@ -239,20 +239,20 @@ function play_button_onclick() {
 }
 
 function back_button_onclick() {
-    //frame_reverse();
+    frame_reverse();
 }
 
 function next_button_onclick() {
-    //frame_advance();
+    frame_advance();
 }
 
 function reset_button_onclick() {
-    //current_frame = 0;
-    //updateBoard(frame_stack[current_frame]);
-    //loadRam(frame_stack[current_frame].ram);
-    //$("#instruction-box").text(frame_stack[current_frame].instruction);
-    //$("#tstate-box").val('T' + frame_stack[current_frame].tState);
-    //updateProgressBar(current_frame, frame_stack.length);
+    current_frame = 0;
+    updateBoard(frame_stack[current_frame]);
+    loadRam(frame_stack[current_frame].ram);
+    $("#instruction-box").text(frame_stack[current_frame].instruction);
+    $("#tstate-box").val('T' + frame_stack[current_frame].tState);
+    updateProgressBar(current_frame, frame_stack.length);
 }
 
 var current_frame = 0;
@@ -277,31 +277,31 @@ function frame_advance() {
 }
 
 function frame_reverse() {
-    //if (justPaused) {
-    //    current_frame--;
-    //    justPaused = false;
-    //}
-    //if (current_frame > 0) {
-    //    current_frame--;
-    //    updateBoard(frame_stack[current_frame]);
-    //    loadRam(frame_stack[current_frame].ram);
-    //    $("#instruction-box").text(frame_stack[current_frame].instruction);
-    //    $("#tstate-box").val('T' + frame_stack[current_frame].tState);
+    if (justPaused) {
+        current_frame--;
+        justPaused = false;
+    }
+    if (current_frame > 0) {
+        current_frame--;
+        updateBoard(frame_stack[current_frame]);
+        loadRam(frame_stack[current_frame].ram);
+        $("#instruction-box").text(frame_stack[current_frame].instruction);
+        $("#tstate-box").val('T' + frame_stack[current_frame].tState);
 
-    //    // Update Progress Bar
-    //    updateProgressBar(current_frame, frame_stack.length);
-    //}
+        // Update Progress Bar
+        updateProgressBar(current_frame, frame_stack.length);
+    }
 }
 
 function getFromFile() {
-    //readFromFile(".s,.asm", asm_editor, "emulator-out");
+    readFromFile(".s,.asm", asm_editor, "emulator-out");
 }
 
 function setControlButtonsDisabled(isDisabled) {
-    //$("#back-button").prop('disabled', isDisabled);
-    //$("#play-pause-button").prop('disabled', isDisabled);
-    //$("#next-button").prop('disabled', isDisabled);
-    //$("#reset-button").prop('disabled', isDisabled);
+    $("#back-button").prop('disabled', isDisabled);
+    $("#play-pause-button").prop('disabled', isDisabled);
+    $("#next-button").prop('disabled', isDisabled);
+    $("#reset-button").prop('disabled', isDisabled);
 }
 
 function updateProgressBar(currentFrame, frameStackLength) {
