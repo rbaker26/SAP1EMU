@@ -34,7 +34,7 @@ namespace SAP1EMU.GUI.Controllers
             _hubContext = hubContext;
             _decoder = decoder;
 
-            _emulatorId = _sap1EmuContext.Emulators.Single(Emulator => Emulator.Name == "SAP2").Id;
+            _emulatorId = _sap1EmuContext.Emulators.AsNoTracking().Single(Emulator => Emulator.Name == "SAP2").Id;
             _instructionSets = _sap1EmuContext.InstructionSets
                 .Where(InstructionSet => InstructionSet.EmulatorId == _emulatorId)
                 .AsNoTracking()
