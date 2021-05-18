@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SAP1EMU.GUI.Contexts;
 
 namespace SAP1EMU.GUI.Migrations
 {
     [DbContext(typeof(Sap1EmuContext))]
-    partial class Sap1EmuContextModelSnapshot : ModelSnapshot
+    [Migration("20210518054410_AddedBinaryTable3")]
+    partial class AddedBinaryTable3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -141,7 +143,7 @@ namespace SAP1EMU.GUI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SAP2BinaryPacket");
+                    b.ToTable("SAP2BinaryStore");
                 });
 
             modelBuilder.Entity("SAP1EMU.Data.Lib.SAP2CodePacket", b =>
@@ -164,7 +166,7 @@ namespace SAP1EMU.GUI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SAP2CodePacket");
+                    b.ToTable("SAP2CodeStore");
                 });
 
             modelBuilder.Entity("SAP1EMU.Data.Lib.Security.Threat", b =>

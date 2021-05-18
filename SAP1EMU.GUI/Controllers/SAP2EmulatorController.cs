@@ -34,10 +34,11 @@ namespace SAP1EMU.GUI.Controllers
             _hubContext = hubContext;
             _decoder = decoder;
 
-            _emulatorId = _sap1EmuContext.Emulators.Single(Emulator => Emulator.Name == "SAP2").Id;
-            _instructionSets = _sap1EmuContext.InstructionSets
-                .Where(InstructionSet => InstructionSet.EmulatorId == _emulatorId)
-                .ToDictionary(x => x.Name, x => x.Id);
+           // _emulatorId = _sap1EmuContext.Emulators.AsNoTracking().Single(Emulator => Emulator.Name == "SAP2").Id;
+            //_instructionSets = _sap1EmuContext.InstructionSets
+            //    .Where(InstructionSet => InstructionSet.EmulatorId == _emulatorId)
+            //    .AsNoTracking()
+            //    .ToDictionary(x => x.Name, x => x.Id);
         }
 
 
@@ -50,9 +51,11 @@ namespace SAP1EMU.GUI.Controllers
                 EmulationID = newSessionId,
                 ConnectionID = null,
                 SessionStart = DateTime.UtcNow,
-                StatusId = (int)StatusType.Pending
+                StatusId = (int)StatusType.Pending,
+                EmulatorId = 2,
+                InstructionSetId = 4
             });
-            _sap1EmuContext.SaveChangesAsync(); // Might have to switch to sync
+            _sap1EmuContext.SaveChanges();
 
             return Ok(newSessionId);
         }
@@ -65,7 +68,6 @@ namespace SAP1EMU.GUI.Controllers
             try
             {
                 session = _sap1EmuContext.EmulationSessionMaps
-                    .AsNoTracking()
                     .Single(esm => esm.EmulationID == sap2CodePacket.EmulationID);
             }
             catch (InvalidOperationException)
@@ -82,6 +84,7 @@ namespace SAP1EMU.GUI.Controllers
                     case StatusType.Ok:
                         message = "Emulation Complete: Please use 'GET: /session/{id}/recall' instead";
                         break;
+                    case StatusType.SQLError:
                     case StatusType.ParsingError:
                     case StatusType.EmulationError:
                     case StatusType.SystemError:
@@ -105,40 +108,151 @@ namespace SAP1EMU.GUI.Controllers
                 );
             }
 
+
             // This will save the plain code
-            _sap1EmuContext.Add<SAP2CodePacket>(sap2CodePacket);
-            _sap1EmuContext.SaveChanges();
+            try
+            {
+                _sap1EmuContext.CodeSubmissions.Add(
+                    new CodeSubmission()
+                    {
+                        EmulationID = session.EmulationID,
+                        Code = sap2CodePacket.Code
+                    }
+                );
+                _sap1EmuContext.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                _sap1EmuContext.ErrorLog.Add(
+                    new ErrorLog
+                    {
+                        EmulationID = session.EmulationID,
+                        ErrorMsg = "NON-FATAL SQL ERROR:\t" + e.Message + (e.InnerException != null ? "\t" + e.InnerException.Message : "")
+                    }
+                );
+                //session.SessionEnd = DateTime.UtcNow;
+                session.StatusId = (int)StatusType.SQLError;
+
+                _sap1EmuContext.SaveChanges();
+            }
+
+
+            SAP2BinaryPacket sap2BinaryPacket;
 
             // Assemble 
-            SAP2BinaryPacket sap2BinaryPacket = new SAP2BinaryPacket()
+            try
             {
-                EmulationID = sap2CodePacket.EmulationID,
-                Code = Assemble.Parse((List<string>)sap2CodePacket.Code),
-                SetName = sap2CodePacket.SetName
-            };
+                sap2BinaryPacket = new SAP2BinaryPacket()
+                {
+                    EmulationID = sap2CodePacket.EmulationID,
+                    Code = Assemble.Parse((List<string>)sap2CodePacket.Code),
+                    SetName = sap2CodePacket.SetName
+                };
+            }
+            catch(ParseException pe)
+            {
+                session.StatusId = (int)StatusType.ParsingError;
+                session.SessionEnd = DateTime.UtcNow;
+
+                string errorMsg = pe.Message + (pe.InnerException != null ? "\n" + pe.InnerException.Message : "");
+                _sap1EmuContext.ErrorLog.Add(
+                    new ErrorLog
+                    {
+                        EmulationID = session.EmulationID,
+                        ErrorMsg = errorMsg
+                    }
+                );
+
+                _sap1EmuContext.SaveChanges();
+                return BadRequest(
+                    new
+                    {
+                        EmulationID = sap2CodePacket.EmulationID,
+                        Status = StatusFactory.GetStatus((StatusType)session.StatusId),
+                        Message = errorMsg
+                    }
+                );
+            }
+
 
             // Save Binary
-            _sap1EmuContext.Add(sap2BinaryPacket);
+            try
+            {
+                _sap1EmuContext.CodeSubmissionsBinary.Add(
+                    new CodeSubmission()
+                    {
+                        EmulationID = session.EmulationID,
+                        Code = sap2BinaryPacket.Code
+                    }
+                );
+                _sap1EmuContext.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                _sap1EmuContext.ErrorLog.Add(
+                    new ErrorLog
+                    {
+                        EmulationID = session.EmulationID,
+                        ErrorMsg = "NON-FATAL SQL ERROR:\t" + e.Message + (e.InnerException != null ? "\t" + e.InnerException.Message : "")
+                    }
+                );
 
-            _sap1EmuContext.SaveChangesAsync(); // Might have to switch to sync
+                session.SessionEnd = DateTime.UtcNow;
+                session.StatusId = (int)StatusType.SystemError;
 
-            // RunEmulatorAsync
-            RAMProgram rmp = new RAMProgram((List<string>)sap2BinaryPacket.Code);
+                _sap1EmuContext.SaveChanges();
+            }
 
-            EngineProc engine = new EngineProc();
-            engine.Init(rmp, _decoder, sap2BinaryPacket.SetName);
-            engine.Run();
 
-            return Ok(engine.FrameStack());
+            // Run Emulator
+            try
+            {
+                RAMProgram rmp = new RAMProgram((List<string>)sap2BinaryPacket.Code);
+
+                EngineProc engine = new EngineProc();
+                engine.Init(rmp, _decoder, sap2BinaryPacket.SetName);
+                engine.Run();
+
+                session.StatusId = (int)StatusType.Ok;
+                session.SessionEnd = DateTime.UtcNow;
+                _sap1EmuContext.SaveChanges();
+
+                return Ok(engine.FrameStack());
+            }
+            catch (EngineRuntimeException ere)
+            {
+                session.StatusId = (int)StatusType.EmulationError;
+                session.SessionEnd = DateTime.UtcNow;
+
+                string errorMsg = ere.Message + (ere.InnerException != null ? "\n" + ere.InnerException.Message : "");
+                _sap1EmuContext.ErrorLog.Add(
+                    new ErrorLog
+                    {
+                        EmulationID = session.EmulationID,
+                        ErrorMsg = errorMsg
+                    }
+                );
+                _sap1EmuContext.SaveChanges();
+                return BadRequest(
+                    new
+                    {
+                        EmulationID = sap2CodePacket.EmulationID,
+                        Status = StatusFactory.GetStatus((StatusType)session.StatusId),
+                        Message = errorMsg
+                    }
+                );
+            }
         }
 
+
+        // TODO: finish this api call
         [HttpPost("{id}/resume")]
         public IActionResult ResumeEmulation(Guid id, [FromBody] string input)
         {
             return Ok(id);
         }
 
-
+        // TODO: finish this api call
         [HttpGet("session/{id}/recall")]
         public IActionResult RecallSessionHistory(Guid id)
         {

@@ -56,8 +56,8 @@ namespace SAP1EMU.SAP2.Engine
             CReg creg = new CReg();
             IReg ireg = new IReg();
 
-            IPort1 port1 = new IPort1();
-            IPort2 port2 = new IPort2();
+            IPort1 iport1 = new IPort1();
+            IPort2 iport2 = new IPort2();
             
             MDR mdr = new MDR();
             RAM ram = new RAM();
@@ -161,7 +161,7 @@ namespace SAP1EMU.SAP2.Engine
                 clock.SendTicTok(tictok);
                 tictok.ToggleClockState();
 
-                tempFrame = new Frame(currentInstruction, TState, port1, port2, pc, mar, ram,
+                tempFrame = new Frame(currentInstruction, TState, iport1, iport2, pc, mar, ram,
                                       ram.RAMDump(), mdr, ireg, SEQ.Instance(),
                                       Wbus.Instance().Value, areg, alu, flagReg,
                                       treg, breg, creg, oreg3, oreg4, hexadecimalDisplay);

@@ -15,8 +15,8 @@ namespace SAP1EMU.SAP2.Lib
         public int TState { get; private set; } = 0;
 
         // left side of computer
-        public string Input_Port_1 { get; private set; } = "0000 0000";
-        public string Input_Port_2 { get; private set; } = "0000 0000";
+        public string IPort1 { get; private set; } = "00000000";
+        public string IPort2 { get; private set; } = "00000000";
 
         public string PC { get; private set; } = "0000 0000 0000 0000";
 
@@ -41,10 +41,10 @@ namespace SAP1EMU.SAP2.Lib
         public string BReg { get; private set; } = "0000 0000";
         public string CReg { get; private set; } = "0000 0000";
         
-        public string OReg3 { get; private set; } = "0000 0000";
+        public string OPort1 { get; private set; } = "0000 0000";
         public string HexadecimalDisplay { get; private set; } = "00";
 
-        public string OReg4 { get; private set; } = "0000 0000";
+        public string OPort2 { get; private set; } = "0000 0000";
         
 
         public Frame(Instruction instruction, int TState, IPort1 ip1, IPort2 ip2, PC pc, MAR mar, RAM ram,
@@ -53,6 +53,10 @@ namespace SAP1EMU.SAP2.Lib
                      OReg3 oreg3, OReg4 oreg4, HexadecimalDisplay hexadecimalDisplay)
         {
             InstructionData = instruction;
+            if(InstructionData.OpCode.Contains(','))
+            {
+                InstructionData.OpCode = InstructionData.OpCode.Replace(",", string.Empty);
+            }
 
             this.TState = TState;
 
@@ -68,8 +72,8 @@ namespace SAP1EMU.SAP2.Lib
             this.ALU = alu.ToString();
             this.WBus = wbus_string;
 
-            this.OReg3 = oreg3.ToString_Frame_Use();
-            this.OReg4 = oreg4.ToString_Frame_Use();
+            this.OPort1 = oreg3.ToString_Frame_Use();
+            this.OPort2 = oreg4.ToString_Frame_Use();
             this.HexadecimalDisplay = hexadecimalDisplay.RegContent;
 
             this.RAM = ramContents;
@@ -99,12 +103,12 @@ namespace SAP1EMU.SAP2.Lib
             StringBuilder sb = new StringBuilder();
             StringWriter tw = new StringWriter(sb);
 
-            int unsigned_ouput = BinConverter.Bin8ToInt(OReg3);
+            int unsigned_ouput = BinConverter.Bin8ToInt(OPort1);
 
             int signed_output = 0;
-            if (OReg3 != null)
+            if (OPort1 != null)
             {
-                if (OReg3.StartsWith('1'))
+                if (OPort1.StartsWith('1'))
                 {
                     signed_output = -1 * (255 - unsigned_ouput + 1);
                 }
@@ -113,12 +117,12 @@ namespace SAP1EMU.SAP2.Lib
                     signed_output = unsigned_ouput;
                 }
             }
-            if (string.IsNullOrEmpty(OReg3))
+            if (string.IsNullOrEmpty(OPort1))
             {
-                OReg3 = "00000000";
+                OPort1 = "00000000";
             }
             tw.WriteLine($"************************************************************");//60
-            tw.WriteLine($"* Output: {OReg3}".PadRight(47) + "*");
+            tw.WriteLine($"* Output: {OPort1}".PadRight(47) + "*");
             tw.WriteLine("************************************************************");
 
             tw.Flush();
@@ -130,12 +134,12 @@ namespace SAP1EMU.SAP2.Lib
             StringBuilder sb = new StringBuilder();
             StringWriter tw = new StringWriter(sb);
 
-            int unsigned_ouput = BinConverter.Bin8ToInt(OReg3);
+            int unsigned_ouput = BinConverter.Bin8ToInt(OPort1);
 
             int signed_output = 0;
-            if (OReg3 != null)
+            if (OPort1 != null)
             {
-                if (OReg3.StartsWith('1'))
+                if (OPort1.StartsWith('1'))
                 {
                     signed_output = -1 * (255 - unsigned_ouput + 1);
                 }
@@ -148,13 +152,13 @@ namespace SAP1EMU.SAP2.Lib
             tw.WriteLine($"***********************************************************************************");//82
             tw.WriteLine($"* Instruction: {InstructionData.OpCode}     TState: {TState}".PadRight(82) + "*");
             tw.WriteLine($"***********************************************************************************");
-            tw.WriteLine($"* Input 1:    {Input_Port_1}".PadRight(35) + $"A Register:    {AReg}".PadRight(47) + "*");
-            tw.WriteLine($"* Input 2:    {Input_Port_2}".PadRight(35) + $"ALU:           {ALU}     Flags:   {Flags}".PadRight(47) + "*");
+            tw.WriteLine($"* Input 1:    {IPort1}".PadRight(35) + $"A Register:    {AReg}".PadRight(47) + "*");
+            tw.WriteLine($"* Input 2:    {IPort2}".PadRight(35) + $"ALU:           {ALU}     Flags:   {Flags}".PadRight(47) + "*");
             tw.WriteLine($"* PC:         {PC}".PadRight(35)           + $"Temp Register: {TReg}".PadRight(47) + "*");
             tw.WriteLine($"* MAR:        {MAR}".PadRight(35)          + $"B Register:    {BReg}".PadRight(47) + "*");
             tw.WriteLine($"* RAM:        {RAM_Reg}".PadRight(35)      + $"C Register:    {CReg}".PadRight(47) + "*");
-            tw.WriteLine($"* MDR:        {MDR}".PadRight(35)          + $"Output 3:      {OReg3}     Display: 0x{HexadecimalDisplay}".PadRight(47) + "*");
-            tw.WriteLine($"* I Register: {IReg}".PadRight(35)         + $"Output 4:      {OReg4}".PadRight(47) + "*");
+            tw.WriteLine($"* MDR:        {MDR}".PadRight(35)          + $"Output 3:      {OPort1}     Display: 0x{HexadecimalDisplay}".PadRight(47) + "*");
+            tw.WriteLine($"* I Register: {IReg}".PadRight(35)         + $"Output 4:      {OPort2}".PadRight(47) + "*");
             tw.WriteLine($"* Sequencer:  {SEQ}       ".PadRight(82) + "*");
             tw.WriteLine($"* BUS:        {WBus}      ".PadRight(82) + "*");
             tw.WriteLine($"***********************************************************************************");

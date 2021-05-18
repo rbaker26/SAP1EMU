@@ -89,7 +89,7 @@ namespace SAP1EMU.GUI.Controllers
                     StatusId = StatusFactory.GetStatus(StatusType.Pending).Id,
                     InstructionSetId = _instructionSets[emulatorPacket.SetName]
                 });
-                _sap1EmuContext.Add(new CodeSubmission()
+                _sap1EmuContext.CodeSubmissions.Add(new CodeSubmission()
                 {
                     EmulationID = session.Entity.EmulationID,
                     Code = emulatorPacket.CodeList,
