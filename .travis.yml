@@ -1,7 +1,7 @@
 language: csharp
 solution: SAP1EMU.sln
 mono: none
-dotnet: 3.1
+dotnet: 5.0
 script:
   - dotnet build SAP1EMU.sln
   - dotnet test SAP1EMU.Lib.Test -v n --no-build --collect:"XPlat Code Coverage"

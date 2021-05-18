@@ -2,12 +2,11 @@
 using Microsoft.Extensions.Logging;
 
 using SAP1EMU.GUI.Models;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 
 namespace SAP1EMU.GUI.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -20,6 +19,7 @@ namespace SAP1EMU.GUI.Controllers
         public IActionResult Index()
         {
             return View();
+
         }
 
         public IActionResult About()
@@ -30,14 +30,33 @@ namespace SAP1EMU.GUI.Controllers
         [HttpGet]
         public IActionResult Emulator()
         {
+            return View("EmulatorPicker");
+        }
+
+        [Route("/Emulator/SAP1")]
+        public IActionResult SAP1()
+        {
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Emulator([FromForm] CodePacket codePacket)
+        [Route("/Emulator/SAP2")]
+        public IActionResult SAP2()
         {
-            return View(codePacket);
+            return View();
+        }
+
+        [HttpPost("/Emulator/SAP1")]
+        [ValidateAntiForgeryToken]
+        public IActionResult SAP1_PreloadCode([FromForm] CodePacket codePacket)
+        {
+            return View("SAP1", codePacket);
+        }
+
+        [HttpPost("/Emulator/SAP2")]
+        [ValidateAntiForgeryToken]
+        public IActionResult SAP2_PreloadCode([FromForm] CodePacket codePacket)
+        {
+            return View("SAP2", codePacket);
         }
 
         public IActionResult EmulatorPicker()
@@ -56,6 +75,11 @@ namespace SAP1EMU.GUI.Controllers
         }
 
         public IActionResult Contributors()
+        {
+            return View();
+        }
+
+        public IActionResult TestSignalR()
         {
             return View();
         }

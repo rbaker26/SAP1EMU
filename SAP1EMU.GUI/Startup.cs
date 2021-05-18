@@ -9,9 +9,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using SAP1EMU.GUI.Contexts;
 using SAP1EMU.Lib;
+using SAP1EMU.GUI.Hubs;
 using System;
 using System.IO;
 using System.Reflection;
+using SAP1EMU.GUI.Middleware;
 
 namespace SAP1EMU.GUI
 {
@@ -45,11 +47,14 @@ namespace SAP1EMU.GUI
             services.AddApplicationInsightsTelemetry();
 
             services.AddSingleton<IDecoder, InstructionDecoder>();
+            services.AddSingleton<SAP2.Lib.IDecoder, SAP2.Lib.InstructionDecoder>();
             services.AddSingleton<IConfiguration>(Configuration);
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddDbContext<Sap1EmuContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("sap1emu_db_conn_string")));
+
+            services.AddSignalR();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
@@ -58,12 +63,12 @@ namespace SAP1EMU.GUI
                 {
                     Version = "v1",
                     Title = "SAP1Emu API",
-                    Description = "The SAP1Emu API for Emulating and Assembly SAP1Emu Assembly",
+                    Description = "The SAP1Emu API for Emulating and Assembling SAP1Emu Assembly",
                     //TermsOfService = new Uri("https://example.com/terms"),
                     Contact = new OpenApiContact
                     {
                         Name = "SAP1Emu Project GitHub Page",
-                        Email = string.Empty,
+                        Email = "support@sap2emu.net",
                         Url = new Uri("https://github.com/rbaker26/SAP1EMU"),
                     },
                     License = new OpenApiLicense
@@ -78,7 +83,6 @@ namespace SAP1EMU.GUI
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -91,7 +95,6 @@ namespace SAP1EMU.GUI
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
@@ -114,6 +117,7 @@ namespace SAP1EMU.GUI
             });
 
             app.UseHttpsRedirection();
+            app.UseAntiXssMiddleware();
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
@@ -125,7 +129,7 @@ namespace SAP1EMU.GUI
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "SAP1Emu API v2");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "SAP1Emu API v3");
             });
 
 
@@ -136,6 +140,7 @@ namespace SAP1EMU.GUI
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapHub<EmulatorHub>("/emulatorhub");
             });
         }
     }

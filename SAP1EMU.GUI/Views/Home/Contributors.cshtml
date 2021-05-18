@@ -5,16 +5,16 @@
 <div class="container">
     <h1 class="mb-4">Contributors</h1>
 
-    <div class="row">
+    <div class="row mb-4">
         @*<div class="card-deck"> Will come later once more cards are made*@
         <div class="col-auto">
             @{ await Html.RenderPartialAsync("_GitHubProfilePartial", GitHubProfileModel.GetProfile("rbaker26").Result); }
         </div>
         <div class="col-auto">
-            @{ await Html.RenderPartialAsync("_GitHubProfilePartial", GitHubProfileModel.GetProfile("dragon0").Result); }
+            @{ await Html.RenderPartialAsync("_GitHubProfilePartial", GitHubProfileModel.GetProfile("BryceCallender").Result); }
         </div>
         <div class="col-auto">
-            @{ await Html.RenderPartialAsync("_GitHubProfilePartial", GitHubProfileModel.GetProfile("BryceCallender").Result); }
+            @{ await Html.RenderPartialAsync("_GitHubProfilePartial", GitHubProfileModel.GetProfile("dragon0").Result); }
         </div>
         <div class="col-auto">
             @{ await Html.RenderPartialAsync("_GitHubProfilePartial", GitHubProfileModel.GetProfile("lubeskih").Result); }

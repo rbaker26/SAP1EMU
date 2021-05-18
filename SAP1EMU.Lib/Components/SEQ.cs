@@ -54,7 +54,7 @@ namespace SAP1EMU.Lib.Components
             //SupportedCommandsBinTable.Clear();
             ControlTable.Clear();
 
-            foreach (Instruction instruction in iset.instructions)
+            foreach (Instruction instruction in iset.Instructions)
             {
                 //  SupportedCommandsBinTable.Add(instruction.OpCode, instruction.BinCode);
 

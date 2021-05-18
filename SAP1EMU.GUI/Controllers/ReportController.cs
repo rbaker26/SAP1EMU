@@ -8,8 +8,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace SAP1EMU.GUI.Controllers
 {
-    [Route("api/[controller]/[action]")]
     [ApiController]
+    [Route("api/[controller]/[action]")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class ReportController : ControllerBase
     {
         private readonly GitHubClient _githubClient;

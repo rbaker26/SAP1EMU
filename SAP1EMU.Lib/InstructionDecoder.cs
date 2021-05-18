@@ -17,7 +17,7 @@ namespace SAP1EMU.Lib
 
             foreach (InstructionSet iset in sets)
             {
-                foreach (Instruction i in iset.instructions)
+                foreach (Instruction i in iset.Instructions)
                 {
                     _instructions.Add((i.BinCode, iset.SetName).GetHashCode(), i.OpCode);
                 }
