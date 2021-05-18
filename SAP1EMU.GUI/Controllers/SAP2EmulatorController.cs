@@ -112,7 +112,13 @@ namespace SAP1EMU.GUI.Controllers
             // This will save the plain code
             try
             {
-                _sap1EmuContext.Add<SAP2CodePacket>(sap2CodePacket);
+                _sap1EmuContext.CodeSubmissions.Add(
+                    new CodeSubmission()
+                    {
+                        EmulationID = session.EmulationID,
+                        Code = sap2CodePacket.Code
+                    }
+                );
                 _sap1EmuContext.SaveChanges();
             }
             catch (Exception e)
@@ -124,8 +130,8 @@ namespace SAP1EMU.GUI.Controllers
                         ErrorMsg = "NON-FATAL SQL ERROR:\t" + e.Message + (e.InnerException != null ? "\t" + e.InnerException.Message : "")
                     }
                 );
-                session.SessionEnd = DateTime.UtcNow;
-                session.StatusId = (int)StatusType.SystemError;
+                //session.SessionEnd = DateTime.UtcNow;
+                session.StatusId = (int)StatusType.SQLError;
 
                 _sap1EmuContext.SaveChanges();
             }
@@ -172,8 +178,14 @@ namespace SAP1EMU.GUI.Controllers
             // Save Binary
             try
             {
-                _sap1EmuContext.Add(sap2BinaryPacket);
-                _sap1EmuContext.SaveChangesAsync(); // Might have to switch to sync
+                _sap1EmuContext.CodeSubmissionsBinary.Add(
+                    new CodeSubmission()
+                    {
+                        EmulationID = session.EmulationID,
+                        Code = sap2BinaryPacket.Code
+                    }
+                );
+                _sap1EmuContext.SaveChanges();
             }
             catch (Exception e)
             {

@@ -20,6 +20,7 @@ namespace SAP1EMU.GUI.Contexts
         public DbSet<Status> Status { get; set; }
         public DbSet<EmulationSessionMap> EmulationSessionMaps { get; set; }
         public DbSet<CodeSubmission> CodeSubmissions { get; set; }
+        public DbSet<CodeSubmission> CodeSubmissionsBinary { get; set; }
         public DbSet<ErrorLog> ErrorLog { get; set; }
 
 
@@ -28,8 +29,8 @@ namespace SAP1EMU.GUI.Contexts
 
 
         // SAP2 
-        public DbSet<SAP2CodePacket> SAP2CodeStore { get; set; }
-        public DbSet<SAP2BinaryPacket> SAP2BinaryStore { get; set; }
+        //public DbSet<SAP2CodePacket> SAP2CodeStore { get; set; }
+        //public DbSet<SAP2BinaryPacket> SAP2BinaryStore { get; set; }
 
 
         // Threats & Security
