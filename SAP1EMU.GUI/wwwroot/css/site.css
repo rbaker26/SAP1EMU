@@ -179,3 +179,35 @@ body {
 .toast-error {
     background-color: lightcoral !important;
 }
+
+.zoom {
+    transition: transform .2s;
+}
+
+    .zoom:hover {
+        transform: scale(1.2);
+    }
+    
+.bottom-padding {
+    padding-bottom: 50px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 0 2px;
+    transition: background-size .3s;
+}
+
+nav ul li a:hover, a:focus {
+    background-size: 100% 2px;
+}
+
+
+.CodeMirror {
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}

@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="..\SAP1EMU.SAP2.Lib\SAP2InstructionSets.json" Link="SAP2InstructionSets.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SAP1EMU.SAP2.Lib\SAP1EMU.SAP2.Lib.csproj" />
+  </ItemGroup>
+</Project>

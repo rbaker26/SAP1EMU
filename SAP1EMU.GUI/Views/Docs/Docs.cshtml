@@ -2,7 +2,7 @@
     ViewData["Title"] = "Docs";
 }
 
-<div class="jumbotron">
+<div class="jumbotron shadow pb-5 pt-4">
     <h1 class="display-4">Welcome to SAP1Emu Project Docs</h1>
     <p class="lead">The only resource you need to find all the information, tutorials and example programs for the SAP1 computer.</p>
     <hr class="my-4">
@@ -12,8 +12,6 @@
     <a class="btn btn-danger btn-lg" href="https://github.com/sponsors/rbaker26" role="button" target="_blank">Sponsor</a>
 </div>
 
-<p class="mt-3">
-    Note: We are slowly migrating from our wiki to this site for all SAP1Emu documentation.  Click the link above to go the wiki if you cannot find answers here.
-</p>
+
 
 @{ await Html.RenderPartialAsync("_DocNav"); }

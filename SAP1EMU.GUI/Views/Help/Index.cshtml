@@ -3,11 +3,13 @@
 }
 
 <h1>Help us improve the site!</h1>
-<h4 class="lead">Please read our <a asp-controller="Docs" asp-action="Docs">Docs</a> before submitting a ticket.</h4>
+<h4 class="lead mt-4 mb-0">Did you checkout our <a asp-controller="Docs" asp-action="Docs">Learning Center</a>? </h4>
+<h4 class="lead mt-0">Before submitting a ticket, please checkout our great learning resources.</h4>
 <br />
 
 <div class="card-deck mt-5">
-    <div class="card">
+
+    <div class="card border rounded shadow">
         <div class="card-body">
             <div class="row">
                 <img src="~/img/Help/computer-bug.svg" width="50" class="p-2 ml-2" />
@@ -19,7 +21,7 @@
             <button class="btn btn-primary" onclick="location.href='@Url.Action("ReportBug", "Help")'">Report a bug</button>
         </div>
     </div>
-    <div class="card">
+    <div class="card border rounded shadow">
         <div class="card-body">
             <div class="row">
                 <img src="~/img/Help/feature.svg" width="50" class="p-2 ml-2" />
@@ -32,3 +34,23 @@
         </div>
     </div>
 </div>
+
+<div class="card-deck mt-5">
+    <div class="card border rounded shadow">
+        <div class="card-body">
+            <div class="row">
+                <img src="~/img/Help/email.svg" width="50" class="p-2 ml-2" />
+                <h3 class="pt-2">Need something else?</h3>
+            </div>
+            <p class="card-text">
+                Email us at <a href="mailto:support@sap1emu.net" class="text-info">support@sap1emu.net</a>
+            </p>
+            @*<button class="btn btn-primary" onclick="location.href='@Url.Action("RequestFeature", "Help")'">Tell us your feature</button>*@
+        </div>
+    </div>
+</div>
+<br />
+<br />
+
+@*<h5 class="mt-5">Need something else?</h5>
+<p>Email us at <a href="mailto:support@sap1emu.net" class="text-info">support@sap1emu.net</a></p>*@
