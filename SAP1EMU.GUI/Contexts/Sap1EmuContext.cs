@@ -48,5 +48,10 @@ namespace SAP1EMU.GUI.Contexts
             builder.Entity<CodeSubmission>().Property(nameof(CodeSubmission.Code)).HasConversion(splitStringConverter);
         }
 
+<<<<<<< HEAD
+=======
+        public DbSet<CodeSubmit> CodeStore { get; set; }
+        public DbSet<SAP1ErrorLog> SAP1ErrorLog { get; set; }
+>>>>>>> ea5e0502f8ca98712804b6fe7bab734508044467
     }
 }

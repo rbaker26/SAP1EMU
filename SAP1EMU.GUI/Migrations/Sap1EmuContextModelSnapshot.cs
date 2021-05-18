@@ -15,6 +15,10 @@ namespace SAP1EMU.GUI.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
+<<<<<<< HEAD
+=======
+                .HasAnnotation("ProductVersion", "3.1.9")
+>>>>>>> ea5e0502f8ca98712804b6fe7bab734508044467
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -26,7 +30,17 @@ namespace SAP1EMU.GUI.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+<<<<<<< HEAD
                     b.Property<string>("Code")
+=======
+                    b.Property<Guid>("EmulationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("code")
+>>>>>>> ea5e0502f8ca98712804b6fe7bab734508044467
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("EmulationID")
@@ -241,6 +255,24 @@ namespace SAP1EMU.GUI.Migrations
             modelBuilder.Entity("SAP1EMU.Data.Lib.Emulator", b =>
                 {
                     b.Navigation("InstructionSets");
+                });
+
+            modelBuilder.Entity("SAP1EMU.GUI.Models.SAP1ErrorLog", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<Guid>("EmulationID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Error")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("SAP1ErrorLog");
                 });
 #pragma warning restore 612, 618
         }
