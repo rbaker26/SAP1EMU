@@ -21,12 +21,25 @@
             <div class="form-row">
                 <div class="col editor mx-1"> @Html.TextArea("CodeList", null, new { rows = "15", cols = "80", @class = "codebox", id = "asm_code" }) </div>
             </div>
-            <div class="form-row mt-2">
+            @*<div class="form-row mt-2">
                 <div class="form-group mx-2 d-flex align-items-center">
                     <button id="loadFile" onclick="getFromFile()" class="btn btn-light mt-auto">Load from File</button>
                 </div>
                 <div class="form-group mx-2 d-flex align-items-center">
                     <button id="loadRAM" class="btn btn-light mt-auto" onclick="LoadIntoRAM()">Compile</button>
+                </div>
+                <div class="float-right">
+                    <button id="resetBoard" class="btn btn-light mt-auto" onclick="">Reset</button>
+                </div>
+            </div>*@
+            <div class="row mt-2">
+                <div class="col">
+                    <button id="loadFile" onclick="getFromFile()" class="btn btn-light">Load from File</button>
+                    <button id="loadRAM" class="btn btn-light" onclick="LoadIntoRAM()">Compile</button>
+                </div>
+                <div class="col-auto">
+                    <button id="resetBoard" class="btn btn-outline-info" onclick="ResetBoard()" style="display: none;">Reset</button>
+                    <button id="clearBoard" class="btn btn-outline-warning" onclick="ClearBoard()" style="display: none;">Clear</button>
                 </div>
             </div>
         </div>
@@ -156,7 +169,7 @@
                 <div class="col-auto d-flex px-1 pb-0 pt-1">
                     <div class="alert alert-secondary mb-0">
                         <div class="row justify-content-center"> <b>WBus</b> </div>
-                        <div class="row justify-content-center px-2"> <span id="wbus-block">0x0000</span> </div>
+                        <div class="row justify-content-center px-2"> <span id="wbus-block">0x00 0x00</span> </div>
                     </div>
                 </div>
                 <div class="col pl-2 pt-1">

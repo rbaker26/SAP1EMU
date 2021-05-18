@@ -60,20 +60,26 @@ window.onload = function () {
 
 
 function initBoard() {
-    //$('#pc-block').html("0000");
-    //$('#wbus-block').html("0000 0000");
-    //$('#areg-block').html("0000 0000");
-    //$('#mar-block').html("0000");
-    //$('#alu-block').html("0000 0000");
-    //$('#ram-block').html("0000 0000");
-    //$('#breg-block').html("0000 0000");
-    //$('#ireg-block').html("0000 0000");
-    //$('#oreg-block').html("0000 0000");
-    //$('#seq-block').html("0011 1110 0011 11");
-    //$('#dis-block').html("0");
-    //$('#carryFlagBox').html("0");
-    //$('#underflowFlagBox').html("0");
-    //$('#zeroFlagBox').html("0");
+    $('#pc-block').html("0000 0000 0000 0000");
+    $('#iport2-block').html("0000 0000");
+    $('#iport2-block').html("0000 0000");
+    $('#mar-block').html("0000 0000 0000 0000");
+    $('#ram-block').html("0000 0000");
+    $('#mdr-block').html("0000 0000");
+    $('#ireg-block').html("0000 0000");
+    $('#seq-block').html("00000000 00000000 00000000 00000000 0000");
+
+    $('#wbus-block').html("0x00 0x00");
+
+
+    $('#areg-block').html("0000 0000");
+    $('#alu-block').html("0000 0000");
+    $('#treg-block').html("0000 0000");
+    $('#breg-block').html("0000 0000");
+    $('#creg-block').html("0000 0000");
+    $('#oport1-block').html("0000 0000");
+    $('#oport2-block').html("0000 0000");
+    $('#dis-block').html("0x0");
 }
 
 function updateBoard(frame) {
@@ -147,19 +153,62 @@ function loadRam(ram) {
     //ram_dump.setValue(tempString);
 }
 
-function resetBoard(frame) {
-    updateBoard(frame);
+//function initBoard(frame) {
+//    updateBoard(frame);
 
-    ////Change the instruction and tstate to default state
-    //$('#instruction-box').text("???");
-    //$('#tstate-box').val("T1");
+//    //Change the instruction and tstate to default state
+//    $('#instruction-box').text("???");
+//    $('#tstate-box').val("T1");
 
-    ////Set current frame back to 0 and make progress 0 since its a new program loaded
-    //current_frame = 0;
-    //updateProgressBar(0, frame_stack.length); //In case anyone has a previously loaded program in to know when its loaded.
+//    //Set current frame back to 0 and make progress 0 since its a new program loaded
+//    current_frame = 0;
+//    updateProgressBar(0, frame_stack.length); //In case anyone has a previously loaded program in to know when its loaded.
+//}
+
+function ResetBoard() {
+    if (job_id != null) {
+        clearInterval(job_id);
+    }
+    current_frame = 0;
+    frame_stack = null;
+    $('#frameProgressBar').css("width", "0%");
+
+
+    $("#loadFile").show();
+    $("#loadRAM").show();
+    $("#resetBoard").hide();
+    $("#clearBoard").hide();
+
+
+    $("#instruction-box").text("???");
+    $("#tstate-box").val('T1');
+
+    job_id = null;
+    $("#play-pause-img").attr("src", "/img/play_arrow-24px.svg");
+
+    $("#play-pause-button").prop('disabled', true);
+    $("#back-button").prop('disabled', true);
+    $("#next-button").prop('disabled', true);
+    $("#reset-button").prop('disabled', true);
+
+    $("#error-alert-badge").hide();
+
+    asm_editor.setValue("");
+    initRam();
+    $("#emulator-out").val("");
+
+    initBoard();
 }
 
+
 function LoadIntoRAM() {
+
+    $("#loadFile").hide();
+    $("#loadRAM").hide();
+    $("#resetBoard").show();
+    $("#clearBoard").show();
+
+
     var asm_code = asm_editor.getValue().split('\n');
     var langChoice = "Malvino"; // document.getElementById("langs").value;
 
@@ -196,7 +245,7 @@ function LoadIntoRAM() {
             hideErrorAlertBadge();
             
             frame_stack = data;
-            first_frame = frame_stack[15];
+            first_frame = frame_stack[0];
 
             updateBoard(first_frame);
 

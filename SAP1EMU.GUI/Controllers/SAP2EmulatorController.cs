@@ -34,11 +34,11 @@ namespace SAP1EMU.GUI.Controllers
             _hubContext = hubContext;
             _decoder = decoder;
 
-            _emulatorId = _sap1EmuContext.Emulators.AsNoTracking().Single(Emulator => Emulator.Name == "SAP2").Id;
-            _instructionSets = _sap1EmuContext.InstructionSets
-                .Where(InstructionSet => InstructionSet.EmulatorId == _emulatorId)
-                .AsNoTracking()
-                .ToDictionary(x => x.Name, x => x.Id);
+           // _emulatorId = _sap1EmuContext.Emulators.AsNoTracking().Single(Emulator => Emulator.Name == "SAP2").Id;
+            //_instructionSets = _sap1EmuContext.InstructionSets
+            //    .Where(InstructionSet => InstructionSet.EmulatorId == _emulatorId)
+            //    .AsNoTracking()
+            //    .ToDictionary(x => x.Name, x => x.Id);
         }
 
 
@@ -51,9 +51,11 @@ namespace SAP1EMU.GUI.Controllers
                 EmulationID = newSessionId,
                 ConnectionID = null,
                 SessionStart = DateTime.UtcNow,
-                StatusId = (int)StatusType.Pending
+                StatusId = (int)StatusType.Pending,
+                EmulatorId = 2,
+                InstructionSetId = 4
             });
-            _sap1EmuContext.SaveChangesAsync(); // Might have to switch to sync
+            _sap1EmuContext.SaveChanges();
 
             return Ok(newSessionId);
         }
@@ -66,7 +68,6 @@ namespace SAP1EMU.GUI.Controllers
             try
             {
                 session = _sap1EmuContext.EmulationSessionMaps
-                    .AsNoTracking()
                     .Single(esm => esm.EmulationID == sap2CodePacket.EmulationID);
             }
             catch (InvalidOperationException)
@@ -83,6 +84,7 @@ namespace SAP1EMU.GUI.Controllers
                     case StatusType.Ok:
                         message = "Emulation Complete: Please use 'GET: /session/{id}/recall' instead";
                         break;
+                    case StatusType.SQLError:
                     case StatusType.ParsingError:
                     case StatusType.EmulationError:
                     case StatusType.SystemError:
@@ -122,6 +124,9 @@ namespace SAP1EMU.GUI.Controllers
                         ErrorMsg = "NON-FATAL SQL ERROR:\t" + e.Message + (e.InnerException != null ? "\t" + e.InnerException.Message : "")
                     }
                 );
+                session.SessionEnd = DateTime.UtcNow;
+                session.StatusId = (int)StatusType.SystemError;
+
                 _sap1EmuContext.SaveChanges();
             }
 
@@ -151,6 +156,7 @@ namespace SAP1EMU.GUI.Controllers
                         ErrorMsg = errorMsg
                     }
                 );
+
                 _sap1EmuContext.SaveChanges();
                 return BadRequest(
                     new
@@ -178,6 +184,10 @@ namespace SAP1EMU.GUI.Controllers
                         ErrorMsg = "NON-FATAL SQL ERROR:\t" + e.Message + (e.InnerException != null ? "\t" + e.InnerException.Message : "")
                     }
                 );
+
+                session.SessionEnd = DateTime.UtcNow;
+                session.StatusId = (int)StatusType.SystemError;
+
                 _sap1EmuContext.SaveChanges();
             }
 
