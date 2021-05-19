@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 using SAP1EMU.Data.Lib;
@@ -14,6 +15,8 @@ namespace SAP1EMU.GUI.Contexts
         public Sap1EmuContext(DbContextOptions<Sap1EmuContext> options)
             : base(options)
         {
+            var connection = (SqlConnection)Database.GetDbConnection();
+            connection.AccessToken = (new Microsoft.Azure.Services.AppAuthentication.AzureServiceTokenProvider()).GetAccessTokenAsync("https://database.windows.net/").Result;
         }
         public DbSet<Emulator> Emulators { get; set; }
         public DbSet<InstructionSet> InstructionSets { get; set; }
