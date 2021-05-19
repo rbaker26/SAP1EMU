@@ -52,7 +52,7 @@ namespace SAP1EMU.GUI
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddDbContext<Sap1EmuContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("sap1emu_db_conn_string")));
+            options.UseSqlServer(Configuration.GetConnectionString("AzureMSSQLManagedId")));
 
             services.AddSignalR();
 
