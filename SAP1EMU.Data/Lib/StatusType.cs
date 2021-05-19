@@ -6,12 +6,12 @@ namespace SAP1EMU.Data.Lib
 {
     public enum StatusType
     {
-        Ok = 0,
-        SQLError = 1,
-        ParsingError = 2,
-        EmulationError = 3,
-        SystemError = 4,
-        Pending = 5,
-        InProgress = 6
+        Ok = 1,
+        SQLError = 2,
+        ParsingError = 3,
+        EmulationError = 4,
+        SystemError = 5,
+        Pending = 6,
+        InProgress = 7
     }
 }
