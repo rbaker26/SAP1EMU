@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SAP1EMU.GUI.Contexts;
 
 namespace SAP1EMU.GUI.Migrations
 {
     [DbContext(typeof(Sap1EmuContext))]
-    partial class Sap1EmuContextModelSnapshot : ModelSnapshot
+    [Migration("20210519064820_FixEmulatorTable")]
+    partial class FixEmulatorTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,21 +72,6 @@ namespace SAP1EMU.GUI.Migrations
                     b.ToTable("EmulationSessionMaps");
                 });
 
-            modelBuilder.Entity("SAP1EMU.Data.Lib.Emulator", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Emulators");
-                });
-
             modelBuilder.Entity("SAP1EMU.Data.Lib.ErrorLog", b =>
                 {
                     b.Property<int>("Id")
@@ -101,26 +88,6 @@ namespace SAP1EMU.GUI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ErrorLog");
-                });
-
-            modelBuilder.Entity("SAP1EMU.Data.Lib.InstructionSet", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("EmulatorId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmulatorId");
-
-                    b.ToTable("InstructionSets");
                 });
 
             modelBuilder.Entity("SAP1EMU.Data.Lib.SAP2BinaryPacket", b =>
@@ -225,22 +192,6 @@ namespace SAP1EMU.GUI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Status");
-                });
-
-            modelBuilder.Entity("SAP1EMU.Data.Lib.InstructionSet", b =>
-                {
-                    b.HasOne("SAP1EMU.Data.Lib.Emulator", "Emulator")
-                        .WithMany("InstructionSets")
-                        .HasForeignKey("EmulatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Emulator");
-                });
-
-            modelBuilder.Entity("SAP1EMU.Data.Lib.Emulator", b =>
-                {
-                    b.Navigation("InstructionSets");
                 });
 #pragma warning restore 612, 618
         }
