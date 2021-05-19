@@ -13,6 +13,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.Configuration;
 
 namespace SAP1EMU.GUI.Controllers
 {
@@ -25,6 +26,9 @@ namespace SAP1EMU.GUI.Controllers
         private Sap1EmuContext _sap1EmuContext { get; set; }
         private int _emulatorId { get; set; }
         private Dictionary<string, int> _instructionSets { get; set; }
+
+
+        IConfiguration Configuration { get; set; } // TODO Delete this
         public class EmulatorPacket
         {
             [Required]
@@ -35,7 +39,7 @@ namespace SAP1EMU.GUI.Controllers
         }
         #endregion
 
-        public SAP1EmulatorController(IDecoder decoder, Sap1EmuContext sap1EmuContext)
+        public SAP1EmulatorController(IConfiguration Configuration /*TODO Delete this*/, IDecoder decoder, Sap1EmuContext sap1EmuContext)
         {
             _decoder = decoder;
             _sap1EmuContext = sap1EmuContext;
@@ -44,8 +48,16 @@ namespace SAP1EMU.GUI.Controllers
             _instructionSets = _sap1EmuContext.InstructionSets
                 .Where(InstructionSet => InstructionSet.EmulatorId == _emulatorId)
                 .ToDictionary(x=> x.Name, x=> x.Id);
+
+            this.Configuration = Configuration;
         }
 
+
+        [HttpGet("test")]
+        public ActionResult Test()
+        {
+            return Ok(Configuration.GetConnectionString("DbConnectionString"));
+        }
 
         /// <summary>
         /// Runs SAP1Emu compatable code and returns the emulated frames
