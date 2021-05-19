@@ -6,11 +6,11 @@ namespace SAP1EMU.GUI.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "StatusId",
-                table: "EmulationSessionMaps",
-                nullable: false,
-                defaultValue: 0);
+            //migrationBuilder.AddColumn<int>(
+            //    name: "StatusId",
+            //    table: "EmulationSessionMaps",
+            //    nullable: false,
+            //    defaultValue: 0);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
