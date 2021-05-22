@@ -130,7 +130,7 @@ namespace SAP1EMU.GUI.Middleware
                 _error = new ErrorResponse
                 {
                     Description = "XSS Detected",
-                    ErrorCode = 500,
+                    ErrorCode = _statusCode,
                     ThreatInfo = new ThreatInfo
                     {
                         Action = "Incident Recorded",

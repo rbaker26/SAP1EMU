@@ -16,15 +16,18 @@
 
     <br /> By clicking “Accept” or continuing use of this site, you agree to our <a asp-controller="Home" asp-action="Privacy">Privacy Policy</a>.
 
-    <button type="button" class="accept-policy close mt-1" data-dismiss="alert" aria-label="Close" data-cookie-string="@cookieString">
+    <button id="cookieConsent" type="button" class="accept-policy close mt-1" data-dismiss="alert" aria-label="Close" data-cookie-string="@cookieString">
         <span aria-hidden="true">Accept</span>
     </button>
 </div>
     <script>
         (function () {
+            
             var button = document.querySelector("#cookieConsent button[data-cookie-string]");
             button.addEventListener("click", function (event) {
                 document.cookie = button.dataset.cookieString;
+                console.log(button.dataset.cookieString);
+                console.log(document.cookie);
             }, false);
         })();
     </script>

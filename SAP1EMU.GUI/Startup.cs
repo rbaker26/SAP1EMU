@@ -39,7 +39,7 @@ namespace SAP1EMU.GUI
 
                 //Cookie restrictions if we ever do use cookies to store and retrieve from
                 options.MinimumSameSitePolicy = SameSiteMode.Strict;
-                options.HttpOnly = HttpOnlyPolicy.Always;
+                options.HttpOnly = HttpOnlyPolicy.None;
                 options.Secure = CookieSecurePolicy.Always; 
             });
 
